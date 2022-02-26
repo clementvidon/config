@@ -44,8 +44,8 @@ set shiftround                      "   indent to the nearest tab mark
 set shiftwidth=4 tabstop=4          "   shift and tab width in spaces
 " }}}
 " --------------------------------- PATH {{{
-set pa=.,$DOTVIM                    "   :find path
-set wig=.git/,*/_Archives/*.md,     "   wildmenu results to hide
+set pa=.,$DOTVIM                        "   :find path
+set wig=.git/,*/_Archives/*.md,doc/**   "   wildmenu results to hide
 " }}}
 " --------------------------------- PERFORMANCES{{{
 set lazyredraw                      "   increase macro fluidity

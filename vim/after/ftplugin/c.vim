@@ -11,7 +11,7 @@ augroup FILETYPE_C
     au FileType c,cpp setl list
     au FileType c,cpp setl noexpandtab cindent tw=80
     au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
-    au FileType c,cpp setl path+=include/**,../include/**,src/**,../src/**
+    au FileType c,cpp,make setl path+=include/**,../include/**,src/**,../src/**
     au FileType c,cpp setl foldmethod=marker
     au FileType c,cpp setl foldmarker={{{,}}}
 
