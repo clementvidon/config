@@ -95,7 +95,7 @@ augroup FILETYPE_NOTES
                 \:sil !rm $DOTVIM/.swp/*todo.md*.swp<CR>
                 \:sil cd $NOTES/<CR>
                 \:sil !git add -f INDEX.md _Areas _Projects _Resources _Archives<CR>
-                \:sil !git commit -m"Push!"<CR>:sil !git push origin main<CR>
+                \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
                 \:q<CR>
 
 
