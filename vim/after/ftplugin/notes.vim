@@ -21,7 +21,7 @@ augroup FILETYPE_NOTES
                 \                                      \|\n
                 \ MOVE_LINES        : gj gk            \|\n
                 \ HTML_EXPORT       : Space E          \|\n
-                \
+                \                                      \|\n
                 \ PUSH_NOTES        : ghps             \|\n
                 \ PULL_NOTES        : ghpl             \|\n
                 \                                      \|\n
