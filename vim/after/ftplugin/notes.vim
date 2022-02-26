@@ -92,7 +92,7 @@ augroup FILETYPE_NOTES
 
     "   PUSH_NOTES
     au BufRead,BufNewFile $NOTES/_Areas/_Lists/todo.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
-                \:sil !rm $DOTVIM/.swp/*todo.md*.swp<CR>
+                \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
                 \:sil cd $NOTES/<CR>
                 \:sil !git add -f INDEX.md _Areas _Projects _Resources _Archives<CR>
                 \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
