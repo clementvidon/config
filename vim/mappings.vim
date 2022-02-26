@@ -1,0 +1,224 @@
+" Leaders : <Space> \ <Bs> <CR> <C-k> <C-j>
+" --------------------------------- NAV (s gs sh sv) {{{
+"                       FILE
+"   FIND
+nn sf :fin<Space>
+nn gsf :fin!<Space>
+nn stf :tabf<Space>
+nn shf :sf<Space>
+nn svf :vert sf<Space>
+"   EDIT
+nn se :e *
+nn gse :e! *<Space>
+nn ste :tabe<Space>
+nn she :sp<Space>
+nn sve :vsskdflje>
+
+"                       BUFFER
+"   PREV
+nn ss :b#<CR>
+nn gss :b!#<CR>
+nn shs :sbu#<CR>
+nn svs :vert sbu#<CR>
+"   NAV
+nn [b :bp<CR>
+nn ]b :bn<CR>
+nn [B :bf<CR>
+nn ]B :bl<CR>
+"   BUFLIST
+nn sb :ls<CR>:b<Space>
+"   MRU
+nn so :bro old<CR>
+"   MISC
+nn sd :bn\|bd#<CR>
+nn gsd :bn!\|bd! #<CR>
+
+"                       TAG
+nn sT :tag /
+nn sij :ijump /
+nn sil :ilist /
+nn sis :isearch /
+
+"                       NOTES
+nn sl :e $NOTES/**/todo.md<CR>gi<Esc>z.
+nn x4 :e $NOTES/**/ft.md<CR>gi<Esc>z.
+nn xh :e $NOTES/**/history.md<CR>gi<Esc>z.
+nn xc :e $NOTES/**/calendar.md<CR>gi<Esc>
+nn xi :e $NOTES/**/INDEX.md<CR>gi<Esc>
+nn xe :e $NOTES/**/english.md<CR>/##  Voca<CR>
+nn xf :e $NOTES/**/french.md<CR>/##  Voca<CR>
+nn xp :e $NOTES/**/post-it.md<CR>gi<Esc>
+nn xs :e $NOTES/**/shopping-list.md<CR>gi<Esc>
+"                       CONF
+nn xxv :e ~/.vimrc<CR>gi<Esc>
+nn xxz :e ~/.zshrc<CR>gi<Esc>
+nn xxa :e ~/.config/alacritty/alacritty.yml<CR>gi<Esc>
+nn xxi :e ~/.config/i3/config<CR>gi<Esc>
+nn xxx :e ~/.Xresources<CR>gi<Esc>
+nn xxt :e ~/.tmux.conf<CR>gi<Esc>
+nn xxn :!sudo vi /etc/netplan/00-installer-config.yaml<CR>
+" }}}
+" --------------------------------- CMDLINE (gl) {{{
+"                       OPTIONS
+"   CURSORCOLUMN
+nn glcc :set cursorcolumn!<CR>
+"   LCD
+nn glcd :lc %:h<CR>
+"   CURSORLINE
+nn glcl :set cursorline!<CR>
+"   HLSEARCH
+nn glhl :set hlsearch!<CR>
+"   KEYWORDPRG man/help toggle ( kp= )
+nn glkp :if &keywordprg == ":help" <BAR> set keywordprg=man <BAR>
+            \ else <BAR> set keywordprg=:help <BAR>
+            \ endif <BAR> set keywordprg?<CR>
+"   LIST
+nn glli :set list!<CR>
+"   NUMBERS
+nn glnu :set relativenumber!<CR>
+"   PASTE MODE
+nn glpa :set paste!<CR>
+"   PRINT DATE
+nn glpd :put=strftime('%a %d %b %Y')<CR>
+"   COPY PATH
+nn glpw :let @+=@%<CR>
+"   SCROLLBIND
+nn glsb :set scrollbind!<CR>
+"   SCROLLOFF
+nn glsc :exec ':set scrolloff=' . 2*(&scrolloff == 0)<CR>
+
+"   SOURCE VIMRC
+nn glso :silent write\|source $MYVIMRC\|e<CR>zR
+"   SPELL
+nn glsp :set spell!<CR>
+"   VIRTUAL EDIT
+nn glve :if &virtualedit == "" <BAR> set virtualedit=all <BAR>
+            \ else <BAR> set virtualedit= <BAR>
+            \ endif <BAR> set virtualedit?<CR>
+"                       FUNCTIONS
+"   ROT%
+nn gl? GVgog?g;g;
+"   RESOLVE SYMLINK
+nn <silent> glsl :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
+"   TIME STAMP
+nn glts :put=strftime('%y%m%d')<CR>
+"   CHANGE COLORS
+if system("uname -s") == "Darwin\n"
+    nn <silent> <space>C :if &bg == "dark" <BAR> exec 'color seoul256-light \| set bg=light' <BAR>
+                \ else <BAR> exec 'color nord \| set bg=dark' <BAR>
+                \ endif <BAR> colors<CR>
+elseif system("uname -s") == "Linux\n"
+    nn <space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
+endif
+"   GET SYNTAX
+nn glsy :call GetSyntax()<CR>
+"                       TERMINAL
+"   GPG ENC
+nn glge :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+"   GPG DEC
+nn glgd :silent %!gpg -d 2>/dev/null<CR>
+"   TAGS
+nn glta :S ctags -R<CR>
+" }}}
+" --------------------------------- PLUGINS (g h-tyszcn) {{{
+"                       GITGUTTER
+"   NAV
+nm ]g <Plug>(GitGutterNextHunk)
+nm [g <Plug>(GitGutterPrevHunk)
+nn gh <nop>
+no ghg :GitGutterToggle<CR>
+nn ghq :GitGutterQuickFix\|10cw<CR>
+"   ACTIONS : diff, add, status, log, commit, reset, undo, pull, push
+nm ghd <Plug>(GitGutterPreviewHunk)
+nn ghD :!git difftool %<CR>
+nm gha <Plug>(GitGutterStageHunk)
+nn ghA :!clear; git add -p %<CR>
+nn ghs :!clear; git status<CR>
+nn ghl :!clear; git log<CR>
+nn ghc <nop>
+nn ghcm :!git commit -m ""<Left>
+nn ghcv :!git commit -v <CR>
+nn ghca :!git commit -v --amend<CR>
+nn ghr :silent !clear; git reset %<CR>:redr!<CR>
+nm ghu <Plug>(GitGutterUndoHunk)
+nn ghp <nop>
+nn ghpl :!git pull<CR>
+nn ghps :!git push<CR>
+"   TEXT OBJECT : hunk
+om ih <Plug>(GitGutterTextObjectInnerPending)
+om ah <Plug>(GitGutterTextObjectOuterPending)
+xm ih <Plug>(GitGutterTextObjectInnerVisual)
+xm ah <Plug>(GitGutterTextObjectOuterVisual)
+"   FOLD : zr to unfold 3 context lines
+nn ghf :GitGutterFold<CR>
+
+"                       ALE
+"   NAV
+nn ]a :ALENext<CR>
+nn [a :ALEPrevious<CR>
+
+"                       QUICKFIX
+"   NAV
+nn ]q :cnext<CR>
+nn [q :cprev<CR>
+" }}}
+" --------------------------------- IMPROVEMENTS {{{
+"   QUICK CMDLINE
+no ; :
+"   INDENT
+nn <Space>= Mmmgo=G`mzz3<C-O>
+"   SPACE WINDOW
+no <Space>w <C-W>
+tno <Space>w <C-W>
+nn <S-Left> <C-W><
+nn <S-Up> <C-W>+
+nn <S-Right> <C-W>>
+nn <S-Down> <C-W>-
+tno <S-Left> <C-W><
+tno <S-Up> <C-W>+
+tno <S-Right> <C-W>>
+tno <S-Down> <C-W>-
+nn <Space>wM <C-W>_\|<C-W><BAR>
+no <Space>wX <C-W>x\|<C-W>_\|<C-W><BAR>
+
+"                       GARDE FOU
+no x :echo "!x"<CR>
+no s :echo "!s"<CR>
+no X :echo "!x"<CR>
+nn S :echo "!s"<CR>
+nn Q :echo "!q"<CR>
+
+"                       PINKY TEMP
+"   keyboard fix
+ino <Right>q <c-q>
+no <Right>q <c-q>
+ino <Right>w <c-w>
+no <Right>w <c-w>
+ino <Right>e <c-e>
+no <Right>e <c-e>
+ino <Right>r <c-r>
+no <Right>r <c-r>
+ino <Right>t <c-t>
+no <Right>t <c-t>
+ino <Right>a <c-a>
+no <Right>a <c-a>
+ino <Right>s <c-s>
+no <Right>s <c-s>
+ino <Right>d <c-d>
+no <Right>d <c-d>
+ino <Right>f <c-f>
+no <Right>f <c-f>
+ino <Right>g <c-g>
+no <Right>g <c-g>
+ino <Right>z <c-z>
+no <Right>z <c-z>
+ino <Right>x <c-x>
+no <Right>x <c-x>
+ino <Right>c <c-c>
+no <Right>c <c-c>
+ino <Right>v <c-v>
+no <Right>v <c-v>
+ino <Right>b <c-b>
+no <Right>b <c-b>
+ino <Right>xf <c-x><c-f>
+" }}}

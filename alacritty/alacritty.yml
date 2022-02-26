@@ -1,0 +1,33 @@
+## Import files (Colors, Fonts, Etc)
+import:
+  - ~/.config/alacritty/colors.yml
+  - ~/.config/alacritty/fonts.yml
+
+## Set environment variables
+env:
+  TERM: xterm-256color
+
+## Terminal window settings
+window:
+  dimensions:
+    columns: 67
+    lines: 30
+
+## Scrolling
+scrolling:
+  history: 10000
+
+# OS X only, thin stroke font rendering
+use_thin_strokes: true
+
+# Misc
+draw_bold_text_with_bright_colors: true
+dynamic_title: true
+
+## Tmux at start
+shell:
+  program: /bin/zsh
+  args:
+    - -l
+    - -c
+    - "tmux attach || tmux;clear"

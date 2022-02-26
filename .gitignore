@@ -1,0 +1,38 @@
+# Compiled source #
+###################
+*.o
+*.out
+*.so
+
+# Editor Files #
+################
+*.swo
+*.swp
+*~
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs #
+########
+*.log
+
+# Tags #
+########
+tags
+
+# OSX generated files #
+#######################
+.DS_*
+.Spot*
+.Trash*
+._*
+.fseve*
