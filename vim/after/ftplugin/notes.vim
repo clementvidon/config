@@ -23,7 +23,7 @@ augroup FILETYPE_NOTES
                 \ HTML_EXPORT       : Space E          \|\n
                 \
                 \ PUSH_NOTES        : ghps             \|\n
-                \ PUSH_NOTES        : ghpl             \|\n
+                \ PULL_NOTES        : ghpl             \|\n
                 \                                      \|\n
                 \ NOTES_NAV FOR     : Space CR         \|\n
                 \ NOTES_NAV BAC     : Space Tab        \|\n
@@ -96,7 +96,7 @@ augroup FILETYPE_NOTES
                 \:sil cd $NOTES/<CR>
                 \:sil !git add -f INDEX.md _Areas _Projects _Resources _Archives<CR>
                 \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
-                \:q<CR>
+                \:q<CR>:redr!
 
 
     "   NOTES_NAV
