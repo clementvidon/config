@@ -43,7 +43,7 @@ let g:goyo_height = '100%'
 let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = ["*.md", "doc/**"]
 let g:gutentags_ctags_exclude_wildignore = 1
-if $HOME == "/mnt/nfs/homes/cvidon" " 42
+if $LOGNAME == "cvidon" " 42
     let g:gutentags_ctags_executable = '$HOME/.linuxbrew/bin/ctags'
 endif
 

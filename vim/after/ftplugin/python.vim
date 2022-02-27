@@ -4,7 +4,7 @@ augroup FILETYPE_PYTHON
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType python setl showmatch
-    au FileType python setl noexpandtab cindent tw=80
+    au FileType python setl expandtab cindent tw=80
     au FileType python setl foldmethod=marker
     au FileType python setl foldmarker={{{,}}}
     au FileType python setl pa+=$DOTVIM/after/ftplugin/
