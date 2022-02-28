@@ -94,8 +94,8 @@ augroup FILETYPE_C
     au Filetype c nn <silent><buffer> <Space>P mpodprintf(2, "%\n", );<Esc>==f%
 
     "   MARKER
-    au Filetype c nn <silent><buffer> <Space>m mmodprintf(2, "---[%s/%s()/l.%d/%s]---\n",
-                \__FILE__, __func__, __LINE__, __TIME__);<Esc>==f%
+    au Filetype c nn <silent><buffer> <Space>m mmodprintf(2, "---[%s: %s: %d]---\n",
+                \__FILE__, __func__, __LINE__);<Esc>==f%
     au Filetype c nn <silent><buffer> <Space>M mmodprintf(2, "<'\\\\`-._,-'\\\\`-._,-'\\\\`-._,-'\\\\`>\n");<Esc>==
 
     " }}}

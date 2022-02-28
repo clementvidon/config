@@ -96,7 +96,7 @@ augroup FILETYPE_NOTES
                 \:sil cd $NOTES/<CR>
                 \:sil !git add -f INDEX.md _Areas _Projects _Resources _Archives<CR>
                 \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
-                \:q<CR>:redr!
+                \:q<CR>:redr!<CR>
 
 
     "   NOTES_NAV
