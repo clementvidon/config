@@ -4,6 +4,8 @@ if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 fi
 
+[ -f "$HOME/.zprivat" ] && source $HOME/.zprivat
+
 if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]
 then
     export GPG_TTY=$(tty)
@@ -52,8 +54,8 @@ alias a="./a.out "
 alias tv="tidalvim"
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
-#   git
 
+#   git
 alias ga="git add"
 alias gap="git add -p"
 alias gca="git commit --amend"

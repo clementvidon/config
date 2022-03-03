@@ -1,4 +1,5 @@
 export PATH=$PATH:"$HOME/.local/bin"
+export PATH=$PATH:"$HOME/.local/script"
 
 ## 42
 #####

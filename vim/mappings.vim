@@ -32,7 +32,8 @@ nn so :bro old<CR>
 "   MISC
 nn sd :bn\|bd#<CR>
 nn gsd :bn!\|bd! #<CR>
-
+"                       GREP
+nn sg :grep -r<Space>
 "                       TAG
 nn sT :tag /
 nn sij :ijump /
@@ -85,7 +86,7 @@ nn glpw :let @+=@%<CR>
 "   SCROLLBIND
 nn glsb :set scrollbind!<CR>
 "   SCROLLOFF
-nn glsc :exec ':set scrolloff=' . 2*(&scrolloff == 0)<CR>
+nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 
 "   SOURCE VIMRC
 nn glso :silent write\|source $MYVIMRC\|e<CR>zR
@@ -104,11 +105,11 @@ nn <silent> glsl :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<
 nn glts :put=strftime('%y%m%d')<CR>
 "   CHANGE COLORS
 if system("uname -s") == "Darwin\n"
-    nn <silent> <space>C :if &bg == "dark" <BAR> exec 'color seoul256-light \| set bg=light' <BAR>
+    nn <silent> <Space>C :if &bg == "dark" <BAR> exec 'color seoul256-light \| set bg=light' <BAR>
                 \ else <BAR> exec 'color nord \| set bg=dark' <BAR>
                 \ endif <BAR> colors<CR>
 elseif system("uname -s") == "Linux\n"
-    nn <space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
+    nn <Space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
 endif
 "   GET SYNTAX
 nn glsy :call GetSyntax()<CR>
@@ -159,6 +160,7 @@ nn [a :ALEPrevious<CR>
 
 "                       QUICKFIX
 "   NAV
+nn <Space>q :cw<CR>
 nn ]q :cnext<CR>
 nn [q :cprev<CR>
 " }}}

@@ -3,7 +3,7 @@
 com! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 "   BUFONLY
-com! BufOnly execute '%bdelete|edit #|normal `"'
+com! BufOnly execute '%bdelete | edit # | normal `"'
 
 "   TRANSLATOR
 com! -nargs=+ Fr exec '! clear; trans "<args>" -from en -to fr -brief 2> /dev/null'
@@ -12,16 +12,16 @@ com! -nargs=+ En exec '! clear; trans "<args>" -from fr -to en -brief -play 2> /
 com! -nargs=+ Sy exec '! clear; synonym <args>' | redraw!
 
 "   GET HILIGHT
-fu! GetSyntaxID()
+function! GetSyntaxID()
     return synID(line('.'), col('.'), 1)
-endfun
-fu! GetSyntaxParentID()
+endfunction
+function! GetSyntaxParentID()
     return synIDtrans(GetSyntaxID())
-endfun
-fu! GetSyntax()
+endfunction
+function! GetSyntax()
     echo synIDattr(GetSyntaxID(), 'name')
     exec "hi ".synIDattr(GetSyntaxParentID(), 'name')
-endfun
+endfunction
 
 "   GPG
 "   transparently encrypt/decrypt
@@ -40,7 +40,7 @@ augroup END
 
 "   NOTRACE
 "   vim -c 'call Notrace()'
-fu! Notrace()
+function! Notrace()
     set history=0
     set nobackup
     set nowritebackup
@@ -50,7 +50,7 @@ fu! Notrace()
     set noundofile
     set viminfo=""
     set secure
-endfun
+endfunction
 
 "   TRAILING SPACES
 function! StripTrailingSpaces()
@@ -59,7 +59,7 @@ function! StripTrailingSpaces()
         keeppatterns %s/\s\+$//e
         call winrestview(l:view)
     endif
-endfun
+endfunction
 augroup TRAILING_SPACES
     au!
     au BufWritePre,FileWritePre * :call StripTrailingSpaces()
@@ -83,7 +83,7 @@ com! -nargs=+ S exec 'silent !<args>' | redraw!
 "nn SP :call Drawer('post-it.md')<CR>
 "nn SS :call Drawer('shopping-list.md')<CR>
 let s:open = 0
-fu! Drawer(name)
+function! Drawer(name)
     "                                                   CLOSE DRAWER
     if s:open == 1 && a:name != expand('%:t')   "       if out of the view
         let s:open = 0
@@ -121,10 +121,10 @@ fu! Drawer(name)
         endif
         exec 'echo "["a:name": OPEN ]"'
     endif
-endfun
+endfunction
 
 "   TOGGLE COLORS
-fu! ColorSwitch(clight, cdark)
+function! ColorSwitch(clight, cdark)
     if &background ==# "dark"
         exec 'silent !sed -i --follow-symlinks "s/^color.*/color ' . a:clight . ' | set bg=light/g" ~/.config/vim/options.vim'
         exec 'silent set bg=light'
@@ -138,5 +138,5 @@ fu! ColorSwitch(clight, cdark)
         exec 'hi Normal ctermbg=NONE'
         exec 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.yml ~/.config/alacritty/colors.yml'
     endif
-endfun
+endfunction
 " }}}
