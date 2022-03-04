@@ -25,6 +25,8 @@
     syn region notesCodeBlock start="^    \|\t" end="$" skip="^    \|\t" contains=notesUrl
     " url
     syn match notesUrl "\v<(((https?|ftp|gopher|telnet)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[a-z0-9/]"
+    " link
+    syn match notesLink "^>       \|>\t\t"
 
 if has("conceal")
 set conceallevel=2
@@ -81,15 +83,17 @@ if &background == "dark"
     hi notesCode ctermfg=151
     hi link notesCodeBlock notesCode
 
-    " URLS: hot pink
-    hi notesUrl cterm=underline ctermfg=205
+    " URLS: dark pale purple
+    hi notesUrl cterm=underline ctermfg=103
+    " LINK: vivid blue
+    hi notesLink ctermfg=81
 
     " ITALIC: pale light yellow
     hi notesItalic ctermfg=230
     " BOLD: vivid yellow
     hi notesBold ctermfg=221
-    " bolditalic orange
-    hi notesBoldItalic  ctermfg=209
+    " bolditalic pink orange
+    hi notesBoldItalic  ctermfg=211
 
     " TASK STAMP: dark grey
     hi notesTaskStamp ctermfg=240
@@ -124,8 +128,10 @@ elseif &background == "light"
     hi notesCode ctermfg=101
     hi link notesCodeBlock notesCode
 
-    " URLS: hot pink
-    hi notesUrl cterm=underline ctermfg=198
+    " URLS: pale light purple
+    hi notesUrl cterm=underline ctermfg=147
+    " LINK: pale purple
+    hi notesLink ctermfg=105
 
     " ITALIC: pale light yellow
     hi notesItalic ctermbg=230

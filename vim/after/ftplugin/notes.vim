@@ -5,15 +5,16 @@ augroup FILETYPE_NOTES
                 \   set filetype=notes
                 \ | setl textwidth=70
                 \ | setl suffixesadd+=.md
+                \ | setl suffixesadd+=.gpg.md
                 \ | setl path+=$NOTES/**,$DOTVIM/after/ftplugin/
                 \ | setl expandtab
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/todo.md setl textwidth=0
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/history.gpg.md setl textwidth=0
+    au BufRead,BufNewFile $NOTES/Lists/todo.md setl textwidth=0
+    au BufRead,BufNewFile $NOTES/Lists/history.gpg.md setl textwidth=0
     " }}}
     " --------------------------------- PLUGINS {{{
     " }}}
     " --------------------------------- MAPPINGS {{{
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Space>? :echo "
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Space>? :echo "
                 \\n
                 \================[Notes]===============+\n
                 \                                      \|\n
@@ -54,8 +55,8 @@ augroup FILETYPE_NOTES
                 \ JSONIFY           : Space J          \|\n
                 \"<CR>
 
-    "                       SAFETY :
 
+    "                       SAFETY :
 
     au BufRead,BufNewFile *.md nn <silent><buffer> <space>= <nop>
     au BufRead,BufNewFile *.md vn <silent><buffer> <space>= <nop>
@@ -88,13 +89,13 @@ augroup FILETYPE_NOTES
                 \:fix}}<Esc>
 
     "   PULL_NOTES
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/todo.md nn <silent><buffer> ghpl :cd %:h\|sil !git pull<CR>:redraw!<CR>
+    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> ghpl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 
     "   PUSH_NOTES
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/todo.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
+    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
                 \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
                 \:sil cd $NOTES/<CR>
-                \:sil !git add -f INDEX.md _Areas _Projects _Resources _Archives<CR>
+                \:sil !git add -f INDEX.md Build Lists Study Archives<CR>
                 \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
                 \:q<CR>:redr!<CR>
 
@@ -117,73 +118,86 @@ augroup FILETYPE_NOTES
 
     "                       TASKS    :
 
-
     "   TASK_ADD_TAG
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>so O[][@Social]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>mi O[][@Misc]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>ho O[][@Home]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>co O[][@Computer]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>mo O[][@Mobile]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>we O[][@Web]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>cf O[][@Config@]<Esc><<2f@a
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>ad O[][@Adm]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>ph O[][@Photo]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>he O[][@Health]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>fi O[][@Finance]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>re O[][@Resources@]<Esc><<2f@a
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>ft O[][@42]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>no O[][@Notes]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>me O[][@Medium]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>va O[][VACATION]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>tv O[][TRAVEL]<Space>from -> to<Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>sp O[][SPORT]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>si O[][SICK]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>br O[][BREAK]<Space><Esc><<A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <S-Tab> :echo "
+    "   Locations
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][@Home]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][@Phone]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>we O[][@Web]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][@PC@]<Esc><<2f@a
+    "   Build
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>bu O[][@Business]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][@Finance]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>he O[][@Health]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fa O[][@Family]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>so O[][@Social]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][@Admin]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][@Self]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Misc]<Space><Esc><<
+    "   Projects
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][@Notes]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pt O[][@Photo]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>4  O[][@42@]<Esc><<2f@a
+    "   Special
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL]<Space>from -> to<Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Space><Esc><<A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <S-Tab> :echo "
                 \\n
-                \=======================[Tags]==========================+\n
-                \ @ConFig   @HOme   @REsources @ADm     @WEb    @SOcial \|\n
-                \ @COmputer @MObile @PHoto     @FInance @HEalth @MIsc   \|\n
-                \ @FAmily                                               \|\n
-                \                                                       \|\n
-                \ @FT    @NOtes    @MEdium                              \|\n
-                \                                                       \|\n
-                \ @BREAK    @DEADTIME   @TRAVEL @SICK @SPORT            \|\n
-                \ @TRANSIT  @LOSTMYWAY                                  \|\n
+                \=======================[Tags]============================+\n
+                \                                                         \|\n
+                \ @NOtes                                                  \|\n
+                \                                                         \|\n
+                \ @HOme     @PHone   @WEb    @PC                          \|\n
+                \ @BUsiness @FInance @HEalth @FAmily @SOcial @ADmin @SElf \|\n
+                \ @NOtes    @PhoTo   @42     @TSa                         \|\n
+                \                                                         \|\n
+                \ @TRansit  @UNable @BReak @SPort   @TRavel @VAcation     \|\n
+                \ @DEadtime @LOstmyway                                    \|\n
+                \                                                         \|\n
                 \"<CR>
 
     "   TASK_FOCUS_TAG
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <Tab>\ 0f@l
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>\ 0f@l
 
     "   TASK_ADD_ACT
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \ch 0f@f]i#check<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \cl 0f@f]i#cleanup<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \cr 0f@f]i#create<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \fi 0f@f]i#fix<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \me 0f@f]i#meet<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \ms 0f@f]i#msg<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \pr 0f@f]i#praxis<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \re 0f@f]i#review<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \sr 0f@f]i#search<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \se 0f@f]i#setup<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \st 0f@f]i#study<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \up 0f@f]i#update<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \ca 0f@f]i#call<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \th 0f@f]i#think<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \so 0f@f]i#solve<Esc>A
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> <BAR> :echo "
+    "   Study
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f@f]i#study<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f@f]i#praxis<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f@f]i#check<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f@f]i#dig<Esc>A
+    "   Build
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \th 0f@f]i#think<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f@f]i#setup<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \co 0f@f]i#config<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cr 0f@f]i#create<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f@f]i#cleanup<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f@f]i#review<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f@f]i#update<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fi 0f@f]i#fix<Esc>A
+    "   Interactions
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f@f]i#meet<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f@f]i#msg<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f@f]i#call<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <BAR> :echo "
                 \\n
-                \======================[Actions]=================+\n
-                \ #STudy #CLeanup #UPdate #SEtup  #CReate #FIx   \|\n
-                \ #MEet  #MSg     #REview #PRaxis #SeaRch #CHeck \|\n
-                \ new:   #CAll    #THink  #SOlve                 \|\n
+                \=============[Actions]============+\n
+                \                                  \|\n
+                \ #STudy   #PRaxis #CHeck  #DIg    \|\n
+                \                                  \|\n
+                \ #THink   #SEtup  #COnfig #CReate \|\n
+                \ #CLeanup #REview #UPdate #FIx    \|\n
+                \                                  \|\n
+                \ #MEet    #MSg    #CAll           \|\n
+                \                                  \|\n
                 \"<CR>
 
     "   TASK_FOCUS_ACT
-    au BufRead,BufNewFile $NOTES/_Areas/* nn <silent><buffer> \<Tab> 0f@f#l
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \<Tab> 0f@f#l
 
 
     "   TASK_CHECK
@@ -241,7 +255,7 @@ augroup FILETYPE_NOTES
                 \:sil ec "datestamp check"<CR>
                 \jYGV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>Pdi[$
                 \:sil ec "clone current"<CR>
-                \:let @/ = ""<CR>:write<CR>jA<Space><Esc>
+                \:let @/ = ""<CR>:write<CR>jA<Space>
 
     "   TASK_POSTPONE_TOP
     au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>P kmmj
@@ -268,7 +282,7 @@ augroup FILETYPE_NOTES
                 \`m:let @/ = ""\|write<CR>
 
     "   ARCHIVE_DAY
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/todo.md nn <silent><buffer> <Space>A /\[\d.*\]\[END\]<CR>
+    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> <Space>A /\[\d.*\]\[END\]<CR>
                 \:sil ec "check that end is checked"<CR>
                 \
                 \G?^#\s\s[\sTOD<CR>
@@ -307,17 +321,17 @@ augroup FILETYPE_NOTES
                 \:g/\%V\[\d\d\d\d\d\d\]/norm lciw-<CR>
                 \:sil ec "replace stamps with - , add [end]"<CR>
                 \
-                \:write<CR>:e $NOTES/_Areas/_Lists/history.gpg.md<CR>go/#====<CR>"1p:write<CR>:b#<CR>
+                \:write<CR>:e $NOTES/Lists/history.gpg.md<CR>go/#====<CR>"1p:write<CR>:b#<CR>
                 \:sil ec "write and go to 'history.gpg.md' - paste under '#==' write and comeback to 'todo.md'"<CR>
                 \
                 \:write\|redraw!<CR>G
 
     "   TIME_DIFF
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/{history.gpg.md,todo.md} nn <buffer> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
+    au BufRead,BufNewFile $NOTES/Lists/{history.gpg.md,todo.md} nn <buffer> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
 
     "   JSONIFY
-    "   TODO replace all " with ' before to start.
-    au BufRead,BufNewFile $NOTES/_Areas/_Lists/tmp.gpg.md no <silent><buffer> <Space>J :echo "Jsonify"<CR>
+    "   TODO:DEPRECATED + replace all " with ' before to start
+    au BufRead,BufNewFile $NOTES/Lists/tmp.gpg.md no <silent><buffer> <Space>J :echo "Jsonify"<CR>
                 \
                 \:sil ec "selects the tasks and erases dates"<CR>
                 \go/#\[<CR>nkV?>>?+1<CR>
@@ -368,7 +382,6 @@ augroup FILETYPE_NOTES
                 \:sil ec "wrap the day"<CR>
                 \V/^"Task<CR>:join<CR>A },<Esc>I{ <Esc>:-1d<CR>
                 \:fix}}<Esc>
-
     " }}}
     " --------------------------------- FUNCTIONS {{{
     fu! GetTimeDiff(line1, line2)
@@ -401,36 +414,7 @@ augroup FILETYPE_NOTES
     " Create a user-defined command.
     command! -range TimeDiff :call GetTimeDiff(<line1>,<line2>)
     " }}}
-    " --------------------------------- OLD MAPPINGS {{{
-
-    "   PUSH_ENC_NOTES {{{
-    " au BufRead,BufNewFile $NOTES/_Areas/_Lists/todo.md nn <silent><buffer> <Space>P :echo "Push"<CR>
-    "             \
-    "             \:sil cd $NOTES/<CR>:sil !mkdir Notes; cp -r INDEX.md _Areas _Projects _Resources _Archives Notes<CR>
-    "             \:sil ec "COPY 'Notes/' FOLDER"<CR>
-    "             \
-    "             \:sil !tar -cvzf - Notes\|gpg --symmetric --cipher-algo TWOFISH > Notes.tar.gz.gpg<CR>
-    "             \:sil ec "ARCHIVE - ZIP - ENCRYPT 'Notes/' COPY"<CR>
-    "             \
-    "             \:sil !git add -f Notes.tar.gz.gpg open.sh<CR>:sil !git commit -m"ARCHIVE DAY"<CR>:sil !git push origin main<CR>
-    "             \:sil ec "GIT ADD COMMIT PUSH"<CR>
-    "             \
-    "             \:sil !rm -rf Notes Notes.tar Notes.tar.gz.gpg<CR>
-    "             \:sil ec "cleanup"<CR>:redraw!<CR>
-
-    " open.sh
-    " #!/bin/sh
-    " # Forget a wrong password: gpgconf --kill gpg-agent
-    " # git clone git@github.com:clem9nt/Notes.git
-    " cd Notes
-    " gpg -d Notes.tar.gz.gpg | tar -xvzf -
-    " mv Notes/* .
-    " rm -rf Notes Notes.tar.gz.gpg
-    " export NOTES=$PWD
-    " vi INDEX.md
-    " }}}
-    " }}}
-    " --------------------------------- digraphs {{{
+    " --------------------------------- DIGRAPHS {{{
     execute "digraphs as " . 0x2090
     execute "digraphs es " . 0x2091
     execute "digraphs hs " . 0x2095
@@ -494,5 +478,34 @@ augroup FILETYPE_NOTES
     execute "digraphs US " . 0x1D41
     execute "digraphs VS " . 0x2C7D
     execute "digraphs WS " . 0x1D42
+    " }}}
+    " --------------------------------- OLD MAPPINGS {{{
+
+    "   PUSH_ENC_NOTES {{{
+    " au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> <Space>P :echo "Push"<CR>
+    "             \
+    "             \:sil cd $NOTES/<CR>:sil !mkdir Notes; cp -r INDEX.md Build Study Archives Notes<CR>
+    "             \:sil ec "COPY 'Notes/' FOLDER"<CR>
+    "             \
+    "             \:sil !tar -cvzf - Notes\|gpg --symmetric --cipher-algo TWOFISH > Notes.tar.gz.gpg<CR>
+    "             \:sil ec "ARCHIVE - ZIP - ENCRYPT 'Notes/' COPY"<CR>
+    "             \
+    "             \:sil !git add -f Notes.tar.gz.gpg open.sh<CR>:sil !git commit -m"ARCHIVE DAY"<CR>:sil !git push origin main<CR>
+    "             \:sil ec "GIT ADD COMMIT PUSH"<CR>
+    "             \
+    "             \:sil !rm -rf Notes Notes.tar Notes.tar.gz.gpg<CR>
+    "             \:sil ec "cleanup"<CR>:redraw!<CR>
+
+    " open.sh
+    " #!/bin/sh
+    " # Forget a wrong password: gpgconf --kill gpg-agent
+    " # git clone git@github.com:clem9nt/Notes.git
+    " cd Notes
+    " gpg -d Notes.tar.gz.gpg | tar -xvzf -
+    " mv Notes/* .
+    " rm -rf Notes Notes.tar.gz.gpg
+    " export NOTES=$PWD
+    " vi INDEX.md
+    " }}}
     " }}}
 augroup END

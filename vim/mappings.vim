@@ -41,15 +41,17 @@ nn sil :ilist /
 nn sis :isearch /
 
 "                       NOTES
-nn sl :e $NOTES/**/todo.md<CR>gi<Esc>z.
-nn x4 :e $NOTES/**/ft.md<CR>gi<Esc>z.
-nn xh :e $NOTES/**/history.md<CR>gi<Esc>z.
-nn xc :e $NOTES/**/calendar.md<CR>gi<Esc>
-nn xi :e $NOTES/**/INDEX.md<CR>gi<Esc>
-nn xe :e $NOTES/**/english.md<CR>/##  Voca<CR>
-nn xf :e $NOTES/**/french.md<CR>/##  Voca<CR>
-nn xp :e $NOTES/**/post-it.md<CR>gi<Esc>
-nn xs :e $NOTES/**/shopping-list.md<CR>gi<Esc>
+nn sl :e $NOTES/Lists/todo.md<CR>gi<Esc>z.
+nn xI :e $NOTES/INDEX.md<CR>
+nn xc :e $NOTES/Lists/calendar.md<CR>gi<Esc>
+nn xe :e $NOTES/Lists/english.md<CR>/##  Voca<CR>
+nn xf :e $NOTES/Lists/french.md<CR>/##  Voca<CR>
+nn xp :e $NOTES/Lists/post-it.md<CR>gi<Esc>
+nn xs :e $NOTES/Lists/shop-list.md<CR>gi<Esc>
+nn xi :e $NOTES/Lists/ideas.gpg.md<CR>
+nn xh :e $NOTES/Lists/history.gpg.md<CR>gi<Esc>z.
+nn xd :e $NOTES/Lists/drugs.gpg.md<CR>gi<Esc>z.
+nn x4 :e $NOTES/Study/42.md<CR>gi<Esc>z.
 "                       CONF
 nn xxv :e ~/.vimrc<CR>gi<Esc>
 nn xxz :e ~/.zshrc<CR>gi<Esc>
@@ -171,7 +173,7 @@ no ; :
 nn <Space>= Mmmgo=G`mzz3<C-O>
 "   SPACE WINDOW
 no <Space>w <C-W>
-tno <Space>w <C-W>
+tno <Right>w <C-W>
 nn <S-Left> <C-W><
 nn <S-Up> <C-W>+
 nn <S-Right> <C-W>>
