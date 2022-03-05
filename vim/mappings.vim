@@ -9,10 +9,16 @@ nn shf :sf<Space>
 nn svf :vert sf<Space>
 "   EDIT
 nn se :e *
-nn gse :e! *<Space>
-nn ste :tabe<Space>
-nn she :sp<Space>
-nn sve :vsskdflje>
+nn gse :e! *
+nn ste :tabe *
+nn she :sp *
+nn sve :vert *
+"   CD EDIT
+nn s. :cd %:h<CR>:e *
+nn gs. :cd %:h<CR>:e! *
+nn st. :cd %:h<CR>:tabe *
+nn sh. :cd %:h<CR>:sp *
+nn sv. :cd %:h<CR>:vert *
 
 "                       BUFFER
 "   PREV
