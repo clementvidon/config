@@ -6,7 +6,11 @@ augroup FILETYPE_NOTES
                 \ | setl textwidth=70
                 \ | setl suffixesadd+=.md
                 \ | setl suffixesadd+=.gpg.md
-                \ | setl path+=$NOTES/**,$DOTVIM/after/ftplugin/
+                \ | setl path+=$DOTVIM/after/ftplugin/**
+                \ | setl path+=$NOTES/Lists/**
+                \ | setl path+=$NOTES/Areas/**
+                \ | setl path+=$NOTES/Projects/**
+                \ | setl path+=$NOTES/Resources/**
                 \ | setl expandtab
     au BufRead,BufNewFile $NOTES/Lists/todo.md setl textwidth=0
     au BufRead,BufNewFile $NOTES/Lists/history.gpg.md setl textwidth=0
@@ -52,7 +56,6 @@ augroup FILETYPE_NOTES
                 \                                      \|\n
                 \ ARCHIVE_DAY       : Space A          \|\n
                 \ TIME_DIFF         : Space T          \|\n
-                \ JSONIFY           : Space J          \|\n
                 \"<CR>
 
 
@@ -95,7 +98,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
                 \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
                 \:sil cd $NOTES/<CR>
-                \:sil !git add -f INDEX.md Build Lists Study Archives<CR>
+                \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
                 \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
                 \:q<CR>:redr!<CR>
 
@@ -119,87 +122,107 @@ augroup FILETYPE_NOTES
     "                       TASKS    :
 
     "   TASK_ADD_TAG
-    "   Locations
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][@Home]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][@Phone]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>we O[][@Web]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][@Computer]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab><Tab> O[][]<Esc><<2f]i
     "   Projects
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pr O[][@Projects]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][@notes]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sb O[][@sbb]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>4  O[][@42]<Space><Esc><<
-    "   Build
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>bu O[][@Business]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][@Finance]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>he O[][@Health]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fa O[][@Family]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>so O[][@Social]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][@Admin]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][@Self]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Art]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Photo]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Misc]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Notes]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sb O[][Sbb]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>4  O[][42]<Esc><<$
+    "   Areas
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>bu O[][Business]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][Computer]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Finance]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>he O[][Health]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fa O[][Family]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>so O[][Social]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admin]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pt O[][Photo]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][Phone]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Misc]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][Self]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Art]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>we O[][Web]<Esc><<$
     "   Special
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL]<Space>from -> to<Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Space><Esc><<A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL]from -> to<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <S-Tab> :echo "
                 \\n
-                \=======================[Tags]============================+\n
-                \                                                         \|\n
-                \ @PRojects @NOtes   @SBb    @42                          \|\n
-                \                                                         \|\n
-                \ @HOme     @PHone   @WEb    @Computer                    \|\n
-                \ @BUsiness @FInance @HEalth @FAmily @SOcial @ADmin @SElf \|\n
-                \ @ARt      @PHoto   @MIsc                                \|\n
-                \                                                         \|\n
-                \ @TRansit  @UNable @BReak @SPort   @TRavel @VAcation     \|\n
-                \ @DEadtime @LOstmyway                                    \|\n
-                \                                                         \|\n
+                \=============================[Tags]=============================\n
+                \                                                               \|\n
+                \ Projects: Notes    →                                          \|\n
+                \           Sbb      →                                          \|\n
+                \           42       →                                          \|\n
+                \                                                               \|\n
+                \ Areas:    Business → management, marketing, clients, products \|\n
+                \           Computer →                                          \|\n
+                \           Finance  → ledger, assets                           \|\n
+                \           Health   → eat, drugs                               \|\n
+                \           Family   →                                          \|\n
+                \           Social   →                                          \|\n
+                \           Admin    → urssaf, impots, casvp                    \|\n
+                \           Photo    →                                          \|\n
+                \           Phone    →                                          \|\n
+                \           Home     →                                          \|\n
+                \           Misc     →                                          \|\n
+                \           Self     →                                          \|\n
+                \           Art      →                                          \|\n
+                \           Web      →                                          \|\n
+                \                                                               \|\n
+                \ LOSTMYWAY DEADTIME VACATION TRANSIT TRAVEL UNABLE BREAK SPORT \|\n
+                \                                                               \|\n
                 \"<CR>
+
     "   TASK_FOCUS_TAG
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>\ 0f@l
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>\ 0f[l
 
     "   TASK_ADD_ACT
-    "   Study
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f@f]i#study<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f@f]i#praxis<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f@f]i#check<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f@f]i#dig<Esc>A
-    "   Build
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \th 0f@f]i#think<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f@f]i#setup<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \co 0f@f]i#config<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cr 0f@f]i#create<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f@f]i#cleanup<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f@f]i#review<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f@f]i#update<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fi 0f@f]i#fix<Esc>A
-    "   Interactions
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f@f]i#meet<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f@f]i#msg<Esc>A
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f@f]i#call<Esc>A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \th 0f[f]i think<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f[f]i check<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f[f]i study<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f[f]i practice<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f[f]i dig<Esc>A<Space>
+
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cr 0f[f]i create<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f[f]i update<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cleanup<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i review<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f[f]i setup<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fk 0f[f]i fix<Esc>A<Space>
+
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f[f]i meet<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i call<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f[f]i msg<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <BAR> :echo "
                 \\n
-                \=============[Actions]============+\n
-                \                                  \|\n
-                \ #STudy   #PRaxis #CHeck  #DIg    \|\n
-                \                                  \|\n
-                \ #THink   #SEtup  #COnfig #CReate \|\n
-                \ #CLeanup #REview #UPdate #FIx    \|\n
-                \                                  \|\n
-                \ #MEet    #MSg    #CAll           \|\n
-                \                                  \|\n
+                \=[Actions]=\n
+                \          \|\n
+                \ think    \|\n
+                \ check    \|\n
+                \ study    \|\n
+                \ practice \|\n
+                \ dig      \|\n
+                \          \|\n
+                \ create   \|\n
+                \ update   \|\n
+                \ cleanup  \|\n
+                \ review   \|\n
+                \ setup    \|\n
+                \ fix      \|\n
+                \          \|\n
+                \ meet     \|\n
+                \ call     \|\n
+                \ msg      \|\n
+                \          \|\n
                 \"<CR>
 
     "   TASK_FOCUS_ACT
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \<Tab> 0f@f#l
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \<Tab> 0f[f l
 
 
     "   TASK_CHECK
@@ -330,60 +353,6 @@ augroup FILETYPE_NOTES
 
     "   TIME_DIFF
     au BufRead,BufNewFile $NOTES/Lists/{history.gpg.md,todo.md} nn <buffer> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
-
-    "   JSONIFY
-    "   TODO:DEPRECATED + replace all " with ' before to start
-    au BufRead,BufNewFile $NOTES/Lists/tmp.gpg.md no <silent><buffer> <Space>J :echo "Jsonify"<CR>
-                \
-                \:sil ec "selects the tasks and erases dates"<CR>
-                \go/#\[<CR>nkV?>>?+1<CR>
-                \<C-V>f old
-                \:sil ec "jsonify 'from', 'to' and 'tag'"<CR>
-                \gv:'<,'>norm cl"0": { "from": "<CR>
-                \gv:'<,'>norm 3f:f cl", "to": "<CR>
-                \gv:'<,'>norm f]2cl", "tag": "<CR>
-                \gv:'<,'>norm 2f,3f"lea",<CR>
-                \:sil ec "erases the remaining '@'"<CR>
-                \gv:'<,'>norm f]F,F@dl<CR>
-                \:sil ec "jsonify 'subtag'"<CR>
-                \gv:'<,'>norm f]F,a "subtag": "", <CR>
-                \gv:'<,'>norm f@ldwF"P<CR>
-                \:sil ec "jsonify 'action'"<CR>
-                \gv:'<,'>norm f]F,a "action": "", <CR>
-                \gv:'<,'>norm f#ldwF"P<CR>
-                \:sil ec "remove the remaining '@' and '#'"<CR>
-                \gv:'<,'>norm f]F#dl<CR>
-                \gv:'<,'>norm f]F@dl<CR>
-                \:sil ec "jsonify 'description'"<CR>
-                \gv:'<,'>norm f]F,a "description": ""<CR>
-                \gv:'<,'>norm f]2ldg_F"P<CR>
-                \:sil ec "cleanup EOL ']'"<CR>
-                \gv:'<,'>norm $T"Da },<CR>
-                \:sil ec "reverse order and set indexes"<CR>
-                \gv:!tac<CR>
-                \gv0o0f:g<C-a>gv<C-x>
-                \:sil ec "wrap into 'Task'"<CR>
-                \gv:join<CR>$cl }<Esc>I"Tasks": { <Esc>
-                \:sil ec "select '>>' (Notes)"<CR>
-                \gv?#\[<CR>/>><CR>ok<Esc>
-                \:sil ec "jsonify 'Notes'"<CR>
-                \gv:'<,'>norm dt>df i"0": "<CR>
-                \gv:'<,'>norm A",<CR>
-                \gv0o0f:g<C-a>gv<C-x>
-                \gv:join<CR>$cl },<Esc>I"Notes": { <Esc>
-                \:sil ec "jsonify 'Stats'"<CR>
-                \0kldiw:pu!<CR>
-                \jct "Stats": { "ph":<Esc>w2dlw.w.w.w.w.5bi"<C-o>a",
-                \<C-o>a"en": "<C-o>a",
-                \<C-o>a"mi": "<C-o>a",
-                \<C-o>a"st": "<C-o>a",
-                \<C-o>a"fo": "<C-o>a",
-                \<C-o>a"yi": "<C-o>a" },<Esc>
-                \:sil ec "jsonify 'Data'"<CR>
-                \0ki"Date": "<C-o>A",<Esc>
-                \:sil ec "wrap the day"<CR>
-                \V/^"Task<CR>:join<CR>A },<Esc>I{ <Esc>:-1d<CR>
-                \:fix}}<Esc>
     " }}}
     " --------------------------------- FUNCTIONS {{{
     fu! GetTimeDiff(line1, line2)
@@ -482,11 +451,10 @@ augroup FILETYPE_NOTES
     execute "digraphs WS " . 0x1D42
     " }}}
     " --------------------------------- OLD MAPPINGS {{{
-
     "   PUSH_ENC_NOTES {{{
     " au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> <Space>P :echo "Push"<CR>
     "             \
-    "             \:sil cd $NOTES/<CR>:sil !mkdir Notes; cp -r INDEX.md Build Study Archives Notes<CR>
+    "             \:sil cd $NOTES/<CR>:sil !mkdir Notes; cp -r INDEX.md Lists Areas Projects Resources Notes<CR>
     "             \:sil ec "COPY 'Notes/' FOLDER"<CR>
     "             \
     "             \:sil !tar -cvzf - Notes\|gpg --symmetric --cipher-algo TWOFISH > Notes.tar.gz.gpg<CR>

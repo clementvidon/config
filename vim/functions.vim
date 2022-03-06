@@ -74,55 +74,6 @@ augroup END
 com! -nargs=+ S exec 'silent !<args>' | redraw!
 " }}}
 " --------------------------------- TOGGLE {{{
-"   TOGGLE DRAWER
-"nn s<CR> :call Drawer('todo.md')<CR>
-"nn SC :call Drawer('calendar.md')<CR>
-"nn SI :call Drawer('INDEX.md')<CR>
-"nn SE :call Drawer('english.md')<CR>
-"nn SF :call Drawer('french.md')<CR>
-"nn SP :call Drawer('post-it.md')<CR>
-"nn SS :call Drawer('shopping-list.md')<CR>
-let s:open = 0
-function! Drawer(name)
-    "                                                   CLOSE DRAWER
-    if s:open == 1 && a:name != expand('%:t')   "       if out of the view
-        let s:open = 0
-    endif
-    "                                                   CLOSE DRAWER
-    if s:open == 1 && a:name == expand('%:t')
-        setlocal wig+=$NOTES/**
-        if  &mod == 1
-            exec 'silent write'
-        endif
-        exec 'silent b#'
-        let s:open = 0
-        exec 'echo "["a:name": CLOSE ]"'
-    elseif s:open == 0 && a:name != expand('%:t') "     OPEN DRAWER
-        setlocal path+=$NOTES/**
-        let s:open = 1
-        if  &mod == 1
-            exec 'silent write'
-        endif "                                         OTHER DRAWER
-        exec 'normal! mX'
-        exec 'nn xx `X:no xx <nop><CR>:echo <CR>'
-        exec 'silent find '. a:name
-        exec 'normal! 5G'
-        if a:name == "todo.md"
-            exec 'normal! GM'
-            exec 'normal! z.'
-        endif
-        if a:name == "english.md"
-            exec '?\#\# '
-            exec 'normal! z.'
-        endif
-        if a:name == "french.md"
-            exec '/\#\# '
-            exec 'normal! z.'
-        endif
-        exec 'echo "["a:name": OPEN ]"'
-    endif
-endfunction
-
 "   TOGGLE COLORS
 function! ColorSwitch(clight, cdark)
     if &background ==# "dark"

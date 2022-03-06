@@ -57,7 +57,7 @@ nn xs :e $NOTES/Lists/shop-list.md<CR>gi<Esc>
 nn xi :e $NOTES/Lists/ideas.gpg.md<CR>
 nn xh :e $NOTES/Lists/history.gpg.md<CR>gi<Esc>z.
 nn xd :e $NOTES/Lists/drugs.gpg.md<CR>gi<Esc>z.
-nn x4 :e $NOTES/Study/42.md<CR>gi<Esc>z.
+nn x4 :e $NOTES/Projects/42.md<CR>gi<Esc>z.
 "                       CONF
 nn xxv :e ~/.vimrc<CR>gi<Esc>
 nn xxz :e ~/.zshrc<CR>gi<Esc>
@@ -91,6 +91,8 @@ nn glpa :set paste!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
 "   COPY PATH
 nn glpw :let @+=@%<CR>
+"   REDRAW
+nn glre :redraw!<CR>
 "   SCROLLBIND
 nn glsb :set scrollbind!<CR>
 "   SCROLLOFF
@@ -128,6 +130,8 @@ nn glge :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
 nn glgd :silent %!gpg -d 2>/dev/null<CR>
 "   TAGS
 nn glta :S ctags -R<CR>
+"   TAGS
+nn glbc V:!bc<CR>
 " }}}
 " --------------------------------- PLUGINS (g h-tyszcn) {{{
 "                       GITGUTTER
