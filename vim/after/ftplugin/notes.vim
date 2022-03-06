@@ -123,7 +123,12 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][@Home]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][@Phone]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>we O[][@Web]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][@PC@]<Esc><<2f@a
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][@Computer]<Space><Esc><<
+    "   Projects
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pr O[][@Projects]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][@notes]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sb O[][@sbb]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>4  O[][@42]<Space><Esc><<
     "   Build
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>bu O[][@Business]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][@Finance]<Space><Esc><<
@@ -132,11 +137,9 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>so O[][@Social]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][@Admin]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][@Self]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Art]<Space><Esc><<
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Photo]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][@Misc]<Space><Esc><<
-    "   Projects
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][@Notes]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pt O[][@Photo]<Space><Esc><<
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>4  O[][@42@]<Esc><<2f@a
     "   Special
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Space><Esc><<
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Space><Esc><<
@@ -150,17 +153,16 @@ augroup FILETYPE_NOTES
                 \\n
                 \=======================[Tags]============================+\n
                 \                                                         \|\n
-                \ @NOtes                                                  \|\n
+                \ @PRojects @NOtes   @SBb    @42                          \|\n
                 \                                                         \|\n
-                \ @HOme     @PHone   @WEb    @PC                          \|\n
+                \ @HOme     @PHone   @WEb    @Computer                    \|\n
                 \ @BUsiness @FInance @HEalth @FAmily @SOcial @ADmin @SElf \|\n
-                \ @NOtes    @PhoTo   @42     @TSa                         \|\n
+                \ @ARt      @PHoto   @MIsc                                \|\n
                 \                                                         \|\n
                 \ @TRansit  @UNable @BReak @SPort   @TRavel @VAcation     \|\n
                 \ @DEadtime @LOstmyway                                    \|\n
                 \                                                         \|\n
                 \"<CR>
-
     "   TASK_FOCUS_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>\ 0f@l
 
