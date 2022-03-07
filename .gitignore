@@ -36,3 +36,7 @@ tags
 .Trash*
 ._*
 .fseve*
+
+# Other #
+########
+.zprivate

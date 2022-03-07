@@ -4,10 +4,9 @@ if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 fi
 
-[ -f "$HOME/.zprivat" ] && source $HOME/.zprivat
+[ -f "$HOME/.zprivate" ] && source $HOME/.zprivate
 
-if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]
-then
+if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]; then
     export GPG_TTY=$(tty)
     export GNUPGHOME=$HOME/.gnupg
 fi
@@ -56,18 +55,22 @@ alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
 
 #   git
-alias ga="git add"
+alias gad="git add"
 alias gap="git add -p"
 alias gca="git commit --amend"
 alias gcm="git commit -m"
 alias gcp="git commit -p"
 alias gcv="git commit -v"
-alias gd="git diff"
-alias gl="git log"
+alias gdi="git diff"
+alias glo="git log --oneline"
 alias gpl="git pull"
 alias gpla="bash $HOME/git/utils/pull_all.zsh"
 alias gps="git push"
 alias gpsa="bash $HOME/git/utils/push_all.zsh"
-alias gr="git reset"
-alias gs="git status"
-alias gsa="bash $HOME/git/utils/status_all.zsh"
+alias grs="git reset"
+alias grb="git rebase --interactive"
+alias grm="git rm"
+alias gst="git status"
+alias gsw="git switch"
+alias gsh="git show"
+alias gsta="bash $HOME/git/utils/status_all.zsh"
