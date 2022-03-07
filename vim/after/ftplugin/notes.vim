@@ -7,25 +7,74 @@ augroup FILETYPE_NOTES
                 \ | setl suffixesadd+=.md
                 \ | setl suffixesadd+=.gpg.md
                 \ | setl path+=$DOTVIM/after/ftplugin/**
+                \ | setl path+=$NOTES
                 \ | setl path+=$NOTES/Lists/**
                 \ | setl path+=$NOTES/Areas/**
                 \ | setl path+=$NOTES/Projects/**
                 \ | setl path+=$NOTES/Resources/**
                 \ | setl expandtab
-    au BufRead,BufNewFile $NOTES/Lists/todo.md setl textwidth=0
-    au BufRead,BufNewFile $NOTES/Lists/history.gpg.md setl textwidth=0
+    au BufRead,BufNewFile $NOTES/Lists/*.md setl textwidth=0
+
+    " GPG
+    au BufReadPre,FileReadPre *.gpg.* setl viminfo=""
+    au BufReadPre,FileReadPre *.gpg.* setl noswapfile noundofile nobackup
+    au BufReadPost,FileReadPost *.gpg.* if getline('1') == '-----BEGIN PGP MESSAGE-----' |
+                \ exec 'silent %!gpg --decrypt 2>/dev/null' | setl title titlestring='ENCRYPTED' |
+                \ endif
+    au BufWritePre,FileWritePre *.gpg.* let g:view = winsaveview() | keeppatterns %s/\s\+$//e |
+                \exec 'silent %!gpg --default-recipient Clem9nt --armor --encrypt 2>/dev/null'
+    au BufWritePost,FileWritePost *.gpg.* exec "normal! u"|
+                \ call winrestview(g:view) | setl title!
     " }}}
     " --------------------------------- PLUGINS {{{
+    " }}}
+    " --------------------------------- FUNCTIONS {{{
+    function! TimeDiff(line1, line2)
+        " Get line content and extract the time
+        "    let l:t1List = split(getline(a:line1), " ")
+        "    let l:t2List = split(getline(a:line2), " ")
+        "    let l:t1List = split((l:t1List[1]), ":")
+        "    let l:t2List = split((l:t2List[1]), ":")
+        let l:t1List = split(getline(a:line1), " ")
+        let l:t2List = split(getline(a:line1), " ")
+        let l:t1List = split((l:t1List[2]), ":")
+        let l:t2List = split((l:t2List[1]), ":")
+        " Get the diff in minutes between the timestamps.
+        let l:diff = 0
+        let l:time1 = l:t1List[0] * 3600 + l:t1List[1] * 60
+        let l:time2 = l:t2List[0] * 3600 + l:t2List[1] * 60
+        if l:time1 > l:time2
+            let l:diff = l:time1 - l:time2
+        elseif l:time1 < l:time2
+            let l:diff = (24 * 3600) - (l:time2 - l:time1)
+        endif
+        let l:min=trunc(fmod(l:diff,3600) / 60)
+        let l:hrs=trunc(l:diff / 3600)
+        " Replace the line with the result.
+        call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
+    endfunction
+    command! -range TimeDiff :call TimeDiff(<line1>,<line2>)
+
+    "   Like vim gF but works with pattern (ie. todo:today)
+    fu! NotesGF()
+        let l:line = split(getline('.'), ":")
+        let l:file = substitute(l:line[0], '>', '', "g")
+        let l:pattern = substitute(l:line[1], ' ', '\\ ', "g")
+        if l:pattern =~# '^\d\+$'
+            exec 'gF'
+        else
+            exec 'find +/' . l:pattern . ' ' . l:file
+        endif
+    endfun
+    command! -range NotesGF :call NotesGF()
     " }}}
     " --------------------------------- MAPPINGS {{{
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Space>? :echo "
                 \\n
-                \================[Notes]===============+\n
-                \                                      \|\n
-                \               [GENERAL]              \|\n
+                \================[Notes]================\n
                 \                                      \|\n
                 \ MOVE_LINES        : gj gk            \|\n
-                \ HTML_EXPORT       : Space E          \|\n
+                \ HTML_EXPORT       : Space X          \|\n
                 \                                      \|\n
                 \ PUSH_NOTES        : ghps             \|\n
                 \ PULL_NOTES        : ghpl             \|\n
@@ -34,9 +83,18 @@ augroup FILETYPE_NOTES
                 \ NOTES_NAV BAC     : Space Tab        \|\n
                 \ INDEX_GEN         : Space #          \|\n
                 \ INDEX_NAV         : Space 3          \|\n
-                \ NOTES GREP        : :Grep            \|\n
+                \ NOTES_GREP        : :Grep            \|\n
                 \                                      \|\n
-                \              [TODO LIST]             \|\n
+                \ MD_LINK           : Space L          \|\n
+                \                                      \|\n
+                \ GPG_ENC           : Space E          \|\n
+                \ GPG_DEC           : Space C          \|\n
+                \                                      \|\n
+                \"<CR>
+
+    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> <Space>? :echo "
+                \\n
+                \================[Todos]================\n
                 \                                      \|\n
                 \ TASK_ADD_TAG      : Tab   …          \|\n
                 \ TASK_FOCUS_TAG    : Tab   \\          \|\n
@@ -53,9 +111,11 @@ augroup FILETYPE_NOTES
                 \ TASK_POSTPONE_BOT : Space p          \|\n
                 \ TASK_CLEAR        : Space c          \|\n
                 \ TASK_FIX          : Space f          \|\n
-                \                                      \|\n
                 \ ARCHIVE_DAY       : Space A          \|\n
+                \                                      \|\n
                 \ TIME_DIFF         : Space T          \|\n
+                \ GF_PATTERN        : Space GF         \|\n
+                \                                      \|\n
                 \"<CR>
 
 
@@ -81,7 +141,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile *.md vn <silent><buffer> gk :m '<-2<CR>gv
 
     "   HTML_EXPORT
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>E :set term=xterm-256color<CR>:TOhtml<CR>
+    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>X :set term=xterm-256color<CR>:TOhtml<CR>
                 \
                 \/--><CR>Oa { color: hotpink; }<Esc>go
                 \:%s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
@@ -92,10 +152,10 @@ augroup FILETYPE_NOTES
                 \:fix}}<Esc>
 
     "   PULL_NOTES
-    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> ghpl :cd %:h\|sil !git pull<CR>:redraw!<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> ghpl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 
     "   PUSH_NOTES
-    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
                 \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
                 \:sil cd $NOTES/<CR>
                 \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
@@ -104,8 +164,8 @@ augroup FILETYPE_NOTES
 
 
     "   NOTES_NAV
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space><Tab> :silent write<CR>gogf
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0gf5G
+    au BufRead,BufNewFile *.md nn <silent><buffer> <Space><Tab> :silent write<CR>gogF
+    au BufRead,BufNewFile *.md nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0:call NotesGF()<CR>
 
     "   INDEX_GEN
     au BufRead,BufNewFile *.md nn <silent><buffer> <Space># :silent
@@ -115,11 +175,20 @@ augroup FILETYPE_NOTES
     "   INDEX_NAV
     au BufRead,BufNewFile *.md nn <silent><buffer> <Space>3 :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt
 
-    "   GREP
+    "   NOTES_GREP
     au BufRead,BufNewFile $NOTES/* com! -nargs=+ Grep exec 'grep! -i <args> $NOTES/**/*.md' | cw
 
+    "   MD_LINK
+    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>L 0/s:\/\/<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
 
-    "                       TASKS    :
+
+    "   GPG ENC
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>E :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+    "   GPG DEC
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>D :silent %!gpg -d 2>/dev/null<CR>
+
+
+    "                       TODO LIST :
 
     "   TASK_ADD_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab><Tab> O[][]<Esc><<2f]i
@@ -226,7 +295,7 @@ augroup FILETYPE_NOTES
 
 
     "   TASK_CHECK
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
                 \?#\s\s[\sTOD<CR>VG<esc>$?\%V\[\]\\|\[(.*)\]<CR>mm
                 \:sil ec "go to next"<CR>
@@ -236,7 +305,7 @@ augroup FILETYPE_NOTES
                 \:let @/ = ""<CR>:write<CR>02f]l
 
     "   TASK_RECHECK
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><silent><buffer> <Space>r mn
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><silent><buffer> <Space>r mn
                 \
                 \:silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \:sil ec "save current date and time"<CR>
@@ -248,16 +317,16 @@ augroup FILETYPE_NOTES
                 \:let @/ = ""<CR>:write<CR>`n
 
     "   TASK_NOW
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>n GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>n GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
 
     "   TASK_REPEAT
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>. mmY
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>. mmY
                 \
                 \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>:let @/ = ""<CR>
                 \Pdi[$`mk
 
     "   TASK_BREAK
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>b :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>b :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
                 \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
@@ -269,7 +338,7 @@ augroup FILETYPE_NOTES
                 \:let @/ = ""<CR>:write<CR>A<Space><Esc>
 
     "   TASK_BREAK_REPEAT
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>B :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>B :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
                 \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
@@ -283,20 +352,20 @@ augroup FILETYPE_NOTES
                 \:let @/ = ""<CR>:write<CR>jA<Space>
 
     "   TASK_POSTPONE_TOP
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>P kmmj
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
                 \jk
                 \0di[V/\[.*\]<CR>kd?[ TOM<CR>/\[TRANSIT\]<CR>p`m:let @/ = ""<CR>
 
     "   TASK_POSTPONE_BOT
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>p kmmj
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
                 \0di[V/\[.*\]<CR>kd?[ TOM<CR>/\[TRANSIT\]<CR>nP`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>c mm0di[`m
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
 
     "   TASK_FIX
-    au BufRead,BufNewFile $NOTES/**/*todo.md nn <silent><buffer> <Space>f mm0
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>f mm0
                 \
                 \jf:f:f]f]0
                 \:sil ec "check next line"<CR>
@@ -330,7 +399,7 @@ augroup FILETYPE_NOTES
                 \:sil ec "cut '[ tomorrow ]' tasks"<CR>
                 \
                 \i[-][>>]<CR>[][END]<Esc>
-                \o[][TRANSIT] dinner, series, goto bed<CR>[][TRANSIT] getup, shower, breakfast<Esc>
+                \o[][TRANSIT] dinner, goto bed<CR>[][TRANSIT] getup, shower<Esc>
                 \:sil ec "insert '[ tomorrow ]' template"<CR>
                 \
                 \/\[\d.*\]\[END\]<CR>"_dd
@@ -351,39 +420,12 @@ augroup FILETYPE_NOTES
                 \
                 \:write\|redraw!<CR>G
 
+
+    "                       HISTORY
+
     "   TIME_DIFF
-    au BufRead,BufNewFile $NOTES/Lists/{history.gpg.md,todo.md} nn <buffer> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
-    " }}}
-    " --------------------------------- FUNCTIONS {{{
-    fu! GetTimeDiff(line1, line2)
-        " Get line content and extract the time
-        "    let l:t1List = split(getline(a:line1), " ")
-        "    let l:t2List = split(getline(a:line2), " ")
-        "    let l:t1List = split((l:t1List[1]), ":")
-        "    let l:t2List = split((l:t2List[1]), ":")
-        let l:t1List = split(getline(a:line1), " ")
-        let l:t2List = split(getline(a:line1), " ")
-        let l:t1List = split((l:t1List[2]), ":")
-        let l:t2List = split((l:t2List[1]), ":")
+    au BufRead,BufNewFile *.md nn <buffer><silent> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
 
-        " Get the diff in minutes between the timestamps.
-        let l:diff = 0
-        let l:time1 = l:t1List[0] * 3600 + l:t1List[1] * 60
-        let l:time2 = l:t2List[0] * 3600 + l:t2List[1] * 60
-
-        if l:time1 > l:time2
-            let l:diff = l:time1 - l:time2
-        elseif l:time1 < l:time2
-            let l:diff = (24 * 3600) - (l:time2 - l:time1)
-        endif
-
-        let l:min=trunc(fmod(l:diff,3600) / 60)
-        let l:hrs=trunc(l:diff / 3600)
-        " Replace the line with the result.
-        call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
-    endfun
-    " Create a user-defined command.
-    command! -range TimeDiff :call GetTimeDiff(<line1>,<line2>)
     " }}}
     " --------------------------------- DIGRAPHS {{{
     execute "digraphs as " . 0x2090
@@ -449,33 +491,5 @@ augroup FILETYPE_NOTES
     execute "digraphs US " . 0x1D41
     execute "digraphs VS " . 0x2C7D
     execute "digraphs WS " . 0x1D42
-    " }}}
-    " --------------------------------- OLD MAPPINGS {{{
-    "   PUSH_ENC_NOTES {{{
-    " au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> <Space>P :echo "Push"<CR>
-    "             \
-    "             \:sil cd $NOTES/<CR>:sil !mkdir Notes; cp -r INDEX.md Lists Areas Projects Resources Notes<CR>
-    "             \:sil ec "COPY 'Notes/' FOLDER"<CR>
-    "             \
-    "             \:sil !tar -cvzf - Notes\|gpg --symmetric --cipher-algo TWOFISH > Notes.tar.gz.gpg<CR>
-    "             \:sil ec "ARCHIVE - ZIP - ENCRYPT 'Notes/' COPY"<CR>
-    "             \
-    "             \:sil !git add -f Notes.tar.gz.gpg open.sh<CR>:sil !git commit -m"ARCHIVE DAY"<CR>:sil !git push origin main<CR>
-    "             \:sil ec "GIT ADD COMMIT PUSH"<CR>
-    "             \
-    "             \:sil !rm -rf Notes Notes.tar Notes.tar.gz.gpg<CR>
-    "             \:sil ec "cleanup"<CR>:redraw!<CR>
-
-    " open.sh
-    " #!/bin/sh
-    " # Forget a wrong password: gpgconf --kill gpg-agent
-    " # git clone git@github.com:clem9nt/Notes.git
-    " cd Notes
-    " gpg -d Notes.tar.gz.gpg | tar -xvzf -
-    " mv Notes/* .
-    " rm -rf Notes Notes.tar.gz.gpg
-    " export NOTES=$PWD
-    " vi INDEX.md
-    " }}}
     " }}}
 augroup END

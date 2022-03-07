@@ -23,21 +23,6 @@ function! GetSyntax()
     exec "hi ".synIDattr(GetSyntaxParentID(), 'name')
 endfunction
 
-"   GPG
-"   transparently encrypt/decrypt
-augroup GPG
-    au!
-    au BufReadPre,FileReadPre *.gpg.* setl viminfo=""
-    au BufReadPre,FileReadPre *.gpg.* setl noswapfile noundofile nobackup
-    au BufReadPost,FileReadPost *.gpg.* if getline('1') == '-----BEGIN PGP MESSAGE-----' |
-                \ exec 'silent %!gpg --decrypt 2>/dev/null' | setl title titlestring='ENCRYPTED' |
-                \ endif
-    au BufWritePre,FileWritePre *.gpg.* let g:view = winsaveview() | keeppatterns %s/\s\+$//e |
-                \exec 'silent %!gpg --default-recipient Clem9nt --armor --encrypt 2>/dev/null'
-    au BufWritePost,FileWritePost *.gpg.* exec "normal! u"|
-                \ call winrestview(g:view) | setl title!
-augroup END
-
 "   NOTRACE
 "   vim -c 'call Notrace()'
 function! Notrace()

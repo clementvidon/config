@@ -107,12 +107,17 @@ nn glve :if &virtualedit == "" <BAR> set virtualedit=all <BAR>
             \ else <BAR> set virtualedit= <BAR>
             \ endif <BAR> set virtualedit?<CR>
 "                       FUNCTIONS
-"   ROT%
-nn gl? GVgog?g;g;
+"   RUN CURRENT LINE
+nn glru :exe getline(".")<CR>
+vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 "   RESOLVE SYMLINK
 nn <silent> glsl :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
+"   GET SYNTAX
+nn glsy :call GetSyntax()<CR>
 "   TIME STAMP
 nn glts :put=strftime('%y%m%d')<CR>
+"   ROT%
+nn gl? GVgog?g;g;
 "   CHANGE COLORS
 if system("uname -s") == "Darwin\n"
     nn <silent> <Space>C :if &bg == "dark" <BAR> exec 'color seoul256-light \| set bg=light' <BAR>
@@ -121,13 +126,7 @@ if system("uname -s") == "Darwin\n"
 elseif system("uname -s") == "Linux\n"
     nn <Space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
 endif
-"   GET SYNTAX
-nn glsy :call GetSyntax()<CR>
 "                       TERMINAL
-"   GPG ENC
-nn glge :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
-"   GPG DEC
-nn glgd :silent %!gpg -d 2>/dev/null<CR>
 "   TAGS
 nn glta :S ctags -R<CR>
 "   TAGS
