@@ -57,13 +57,18 @@ augroup FILETYPE_NOTES
 
     "   Like vim gF but works with pattern (ie. todo:today)
     fu! NotesGF()
-        let l:line = split(getline('.'), ":")
-        let l:file = substitute(l:line[0], '>', '', "g")
-        let l:pattern = substitute(l:line[1], ' ', '\\ ', "g")
-        if l:pattern =~# '^\d\+$'
-            exec 'gF'
+        if count(getline('.'), ":") == 1
+            let l:line = split(getline('.'), ":")
+            let l:file = substitute(l:line[0], '>', '', "g")
+            let l:pattern = substitute(l:line[1], ' ', '\\ ', "g")
+            echo l:file
+            if l:pattern =~# '^\d\+$'
+                exec 'normal gF'
+            else
+                exec 'find +/' . l:pattern . ' ' . l:file
+            endif
         else
-            exec 'find +/' . l:pattern . ' ' . l:file
+            exec 'normal gf'
         endif
     endfun
     command! -range NotesGF :call NotesGF()
