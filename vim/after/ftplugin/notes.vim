@@ -31,10 +31,6 @@ augroup FILETYPE_NOTES
     " --------------------------------- FUNCTIONS {{{
     function! TimeDiff(line1, line2)
         " Get line content and extract the time
-        "    let l:t1List = split(getline(a:line1), " ")
-        "    let l:t2List = split(getline(a:line2), " ")
-        "    let l:t1List = split((l:t1List[1]), ":")
-        "    let l:t2List = split((l:t2List[1]), ":")
         let l:t1List = split(getline(a:line1), " ")
         let l:t2List = split(getline(a:line1), " ")
         let l:t1List = split((l:t1List[2]), ":")
@@ -71,7 +67,67 @@ augroup FILETYPE_NOTES
             exec 'normal gf'
         endif
     endfun
-    command! -range NotesGF :call NotesGF()
+
+    fu! NotesArchiveDay()
+        "   Check file
+        if expand('%:t:r') . "." . expand('%:e') != "todo.md"
+            echom ">>> Not in \"todo.md\" <<<"
+            return 1
+        endif
+        "   Check END
+        if strlen(getline(searchpos("^\\[.*\\]\\[END\\]")[0])) != 19
+            echom ">>> Unchecked \"END\" <<<"
+            return 1
+        endif
+        "   Check STAT
+        if strlen(getline(searchpos("^\\[-\\]\\[STAT\\]")[0])) != 33
+            echom ">>> Incomplete \"STAT\" <<<"
+            return 1
+        endif
+        "   Check day
+        let l:checkday = 0
+        if strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
+            let l:checkday = 1
+        endif
+        "   Locate today and tomorrow
+        let l:today_loc = searchpos("##  Today")[0]
+        let l:tomorrow_loc = searchpos("##  Tomorrow")[0]
+        "   Insert fancy date
+        if getline(l:today_loc + 1) == ""
+            call setline(l:today_loc + 1, "#[ " . strftime('%a %d %b %Y') . " ]")
+        else
+            call append(l:today_loc, "#[ " . strftime('%a %d %b %Y') . " ]")
+        endif
+        "   Fill the date placeholders
+        execute "silent " . l:today_loc . ",$s/^\\[-/\\[" . strftime('%y%m%d') . "/g"
+        "   Copy today
+        let l:today_tasks = getline(l:today_loc + 1, line('$'))
+        "   Archive it
+        write
+        execute "silent edit $NOTES/Lists/history.gpg.md"
+        call append(5, l:today_tasks)
+        write
+        "   Delete today
+        execute "silent edit #"
+        execute "silent " . l:today_loc . ",$delete"
+        delete
+        "   Update Today
+        call append(line('$'), "[-][SLEEP]")
+        call append(l:tomorrow_loc + 1, "[-][END]")
+        call append(l:tomorrow_loc + 1, "[-][>>]")
+        call append(l:tomorrow_loc + 1, "[-][STAT] ph en mi st fo yi")
+        call append(l:tomorrow_loc + 1, "")
+        call append(l:tomorrow_loc + 1, "##  Today")
+        call append(l:tomorrow_loc + 1, "")
+        if l:checkday == 0
+            call append(line('$') - 2, "[][history update] yesterday")
+        endif
+        "   Tomorrow template
+        call append(l:tomorrow_loc + 1, "[][TRANSIT] getup")
+        call append(l:tomorrow_loc + 1, "[][TRANSIT] dinner, goto bed")
+        return 0
+    endfun
+
     " }}}
     " --------------------------------- MAPPINGS {{{
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Space>? :echo "
@@ -184,7 +240,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/* com! -nargs=+ Grep exec 'grep! -i <args> $NOTES/**/*.md' | cw
 
     "   MD_LINK
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>L 0/s:\/\/<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
+    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>L 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
 
 
     "   GPG ENC
@@ -196,7 +252,7 @@ augroup FILETYPE_NOTES
     "                       TODO LIST :
 
     "   TASK_ADD_TAG
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab><Tab> O[][]<Esc><<2f]i
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>[ O[][]<Esc><<2f]i
     "   Projects
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Notes]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sb O[][Sbb]<Esc><<$
@@ -221,7 +277,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL]from -> to<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL] from -> to<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
@@ -302,7 +358,7 @@ augroup FILETYPE_NOTES
     "   TASK_CHECK
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
-                \?#\s\s[\sTOD<CR>VG<esc>$?\%V\[\]\\|\[(.*)\]<CR>mm
+                \?^##\s\sToday$<CR>VG<Esc>$?\%V\[\]\\|\%V\[(.*)\]<CR>mm
                 \:sil ec "go to next"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -314,7 +370,7 @@ augroup FILETYPE_NOTES
                 \
                 \:silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \:sil ec "save current date and time"<CR>
-                \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>mm
+                \GV?^##\s\sToday$<CR><Esc>$/\%V\[\d\d\d.*\]\[<CR>mm
                 \:sil ec "goto current"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -322,18 +378,18 @@ augroup FILETYPE_NOTES
                 \:let @/ = ""<CR>:write<CR>`n
 
     "   TASK_NOW
-    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>n GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
+    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>n GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
 
     "   TASK_REPEAT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>. mmY
                 \
-                \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>:let @/ = ""<CR>
+                \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>:let @/ = ""<CR>
                 \Pdi[$`mk
 
     "   TASK_BREAK
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>b :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
-                \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
+                \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
                 \O[][BREAK]<Space><Esc>mm
                 \:sil ec "insert [break]"<CR>
@@ -345,26 +401,26 @@ augroup FILETYPE_NOTES
     "   TASK_BREAK_REPEAT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>B :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
-                \GV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
+                \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
                 \O[][BREAK]<Space><Esc>mm
                 \:sil ec "insert [break]"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
                 \:sil ec "datestamp check"<CR>
-                \jYGV?#\s\s[\sTOD<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>Pdi[$
+                \jYGV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>Pdi[$
                 \:sil ec "clone current"<CR>
                 \:let @/ = ""<CR>:write<CR>jA<Space>
 
     "   TASK_POSTPONE_TOP
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?[ TOM<CR>/\[TRANSIT\]<CR>p`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSIT\]<CR>p`m:let @/ = ""<CR>
 
     "   TASK_POSTPONE_BOT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?[ TOM<CR>/\[TRANSIT\]<CR>nP`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSIT\]<CR>nP`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
@@ -380,56 +436,13 @@ augroup FILETYPE_NOTES
                 \:sil ec "paste to target task"<CR>
                 \`m:let @/ = ""\|write<CR>
 
-    "   ARCHIVE_DAY
-    au BufRead,BufNewFile $NOTES/Lists/todo.md nn <silent><buffer> <Space>A /\[\d.*\]\[END\]<CR>
-                \:sil ec "check that end is checked"<CR>
-                \
-                \G?^#\s\s[\sTOD<CR>
-                \:sil ec "go to '[ today ]'"<CR>
-                \
-                \:let @d= '#[ ' . strftime('%a %d %b %Y') . ' ]'<CR>o<Esc>"dp
-                \:sil ec "paste the current date under '[ today ]'"<CR>
-                \
-                \:let @d=strftime('%y%m%d')<CR>
-                \:sil ec "yank a datestamp into 'd'"<CR>
-                \
-                \?#\s\s[\sTOD<CR>VG<Esc>$
-                \?\%VSLEEP]<CR>"lY?STAT]<CR>"sY
-                \:sil ec "yank 'sleep'line -> 'l' and 'stat'line -> 's'"<CR>
-                \
-                \:g/^\[\-/norm lv"dp<CR>
-                \:sil ec "datestamp 'sleep' and 'stat' lines"<CR>
-                \
-                \?^#  [ TOM<CR>jV/^#  [ TOD<CR>kdO<Esc>
-                \:sil ec "cut '[ tomorrow ]' tasks"<CR>
-                \
-                \i[-][>>]<CR>[][END]<Esc>
-                \o[][TRANSIT] dinner, goto bed<CR>[][TRANSIT] getup, shower<Esc>
-                \:sil ec "insert '[ tomorrow ]' template"<CR>
-                \
-                \/\[\d.*\]\[END\]<CR>"_dd
-                \:sil ec "delete today [end]"<CR>
-                \
-                \:g/>>]/norm g??<CR>GV?^#[<CR>p
-                \:sil ec "hide [>>] content - paste tomorrow - cut today"<CR>
-                \
-                \O[-][STAT] ph en mi st fo yi<esc>G"lp<Esc>
-                \:sil ec "paste stat and sleep"<CR>
-                \
-                \?#\s\s[\sTOD<CR>VG<Esc>$
-                \:g/\%V\[\d\d\d\d\d\d\]/norm lciw-<CR>
-                \:sil ec "replace stamps with - , add [end]"<CR>
-                \
-                \:write<CR>:e $NOTES/Lists/history.gpg.md<CR>go/#====<CR>"1p:write<CR>:b#<CR>
-                \:sil ec "write and go to 'history.gpg.md' - paste under '#==' write and comeback to 'todo.md'"<CR>
-                \
-                \:write\|redraw!<CR>G
-
-
     "                       HISTORY
 
     "   TIME_DIFF
     au BufRead,BufNewFile *.md nn <buffer><silent> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
+
+    "   ARCHIVE_DAY
+    au BufRead,BufNewFile *.md nn <buffer><silent> <Space>a :call NotesArchiveDay()<CR>
 
     " }}}
     " --------------------------------- DIGRAPHS {{{

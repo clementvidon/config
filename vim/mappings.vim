@@ -75,6 +75,8 @@ nn glcc :set cursorcolumn!<CR>
 nn glcd :lc %:h<CR>
 "   CURSORLINE
 nn glcl :set cursorline!<CR>
+"   DELETE FILE
+nn glde :cd %:h<CR>:!rm -f %<CR>:q<CR>
 "   HLSEARCH
 nn glhl :set hlsearch!<CR>
 "   KEYWORDPRG man/help toggle ( kp= )
