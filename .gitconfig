@@ -19,6 +19,8 @@
 [diff]
     colorMoved = zebra
     tool = vimdiff
+[merge]
+	tool = vimdiff
 [alias]
     aa = add --all
     ap = add -p

@@ -4,15 +4,19 @@ export PATH=$PATH:"$HOME/.local/script"
 ## 42
 #####
 
-if [[ "${HOME}" = "/mnt/nfs/homes/cvidon" ]]
+if [[ "${LOGNAME}" = "cvidon" ]]
 then
-    ## Ubuntu
-    export PATH=$PATH:"$HOME/.linuxbrew/bin"
-    ## Sbb (Jekyll)
-    eval "$(direnv hook zsh)"
-    export PATH=$PATH:"$HOME/.gem/ruby/2.7.0/bin"
-    export GEM_HOME="$HOME/gems" >> ~/.bashrc
-    export PATH="$HOME/gems/bin:$PATH"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        ## Sbb (Jekyll)
+        export PATH=$PATH:"$HOME/.gem/ruby/2.3.0/bin"
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        export PATH=$PATH:"$HOME/.linuxbrew/bin"
+        ## Sbb (Jekyll)
+        eval "$(direnv hook zsh)"
+        export PATH=$PATH:"$HOME/.gem/ruby/2.7.0/bin"
+        export GEM_HOME=$PATH:"$HOME/gems"
+        export PATH=$PATH:"$HOME/gems/bin"
+    fi
 fi
 
 ## i3
