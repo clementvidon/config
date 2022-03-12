@@ -10,27 +10,28 @@
 "   SYNTAX:
 "   -------
 
-    " headers
-    syn region notesH1 start="^##\@!"      end="#*\s*$"
-    syn region notesH2 start="^###\@!"     end="#*\s*$"
-    syn region notesH3 start="^####\@!"    end="#*\s*$"
-    syn region notesH4 start="^#####\@!"   end="#*\s*$"
-    syn region notesH5 start="^######\@!"  end="#*\s*$"
-    syn region notesH6 start="^#######\@!" end="#*\s*$"
-    " list
-    syn match notesListMarker "^\%(\t\| \{0,4\}\)[-*+]\%(\s\+\S\)\@="
-    syn match notesOrderedListMarker "\%(\t\| \{0,4}\)\<\d\+\.\%(\s\+\S\)\@="
-    syn match notesBlockquote "^>\%(\s\|$\)"
-    " code
-    syn region notesCodeBlock start="^    \|\t" end="$" skip="^    \|\t" contains=notesUrl
-    " url
-    syn match notesUrl "\v<(((https?|ftp|gopher|telnet)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[a-z0-9/]"
-    " link
-    syn match notesLink "^>       \|>\t\t"
+" headers
+syn region notesH1 start="^##\@!"      end="#*\s*$"
+syn region notesH2 start="^###\@!"     end="#*\s*$"
+syn region notesH3 start="^####\@!"    end="#*\s*$"
+syn region notesH4 start="^#####\@!"   end="#*\s*$"
+syn region notesH5 start="^######\@!"  end="#*\s*$"
+syn region notesH6 start="^#######\@!" end="#*\s*$"
+" list
+syn match notesListMarker "^\%(\t\| \{0,4\}\)[-*+]\%(\s\+\S\)\@="
+syn match notesOrderedListMarker "\%(\t\| \{0,4}\)\<\d\+\.\%(\s\+\S\)\@="
+syn match notesBlockquote "^>\%(\s\|$\)"
+" code
+syn region notesCodeBlock start="^    \|\t" end="$" skip="^    \|\t" contains=notesUrl
+" url
+syn match notesUrl "\v<(((https?|ftp|gopher|telnet)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[a-z0-9/]"
+" link
+syn match notesLink_1 "^>       \|>\t\t"
+syn region notesLink_2 start="^>       " end="$\|:\| " skip="^    \|\t" contains=notesLink_1
 
 if has("conceal")
-set conceallevel=2
-set concealcursor=n
+    set conceallevel=2
+    set concealcursor=n
     " code
     syn region notesCode concealends matchgroup=notesDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`"
     " italic
@@ -50,14 +51,14 @@ else
     syn region notesBoldItalic matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
 
-    " task tag
-    syn region notesTaskTag matchgroup=Normal start="\[" end="\]" oneline
-    " task stamp
-    syn region notesTaskStamp matchgroup=Normal start="!\=\[\%(\%(\_[^][]\|\[\_[^][]*\]\)*]\%( \=[[]\)\)\@=" end="\]\%( \=[[]\)\@=" oneline
-    " comment
-    syn region notesComment matchgroup=Normal start="\[>>\]"      end="$"
-    " escape
-    syn match markdownEscape "\\[][\\`*_{}()<>#+.!-]"
+" task tag
+syn region notesTaskTag matchgroup=Normal start="\[" end="\]" oneline
+" task stamp
+syn region notesTaskStamp matchgroup=Normal start="!\=\[\%(\%(\_[^][]\|\[\_[^][]*\]\)*]\%( \=[[]\)\)\@=" end="\]\%( \=[[]\)\@=" oneline
+" comment
+syn region notesComment matchgroup=Normal start="\[>>\]"      end="$"
+" escape
+syn match markdownEscape "\\[][\\`*_{}()<>#+.!-]"
 
 "   COLORS:
 "   -------
@@ -85,8 +86,10 @@ if &background == "dark"
 
     " URLS: dark pale purple
     hi notesUrl cterm=underline ctermfg=103
-    " LINK: vivid blue
-    hi notesLink ctermfg=81
+    " LINK_1: vivid blue
+    hi notesLink_1 ctermfg=213
+    " LINK_2: dark pale purple
+    hi notesLink_2 ctermfg=103
 
     " ITALIC: pale light yellow
     hi notesItalic ctermfg=230
@@ -130,8 +133,10 @@ elseif &background == "light"
 
     " URLS: pale light purple
     hi notesUrl cterm=underline ctermfg=147
-    " LINK: pale purple
-    hi notesLink ctermfg=105
+    " LINK_1: vivid blue
+    hi notesLink_1 ctermfg=105
+    " LINK_2: dark pale purple
+    hi notesLink_2 ctermfg=147
 
     " ITALIC: pale light yellow
     hi notesItalic ctermbg=230

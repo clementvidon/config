@@ -1,7 +1,7 @@
 augroup FILETYPE_NOTES
     autocmd!
     " --------------------------------- OPTIONS {{{
-    au BufRead,BufNewFile *.md
+    au BufRead,BufNewFile *.md,*.markdown
                 \   set filetype=notes
                 \ | setl textwidth=70
                 \ | setl suffixesadd+=.md
@@ -286,7 +286,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL] from -> to<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <S-Tab> :echo "
                 \\n
@@ -330,7 +330,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cleanup<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i review<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f[f]i setup<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fk 0f[f]i fix<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fi 0f[f]i fix<Esc>A<Space>
 
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f[f]i meet<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i call<Esc>A<Space>
