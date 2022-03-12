@@ -69,6 +69,7 @@ augroup FILETYPE_NOTES
     endfun
 
     fu! NotesArchiveDay()
+        let l:save = winsaveview()
         "   Check file
         if expand('%:t:r') . "." . expand('%:e') != "todo.md"
             echom ">>> Not in \"todo.md\" <<<"
@@ -102,6 +103,10 @@ augroup FILETYPE_NOTES
         execute "silent " . l:today_loc . ",$s/^\\[-/\\[" . strftime('%y%m%d') . "/g"
         "   Copy today
         let l:today_tasks = getline(l:today_loc + 1, line('$'))
+        "   Copy and reset SLEEP
+        let l:today_sleep = getline(line('$'))
+        let l:today_sleep = substitute(
+                    \l:today_sleep, strpart(l:today_sleep, 1, 6), "-", "")
         "   Archive it
         write
         execute "silent edit $NOTES/Lists/history.gpg.md"
@@ -112,8 +117,8 @@ augroup FILETYPE_NOTES
         execute "silent " . l:today_loc . ",$delete"
         delete
         "   Update Today
-        call append(line('$'), "[-][SLEEP]")
-        call append(l:tomorrow_loc + 1, "[-][END]")
+        call append(line('$'), l:today_sleep)
+        call append(l:tomorrow_loc + 1, "[][END]")
         call append(l:tomorrow_loc + 1, "[-][>>]")
         call append(l:tomorrow_loc + 1, "[-][STAT] ph en mi st fo yi")
         call append(l:tomorrow_loc + 1, "")
@@ -125,6 +130,8 @@ augroup FILETYPE_NOTES
         "   Tomorrow template
         call append(l:tomorrow_loc + 1, "[][TRANSIT] getup")
         call append(l:tomorrow_loc + 1, "[][TRANSIT] dinner, goto bed")
+        write
+        call winrestview(l:save)
         return 0
     endfun
 
@@ -270,7 +277,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Misc]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][Self]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Art]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ar O[][Art]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>we O[][Web]<Esc><<$
     "   Special
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Esc><<$
