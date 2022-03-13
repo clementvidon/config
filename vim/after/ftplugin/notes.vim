@@ -101,6 +101,10 @@ augroup FILETYPE_NOTES
         endif
         "   Fill the date placeholders
         execute "silent " . l:today_loc . ",$s/^\\[-/\\[" . strftime('%y%m%d') . "/g"
+        "   Hide the >> section
+        execute l:today_loc . ",$g/\\[>>\\]/norm g??"
+        "   Delete the END section
+        execute l:today_loc . ",$g/\\[END\\]/norm dd"
         "   Copy today
         let l:today_tasks = getline(l:today_loc + 1, line('$'))
         "   Copy and reset SLEEP
@@ -128,8 +132,9 @@ augroup FILETYPE_NOTES
             call append(line('$') - 2, "[][history update] yesterday")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][TRANSIT] getup")
-        call append(l:tomorrow_loc + 1, "[][TRANSIT] dinner, goto bed")
+        call append(l:tomorrow_loc + 1, "[][TRANSIT] 42 -> Home")
+        call append(l:tomorrow_loc + 1, "[][BREAK] lunch")
+        call append(l:tomorrow_loc + 1, "[][TRANSIT] Home -> Home")
         write
         call winrestview(l:save)
         return 0
@@ -283,8 +288,8 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL] from -> to<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT] From -> To<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL] From -> To<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
