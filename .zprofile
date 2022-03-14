@@ -1,5 +1,23 @@
+## General
+##########
+
 export PATH=$PATH:"$HOME/.local/bin"
 export PATH=$PATH:"$HOME/.local/script"
+
+export NOTES=$HOME/git/Notes
+export DOTVIM=$HOME/.config/vim
+
+[ -f "$HOME/.zsecret" ] && source $HOME/.zsecret
+
+[ -r $HOME/.zshrc ] && source $HOME/.zshrc
+
+## Home
+#######
+
+if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]; then
+    export GPG_TTY=$(tty)
+    export GNUPGHOME=$HOME/.gnupg
+fi
 
 ## 42
 #####

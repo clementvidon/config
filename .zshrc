@@ -1,20 +1,13 @@
+# ========== [ tmux ]
+
 if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
         exec tmux
     fi
 fi
 
-[ -f "$HOME/.zprivate" ] && source $HOME/.zprivate
-
-if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]; then
-    export GPG_TTY=$(tty)
-    export GNUPGHOME=$HOME/.gnupg
-fi
-
 # ========== [ vim ]
 
-export NOTES=$HOME/git/Notes
-export DOTVIM=$HOME/.config/vim
 bindkey -v                                                          # enable vim keybinding ( $ bindkey -l )
 export EDITOR=vim
 export KEYTIMEOUT=1                                                 # 10ms vi MODES transition
