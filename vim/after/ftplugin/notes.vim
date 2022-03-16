@@ -132,9 +132,10 @@ augroup FILETYPE_NOTES
             call append(line('$') - 2, "[][history update] yesterday")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][TRANSIT] 42 -> Home")
+        call append(l:tomorrow_loc + 1, "[][TRANSIT] Home -> 42")
+        call append(l:tomorrow_loc + 1, "[][42 setup]")
         call append(l:tomorrow_loc + 1, "[][BREAK] lunch")
-        call append(l:tomorrow_loc + 1, "[][TRANSIT] Home -> Home")
+        call append(l:tomorrow_loc + 1, "[][TRANSIT] 42 -> Home")
         write
         call winrestview(l:save)
         return 0
