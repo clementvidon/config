@@ -77,8 +77,6 @@ nn glcc :set cursorcolumn!<CR>
 nn glcd :lc %:h<CR>
 "   CURSORLINE
 nn glcl :set cursorline!<CR>
-"   DELETE FILE
-nn glde :cd %:h<CR>:!rm -f %<CR>:q<CR>
 "   HLSEARCH
 nn glhl :set hlsearch!<CR>
 "   KEYWORDPRG man/help toggle ( kp= )
@@ -131,9 +129,11 @@ elseif system("uname -s") == "Linux\n"
     nn <Space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
 endif
 "                       TERMINAL
+"   REMOVE CURRENT FILE
+nn glrm :cd %:h<CR>:!rm -f %<CR>:q<CR>
 "   TAGS
 nn glta :S ctags -R<CR>
-"   TAGS
+"   BC
 nn glbc V:!bc<CR>
 " }}}
 " --------------------------------- PLUGINS (g h-tyszcn) {{{

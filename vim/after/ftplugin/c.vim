@@ -19,16 +19,26 @@ augroup FILETYPE_C
     au FileType c,cpp let b:cc = "gcc"
     au FileType c,cpp let b:cflags = "-Wall -Wextra -Werror -Wconversion -Wsign-conversion"
     au FileType c,cpp let b:sanitizer = "-fsanitize=address,undefined,signed-integer-overflow"
-    au FileType c,cpp let b:valgrind = "-q --trace-children=yes --leak-check=yes --show-leak-kinds=all --track-fds=yes"
-    au FileType c,cpp let b:librairies = "-L ../lib/libft -lft"
+    au FileType c,cpp let b:valgrind = "valgrind -q --leak-check=yes --show-leak-kinds=all --track-fds=yes"
+    au FileType c,cpp let b:librairies = ""
     " }}}
     " --------------------------------- PLUGINS {{{
     au FileType c,cpp let g:gutentags_enabled = 1
     au FileType c,cpp let b:surround_45 = '("\r");'
     " }}}
     " --------------------------------- MAPPINGS {{{
+
     "   COMPILE [& RUN] ONE
 
+    "   valgrind
+    au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
+                \
+                \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
+                \:exec 'silent !' . b:cc ' ' . b:cflags . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:cfile /tmp/c_qf_err<CR>:5cw<CR>
+                \:exec '!clear;' . b:valgrind . ' ./a.out \|cat -e'<CR>
+
+    "   sanitizer
     au Filetype c nn <silent><buffer> <Space>5 :w\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
@@ -36,6 +46,7 @@ augroup FILETYPE_C
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;./a.out \|cat -e'<CR>
 
+    "   nothing
     au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
@@ -58,13 +69,6 @@ augroup FILETYPE_C
                 \:exec 'silent !' . b:cc . ' -Wno-everything *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;./a.out \|cat -e'<CR>
-
-    au Filetype c nn <silent><buffer> <Space>4 :wa\|lc %:h<CR>
-                \
-                \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc . ' -Wno-everything *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
-                \:cfile /tmp/c_qf_err<CR>:5cw<CR>
-                \:!./leak_test.sh<CR>
 
     ""   COMPILE & RUN % & C-Z
     "au Filetype c,cpp nn <silent><buffer> <Space>5 :silent! w \| lc %:h \| se t_ti= t_tr= <CR>
