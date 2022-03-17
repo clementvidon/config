@@ -1,4 +1,9 @@
 " Leaders : <Space> \ <Bs> <CR> <C-k> <C-j>
+" Available : mq mw me mr mt ma ms md mf mg mz mx mc mv mb
+"             m, m. m' m; m/ m<CR> m<Space> m<BS> m<Tab> m= m[ m]
+"             '<Tab> '<Space> `<Tab> `<Space>
+"             dc ds dy d! d= d< d> yc yd yo ys y! y= =p =P cd cs co cp
+"             z
 " --------------------------------- NAV (s gs sh sv) {{{
 "                       FILE
 "   FIND
@@ -136,7 +141,7 @@ nn glta :S ctags -R<CR>
 "   BC
 nn glbc V:!bc<CR>
 " }}}
-" --------------------------------- PLUGINS (g h-tyszcn) {{{
+" --------------------------------- PLUGINS (g h-ltyszcn) {{{
 "                       GITGUTTER
 "   NAV
 nm ]g <Plug>(GitGutterNextHunk)

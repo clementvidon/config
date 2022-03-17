@@ -21,6 +21,7 @@ augroup FILETYPE_C
     au FileType c,cpp let b:sanitizer = "-fsanitize=address,undefined,signed-integer-overflow"
     au FileType c,cpp let b:valgrind = "valgrind -q --leak-check=yes --show-leak-kinds=all --track-fds=yes"
     au FileType c,cpp let b:librairies = ""
+    au FileType c,cpp let b:rule = ""
     " }}}
     " --------------------------------- PLUGINS {{{
     au FileType c,cpp let g:gutentags_enabled = 1
@@ -29,6 +30,14 @@ augroup FILETYPE_C
     " --------------------------------- MAPPINGS {{{
 
     "   COMPILE [& RUN] ONE
+
+    "   :make
+    au Filetype c,cpp,make nn <silent><buffer> <Space>7 :wa<CR>
+                \
+                \:exec 'make -j ' . b:rule <CR>:cw<CR>
+    au Filetype c,cpp,make nn <silent><buffer> <Space>& :wa<CR>
+                \
+                \:make -j sanitize<CR>:cw<CR>
 
     "   valgrind
     au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>

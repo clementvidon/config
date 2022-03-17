@@ -10,11 +10,11 @@ augroup CustomHi
 augroup END
 
 if system("uname -s") == "Darwin\n"
-color nord | set bg=dark
+    color nord | set bg=dark
     " color seoul256 | set bg=light
 elseif system("uname -s") == "Linux\n"
     " color nord | set bg=dark
-color nord | set bg=dark
+    color nord | set bg=dark
 endif
 
 " }}}
@@ -79,6 +79,11 @@ if executable('ag')
     set grepformat^=%f:%l:%c:%m
     set grepprg=ag\ --vimgrep\ $*   " faster grep
 endif
+
+let &makeprg = 'if [ -f Makefile ]; then make $*; elif [ -f "../Makefile" ]; then make -C .. $*;
+            \ elif [ -f ../../Makefile ]; then make -C ../.. $*;
+            \ elif [ -f ../../../Makefile ]; then make -C ../../.. $*;
+            \fi'
 " }}}
 " --------------------------------- MISC {{{
 " fix remote shell arrows keys
