@@ -129,7 +129,7 @@ augroup FILETYPE_NOTES
         call append(l:tomorrow_loc + 1, "##  Today")
         call append(l:tomorrow_loc + 1, "")
         if l:checkday == 0
-            call append(line('$') - 2, "[][history update] yesterday")
+            call append(line('$') - 2, "[][Notes update] history")
         endif
         "   Tomorrow template
         call append(l:tomorrow_loc + 1, "[][TRANSIT] Home -> 42")
