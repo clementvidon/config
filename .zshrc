@@ -72,3 +72,7 @@ alias gst="git status"
 alias gsw="git switch"
 alias gsh="git show"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+export PATH="/sgoinfre/goinfre/Perso/cvidon/.poetry/bin:$PATH"

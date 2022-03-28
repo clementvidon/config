@@ -8,10 +8,10 @@ source $DOTVIM/functions.vim
 source $DOTVIM/mappings.vim
 
 "           FTPLUGIN:
-" source $DOTVIM/after/ftplugin/css.vim
-" source $DOTVIM/after/ftplugin/html.vim
-" source $DOTVIM/after/ftplugin/javascript.vim
-" source $DOTVIM/after/ftplugin/json.vim
+source $DOTVIM/after/ftplugin/css.vim
+source $DOTVIM/after/ftplugin/html.vim
+source $DOTVIM/after/ftplugin/javascript.vim
+source $DOTVIM/after/ftplugin/json.vim
 " source $DOTVIM/after/ftplugin/php.vim
 " source $DOTVIM/after/ftplugin/tidal.vim
 " source $DOTVIM/after/ftplugin/yml.vim

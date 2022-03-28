@@ -9,19 +9,19 @@
 "   FIND
 nn sf :fin<Space>
 nn gsf :fin!<Space>
-nn stf :tabf<Space>
+nn sTf :tabf<Space>
 nn shf :sf<Space>
 nn svf :vert sf<Space>
 "   EDIT
 nn se :e *
 nn gse :e! *
-nn ste :tabe *
+nn sTe :tabe *
 nn she :sp *
 nn sve :vert *
 "   CD EDIT
 nn s. :cd %:h<CR>:e *
 nn gs. :cd %:h<CR>:e! *
-nn st. :cd %:h<CR>:tabe *
+nn sT. :cd %:h<CR>:tabe *
 nn sh. :cd %:h<CR>:sp *
 nn sv. :cd %:h<CR>:vert *
 
@@ -46,7 +46,7 @@ nn gsd :bn!\|bd! #<CR>
 "                       GREP
 nn sg :grep -r<Space>
 "                       TAG
-nn sT :tag /
+nn st :tag /
 nn sij :ijump /
 nn sil :ilist /
 nn sis :isearch /

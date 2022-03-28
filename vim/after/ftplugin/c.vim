@@ -29,6 +29,9 @@ augroup FILETYPE_C
     " }}}
     " --------------------------------- MAPPINGS {{{
 
+    "   Fix header
+    au Filetype c,cpp nn <silent><buffer> <Space>7 :wa<CR>
+
     "   COMPILE [& RUN] ONE
 
     "   :make

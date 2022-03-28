@@ -13,7 +13,7 @@ if system("uname -s") == "Darwin\n"
     color nord | set bg=dark
     " color seoul256 | set bg=light
 elseif system("uname -s") == "Linux\n"
-    " color nord | set bg=dark
+    " color seoul256 | set bg=light
     color nord | set bg=dark
 endif
 
@@ -80,9 +80,9 @@ if executable('ag')
     set grepprg=ag\ --vimgrep\ $*   " faster grep
 endif
 
-let &makeprg = 'if [ -f Makefile ]; then make $*; elif [ -f "../Makefile" ]; then make -C .. $*;
-            \ elif [ -f ../../Makefile ]; then make -C ../.. $*;
-            \ elif [ -f ../../../Makefile ]; then make -C ../../.. $*;
+let &makeprg = 'if [ -f Makefile ]; then make $* 1>/dev/null; elif [ -f "../Makefile" ]; then make -C .. $* 1>/dev/null;
+            \ elif [ -f ../../Makefile ]; then make -C ../.. $* 1>/dev/null;
+            \ elif [ -f ../../../Makefile ]; then make -C ../../.. $* 1>/dev/null;
             \fi'
 " }}}
 " --------------------------------- MISC {{{
