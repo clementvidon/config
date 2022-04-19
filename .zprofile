@@ -29,6 +29,7 @@ then
         export PATH=$PATH:"$HOME/.gem/ruby/2.3.0/bin"
     elif [[ "$OSTYPE" == "linux"* ]]; then
         export PATH=$PATH:"$HOME/.linuxbrew/bin"
+        export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"
         ## Sbb (Jekyll)
         eval "$(direnv hook zsh)"
         export PATH=$PATH:"$HOME/.gem/ruby/2.7.0/bin"

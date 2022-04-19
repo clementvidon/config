@@ -8,7 +8,7 @@ augroup FILETYPE_C
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
     au FileType c,cpp setl showmatch
-    au FileType c,cpp setl list
+    " au FileType c,cpp setl list
     au FileType c,cpp setl noexpandtab cindent tw=80
     au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
     au FileType c,cpp,make setl path+=include/**,../include/**,src/**,../src/**
@@ -110,9 +110,15 @@ augroup FILETYPE_C
     au Filetype c nn <silent><buffer> <Space>P mpodprintf(2, "%\n", );<Esc>==f%
 
     "   MARKER
-    au Filetype c nn <silent><buffer> <Space>m mmodprintf(2, "---[%s: %s: %d]---\n",
+    au Filetype c nn <silent><buffer> <Space>m mmodprintf(2, ">>>[%s: %s: %d]<<<\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> <Space>M mmodprintf(2, "<'\\\\`-._,-'\\\\`-._,-'\\\\`-._,-'\\\\`>\n");<Esc>==
-
+    au Filetype c nn <silent><buffer> <Space>M mmodprintf(2, "<<<]%s: %s: %d[>>>\n",
+                \__FILE__, __func__, __LINE__);<Esc>==f%
+    au Filetype c nn <silent><buffer> <Space>1m mmodprintf(2, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>2m mmodprintf(2, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>3m mmodprintf(2, "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>1M mmodprintf(2, "11111111111111111111111111111\n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>2M mmodprintf(2, "22222222222222222222222222222\n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>3M mmodprintf(2, "33333333333333333333333333333\n");<Esc>==
     " }}}
 augroup END

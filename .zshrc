@@ -3,6 +3,7 @@
 if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
         exec tmux
+        # exec '/mnt/nfs/homes/cvidon/.linuxbrew/bin/tmux'
     fi
 fi
 
