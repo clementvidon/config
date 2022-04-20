@@ -7,9 +7,8 @@ augroup FILETYPE_C
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
-    au FileType c,cpp setl showmatch
-    " au FileType c,cpp setl list
-    au FileType c,cpp setl noexpandtab cindent tw=80
+    au FileType c,cpp setl showmatch " list
+    au FileType c,cpp setl noexpandtab cindent textwidth=80
     au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
     au FileType c,cpp,make setl path+=include/**,../include/**,src/**,../src/**
     au FileType c,cpp setl foldmethod=marker

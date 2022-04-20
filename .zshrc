@@ -50,6 +50,7 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias latr="ls --color=auto -latr"
 fi
 alias vi='vim'
+alias code=''
 alias grep='grep --color=auto'
 alias nt="vim -c 'call Notrace()'"
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
