@@ -36,10 +36,12 @@ augroup FILETYPE_C
     "   :make
     au Filetype c,cpp,make nn <silent><buffer> <Space>7 :wa<CR>
                 \
-                \:exec 'make -j ' . b:rule <CR>:cw<CR>
+                \:!clear<CR>
+                \:silent! exec 'make -j ' . b:rule <CR>:cw<CR>:!./minishell; rm minishell<CR>
+
     au Filetype c,cpp,make nn <silent><buffer> <Space>& :wa<CR>
                 \
-                \:make -j sanitize<CR>:cw<CR>
+                \:make -j sani<CR>:cw<CR>:!./minishell<CR>
 
     "   valgrind
     au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>

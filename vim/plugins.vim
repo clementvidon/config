@@ -44,7 +44,8 @@ let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = ["*.md", "doc/**"]
 let g:gutentags_ctags_exclude_wildignore = 1
 if $LOGNAME == "cvidon" " 42
-    let g:gutentags_ctags_executable = '$HOME/.linuxbrew/bin/ctags'
+    " let g:gutentags_ctags_executable = '$HOME/.linuxbrew/bin/ctags'
+    let g:gutentags_ctags_executable = '/usr/bin/ctags'
 endif
 
 "   LIMELIGHT

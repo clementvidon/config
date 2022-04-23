@@ -31,7 +31,6 @@ then
         export PATH=$PATH:"$HOME/.linuxbrew/bin"
         export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"
         ## Sbb (Jekyll)
-        eval "$(direnv hook zsh)"
         export PATH=$PATH:"$HOME/.gem/ruby/2.7.0/bin"
         export GEM_HOME=$PATH:"$HOME/gems"
         export PATH=$PATH:"$HOME/gems/bin"
