@@ -124,6 +124,8 @@ augroup FILETYPE_NOTES
         call append(line('$'), l:today_sleep)
         call append(l:tomorrow_loc + 1, "[][END]")
         call append(l:tomorrow_loc + 1, "[-][>>]")
+        call append(l:tomorrow_loc + 1, "[-][>>] (-)")
+        call append(l:tomorrow_loc + 1, "[-][>>] (+)")
         call append(l:tomorrow_loc + 1, "[-][STAT] ph en mi st fo yi")
         call append(l:tomorrow_loc + 1, "")
         call append(l:tomorrow_loc + 1, "##  Today")
@@ -147,7 +149,6 @@ augroup FILETYPE_NOTES
                 \\n
                 \================[Notes]================\n
                 \                                      \|\n
-                \ MOVE_LINES        : gj gk            \|\n
                 \ HTML_EXPORT       : Space X          \|\n
                 \                                      \|\n
                 \ PUSH_NOTES        : ghps             \|\n
@@ -208,12 +209,6 @@ augroup FILETYPE_NOTES
 
     "                       GENERAL :
 
-    "   MOVE_LINES
-    au BufRead,BufNewFile *.md nn <silent><buffer> gj :m .+1<CR>
-    au BufRead,BufNewFile *.md nn <silent><buffer> gk :m .-2<CR>
-    au BufRead,BufNewFile *.md vn <silent><buffer> gj :m '>+1<CR>gv
-    au BufRead,BufNewFile *.md vn <silent><buffer> gk :m '<-2<CR>gv
-
     "   HTML_EXPORT
     au BufRead,BufNewFile *.md nn <silent><buffer> <Space>X :set term=xterm-256color<CR>:TOhtml<CR>
                 \
@@ -268,8 +263,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>[ O[][]<Esc><<2f]i
     "   Projects
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Notes]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sb O[][Sbb]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>4  O[][42]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sc O[][42]<Esc><<$
     "   Areas
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>bu O[][Business]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][Computer]<Esc><<$
@@ -299,7 +293,6 @@ augroup FILETYPE_NOTES
                 \=============================[Tags]=============================\n
                 \                                                               \|\n
                 \ Projects: Notes    →                                          \|\n
-                \           Sbb      →                                          \|\n
                 \           42       →                                          \|\n
                 \                                                               \|\n
                 \ Areas:    Business → management, marketing, clients, products \|\n
@@ -329,9 +322,9 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f[f]i check<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f[f]i study<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f[f]i practice<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f[f]i dig<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \dg 0f[f]i dig<Esc>A<Space>
 
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cr 0f[f]i create<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cr 0f[f]i dev<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f[f]i update<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cleanup<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i review<Esc>A<Space>
@@ -339,28 +332,36 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fi 0f[f]i fix<Esc>A<Space>
 
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f[f]i meet<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \lu 0f[f]i lunch<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \dr 0f[f]i drink<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f[f]i dinner<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pa 0f[f]i party<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i call<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f[f]i msg<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <BAR> :echo "
                 \\n
                 \=[Actions]=\n
                 \          \|\n
-                \ think    \|\n
-                \ check    \|\n
-                \ study    \|\n
-                \ practice \|\n
-                \ dig      \|\n
+                \ THink    \|\n
+                \ CHeck    \|\n
+                \ STudy    \|\n
+                \ PRactice \|\n
+                \ DiG      \|\n
                 \          \|\n
-                \ create   \|\n
-                \ update   \|\n
-                \ cleanup  \|\n
-                \ review   \|\n
-                \ setup    \|\n
-                \ fix      \|\n
+                \ DEv      \|\n
+                \ UPdate   \|\n
+                \ CLeanup  \|\n
+                \ REview   \|\n
+                \ SEtup    \|\n
+                \ FIx      \|\n
                 \          \|\n
-                \ meet     \|\n
-                \ call     \|\n
-                \ msg      \|\n
+                \ MEet     \|\n
+                \ LUnch    \|\n
+                \ DRink    \|\n
+                \ DInner   \|\n
+                \ PArty    \|\n
+                \ CAll     \|\n
+                \ MSg      \|\n
                 \          \|\n
                 \"<CR>
 
