@@ -1,7 +1,7 @@
 " --------------------------------- PLUGINS OPTIONS {{{
 "   ALE
 let g:ale_enabled = 1
-let g:ale_echo_msg_format =  '%s [%linter% %severity%]'
+let g:ale_echo_msg_format = '%s [%linter% %severity%]'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_linters_explicit = 1
 let g:ale_set_quickfix = 1
@@ -17,7 +17,7 @@ if exists('EmmetInstall')
     au! FileType html,css,javascript,php EmmetInstall
 endif
 let g:user_emmet_install_global = 0
-let g:user_emmet_leader_key=','
+let g:user_emmet_leader_key = ','
 let g:user_emmet_mode = 'i'
 
 "   GITGUTTER
@@ -43,6 +43,8 @@ let g:goyo_height = '100%'
 let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = ["*.md", "doc/**"]
 let g:gutentags_ctags_exclude_wildignore = 1
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_project_root = ['.project_root', '.git']
 if $LOGNAME == "cvidon" " 42
     " let g:gutentags_ctags_executable = '$HOME/.linuxbrew/bin/ctags'
     let g:gutentags_ctags_executable = '/usr/bin/ctags'

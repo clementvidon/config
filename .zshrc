@@ -52,6 +52,7 @@ fi
 alias vi='vim'
 alias code=''
 alias grep='grep --color=auto'
+alias ag='grep -r --color=auto'
 alias nt="vim -c 'call Notrace()'"
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"

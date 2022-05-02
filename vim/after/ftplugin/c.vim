@@ -7,6 +7,7 @@ augroup FILETYPE_C
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
+    au FileType c,cpp setl syntax=OFF
     au FileType c,cpp setl showmatch " list
     au FileType c,cpp setl noexpandtab cindent textwidth=80
     au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
@@ -36,12 +37,15 @@ augroup FILETYPE_C
     "   :make
     au Filetype c,cpp,make nn <silent><buffer> <Space>7 :wa<CR>
                 \
-                \:!clear<CR>
-                \:silent! exec 'make -j ' . b:rule <CR>:cw<CR>:!./minishell; rm minishell<CR>
+                \:exec 'silent !rm -f minishell'<CR>
+                \:!clear<CR>:exec 'silent !rm -f minishell'<CR>
+                \:silent! exec 'make -j ' . b:rule <CR>:cw<CR>:!./minishell<CR>
 
     au Filetype c,cpp,make nn <silent><buffer> <Space>& :wa<CR>
                 \
-                \:make -j sani<CR>:cw<CR>:!./minishell<CR>
+                \:exec 'silent !rm -f minishell'<CR>
+                \:!clear<CR>:exec 'silent !rm -f minishell'<CR>
+                \:make -j sani<CR>:cw<CR>:!./minishell \| cat -e<CR>
 
     "   valgrind
     au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
@@ -58,7 +62,7 @@ augroup FILETYPE_C
                 \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:sanitizer . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;./a.out \|cat -e'<CR>
-
+                " \:exec '!clear;./a.out /bin/ls "\|" /usr/bin/grep microshell ";" /bin/echo hello\|cat -e'<CR>
     "   nothing
     au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
                 \
@@ -103,8 +107,8 @@ augroup FILETYPE_C
     au Filetype c nn <silent><buffer> <space>D mdj:keeppatterns ?^\a<CR>O<Esc>O/*<Esc>o<C-w>**<Esc>o*/<Esc>=ipjA<Space><BS><Esc>
 
     "   NORMINETTE
-    au Filetype cpp nn <silent><buffer> <Space>n :w\|lc %:h<CR>:!clear; norminette -R CheckDefine %<CR>
-    au Filetype c nn <silent><buffer> <Space>n :w\|lc %:h<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
+    au Filetype cpp nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckDefine %<CR>
+    au Filetype c nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
 
     "   PRINTF
     au Filetype c nn <silent><buffer> <Space>p mpodprintf(2, "\n");<Esc>==f\
@@ -115,11 +119,11 @@ augroup FILETYPE_C
                 \__FILE__, __func__, __LINE__);<Esc>==f%
     au Filetype c nn <silent><buffer> <Space>M mmodprintf(2, "<<<]%s: %s: %d[>>>\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> <Space>1m mmodprintf(2, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>2m mmodprintf(2, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>3m mmodprintf(2, "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>1M mmodprintf(2, "11111111111111111111111111111\n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>2M mmodprintf(2, "22222222222222222222222222222\n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>3M mmodprintf(2, "33333333333333333333333333333\n");<Esc>==
+    au Filetype c nn <silent><buffer> 1<Space>m mmodprintf(2, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");<Esc>==
+    au Filetype c nn <silent><buffer> 2<Space>m mmodprintf(2, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");<Esc>==
+    au Filetype c nn <silent><buffer> 3<Space>m mmodprintf(2, "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");<Esc>==
+    au Filetype c nn <silent><buffer> 1<Space>M mmodprintf(2, "11111111111111111111111111111\n");<Esc>==
+    au Filetype c nn <silent><buffer> 2<Space>M mmodprintf(2, "22222222222222222222222222222\n");<Esc>==
+    au Filetype c nn <silent><buffer> 3<Space>M mmodprintf(2, "33333333333333333333333333333\n");<Esc>==
     " }}}
 augroup END
