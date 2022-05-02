@@ -2,12 +2,14 @@ augroup FILETYPE_C
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     "   COMMENTS
-    " au FileType c,cpp syn match Comments "\/\/.*$\|\/\*\_.\{-}\*\/"
-    " au FileType c,cpp hi link Comments NonText
+    au FileType c,cpp setl syntax=off
+    au FileType c,cpp syn match Todo "TODO" contained
+    au FileType c,cpp syn match Comment "\/\/.*$\|\/\*\_.\{-}\*\/" contains=Todo
+    au FileType c,cpp syn match Printf ".*print.*"
+    au FileType c,cpp hi link Printf Todo
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
-    au FileType c,cpp setl syntax=OFF
     au FileType c,cpp setl showmatch " list
     au FileType c,cpp setl noexpandtab cindent textwidth=80
     au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
@@ -111,19 +113,19 @@ augroup FILETYPE_C
     au Filetype c nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
 
     "   PRINTF
-    au Filetype c nn <silent><buffer> <Space>p mpodprintf(2, "\n");<Esc>==f\
-    au Filetype c nn <silent><buffer> <Space>P mpodprintf(2, "%\n", );<Esc>==f%
+    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\
+    au Filetype c nn <silent><buffer> <Space>P mpodprintf (2, "%\n", );<Esc>==f%
 
     "   MARKER
-    au Filetype c nn <silent><buffer> <Space>m mmodprintf(2, ">>>[%s: %s: %d]<<<\n",
+    au Filetype c nn <silent><buffer> <Space>m mmodprintf (2, ">>>[%s: %s: %d]<<<\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> <Space>M mmodprintf(2, "<<<]%s: %s: %d[>>>\n",
+    au Filetype c nn <silent><buffer> <Space>M mmodprintf (2, "<<<]%s: %s: %d[>>>\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> 1<Space>m mmodprintf(2, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");<Esc>==
-    au Filetype c nn <silent><buffer> 2<Space>m mmodprintf(2, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");<Esc>==
-    au Filetype c nn <silent><buffer> 3<Space>m mmodprintf(2, "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");<Esc>==
-    au Filetype c nn <silent><buffer> 1<Space>M mmodprintf(2, "11111111111111111111111111111\n");<Esc>==
-    au Filetype c nn <silent><buffer> 2<Space>M mmodprintf(2, "22222222222222222222222222222\n");<Esc>==
-    au Filetype c nn <silent><buffer> 3<Space>M mmodprintf(2, "33333333333333333333333333333\n");<Esc>==
+    au Filetype c nn <silent><buffer> 1<Space>m mmodprintf (2, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");<Esc>==
+    au Filetype c nn <silent><buffer> 2<Space>m mmodprintf (2, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");<Esc>==
+    au Filetype c nn <silent><buffer> 3<Space>m mmodprintf (2, "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");<Esc>==
+    au Filetype c nn <silent><buffer> 1<Space>M mmodprintf (2, "11111111111111111111111111111\n");<Esc>==
+    au Filetype c nn <silent><buffer> 2<Space>M mmodprintf (2, "22222222222222222222222222222\n");<Esc>==
+    au Filetype c nn <silent><buffer> 3<Space>M mmodprintf (2, "33333333333333333333333333333\n");<Esc>==
     " }}}
 augroup END
