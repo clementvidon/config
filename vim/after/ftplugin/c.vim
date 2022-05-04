@@ -4,13 +4,15 @@ augroup FILETYPE_C
     "   COMMENTS
     au FileType c,cpp setl syntax=off
     au FileType c,cpp syn match Todo "TODO" contained
-    au FileType c,cpp syn match Comment "\/\/.*$\|\/\*\_.\{-}\*\/" contains=Todo
-    au FileType c,cpp syn match Printf ".*print.*"
-    au FileType c,cpp hi link Printf Todo
+    au FileType c,cpp syn match Comment "\/\/.*$\|\/\*.*\*\/\|\/\*\|^\ \*\*.*$\|\*\/" contains=Todo
+    au FileType c,cpp syn match Silence "\/\*.*\*\/" contains=Todo
+    au FileType c,cpp syn match Printf ".*print.*" contains=Silence,Comment
+    au FileType c,cpp hi link Printf MoreMsg
+    au FileType c,cpp hi link Silence NonText
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
-    au FileType c,cpp setl showmatch " list
+    au FileType c,cpp setl showmatch
     au FileType c,cpp setl noexpandtab cindent textwidth=80
     au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
     au FileType c,cpp,make setl path+=include/**,../include/**,src/**,../src/**
@@ -18,12 +20,12 @@ augroup FILETYPE_C
     au FileType c,cpp setl foldmarker={{{,}}}
 
     " Compile
+    au FileType c,cpp let b:name = "minishell"
     au FileType c,cpp let b:cc = "gcc"
     au FileType c,cpp let b:cflags = "-Wall -Wextra -Werror -Wconversion -Wsign-conversion"
-    au FileType c,cpp let b:sanitizer = "-fsanitize=address,undefined,signed-integer-overflow"
+    au FileType c,cpp let b:sanitizer = "-fsanitize=address,undefined,signed-integer-overflow -g"
     au FileType c,cpp let b:valgrind = "valgrind -q --leak-check=yes --show-leak-kinds=all --track-fds=yes"
     au FileType c,cpp let b:librairies = ""
-    au FileType c,cpp let b:rule = ""
     " }}}
     " --------------------------------- PLUGINS {{{
     au FileType c,cpp let g:gutentags_enabled = 1
@@ -31,23 +33,34 @@ augroup FILETYPE_C
     " }}}
     " --------------------------------- MAPPINGS {{{
 
-    "   Fix header
-    au Filetype c,cpp nn <silent><buffer> <Space>7 :wa<CR>
+    "   MAKE
 
-    "   COMPILE [& RUN] ONE
-
-    "   :make
-    au Filetype c,cpp,make nn <silent><buffer> <Space>7 :wa<CR>
+    "   :make sani
+    au Filetype c,cpp,make nn <silent><buffer> ms :wa<CR>
                 \
                 \:exec 'silent !rm -f minishell'<CR>
-                \:!clear<CR>:exec 'silent !rm -f minishell'<CR>
-                \:silent! exec 'make -j ' . b:rule <CR>:cw<CR>:!./minishell<CR>
-
-    au Filetype c,cpp,make nn <silent><buffer> <Space>& :wa<CR>
+                \:!clear<CR>
+                \:exec 'make -j sani'<CR>:cw<CR>:!./minishell<CR>
+    "   :make fclean sani
+    au Filetype c,cpp,make nn <silent><buffer> mS :wa<CR>
                 \
                 \:exec 'silent !rm -f minishell'<CR>
-                \:!clear<CR>:exec 'silent !rm -f minishell'<CR>
-                \:make -j sani<CR>:cw<CR>:!./minishell \| cat -e<CR>
+                \:!clear<CR>
+                \:exec 'make fclean && make -j sani'<CR>:cw<CR>:!./minishell<CR>
+    "   :make all
+    au Filetype c,cpp,make nn <silent><buffer> ma :wa<CR>
+                \
+                \:exec 'silent !rm -f minishell'<CR>
+                \:!clear<CR>
+                \:exec 'make -j all'<CR>:cw<CR>:!./minishell<CR>
+    "   :make fclean all
+    au Filetype c,cpp,make nn <silent><buffer> mA :wa<CR>
+                \
+                \:exec 'silent !rm -f minishell'<CR>
+                \:!clear<CR>
+                \:exec 'make fclean && make -j all'<CR>:cw<CR>:!./minishell<CR>
+
+    "   COMPILE [& RUN] ALL
 
     "   valgrind
     au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
@@ -93,7 +106,7 @@ augroup FILETYPE_C
     "au Filetype c,cpp nn <silent><buffer> <Space>5 :silent! w \| lc %:h \| se t_ti= t_tr= <CR>
     "            \:silent ! clang -Wall -Wextra -Werror -fsanitize=address %
     "            \ 2>/tmp/c_qf_err<CR>:cfile /tmp/c_qf_err<CR>
-    "            \:let cmd=system('./a.out\|cat -e')<CR>:silent ! rm a.out 2>/dev/null<CR>
+    "            \:let cmd=system('./' . b:name . '\|cat -e')<CR>:silent ! rm ' . b:name . ' 2>/dev/null<CR>
     "       \:se t_ti& t_te& \| 3cw \| echom "----["strftime('%H:%M')"]----"<CR>:echom cmd<CR>i<Esc>:echo cmd"\n"<CR>
 
     "   INDENT FUNCTION
