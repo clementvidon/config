@@ -49,6 +49,7 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias la="ls --color=auto -la"
     alias latr="ls --color=auto -latr"
 fi
+
 alias vi='vim'
 alias code=''
 alias grep='grep --color=auto'
@@ -75,7 +76,3 @@ alias gst="git status"
 alias gsw="git switch"
 alias gsh="git show"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
-
-export PATH="$HOME/.poetry/bin:$PATH"
-
-export PATH="/sgoinfre/goinfre/Perso/cvidon/.poetry/bin:$PATH"

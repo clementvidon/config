@@ -33,6 +33,8 @@ augroup FILETYPE_JAVASCRIPT
 
     "   CLEANUP
     au Filetype javascript nn <buffer> <Space>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
+    "   FORMAT
+    au Filetype javascript nn <buffer> gqq mmGgqgo`m
 
     "   PRINT
     au Filetype javascript nn <silent><buffer> <Space>p oconsole.log()<Esc>==f)i

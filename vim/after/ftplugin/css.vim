@@ -11,5 +11,9 @@ augroup FILETYPE_CSS
     au FileType css let g:ale_linters = {'css': ['stylelint']}
     " }}}
     " --------------------------------- MAPPINGS {{{
+    "   CLEANUP
+    au Filetype css nn <buffer> <Space>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
+    "   FORMAT
+    au Filetype css nn <buffer> gqq mmGgqgo`m
     " }}}
 augroup END

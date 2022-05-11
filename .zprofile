@@ -7,8 +7,7 @@ export PATH=$PATH:"$HOME/.local/script"
 export NOTES=$HOME/git/Notes
 export DOTVIM=$HOME/.config/vim
 
-[ -f "$HOME/.zsecret" ] && source $HOME/.zsecret
-
+[ -r "$HOME/.zoffline" ] && source $HOME/.zoffline
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc
 
 ## Home
@@ -17,6 +16,8 @@ export DOTVIM=$HOME/.config/vim
 if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]; then
     export GPG_TTY=$(tty)
     export GNUPGHOME=$HOME/.gnupg
+    export PATH=$HOME/.npm/bin:$PATH
+    export PATH=$PATH:"$HOME/node_modules/.bin"
 fi
 
 ## 42
@@ -24,17 +25,9 @@ fi
 
 if [[ "${LOGNAME}" = "cvidon" ]]
 then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        ## Sbb (Jekyll)
-        export PATH=$PATH:"$HOME/.gem/ruby/2.3.0/bin"
-    elif [[ "$OSTYPE" == "linux"* ]]; then
-        export PATH=$PATH:"$HOME/.linuxbrew/bin"
-        export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"
-        ## Sbb (Jekyll)
-        export PATH=$PATH:"$HOME/.gem/ruby/2.7.0/bin"
-        export GEM_HOME=$PATH:"$HOME/gems"
-        export PATH=$PATH:"$HOME/gems/bin"
-    fi
+    export PATH=$PATH:"$HOME/.linuxbrew/bin"
+    export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"
+    export PATH="/sgoinfre/goinfre/Perso/cvidon/.poetry/bin:$PATH"
 fi
 
 ## i3
