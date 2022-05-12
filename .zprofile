@@ -28,6 +28,8 @@ then
     export PATH=$PATH:"$HOME/.linuxbrew/bin"
     export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"
     export PATH="/sgoinfre/goinfre/Perso/cvidon/.poetry/bin:$PATH"
+    export PATH=$HOME/.npm/bin:$PATH
+    export PATH=$PATH:"$HOME/node_modules/.bin"
 fi
 
 ## i3

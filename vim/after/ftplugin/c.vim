@@ -127,7 +127,7 @@ augroup FILETYPE_C
 
     "   PRINTF
     au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\
-    au Filetype c nn <silent><buffer> <Space>P mpodprintf (2, "%\n", );<Esc>==f%
+    au Filetype c nn <silent><buffer> <Space>P mpodprintf (2, "%\n",);<Esc>==f%
 
     "   MARKER
     au Filetype c nn <silent><buffer> <Space>m mmodprintf (2, "/\\/\\/ %s: %s: %d \\/\\/\\\n",
