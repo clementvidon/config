@@ -113,7 +113,7 @@ augroup FILETYPE_C
     au Filetype c,cpp nn <silent><buffer> gq mm?^\a<CR>j=%`m:let @/=""<CR>
 
     "   LIST FILE FUNCTIONS
-    au Filetype c,cpp nn <silent><buffer> <Space>f :keeppatterns g/^\a/#<CR>
+    au Filetype c,cpp nn <silent><buffer> <Space>f :keeppatterns g/^\a<CR>
 
     "   PARENTHESIS AND BRACKETS
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
