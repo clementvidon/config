@@ -31,6 +31,7 @@ set wildmenu                        "   displays possible completion matches
 set spelllang=en,fr                 "   spell lang suggestions
 set sessionoptions-=curdir          "   mksession cd to the session file dir
 set sessionoptions+=sesdir          "   mksession cd to the session file dir
+set laststatus=0                    "   hide the bottom bare with the current path/filename
 if empty(glob($DOTVIM . "/spell"))
     exec 'silent !mkdir $DOTVIM/spell'
 endif

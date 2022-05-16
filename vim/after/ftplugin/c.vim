@@ -112,8 +112,10 @@ augroup FILETYPE_C
     "   INDENT FUNCTION
     au Filetype c,cpp nn <silent><buffer> gq mm?^\a<CR>j=%`m:let @/=""<CR>
 
+    "   SEARCH FUNCTIONS
+    au Filetype c,cpp nn <silent><buffer> <Space>f /^\a<CR>
     "   LIST FILE FUNCTIONS
-    au Filetype c,cpp nn <silent><buffer> <Space>f :keeppatterns g/^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> <Space>F :keeppatterns g/^\a<CR>
 
     "   PARENTHESIS AND BRACKETS
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
@@ -125,9 +127,10 @@ augroup FILETYPE_C
     au Filetype cpp nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckDefine %<CR>
     au Filetype c nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
 
-    "   PRINTF
-    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\
-    au Filetype c nn <silent><buffer> <Space>P mpodprintf (2, "%\n",);<Esc>==f%
+    "   PRINT
+    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "%\n",);<Esc>==f%
+    "   PRINT WRAP
+    au Filetype c nn <silent><buffer> <Space>P 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
 
     "   MARKER
     au Filetype c nn <silent><buffer> <Space>m mmodprintf (2, "/\\/\\/ %s: %s: %d \\/\\/\\\n",

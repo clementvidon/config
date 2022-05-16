@@ -76,3 +76,5 @@ alias gst="git status"
 alias gsw="git switch"
 alias gsh="git show"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
+
+alias km="kill -9 $(pgrep minishell)"
