@@ -135,7 +135,6 @@ augroup FILETYPE_NOTES
         endif
         "   Tomorrow template
         call append(l:tomorrow_loc + 1, "[][TRANSIT] Home -> 42")
-        call append(l:tomorrow_loc + 1, "[][42 setup] workspace")
         call append(l:tomorrow_loc + 1, "[][TRANSIT] 42 -> Home")
         write
         call winrestview(l:save)

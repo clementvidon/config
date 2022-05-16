@@ -22,6 +22,9 @@ source $DOTVIM/after/ftplugin/python.vim
 source $DOTVIM/after/ftplugin/qf.vim
 source $DOTVIM/after/ftplugin/vim.vim
 
+"           PLUGINS:
+source $DOTVIM/autoload/plugin/redact_pass.vim
+
 "           STARTUP:
 au VimEnter * if @% == '' | setl path+=$NOTES/** | endif
 au VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOTES/**/todo.md<CR>GMz. | endif
