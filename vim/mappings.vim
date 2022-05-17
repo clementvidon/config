@@ -155,7 +155,7 @@ nn ghD :!git difftool %<CR>
 nm gha <Plug>(GitGutterStageHunk)
 nn ghA :!clear; git add -p %<CR>
 nn ghs :!clear; git status<CR>
-nn ghl :!clear; git log<CR>
+nn ghl :!clear; git log --oneline<CR>
 nn ghc <nop>
 nn ghcm :!git commit -m ""<Left>
 nn ghcv :!git commit -v <CR>
