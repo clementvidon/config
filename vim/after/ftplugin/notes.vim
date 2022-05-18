@@ -134,8 +134,9 @@ augroup FILETYPE_NOTES
             call append(line('$') - 2, "[][Notes update] history")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][TRANSIT] Home -> 42")
-        call append(l:tomorrow_loc + 1, "[][TRANSIT] 42 -> Home")
+        call append(l:tomorrow_loc + 1, "[][Home] cook")
+        call append(l:tomorrow_loc + 1, "[][TRANSITION] transport, prepare")
+        call append(l:tomorrow_loc + 1, "[][TRANSITION] prepare, transport")
         write
         call winrestview(l:save)
         return 0
@@ -281,35 +282,35 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSIT] From -> To<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSITION]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL] From -> To<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <S-Tab> :echo "
                 \\n
-                \=============================[Tags]=============================\n
-                \                                                               \|\n
-                \ Projects: Notes    →                                          \|\n
-                \           42       →                                          \|\n
-                \                                                               \|\n
-                \ Areas:    Business → management, marketing, clients, products \|\n
-                \           Computer →                                          \|\n
-                \           Finance  → ledger, assets                           \|\n
-                \           Health   → eat, drugs                               \|\n
-                \           Family   →                                          \|\n
-                \           Social   →                                          \|\n
-                \           Admin    → urssaf, impots, casvp                    \|\n
-                \           Photo    →                                          \|\n
-                \           Phone    →                                          \|\n
-                \           Home     →                                          \|\n
-                \           Misc     →                                          \|\n
-                \           Self     →                                          \|\n
-                \           Art      →                                          \|\n
-                \           Web      →                                          \|\n
-                \                                                               \|\n
-                \ LOSTMYWAY DEADTIME VACATION TRANSIT TRAVEL UNABLE BREAK SPORT \|\n
-                \                                                               \|\n
+                \===============================[Tags]===============================\n
+                \                                                                  \|\n
+                \ Projects: Notes    →                                             \|\n
+                \           42       →                                             \|\n
+                \                                                                  \|\n
+                \ Areas:    Business → management, marketing, clients, products    \|\n
+                \           Computer →                                             \|\n
+                \           Finance  → ledger, assets                              \|\n
+                \           Health   → eat, drugs                                  \|\n
+                \           Family   →                                             \|\n
+                \           Social   →                                             \|\n
+                \           Admin    → urssaf, impots, casvp                       \|\n
+                \           Photo    →                                             \|\n
+                \           Phone    →                                             \|\n
+                \           Home     →                                             \|\n
+                \           Misc     →                                             \|\n
+                \           Self     →                                             \|\n
+                \           Art      →                                             \|\n
+                \           Web      →                                             \|\n
+                \                                                                  \|\n
+                \ LOSTMYWAY DEADTIME VACATION TRANSITION TRAVEL UNABLE BREAK SPORT \|\n
+                \                                                                  \|\n
                 \"<CR>
 
     "   TASK_FOCUS_TAG
@@ -427,12 +428,12 @@ augroup FILETYPE_NOTES
     "   TASK_POSTPONE_TOP
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSIT\]<CR>p`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSITION\]<CR>p`m:let @/ = ""<CR>
 
     "   TASK_POSTPONE_BOT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSIT\]<CR>nP`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSITION\]<CR>nP`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
