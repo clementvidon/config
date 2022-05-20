@@ -323,7 +323,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f[f]i practice<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \dg 0f[f]i dig<Esc>A<Space>
 
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cr 0f[f]i dev<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \de 0f[f]i dev<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f[f]i update<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cleanup<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i review<Esc>A<Space>

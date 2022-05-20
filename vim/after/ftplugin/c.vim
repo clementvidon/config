@@ -128,20 +128,26 @@ augroup FILETYPE_C
     au Filetype c nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
 
     "   PRINT
-    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "%\n",);<Esc>==f%
+    au Filetype c nn <silent><buffer> <Space>pp mpodprintf (2, "\n");<Esc>==f\i
+    "   PRINT
+    au Filetype c nn <silent><buffer> <Space>ps mpodprintf (2, " #####> [%s] <##### \n", );<Esc>==f)i
+    "   PRINT
+    au Filetype c nn <silent><buffer> <Space>pi mpodprintf (2, " #####> [%i] <##### \n", );<Esc>==f)i
     "   PRINT WRAP
     au Filetype c nn <silent><buffer> <Space>P 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
 
     "   MARKER
-    au Filetype c nn <silent><buffer> <Space>m mmodprintf (2, "/\\/\\/ %s: %s: %d \\/\\/\\\n",
+    au Filetype c nn <silent><buffer> <Space>m mmodprintf (2, " #####> %s: %s: %d <##### \n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> <Space>M mmodprintf (2, "<<<]%s: %s: %d[>>>\n",
-                \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> 1<Space>m mmodprintf (2, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");<Esc>==
-    au Filetype c nn <silent><buffer> 2<Space>m mmodprintf (2, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");<Esc>==
-    au Filetype c nn <silent><buffer> 3<Space>m mmodprintf (2, "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");<Esc>==
-    au Filetype c nn <silent><buffer> 1<Space>M mmodprintf (2, "11111111111111111111111111111\n");<Esc>==
-    au Filetype c nn <silent><buffer> 2<Space>M mmodprintf (2, "22222222222222222222222222222\n");<Esc>==
-    au Filetype c nn <silent><buffer> 3<Space>M mmodprintf (2, "33333333333333333333333333333\n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>m1 mmodprintf (2, " #####> 0 <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>m2 mmodprintf (2, " #####> 1 <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>m3 mmodprintf (2, " #####> 2 <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>m4 mmodprintf (2, " #####> 3 <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>m5 mmodprintf (2, " #####> 4 <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>M1 mmodprintf (2, " #####> A <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>M2 mmodprintf (2, " #####> B <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>M3 mmodprintf (2, " #####> C <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>M4 mmodprintf (2, " #####> D <##### \n");<Esc>==
+    au Filetype c nn <silent><buffer> <Space>M5 mmodprintf (2, " #####> E <##### \n");<Esc>==
     " }}}
 augroup END

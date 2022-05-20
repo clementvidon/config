@@ -189,6 +189,8 @@ nn [q :cprev<CR>
 no ; :
 "   INDENT
 nn <Space>= Mmmgo=G`mzz3<C-O>
+"   EYES LEVEL CURSOR AND VIEW
+no z, z.10<C-e>
 "   SPACE WINDOW
 no <Space>w <C-W>
 tno <Right>w <C-W>
