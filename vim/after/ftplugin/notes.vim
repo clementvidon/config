@@ -134,7 +134,6 @@ augroup FILETYPE_NOTES
             call append(line('$') - 2, "[][Notes update] history")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][Home] cook")
         call append(l:tomorrow_loc + 1, "[][TRANSITION] transport, prepare")
         call append(l:tomorrow_loc + 1, "[][TRANSITION] prepare, transport")
         write
