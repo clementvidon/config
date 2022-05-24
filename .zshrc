@@ -7,14 +7,16 @@ if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 fi
 
-# ========== [ vim ]
+# ========== [ vi mode ]
 
 bindkey -v                                                          # enable vim keybinding ( $ bindkey -l )
 export EDITOR=vim
 export KEYTIMEOUT=1                                                 # 10ms vi MODES transition
+
 autoload -U history-search-end                                      # navigate history with NORMAL 'j' and 'k'
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
+
 bindkey -M vicmd 'k' history-beginning-search-backward-end
 bindkey -M vicmd 'j' history-beginning-search-forward-end
 
@@ -33,6 +35,10 @@ export SAVEHIST=$HISTSIZE
 export HISTFILE=$HOME/.zsh_history
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
+
+# ========== [ Ctrl-D ]
+
+set -o ignoreeof
 
 # ========== [ prompt ]
 
