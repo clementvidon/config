@@ -2,13 +2,31 @@ augroup FILETYPE_C
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     "   COMMENTS
-    " au FileType c,cpp setl syntax=off
-    " au FileType c,cpp syn match Todo "TODO" contained
-    " au FileType c,cpp syn match Comment "\/\/.*$\|\/\*.*\*\/\|\/\*\|^\ \*\*.*$\|\*\/" contains=Todo
-    " au FileType c,cpp syn match Silence "\/\*.*\*\/" contains=Todo
-    " au FileType c,cpp syn match Printf ".*print.*" contains=Silence,Comment
-    " au FileType c,cpp hi link Printf MoreMsg
-    " au FileType c,cpp hi link Silence NonText
+    au FileType c,cpp hi link cCharacter cleared
+    au FileType c,cpp hi link cConditional cleared
+    au FileType c,cpp hi link cConstant cleared
+    au FileType c,cpp hi link cConstant cleared
+    au FileType c,cpp hi link cNumber cleared
+    au FileType c,cpp hi link cRepeat cleared
+    au FileType c,cpp hi link cSpecial cleared
+    au FileType c,cpp hi link cStatement cleared
+    au FileType c,cpp hi link cStorageClass cleared
+    au FileType c,cpp hi link cType cleared
+
+    au FileType c,cpp hi cInclude ctermfg=7
+    au FileType c,cpp hi cIncluded ctermfg=7
+
+    au FileType c,cpp hi link cCommentStart LineNr
+    au FileType c,cpp hi link cComment LineNr
+    au FileType c,cpp hi link cCommentL LineNr
+
+
+    au FileType c,cpp hi cString ctermfg=102
+    au FileType c,cpp syn match cPrint ".*print.*" contains=cString,cComment,cCommentL
+    au FileType c,cpp hi cPrint ctermfg=158
+    au FileType c,cpp hi cTodo ctermfg=84
+
+    au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
