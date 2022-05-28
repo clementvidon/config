@@ -3,7 +3,7 @@ augroup FILETYPE_NOTES
     " --------------------------------- OPTIONS {{{
     au BufRead,BufNewFile *.md,*.markdown
                 \   set filetype=notes
-                \ | setl textwidth=70
+                \ | setl textwidth=80
                 \ | setl suffixesadd+=.md
                 \ | setl suffixesadd+=.gpg.md
                 \ | setl path+=$DOTVIM/after/ftplugin/**
@@ -134,8 +134,8 @@ augroup FILETYPE_NOTES
             call append(line('$') - 2, "[][Notes update] history")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][TRANSITION] transport, prepare")
         call append(l:tomorrow_loc + 1, "[][TRANSITION] prepare, transport")
+        call append(l:tomorrow_loc + 1, "[][TRANSITION] transport, prepare")
         write
         call winrestview(l:save)
         return 0
