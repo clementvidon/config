@@ -1,8 +1,9 @@
 augroup FILETYPE_C
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
-    "   COMMENTS
     au FileType c,cpp hi link cCharacter cleared
+    au FileType c,cpp hi link cDefine cleared
+    au FileType c,cpp hi link cOperator cleared
     au FileType c,cpp hi link cConditional cleared
     au FileType c,cpp hi link cConstant cleared
     au FileType c,cpp hi link cConstant cleared
@@ -12,20 +13,15 @@ augroup FILETYPE_C
     au FileType c,cpp hi link cStatement cleared
     au FileType c,cpp hi link cStorageClass cleared
     au FileType c,cpp hi link cType cleared
-
     au FileType c,cpp hi cInclude ctermfg=7
     au FileType c,cpp hi cIncluded ctermfg=7
-
     au FileType c,cpp hi link cCommentStart LineNr
     au FileType c,cpp hi link cComment LineNr
     au FileType c,cpp hi link cCommentL LineNr
-
-
     au FileType c,cpp hi cString ctermfg=102
     au FileType c,cpp syn match cPrint ".*print.*" contains=cString,cComment,cCommentL
     au FileType c,cpp hi cPrint ctermfg=158
     au FileType c,cpp hi cTodo ctermfg=84
-
     au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
     " }}}
     " --------------------------------- OPTIONS {{{
@@ -45,7 +41,6 @@ augroup FILETYPE_C
     au FileType c,cpp let b:valgrind = "valgrind -q --leak-check=yes --show-leak-kinds=all --track-fds=yes"
     au FileType c,cpp let b:librairies = ""
     " }}}
-    "
     " --------------------------------- PLUGINS {{{
     au FileType c,cpp let g:gutentags_enabled = 1
     au FileType c,cpp let b:surround_45 = '("\r");'
