@@ -84,9 +84,9 @@ Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
 "   JS
 "lug 'pangloss/vim-javascript'          "   BETTER SYNTAX
 "   SWEET
-Plug 'ap/vim-css-color'                 "   COLOR PREVIEW
-" Plug 'junegunn/goyo.vim'                "   DISTRACTION FREE
-" Plug 'junegunn/limelight.vim'           "   HYPERFOCUS
+"lug 'ap/vim-css-color'                 "   COLOR PREVIEW
+"lug 'junegunn/goyo.vim'                "   DISTRACTION FREE
+"lug 'junegunn/limelight.vim'           "   HYPERFOCUS
 Plug 'arcticicestudio/nord-vim'         "   COLORSCHEME
 Plug 'junegunn/seoul256.vim'            "   COLORSCHEME
 "lug 'dracula/vim'                      "   COLORSCHEME
