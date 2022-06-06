@@ -1,4 +1,6 @@
-# ========== [ tmux ]
+#------------------------------------------------------------------------------#
+#                  tmux                                                        #
+#------------------------------------------------------------------------------#
 
 if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
@@ -7,7 +9,9 @@ if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 fi
 
-# ========== [ vi mode ]
+#------------------------------------------------------------------------------#
+#                  vi mode                                                     #
+#------------------------------------------------------------------------------#
 
 bindkey -v                                                          # enable vim keybinding ( $ bindkey -l )
 export EDITOR=vim
@@ -20,14 +24,18 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey -M vicmd 'k' history-beginning-search-backward-end
 bindkey -M vicmd 'j' history-beginning-search-forward-end
 
-# ========== [ completion ]
+#------------------------------------------------------------------------------#
+#                  completion                                                  #
+#------------------------------------------------------------------------------#
 
 autoload -Uz compinit && compinit                                   # commands completion
 zstyle ':completion:*' menu select                                  # highlight suggestion
 zmodload zsh/complist                                               # <S-Tab> reverse navigation
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 
-# ========== [ history ]
+#------------------------------------------------------------------------------#
+#                  history                                                     #
+#------------------------------------------------------------------------------#
 
 bindkey "^R" history-incremental-search-backward                    # enable Ctrl-R i-search-bck
 export HISTSIZE=9999
@@ -36,15 +44,38 @@ export HISTFILE=$HOME/.zsh_history
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 
-# ========== [ Ctrl-D ]
+#------------------------------------------------------------------------------#
+#                  Ctrl-D                                                      #
+#------------------------------------------------------------------------------#
 
 set -o ignoreeof
 
-# ========== [ prompt ]
+#------------------------------------------------------------------------------#
+#                  prompt                                                      #
+#------------------------------------------------------------------------------#
 
-# setopt PROMPT_SUBST && PROMPT='%n@%m: ${(%):-%~} '
+# %n username %m hostname %? exitcode %~ fullcwd %1~ cwdbasename
 
-# ========== [ aliases ]
+setopt PROMPT_SUBST
+
+#       [ Bash prompt ]
+
+# PROMPT='%n@%m:%~$ '
+
+#       [ Exit value ]
+
+# RPROMPT='[%?]'
+
+#       [ Zsh prompt + git branch ]
+
+autoload -Uz vcs_info && precmd() { vcs_info }                      # Load version control information
+zstyle ':vcs_info:git:*' formats '(%b)'                             # Format the vcs_info_msg_0_ variable
+
+PROMPT='%m%{%F{green}%}${vcs_info_msg_0_}%{%F{none}%}%# '
+
+#------------------------------------------------------------------------------#
+#                  aliases                                                     #
+#------------------------------------------------------------------------------#
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls="ls -G"
@@ -66,6 +97,7 @@ alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=a
 alias gad="git add"
 alias gau="git add -u"
 alias gap="git add -p"
+alias gbr="git branch"
 alias gca="git commit --amend"
 alias gcm="git commit -m"
 alias gcp="git commit -p"
@@ -84,4 +116,5 @@ alias gsw="git switch"
 alias gsh="git show"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
 
-alias km="kill -9 $(pgrep minishell)"
+alias km='kill -9 $(pgrep minishell)'
+alias mm='make sani && ./minishell'

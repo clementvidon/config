@@ -1,11 +1,19 @@
 augroup FILETYPE_C
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
+    au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
+    au FileType c,cpp hi cPrint ctermfg=158
+    au FileType c,cpp hi cString ctermfg=102
+    au FileType c,cpp hi cTodo ctermfg=84
     au FileType c,cpp hi link cCharacter cleared
+    au FileType c,cpp hi link cComment LineNr
+    au FileType c,cpp hi link cCommentL LineNr
+    au FileType c,cpp hi link cCommentStart LineNr
     au FileType c,cpp hi link cConditional cleared
     au FileType c,cpp hi link cConstant cleared
-    au FileType c,cpp hi link cConstant cleared
     au FileType c,cpp hi link cDefine cleared
+    au FileType c,cpp hi link cInclude cleared
+    au FileType c,cpp hi link cIncluded cleared
     au FileType c,cpp hi link cNumber cleared
     au FileType c,cpp hi link cOperator cleared
     au FileType c,cpp hi link cRepeat cleared
@@ -13,15 +21,6 @@ augroup FILETYPE_C
     au FileType c,cpp hi link cStatement cleared
     au FileType c,cpp hi link cStorageClass cleared
     au FileType c,cpp hi link cType cleared
-    au FileType c,cpp hi cInclude ctermfg=7
-    au FileType c,cpp hi cIncluded ctermfg=7
-    au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
-    au FileType c,cpp hi cPrint ctermfg=158
-    au FileType c,cpp hi cString ctermfg=102
-    au FileType c,cpp hi cTodo ctermfg=84
-    au FileType c,cpp hi link cComment LineNr
-    au FileType c,cpp hi link cCommentL LineNr
-    au FileType c,cpp hi link cCommentStart LineNr
     au FileType c,cpp syn match cPrint ".*print.*" contains=cString,cComment,cCommentL
     " }}}
     " --------------------------------- OPTIONS {{{

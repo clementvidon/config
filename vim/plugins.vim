@@ -71,7 +71,7 @@ Plug 'tpope/vim-surround'               "   SURROUND OPERATOR
 Plug 'tpope/vim-commentary'             "   COMMENT OUT
 Plug 'airblade/vim-gitgutter'           "   GIT GUTTER
 Plug 'AndrewRadev/linediff.vim'         "   DIFF BUFFER CHUNK
-Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
+"lug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
 "lug 'dense-analysis/ale'               "   ASYNC LINT ENGINE
 "   HTML CSS
 "lug 'andrewradev/tagalong.vim'         "   AU-REN CLOSING TAG

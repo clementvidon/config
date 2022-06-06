@@ -286,7 +286,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <S-Tab> :echo "
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
                 \\n
                 \===============================[Tags]===============================\n
                 \                                                                  \|\n
@@ -336,7 +336,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pa 0f[f]i party<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i call<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f[f]i msg<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <BAR> :echo "
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \? :echo "
                 \\n
                 \=[Actions]=\n
                 \          \|\n

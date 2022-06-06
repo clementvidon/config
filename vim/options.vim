@@ -4,7 +4,7 @@ set fillchars+=vert:\  "            "   custom vert window separator
 augroup CustomHi
     autocmd!
     au ColorScheme * hi LineNr ctermbg=NONE
-    au ColorScheme * sy enable maxlines=200 "   'syn on' for vim to overrule custom settings
+    au ColorScheme * sy enable maxlines=200 "   'syn on' overrule custom settings
     au ColorScheme * hi CursorLine gui=underline cterm=underline ctermbg=NONE
     au ColorScheme * hi Comment term=bold ctermfg=103 " 103 104
 augroup END
