@@ -51,10 +51,12 @@ else
     syn region notesBoldItalic matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
 
-" task tag
-syn region notesTaskTag matchgroup=Normal start="\[" end="\]" oneline
-" task stamp
+" task tag TODO
+syn region notesTaskTag matchgroup=Normal start="\[" end="\]\ \|\]$" oneline
+
+" task stamp TODO
 syn region notesTaskStamp matchgroup=Normal start="!\=\[\%(\%(\_[^][]\|\[\_[^][]*\]\)*]\%( \=[[]\)\)\@=" end="\]\%( \=[[]\)\@=" oneline
+
 " comment
 syn region notesComment matchgroup=Normal start="\[>>\]"      end="$"
 " escape
