@@ -141,12 +141,7 @@ augroup FILETYPE_C
     au Filetype c nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
 
     "   PRINT
-    au Filetype c nn <silent><buffer> <Space>p <nop>
-    au Filetype c nn <silent><buffer> <Space>pp mpodprintf (2, "\n");<Esc>==f\i
-    "   PRINT
-    au Filetype c nn <silent><buffer> <Space>ps mpodprintf (2, " #####> [%s] <##### \n", );<Esc>==f)i
-    "   PRINT
-    au Filetype c nn <silent><buffer> <Space>pi mpodprintf (2, " #####> [%i] <##### \n", );<Esc>==f)i
+    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\i
     "   PRINT WRAP
     au Filetype c nn <silent><buffer> <Space>P 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
 

@@ -69,9 +69,9 @@ setopt PROMPT_SUBST
 #       [ Zsh prompt + git branch ]
 
 autoload -Uz vcs_info && precmd() { vcs_info }                      # Load version control information
-zstyle ':vcs_info:git:*' formats '(%b)'                             # Format the vcs_info_msg_0_ variable
+zstyle ':vcs_info:git:*' formats ' %b '                             # Format the vcs_info_msg_0_ variable
 
-PROMPT='%m%{%F{green}%}${vcs_info_msg_0_}%{%F{none}%}%# '
+PROMPT='%m%{%F{102}%}${vcs_info_msg_0_}%{%F{none}%}%# '
 
 #------------------------------------------------------------------------------#
 #                  aliases                                                     #
