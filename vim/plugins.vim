@@ -40,7 +40,7 @@ let g:goyo_width = 90
 let g:goyo_height = '100%'
 
 "   GUTENTAGS
-let g:gutentags_enabled = 0
+let g:gutentags_enabled = 1
 let g:gutentags_ctags_exclude = ["*.md", "doc/**"]
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_add_default_project_roots = 0
@@ -71,7 +71,7 @@ Plug 'tpope/vim-surround'               "   SURROUND OPERATOR
 Plug 'tpope/vim-commentary'             "   COMMENT OUT
 Plug 'airblade/vim-gitgutter'           "   GIT GUTTER
 Plug 'AndrewRadev/linediff.vim'         "   DIFF BUFFER CHUNK
-"lug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
+Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
 "lug 'dense-analysis/ale'               "   ASYNC LINT ENGINE
 "   HTML CSS
 "lug 'andrewradev/tagalong.vim'         "   AU-REN CLOSING TAG
