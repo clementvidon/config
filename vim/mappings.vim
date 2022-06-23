@@ -187,6 +187,10 @@ nn [q :cprev<CR>
 " --------------------------------- IMPROVEMENTS {{{
 "   QUICK CMDLINE
 no ; :
+cno <c-h> <left>
+cno <c-j> <down>
+cno <c-k> <up>
+cno <c-l> <right>
 "   INDENT
 nn <Space>= Mmmgo=G`mzz3<C-O>
 "   EYES LEVEL CURSOR AND VIEW
