@@ -80,9 +80,9 @@ augroup FILETYPE_NOTES
             echom ">>> Unchecked \"END\" <<<"
             return 1
         endif
-        "   Check STAT
-        if strlen(getline(searchpos("^\\[-\\]\\[STAT\\]")[0])) != 33
-            echom ">>> Incomplete \"STAT\" <<<"
+        "   Check stats
+        if strlen(getline(searchpos("^\\[-\\]\\[ST\\]")[0])) != 33
+            echom ">>> Incomplete stats \"ST\" <<<"
             return 1
         endif
         "   Check day
@@ -126,16 +126,16 @@ augroup FILETYPE_NOTES
         call append(l:tomorrow_loc + 1, "[-][>>]")
         call append(l:tomorrow_loc + 1, "[-][>>] (-)")
         call append(l:tomorrow_loc + 1, "[-][>>] (+)")
-        call append(l:tomorrow_loc + 1, "[-][STAT] ph en mi st fo yi")
+        call append(l:tomorrow_loc + 1, "[-][ST] ph en mi st fo yi")
         call append(l:tomorrow_loc + 1, "")
         call append(l:tomorrow_loc + 1, "##  Today")
         call append(l:tomorrow_loc + 1, "")
         if l:checkday == 0
-            call append(line('$') - 2, "[][Notes update] history")
+            call append(line('$') - 2, "[][Note upd] history")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][TRANSITION] prepare, transport")
-        call append(l:tomorrow_loc + 1, "[][TRANSITION] transport, prepare")
+        call append(l:tomorrow_loc + 1, "[][Life] prepare; transport")
+        call append(l:tomorrow_loc + 1, "[][Life] transport; prepare")
         write
         call winrestview(l:save)
         return 0
@@ -259,108 +259,87 @@ augroup FILETYPE_NOTES
 
     "   TASK_ADD_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>[ O[][]<Esc><<2f]i
-    "   Projects
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Notes]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sc O[][42]<Esc><<$
-    "   Areas
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>bu O[][Business]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pc O[][Computer]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Finance]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>he O[][Health]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fa O[][Family]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>so O[][Social]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admin]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>pt O[][Photo]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][Phone]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][Life]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Comp]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mo O[][Phon]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Code]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cr O[][Crea]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Misc]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][Self]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ar O[][Art]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>we O[][Web]<Esc><<$
-    "   Special
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][LOSTMYWAY]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][DEADTIME]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][VACATION]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][TRANSITION]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][TRAVEL] From -> To<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][UNABLE]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][BREAK]<Esc><<A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][SPORT]<Esc><<$
+    "   Tags/Life
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][Life] break<Esc><<A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>di O[][Life] dinner<Esc><<A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>id O[][Life] idle<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][Life] lostmyway<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][Life] sport<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] transport (From -> To)<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][Life] unable<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][Life] vacation<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
                 \\n
-                \===============================[Tags]===============================\n
-                \                                                                  \|\n
-                \ Projects: Notes    →                                             \|\n
-                \           42       →                                             \|\n
-                \                                                                  \|\n
-                \ Areas:    Business → management, marketing, clients, products    \|\n
-                \           Computer →                                             \|\n
-                \           Finance  → ledger, assets                              \|\n
-                \           Health   → eat, drugs                                  \|\n
-                \           Family   →                                             \|\n
-                \           Social   →                                             \|\n
-                \           Admin    → urssaf, impots, casvp                       \|\n
-                \           Photo    →                                             \|\n
-                \           Phone    →                                             \|\n
-                \           Home     →                                             \|\n
-                \           Misc     →                                             \|\n
-                \           Self     →                                             \|\n
-                \           Art      →                                             \|\n
-                \           Web      →                                             \|\n
-                \                                                                  \|\n
-                \ LOSTMYWAY DEADTIME VACATION TRANSITION TRAVEL UNABLE BREAK SPORT \|\n
-                \                                                                  \|\n
+                \===========================[Tags]=========================\n
+                \                                                         \|\n
+                \ Tags:     Life → Life                                   \|\n
+                \           Admi → Administrative                         \|\n
+                \           Fina → Finance                                \|\n
+                \           Comp → Computer                               \|\n
+                \           Phon → Phone                                  \|\n
+                \           Note → Notes                                  \|\n
+                \           Inet → Internet                               \|\n
+                \           Code → Coding                                 \|\n
+                \           Crea → Creative                               \|\n
+                \           Misc → Miscellaneous                          \|\n
+                \                                                         \|\n
+                \ Life:     break, dinner, idle, lostmyway, lunch, sport, \|\n
+                \           transport, unable, vacation                   \|\n
+                \                                                         \|\n
                 \"<CR>
 
     "   TASK_FOCUS_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>\ 0f[l
 
     "   TASK_ADD_ACT
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \th 0f[f]i think<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f[f]i check<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f[f]i study<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f[f]i practice<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \dg 0f[f]i dig<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f[f]i chk<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f[f]i dig<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f[f]i std<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f[f]i prx<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \th 0f[f]i thk<Esc>A<Space>
 
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \de 0f[f]i dev<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f[f]i update<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cleanup<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i review<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f[f]i setup<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f[f]i stp<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f[f]i upd<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fi 0f[f]i fix<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cln<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i rvw<Esc>A<Space>
 
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f[f]i meet<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \lu 0f[f]i lunch<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \dr 0f[f]i drink<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f[f]i dinner<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pa 0f[f]i party<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i call<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f[f]i mee<Esc>A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i cal<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f[f]i msg<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \? :echo "
                 \\n
-                \=[Actions]=\n
-                \          \|\n
-                \ THink    \|\n
-                \ CHeck    \|\n
-                \ STudy    \|\n
-                \ PRactice \|\n
-                \ DiG      \|\n
-                \          \|\n
-                \ DEv      \|\n
-                \ UPdate   \|\n
-                \ CLeanup  \|\n
-                \ REview   \|\n
-                \ SEtup    \|\n
-                \ FIx      \|\n
-                \          \|\n
-                \ MEet     \|\n
-                \ LUnch    \|\n
-                \ DRink    \|\n
-                \ DInner   \|\n
-                \ PArty    \|\n
-                \ CAll     \|\n
-                \ MSg      \|\n
-                \          \|\n
+                \===========[Actions]==========\n
+                \                             \|\n
+                \ Actions:  chk → check       \|\n
+                \           dig → dig         \|\n
+                \           std → study       \|\n
+                \           prx → practice    \|\n
+                \           thk → think       \|\n
+                \                             \|\n
+                \           stp → setup       \|\n
+                \           upd → update      \|\n
+                \           fix → fix         \|\n
+                \           cln → cleanup     \|\n
+                \           rvw → review      \|\n
+                \                             \|\n
+                \           mee → meet        \|\n
+                \           cal → call        \|\n
+                \           msg → msg         \|\n
+                \                             \|\n
+                \  ONLY FOR PRODUCTIVE TASKS  \|\n
+                \                             \|\n
                 \"<CR>
 
     "   TASK_FOCUS_ACT

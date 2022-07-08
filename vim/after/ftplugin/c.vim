@@ -22,6 +22,7 @@ augroup FILETYPE_C
     au FileType c,cpp hi link cStorageClass cleared
     au FileType c,cpp hi link cType cleared
     au FileType c,cpp syn match cPrint ".*print.*" contains=cString,cComment,cCommentL
+    au FileType c,cpp syn match cPrint ".*ft_put.*fd (.*" contains=cString,cComment,cCommentL
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
