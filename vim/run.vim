@@ -24,6 +24,7 @@ source $DOTVIM/after/ftplugin/vim.vim
 
 "           PLUGINS:
 source $DOTVIM/autoload/plugin/redact_pass.vim
+source /home/clem/.config/vim/autoload/plugin/stdheader.vim
 
 "           STARTUP:
 au VimEnter * if @% == '' | setl path+=$NOTES/** | endif
