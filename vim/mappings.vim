@@ -61,9 +61,7 @@ nn xp :e $NOTES/Lists/post-it.md<CR>gi<Esc>
 nn xs :e $NOTES/Lists/shop-list.md<CR>gi<Esc>
 nn xi :e $NOTES/Lists/ideas.gpg.md<CR>
 nn xh :e $NOTES/Lists/history.gpg.md<CR>gi<Esc>z.
-nn xd :e $NOTES/Lists/drugs.gpg.md<CR>gi<Esc>z.
 nn x4 :e $NOTES/Projects/42.md<CR>gi<Esc>z.
-nn xS :e $NOTES/Projects/Sbb.md<CR>gi<Esc>z.
 nn xN :e $NOTES/Projects/Notes.md<CR>gi<Esc>z.
 "                       CONF
 nn xxv :e ~/.vimrc<CR>gi<Esc>
