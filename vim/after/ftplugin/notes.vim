@@ -81,7 +81,7 @@ augroup FILETYPE_NOTES
             return 1
         endif
         "   Check stats
-        if strlen(getline(searchpos("^\\[-\\]\\[ST\\]")[0])) != 33
+        if strlen(getline(searchpos("^\\[-\\]\\[ST\\]")[0])) != 31
             echom ">>> Incomplete stats \"ST\" <<<"
             return 1
         endif
@@ -134,8 +134,8 @@ augroup FILETYPE_NOTES
             call append(line('$') - 2, "[][Note upd] history")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][Life] prepare; transport")
-        call append(l:tomorrow_loc + 1, "[][Life] transport; prepare")
+        call append(l:tomorrow_loc + 1, "[][Life] transition")
+        call append(l:tomorrow_loc + 1, "[][Life] transition")
         write
         call winrestview(l:save)
         return 0
@@ -276,7 +276,8 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][Life] lostmyway<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][Life] sport<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] transport (From -> To)<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][Life] travel (From -> To)<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] transition<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][Life] unable<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][Life] vacation<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
@@ -295,7 +296,7 @@ augroup FILETYPE_NOTES
                 \           Misc → Miscellaneous                          \|\n
                 \                                                         \|\n
                 \ Life:     break, dinner, idle, lostmyway, lunch, sport, \|\n
-                \           transport, unable, vacation                   \|\n
+                \           transition, travel, unable, vacation          \|\n
                 \                                                         \|\n
                 \"<CR>
 
@@ -406,12 +407,12 @@ augroup FILETYPE_NOTES
     "   TASK_POSTPONE_TOP
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSITION\]<CR>p`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition <CR>p`m:let @/ = ""<CR>
 
     "   TASK_POSTPONE_BOT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/\[TRANSITION\]<CR>nP`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition <CR>nP`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
