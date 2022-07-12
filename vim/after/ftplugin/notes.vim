@@ -270,11 +270,11 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cr O[][Crea]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Misc]<Esc><<$
     "   Tags/Life
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][Life] break<Esc><<A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>di O[][Life] dinner<Esc><<A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][Life] break<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>di O[][Life] dinner<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>id O[][Life] idle<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][Life] lostmyway<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][Life] sport<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][Life] travel (From -> To)<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] transition<Esc><<$
