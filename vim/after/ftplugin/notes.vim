@@ -383,8 +383,8 @@ augroup FILETYPE_NOTES
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
-                \O[][BREAK]<Space><Esc>mm
-                \:sil ec "insert [break]"<CR>
+                \O[][Life] break<Space><Esc>mm
+                \:sil ec "insert break"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
                 \:sil ec "datestamp check"<CR>
@@ -395,7 +395,7 @@ augroup FILETYPE_NOTES
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
-                \O[][BREAK]<Space><Esc>mm
+                \O[][Life] break<Space><Esc>mm
                 \:sil ec "insert [break]"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -407,12 +407,12 @@ augroup FILETYPE_NOTES
     "   TASK_POSTPONE_TOP
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition <CR>p`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition<CR>p`m:let @/ = ""<CR>
 
     "   TASK_POSTPONE_BOT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition <CR>nP`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition<CR>nP`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
