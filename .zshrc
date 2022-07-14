@@ -89,6 +89,7 @@ fi
 
 alias vi='vim'
 alias code=''
+alias atom=''
 alias grep='grep --color=auto'
 alias ag='grep -r --color=auto'
 alias nt="vim -c 'call Notrace()'"

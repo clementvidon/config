@@ -124,7 +124,7 @@ augroup FILETYPE_C
     "       \:se t_ti& t_te& \| 3cw \| echom "----["strftime('%H:%M')"]----"<CR>:echom cmd<CR>i<Esc>:echo cmd"\n"<CR>
 
     "   INDENT FUNCTION
-    au Filetype c,cpp nn <silent><buffer> gq mm?^\a<CR>j=%`m:let @/=""<CR>
+    au Filetype c,cpp nn <silent><buffer> =f mm?^\a<CR>j=%`m:let @/=""<CR>
 
     "   SEARCH FUNCTIONS
     au Filetype c,cpp nn <silent><buffer> <Space>f /^\a<CR>
@@ -148,7 +148,7 @@ augroup FILETYPE_C
 
     "   MARKER
     au Filetype c nn <silent><buffer> <Space>m <nop>
-    au Filetype c nn <silent><buffer> <Space>mm mmodprintf (2, " #####> %s: %s: %d <##### \n",
+    au Filetype c nn <silent><buffer> <Space>mm mmodprintf (2, "(%s: %s: %d)\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
     au Filetype c nn <silent><buffer> <Space>m1 mmodprintf (2, " #####> 0 <##### \n");<Esc>==
     au Filetype c nn <silent><buffer> <Space>m2 mmodprintf (2, " #####> 1 <##### \n");<Esc>==
