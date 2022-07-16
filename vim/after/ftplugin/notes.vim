@@ -262,6 +262,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][Life]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Comp]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mo O[][Phon]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
@@ -276,8 +277,12 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][Life] lostmyway<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][Life] sport<Esc><<$
+<<<<<<< Updated upstream
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][Life] travel (From -> To)<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] transition<Esc><<$
+=======
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] travel (From -> To)<Esc><<$
+>>>>>>> Stashed changes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][Life] unable<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][Life] vacation<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
@@ -285,8 +290,9 @@ augroup FILETYPE_NOTES
                 \===========================[Tags]=========================\n
                 \                                                         \|\n
                 \ Tags:     Life → Life                                   \|\n
-                \           Admi → Administrative                         \|\n
+                \           Admi → Administration                         \|\n
                 \           Fina → Finance                                \|\n
+                \           Home → Home                                   \|\n
                 \           Comp → Computer                               \|\n
                 \           Phon → Phone                                  \|\n
                 \           Note → Notes                                  \|\n
@@ -296,7 +302,11 @@ augroup FILETYPE_NOTES
                 \           Misc → Miscellaneous                          \|\n
                 \                                                         \|\n
                 \ Life:     break, dinner, idle, lostmyway, lunch, sport, \|\n
+<<<<<<< Updated upstream
                 \           transition, travel, unable, vacation          \|\n
+=======
+                \           travel, unable, vacation                      \|\n
+>>>>>>> Stashed changes
                 \                                                         \|\n
                 \"<CR>
 
