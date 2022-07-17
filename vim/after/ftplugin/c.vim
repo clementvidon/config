@@ -1,10 +1,17 @@
 augroup FILETYPE_C
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
-    au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
-    au FileType c,cpp hi cPrint ctermfg=158
-    au FileType c,cpp hi cString ctermfg=102
-    au FileType c,cpp hi cTodo ctermfg=84
+    if &background == "dark"
+        au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
+        au FileType c,cpp hi cPrint ctermfg=158
+        au FileType c,cpp hi cString ctermfg=102
+        au FileType c,cpp hi cTodo ctermfg=84
+    elseif &background == "light"
+        au FileType c,cpp hi Search ctermbg=229 ctermfg=NONE
+        au FileType c,cpp hi cPrint ctermfg=33
+        au FileType c,cpp hi cString ctermfg=147
+        au FileType c,cpp hi cTodo ctermfg=205
+    endif
     au FileType c,cpp hi link cCharacter cleared
     au FileType c,cpp hi link cComment LineNr
     au FileType c,cpp hi link cCommentL LineNr
