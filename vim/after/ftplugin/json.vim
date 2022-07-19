@@ -1,4 +1,4 @@
-augroup FILETYPE_JSON
+augroup filetype_json
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

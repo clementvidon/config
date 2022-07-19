@@ -1,4 +1,4 @@
-augroup FILETYPE_JAVASCRIPT
+augroup filetype_javascript
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

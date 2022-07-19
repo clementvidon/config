@@ -1,7 +1,7 @@
 " --------------------------------- UI {{{
 filetype plugin indent on           "   filetype, plugin, indent auto-detect
 set fillchars+=vert:\  "            "   custom vert window separator
-augroup CustomHi
+augroup custom_hi
     autocmd!
     au ColorScheme * hi LineNr ctermbg=NONE
     au ColorScheme * sy enable maxlines=200 "   'syn on' overrule custom settings

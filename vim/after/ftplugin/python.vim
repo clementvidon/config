@@ -1,4 +1,4 @@
-augroup FILETYPE_PYTHON
+augroup filetype_python
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

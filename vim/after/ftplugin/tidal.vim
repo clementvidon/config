@@ -1,4 +1,4 @@
-augroup FILETYPE_TIDAL
+augroup filetype_tidal
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

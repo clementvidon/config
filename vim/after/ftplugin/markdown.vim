@@ -1,4 +1,4 @@
-augroup FILETYPE_MARKDOWN
+augroup filetype_markdown
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

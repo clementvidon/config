@@ -1,4 +1,4 @@
-augroup FILETYPE_YML
+augroup filetype_yml
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

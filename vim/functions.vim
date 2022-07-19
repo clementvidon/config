@@ -45,11 +45,11 @@ function! StripTrailingSpaces()
         call winrestview(l:view)
     endif
 endfunction
-augroup TRAILING_SPACES
+augroup trailing_spaces
     au!
     au BufWritePre,FileWritePre * :call StripTrailingSpaces()
 augroup END
-" augroup RETAB
+" augroup retab
 "     au!
 "     au BufWritePre,FileWritePre * if &expandtab ==# "noexpandtab" | execute ':%retab' | endif
 " augroup END

@@ -1,4 +1,4 @@
-augroup FILETYPE_C
+augroup filetype_c
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     if &background == "dark"

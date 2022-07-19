@@ -1,8 +1,9 @@
-augroup FILETYPE_NOTES
+augroup filetype_notes
     autocmd!
     " --------------------------------- OPTIONS {{{
     au BufRead,BufNewFile *.md,*.markdown
-                \   setl textwidth=80
+                \   set filetype=notes
+                \ | setl textwidth=80
                 \ | setl suffixesadd+=.md
                 \ | setl suffixesadd+=.gpg.md
                 \ | setl path+=$DOTVIM/after/ftplugin/**

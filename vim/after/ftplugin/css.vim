@@ -1,4 +1,4 @@
-augroup FILETYPE_CSS
+augroup filetype_css
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

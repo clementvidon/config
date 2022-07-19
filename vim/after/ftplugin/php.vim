@@ -1,4 +1,4 @@
-augroup FILETYPE_PHP
+augroup filetype_php
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

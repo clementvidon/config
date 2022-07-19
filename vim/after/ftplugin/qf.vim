@@ -1,4 +1,4 @@
-augroup FILETYPE_QF
+augroup filetype_qf
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

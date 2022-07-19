@@ -1,4 +1,4 @@
-augroup FILETYPE_VIM
+augroup filetype_vim
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     " }}}

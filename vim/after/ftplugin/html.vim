@@ -1,4 +1,4 @@
-augroup FILETYPE_HTML
+augroup filetype_html
     autocmd!
     " --------------------------------- HIGHLIGHTS {{{
     au FileType html hi MatchParen ctermbg=darkgrey guibg=darkgrey
