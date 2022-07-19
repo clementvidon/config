@@ -4,6 +4,11 @@
 " Maintainer:   Clément Vidon  <cvidon@student.42.fr>
 " Last Change:  2022 Aug.
 
+" if exists("b:current_syntax")
+"     finish
+" endif
+" let b:current_syntax = "notes"
+
 " --------------------------------- SYNTAX {{{
 " Headers
 syn region notesH1 start="^##\@!" end="#*\s*$"
@@ -24,7 +29,7 @@ syn match notesBlockquote "^>\%(\s\|$\)"
 syn match notesUrl "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[a-z0-9/]"
 " Link
 syn match notesLinkPrefix "\A\@<=@\|^@"
-syn match notesLink "\(\(\A@\)\@<=\|^@\).*\($\|:\|\s\)"
+syn match notesLink "@\@<=.*\($\|:\|\s\)"
 
 " Code
 syn match notesCodeBlock "^\s\{4}.*$" contains=notesUrl,notesLinkPrefix,notesLink
