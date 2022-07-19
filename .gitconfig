@@ -2,6 +2,8 @@
 	name = Clément VIDON
 	email = cvidon@student.42.fr
 	username = clemedon
+[init]
+    defaultBranch = main
 [core]
 	editor = vim
 	excludesfile = "$HOME/.gitignore"

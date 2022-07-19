@@ -27,5 +27,8 @@ source $DOTVIM/autoload/plugin/redact_pass.vim
 " source /home/clem/.config/vim/autoload/plugin/stdheader.vim
 
 "           STARTUP:
-au VimEnter * if @% == '' | setl path+=$NOTES/** | endif
-au VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOTES/**/todo.md<CR>GMz. | endif
+augroup STARTUP
+    autocmd!
+    au VimEnter * if @% == '' | setl path+=$NOTES/** | endif
+    au VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOTES/**/todo.md<CR>GMz. | endif
+augroup END

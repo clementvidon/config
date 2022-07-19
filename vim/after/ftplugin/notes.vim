@@ -29,6 +29,15 @@ augroup FILETYPE_NOTES
     " --------------------------------- PLUGINS {{{
     " }}}
     " --------------------------------- FUNCTIONS {{{
+    "   Toggle hidden mode for personal tasks.
+    function! Perso()
+        if &background == "dark"
+            hi notesTaskPerso ctermfg=NONE
+        elseif &background == "light"
+            hi notesTaskPerso ctermfg=NONE
+        endif
+    endfun
+    "   Compute the time difference between two tasks
     function! TimeDiff(line1, line2)
         " Get line content and extract the time
         let l:t1List = split(getline(a:line1), " ")
@@ -53,21 +62,44 @@ augroup FILETYPE_NOTES
 
     "   Like vim gF but works with pattern (ie. todo:today)
     fu! NotesGF()
-        if count(getline('.'), ":") == 1
-            let l:line = split(getline('.'), ":")
-            let l:file = substitute(l:line[0], '>', '', "g")
-            let l:pattern = substitute(l:line[1], ' ', '\\ ', "g")
-            echo l:file
-            if l:pattern =~# '^\d\+$'
-                exec 'normal gF'
-            else
-                exec 'find +/' . l:pattern . ' ' . l:file
+        " One 'path' in the current line
+        if count(getline('.'), "@") == 1
+            " Path extraction
+            let l:path = getline('.')
+            let l:chr = stridx(l:path, "@", 0) + 1
+            let l:path = strpart(l:path, l:chr, strlen(l:path))
+            if count(l:path, " ") >= 1
+                let l:chr = stridx(l:path, " ", 0)
+                let l:path = strpart(l:path, 0, l:chr)
             endif
-        else
-            exec 'normal gf'
+            " If the path comes with a line pattern or not
+            if count(l:path, ":") == 1
+                " Line pattern extraction
+                let l:path = split(l:path, ":")
+                let l:file = l:path[0]
+                let l:line = substitute(l:path[1], '_', '\\ ', "g")
+                echo l:file
+                " If the line pattern is a number only or a string
+                if l:line =~# '^\d\+$'
+                    exec 'silent find ' . l:file
+                    exec 'normal ' . l:line . 'G'
+                    exec 'normal z.'
+                else
+                    exec 'silent find +/' . l:line . ' ' . l:file
+                    exec 'normal z.'
+                endif
+            else
+                exec 'silent find ' . l:path
+                exec 'normal z.'
+            endif
+            " TODO
+            " Multiple 'path' in the current line
+            " elseif count(getline('.'), "@") > 1
+            " expand("<cword>")
         endif
     endfun
 
+    "   Send 'today' to 'history' and replace it with 'tomorrow'.
     fu! NotesArchiveDay()
         let l:save = winsaveview()
         "   Check file
@@ -124,18 +156,19 @@ augroup FILETYPE_NOTES
         call append(line('$'), l:today_sleep)
         call append(l:tomorrow_loc + 1, "[][END]")
         call append(l:tomorrow_loc + 1, "[-][>>]")
-        call append(l:tomorrow_loc + 1, "[-][>>] ->")
-        call append(l:tomorrow_loc + 1, "[-][>>] +>")
+        call append(l:tomorrow_loc + 1, "[-][>>] -")
+        call append(l:tomorrow_loc + 1, "[-][>>] +")
         call append(l:tomorrow_loc + 1, "[-][ST] ph en mi st fo yi")
         call append(l:tomorrow_loc + 1, "")
         call append(l:tomorrow_loc + 1, "##  Today")
         call append(l:tomorrow_loc + 1, "")
         if l:checkday == 0
-            call append(line('$') - 2, "[][Note upd] history")
+            call append(line('$') - 2, "[][Note upd] @Lists/history")
         endif
         "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][Life] transition")
-        call append(l:tomorrow_loc + 1, "[][Life] transition")
+        call append(l:tomorrow_loc + 1, "[][Life] wake; snack + reading; gardening; prepare; reading")
+        call append(l:tomorrow_loc + 1, "[][Life] lunch; break")
+        call append(l:tomorrow_loc + 1, "[][Life] dinner; break; podcast")
         write
         call winrestview(l:save)
         return 0
@@ -184,31 +217,31 @@ augroup FILETYPE_NOTES
                 \ TASK_POSTPONE_BOT : Space p          \|\n
                 \ TASK_CLEAR        : Space c          \|\n
                 \ TASK_FIX          : Space f          \|\n
-                \ ARCHIVE_DAY       : Space A          \|\n
                 \                                      \|\n
+                \ ARCHIVE_DAY       : Space A          \|\n
                 \ TIME_DIFF         : Space T          \|\n
-                \ GF_PATTERN        : Space GF         \|\n
+                \ ROT               : Space g?         \|\n
                 \                                      \|\n
                 \"<CR>
 
 
     "                       SAFETY :
 
-    au BufRead,BufNewFile *.md nn <silent><buffer> <space>= <nop>
-    au BufRead,BufNewFile *.md vn <silent><buffer> <space>= <nop>
-    au BufRead,BufNewFile *.md vn <silent><buffer> = <nop>
-    au BufRead,BufNewFile *.md nn <silent><buffer> = <nop>
-    au BufRead,BufNewFile *.md vn <silent><buffer> gq <nop>
-    au BufRead,BufNewFile *.md nn <silent><buffer> gq <nop>
-    au BufRead,BufNewFile *.md nn <silent><buffer> gwG <nop>
-    au BufRead,BufNewFile *.md nn <silent><buffer> gwgo <nop>
-    au BufRead,BufNewFile *.md nn <silent><buffer> gwgg <nop>
+    au FileType notes nn <silent><buffer> <space>= <nop>
+    au FileType notes vn <silent><buffer> <space>= <nop>
+    au FileType notes vn <silent><buffer> = <nop>
+    au FileType notes nn <silent><buffer> = <nop>
+    au FileType notes vn <silent><buffer> gq <nop>
+    au FileType notes nn <silent><buffer> gq <nop>
+    au FileType notes nn <silent><buffer> gwG <nop>
+    au FileType notes nn <silent><buffer> gwgo <nop>
+    au FileType notes nn <silent><buffer> gwgg <nop>
 
 
     "                       GENERAL :
 
     "   HTML_EXPORT
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>X :set term=xterm-256color<CR>:TOhtml<CR>
+    au FileType notes nn <silent><buffer> <Space>X :set term=xterm-256color<CR>:TOhtml<CR>
                 \
                 \/--><CR>Oa { color: hotpink; }<Esc>go
                 \:%s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
@@ -231,22 +264,23 @@ augroup FILETYPE_NOTES
 
 
     "   NOTES_NAV
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space><Tab> :silent write<CR>gogF
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0:call NotesGF()<CR>
+    au FileType notes nn <silent><buffer> <Space><Tab> :silent write<CR>gogF
+    au FileType notes nn <silent><buffer> <Space><CR> :call NotesGF()<CR>
+    " au FileType notes nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0:call NotesGF()<CR>
 
     "   INDEX_GEN
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space># :silent
+    au FileType notes nn <silent><buffer> <Space># :silent
                 \
                 \ :let @a=""<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
 
     "   INDEX_NAV
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>3 :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt
+    au FileType notes nn <silent><buffer> <Space>3 :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt
 
     "   NOTES_GREP
     au BufRead,BufNewFile $NOTES/* com! -nargs=+ Grep exec 'grep! -i <args> $NOTES/**/*.md' | cw
 
     "   MD_LINK
-    au BufRead,BufNewFile *.md nn <silent><buffer> <Space>L 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
+    au FileType notes nn <silent><buffer> <Space>L 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
 
 
     "   GPG ENC
@@ -262,6 +296,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][Life]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][Self]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Comp]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mo O[][Phon]<Esc><<$
@@ -277,12 +312,7 @@ augroup FILETYPE_NOTES
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][Life] lostmyway<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][Life] sport<Esc><<$
-<<<<<<< Updated upstream
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][Life] travel (From -> To)<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] transition<Esc><<$
-=======
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tr O[][Life] travel (From -> To)<Esc><<$
->>>>>>> Stashed changes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][Life] unable<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][Life] vacation<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
@@ -292,6 +322,7 @@ augroup FILETYPE_NOTES
                 \ Tags:     Life → Life                                   \|\n
                 \           Admi → Administration                         \|\n
                 \           Fina → Finance                                \|\n
+                \           Self → Self                                   \|\n
                 \           Home → Home                                   \|\n
                 \           Comp → Computer                               \|\n
                 \           Phon → Phone                                  \|\n
@@ -301,13 +332,11 @@ augroup FILETYPE_NOTES
                 \           Crea → Creative                               \|\n
                 \           Misc → Miscellaneous                          \|\n
                 \                                                         \|\n
-                \ Life:     break, dinner, idle, lostmyway, lunch, sport, \|\n
-<<<<<<< Updated upstream
-                \           transition, travel, unable, vacation          \|\n
-=======
-                \           travel, unable, vacation                      \|\n
->>>>>>> Stashed changes
-                \                                                         \|\n
+                \ Life:     break, lunch, dinner, shopping                \|\n
+                \           sleep, wake, prepare, transport               \|\n
+                \           lostmyway, idle, unable, travel, vacation     \|\n
+                \           podcast, series, meet, drink, party           \|\n
+                \           sport, reading                                \|\n
                 \"<CR>
 
     "   TASK_FOCUS_TAG
@@ -417,12 +446,12 @@ augroup FILETYPE_NOTES
     "   TASK_POSTPONE_TOP
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition<CR>p`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/[Life<CR>p`m:let @/ = ""<CR>
 
     "   TASK_POSTPONE_BOT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/ transition<CR>nP`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/[Life<CR>nP`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
@@ -440,76 +469,82 @@ augroup FILETYPE_NOTES
 
     "                       HISTORY
 
-    "   TIME_DIFF
-    au BufRead,BufNewFile *.md nn <buffer><silent> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
-
     "   ARCHIVE_DAY
-    au BufRead,BufNewFile *.md nn <buffer><silent> <Space>a :call NotesArchiveDay()<CR>
+    au FileType notes nn <buffer><silent> <Space>a :call NotesArchiveDay()<CR>
+
+    "   TIME_DIFF
+    au FileType notes nn <buffer><silent> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
+
+    "   ROT
+    au FileType notes nn <buffer><silent> <Space>g? Mmm
+                \
+                \:g/\[>>\]/norm g??<CR>
+                \`mzz3<C-O>
 
     " }}}
     " --------------------------------- DIGRAPHS {{{
-    execute "digraphs as " . 0x2090
-    execute "digraphs es " . 0x2091
-    execute "digraphs hs " . 0x2095
-    execute "digraphs is " . 0x1D62
-    execute "digraphs js " . 0x2C7C
-    execute "digraphs ks " . 0x2096
-    execute "digraphs ls " . 0x2097
-    execute "digraphs ms " . 0x2098
-    execute "digraphs ns " . 0x2099
-    execute "digraphs os " . 0x2092
-    execute "digraphs ps " . 0x209A
-    execute "digraphs rs " . 0x1D63
-    execute "digraphs ss " . 0x209B
-    execute "digraphs ts " . 0x209C
-    execute "digraphs us " . 0x1D64
-    execute "digraphs vs " . 0x1D65
-    execute "digraphs xs " . 0x2093
+    au FileType notes exec "digraphs as " . 0x2090
+    au FileType notes exec "digraphs es " . 0x2091
+    au FileType notes exec "digraphs hs " . 0x2095
+    au FileType notes exec "digraphs is " . 0x1D62
+    au FileType notes exec "digraphs js " . 0x2C7C
+    au FileType notes exec "digraphs ks " . 0x2096
+    au FileType notes exec "digraphs ls " . 0x2097
+    au FileType notes exec "digraphs ms " . 0x2098
+    au FileType notes exec "digraphs ns " . 0x2099
+    au FileType notes exec "digraphs os " . 0x2092
+    au FileType notes exec "digraphs ps " . 0x209A
+    au FileType notes exec "digraphs rs " . 0x1D63
+    au FileType notes exec "digraphs ss " . 0x209B
+    au FileType notes exec "digraphs ts " . 0x209C
+    au FileType notes exec "digraphs us " . 0x1D64
+    au FileType notes exec "digraphs vs " . 0x1D65
+    au FileType notes exec "digraphs xs " . 0x2093
 
-    execute "digraphs aS " . 0x1d43
-    execute "digraphs bS " . 0x1d47
-    execute "digraphs cS " . 0x1d9c
-    execute "digraphs dS " . 0x1d48
-    execute "digraphs eS " . 0x1d49
-    execute "digraphs fS " . 0x1da0
-    execute "digraphs gS " . 0x1d4d
-    execute "digraphs hS " . 0x02b0
-    execute "digraphs iS " . 0x2071
-    execute "digraphs jS " . 0x02b2
-    execute "digraphs kS " . 0x1d4f
-    execute "digraphs lS " . 0x02e1
-    execute "digraphs mS " . 0x1d50
-    execute "digraphs nS " . 0x207f
-    execute "digraphs oS " . 0x1d52
-    execute "digraphs pS " . 0x1d56
-    execute "digraphs rS " . 0x02b3
-    execute "digraphs sS " . 0x02e2
-    execute "digraphs tS " . 0x1d57
-    execute "digraphs uS " . 0x1d58
-    execute "digraphs vS " . 0x1d5b
-    execute "digraphs wS " . 0x02b7
-    execute "digraphs xS " . 0x02e3
-    execute "digraphs yS " . 0x02b8
-    execute "digraphs zS " . 0x1dbb
+    au FileType notes exec "digraphs aS " . 0x1d43
+    au FileType notes exec "digraphs bS " . 0x1d47
+    au FileType notes exec "digraphs cS " . 0x1d9c
+    au FileType notes exec "digraphs dS " . 0x1d48
+    au FileType notes exec "digraphs eS " . 0x1d49
+    au FileType notes exec "digraphs fS " . 0x1da0
+    au FileType notes exec "digraphs gS " . 0x1d4d
+    au FileType notes exec "digraphs hS " . 0x02b0
+    au FileType notes exec "digraphs iS " . 0x2071
+    au FileType notes exec "digraphs jS " . 0x02b2
+    au FileType notes exec "digraphs kS " . 0x1d4f
+    au FileType notes exec "digraphs lS " . 0x02e1
+    au FileType notes exec "digraphs mS " . 0x1d50
+    au FileType notes exec "digraphs nS " . 0x207f
+    au FileType notes exec "digraphs oS " . 0x1d52
+    au FileType notes exec "digraphs pS " . 0x1d56
+    au FileType notes exec "digraphs rS " . 0x02b3
+    au FileType notes exec "digraphs sS " . 0x02e2
+    au FileType notes exec "digraphs tS " . 0x1d57
+    au FileType notes exec "digraphs uS " . 0x1d58
+    au FileType notes exec "digraphs vS " . 0x1d5b
+    au FileType notes exec "digraphs wS " . 0x02b7
+    au FileType notes exec "digraphs xS " . 0x02e3
+    au FileType notes exec "digraphs yS " . 0x02b8
+    au FileType notes exec "digraphs zS " . 0x1dbb
 
-    execute "digraphs AS " . 0x1D2C
-    execute "digraphs BS " . 0x1D2E
-    execute "digraphs DS " . 0x1D30
-    execute "digraphs ES " . 0x1D31
-    execute "digraphs GS " . 0x1D33
-    execute "digraphs HS " . 0x1D34
-    execute "digraphs IS " . 0x1D35
-    execute "digraphs JS " . 0x1D36
-    execute "digraphs KS " . 0x1D37
-    execute "digraphs LS " . 0x1D38
-    execute "digraphs MS " . 0x1D39
-    execute "digraphs NS " . 0x1D3A
-    execute "digraphs OS " . 0x1D3C
-    execute "digraphs PS " . 0x1D3E
-    execute "digraphs RS " . 0x1D3F
-    execute "digraphs TS " . 0x1D40
-    execute "digraphs US " . 0x1D41
-    execute "digraphs VS " . 0x2C7D
-    execute "digraphs WS " . 0x1D42
+    au FileType notes exec "digraphs AS " . 0x1D2C
+    au FileType notes exec "digraphs BS " . 0x1D2E
+    au FileType notes exec "digraphs DS " . 0x1D30
+    au FileType notes exec "digraphs ES " . 0x1D31
+    au FileType notes exec "digraphs GS " . 0x1D33
+    au FileType notes exec "digraphs HS " . 0x1D34
+    au FileType notes exec "digraphs IS " . 0x1D35
+    au FileType notes exec "digraphs JS " . 0x1D36
+    au FileType notes exec "digraphs KS " . 0x1D37
+    au FileType notes exec "digraphs LS " . 0x1D38
+    au FileType notes exec "digraphs MS " . 0x1D39
+    au FileType notes exec "digraphs NS " . 0x1D3A
+    au FileType notes exec "digraphs OS " . 0x1D3C
+    au FileType notes exec "digraphs PS " . 0x1D3E
+    au FileType notes exec "digraphs RS " . 0x1D3F
+    au FileType notes exec "digraphs TS " . 0x1D40
+    au FileType notes exec "digraphs US " . 0x1D41
+    au FileType notes exec "digraphs VS " . 0x2C7D
+    au FileType notes exec "digraphs WS " . 0x1D42
     " }}}
 augroup END
