@@ -74,6 +74,8 @@ nn xxn :!sudo vi /etc/netplan/00-installer-config.yaml<CR>
 " }}}
 " --------------------------------- CMDLINE (gl) {{{
 "                       OPTIONS
+"   FUNC CALL
+nn glca :call<Space>
 "   CURSORCOLUMN
 nn glcc :set cursorcolumn!<CR>
 "   LCD
