@@ -8,14 +8,14 @@ augroup filetype_c
         au FileType c,cpp hi cTodo ctermfg=84
     elseif &background == "light"
         au FileType c,cpp hi Search ctermbg=229 ctermfg=NONE
-        au FileType c,cpp hi cPrint ctermfg=33
-        au FileType c,cpp hi cString ctermfg=147
+        au FileType c,cpp hi cPrint ctermfg=34
+        au FileType c,cpp hi cString ctermfg=245
         au FileType c,cpp hi cTodo ctermfg=205
     endif
     au FileType c,cpp hi link cCharacter cleared
-    au FileType c,cpp hi link cComment LineNr
-    au FileType c,cpp hi link cCommentL LineNr
-    au FileType c,cpp hi link cCommentStart LineNr
+    au FileType c,cpp hi link cComment Type
+    au FileType c,cpp hi link cCommentL Type
+    au FileType c,cpp hi link cCommentStart Type
     au FileType c,cpp hi link cConditional cleared
     au FileType c,cpp hi link cConstant cleared
     au FileType c,cpp hi link cDefine cleared
@@ -23,28 +23,32 @@ augroup filetype_c
     au FileType c,cpp hi link cIncluded cleared
     au FileType c,cpp hi link cNumber cleared
     au FileType c,cpp hi link cOperator cleared
+    au FileType c,cpp hi link cPreCondit cleared
     au FileType c,cpp hi link cRepeat cleared
     au FileType c,cpp hi link cSpecial cleared
     au FileType c,cpp hi link cStatement cleared
     au FileType c,cpp hi link cStorageClass cleared
+    au FileType c,cpp hi link cStructure cleared
+    au FileType c,cpp hi link cTypedef cleared
     au FileType c,cpp hi link cType cleared
-    au FileType c,cpp syn match cPrint ".*print.*" contains=cString,cComment,cCommentL
+    au FileType c,cpp hi link cppNumber cleared
+    au FileType c,cpp hi! link cIncluded cleared
+    au FileType c,cpp syn match cPrint "printf" contains=cString,cComment,cCommentL
     au FileType c,cpp syn match cPrint ".*ft_put.*fd (.*" contains=cString,cComment,cCommentL
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
     au FileType c,cpp setl showmatch
     au FileType c,cpp setl noexpandtab cindent textwidth=80
-    au FileType c,cpp setl path+=$DOTVIM/after/ftplugin/
-    au FileType c,cpp,make setl path+=include/**,../include/**,src*/**,../src*/**
+    au FileType c,cpp,make setl path+=$PWD/include/,$PWD/*src/**
     au FileType c,cpp setl foldmethod=marker
     au FileType c,cpp setl foldmarker={{{,}}}
 
     " Compile
-    au FileType c,cpp let b:name = "minishell"
-    au FileType c,cpp let b:cc = "gcc"
+    au FileType c,cpp let b:name = "philo"
+    au FileType c,cpp let b:cc = "clang"
     au FileType c,cpp let b:cflags = "-Wall -Wextra -Werror -Wconversion -Wsign-conversion"
-    au FileType c,cpp let b:sanitizer = "-fsanitize=address,undefined,signed-integer-overflow -g"
+    au FileType c,cpp let b:san = "-fsanitize=address,undefined,signed-integer-overflow -g"
     au FileType c,cpp let b:valgrind = "valgrind -q --leak-check=yes --show-leak-kinds=all --track-fds=yes"
     au FileType c,cpp let b:librairies = ""
     " }}}
@@ -56,30 +60,38 @@ augroup filetype_c
 
     "   MAKE
 
-    "   :make sani
+    "   :make san
     au Filetype c,cpp,make nn <silent><buffer> ms :wa<CR>
                 \
-                \:exec 'silent !rm -f minishell'<CR>
-                \:!clear<CR>
-                \:exec 'make -j sani'<CR>:cw<CR>:!./minishell<CR>
-    "   :make fclean sani
+                \:exec 'silent !rm -f philo'<CR>
+                \:exec 'make -j san'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
+    "   :make fclean san
     au Filetype c,cpp,make nn <silent><buffer> mS :wa<CR>
                 \
-                \:exec 'silent !rm -f minishell'<CR>
-                \:!clear<CR>
-                \:exec 'make fclean && make -j sani'<CR>:cw<CR>:!./minishell<CR>
+                \:exec 'silent !rm -f philo'<CR>
+                \:exec 'make fclean && make -j san'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
     "   :make all
     au Filetype c,cpp,make nn <silent><buffer> ma :wa<CR>
                 \
-                \:exec 'silent !rm -f minishell'<CR>
+                \:exec 'silent !rm -f philo'<CR>
                 \:!clear<CR>
-                \:exec 'make -j all'<CR>:cw<CR>:!./minishell<CR>
+                \:exec 'make -j all'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
     "   :make fclean all
     au Filetype c,cpp,make nn <silent><buffer> mA :wa<CR>
                 \
-                \:exec 'silent !rm -f minishell'<CR>
+                \:exec 'silent !rm -f philo'<CR>
+                \:exec 'make fclean && make -j all'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
+    "   :make all + valgrind
+    au Filetype c,cpp,make nn <silent><buffer> mv :wa<CR>
+                \
+                \:exec 'silent !rm -f philo'<CR>
                 \:!clear<CR>
-                \:exec 'make fclean && make -j all'<CR>:cw<CR>:!./minishell<CR>
+                \:exec 'make -j all'<CR>:cw<CR>:!clear; valgrind -q --leak-check=yes --show-leak-kinds=all ./philo 4 410 200 200<CR>
+    "   :make fclean all + valgrind
+    au Filetype c,cpp,make nn <silent><buffer> mV :wa<CR>
+                \
+                \:exec 'silent !rm -f philo'<CR>
+                \:exec 'make fclean && make -j all'<CR>:cw<CR>:!clear; valgrind -q --leak-check=yes --show-leak-kinds=all ./philo 4 410 200 200<CR>
 
     "   COMPILE [& RUN] ALL
 
@@ -94,25 +106,27 @@ augroup filetype_c
     "   sanitizer
     au Filetype c nn <silent><buffer> <Space>5 :w\|lc %:h<CR>
                 \
+                \:exec '!clear;'<CR>
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:sanitizer . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
-                \:exec '!clear;./a.out \|cat -e'<CR>
+                \:exec '!clear;./a.out'<CR>
                 " \:exec '!clear;./a.out /bin/ls "\|" /usr/bin/grep microshell ";" /bin/echo hello\|cat -e'<CR>
+
     "   nothing
     au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
                 \:exec 'silent !' . b:cc . ' -Wno-everything % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
-                \:exec '!clear;./a.out \|cat -e'<CR>
+                \:exec '!clear;./a.out'<CR>
 
     "   COMPILE [& RUN] ALL
 
     au Filetype c nn <silent><buffer> <Space>8 :wa\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:sanitizer . ' *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>:
                 \:exec '!clear;./a.out \|cat -e'<CR>
 
@@ -142,7 +156,11 @@ augroup filetype_c
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
 
     "   FUNCTION DOC
-    au Filetype c nn <silent><buffer> <space>D mdj:keeppatterns ?^\a<CR>O<Esc>O/*<Esc>o<C-w>**<Esc>o*/<Esc>=ipjA<Space><BS><Esc>
+    au Filetype c nn <silent><buffer> <space>D mdj
+                \
+                \:keeppatterns ?^\a<CR>
+                \O<Esc>O/*<Esc>o<C-w>** @brief <Esc>o*/<Esc>=ip
+                \jA<Space><BS><Esc>
 
     "   NORMINETTE
     au Filetype cpp nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckDefine %<CR>
@@ -157,15 +175,5 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> <Space>m <nop>
     au Filetype c nn <silent><buffer> <Space>mm mmodprintf (2, "(%s: %s: %d)\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype c nn <silent><buffer> <Space>m1 mmodprintf (2, " #####> 0 <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>m2 mmodprintf (2, " #####> 1 <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>m3 mmodprintf (2, " #####> 2 <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>m4 mmodprintf (2, " #####> 3 <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>m5 mmodprintf (2, " #####> 4 <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>M1 mmodprintf (2, " #####> A <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>M2 mmodprintf (2, " #####> B <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>M3 mmodprintf (2, " #####> C <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>M4 mmodprintf (2, " #####> D <##### \n");<Esc>==
-    au Filetype c nn <silent><buffer> <Space>M5 mmodprintf (2, " #####> E <##### \n");<Esc>==
     " }}}
 augroup END

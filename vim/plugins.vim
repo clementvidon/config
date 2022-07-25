@@ -41,7 +41,7 @@ let g:goyo_height = '100%'
 
 "   GUTENTAGS
 let g:gutentags_enabled = 1
-let g:gutentags_ctags_exclude = ["*.md", "doc/**"]
+let g:gutentags_ctags_exclude = ["*.md", "doc/**", "test/**", "*.h"]
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_add_default_project_roots = 0
 let g:gutentags_project_root = ['.project_root', '.git']
@@ -85,7 +85,7 @@ Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
 "lug 'pangloss/vim-javascript'          "   BETTER SYNTAX
 "   SWEET
 "lug 'ap/vim-css-color'                 "   COLOR PREVIEW
-"lug 'junegunn/goyo.vim'                "   DISTRACTION FREE
+Plug 'junegunn/goyo.vim'                "   DISTRACTION FREE
 "lug 'junegunn/limelight.vim'           "   HYPERFOCUS
 Plug 'arcticicestudio/nord-vim'         "   COLORSCHEME
 Plug 'junegunn/seoul256.vim'            "   COLORSCHEME

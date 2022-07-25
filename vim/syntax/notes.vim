@@ -18,7 +18,7 @@ syn region notesH6 start="^#######\@!" end="#*\s*$"
 
 " List
 syn match notesListMarker "^\%(\s\{0,3\}\)[-*+]\%(\s\+\S\)\@="
-syn match notesOrderedListMarker "\%(\s\{0,3}\)\<\d\+\.\%(\s\+\S\)\@="
+syn match notesOrderedListMarker "^\%(\s\{0,3}\)\<\d\+\.\%(\s\+\S\)\@="
 
 " Blockquote
 syn match notesBlockquote "^>\%(\s\|$\)"
@@ -26,11 +26,10 @@ syn match notesBlockquote "^>\%(\s\|$\)"
 " Url
 syn match notesUrl "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[a-z0-9/]"
 " Link
-syn match notesLinkPrefix "\A\@<=@\|^@"
-syn match notesLink "@\@<=.*\($\|:\|\s\)"
+syn match notesLink "\(\s@\|^@\)\@<=[a-zA-Z0-9/_.-~]\{-}\(\ze\s\|$\|\ze:\)"
 
 " Code
-syn match notesCodeBlock "^\s\{4}.*$" contains=notesUrl,notesLinkPrefix,notesLink
+syn match notesCodeBlock "^\s\{4}.*$"
 
 if has("conceal")
     set conceallevel=2
@@ -49,14 +48,17 @@ else
 endif
 
 " Task Stamp/Tag
-syn match notesTaskStamp "\(^\[.*\]\)\(\[.*\(\]\|\]$\)\)\@="
-syn match notesTaskTag "\(^\[.*\]\)\@<=\[.*\(\]\|\]$\)"
+syn match notesTaskStamp "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\@="
+syn match notesTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 
 " Task Perso
 syn match notesTaskPerso "\(\]\[\(Life\|>>\)\]\)\@<=.*"
 
 " Escape
 syn match notesEscape "\\[][\\`*_{}()<>#+.!-]"
+
+" Keywords
+syn keyword notesBoldItalic TODO
 
 " }}}
 " --------------------------------- COLORS {{{
@@ -84,7 +86,6 @@ if &background == "dark"
     " Url                   : dark pale purple
     hi notesUrl cterm=underline ctermfg=103
     " Link                  : vivid pink, dark purple
-    hi notesLinkPrefix ctermfg=213
     hi notesLink ctermfg=103
 
     " Code                  : pale light green
@@ -128,7 +129,6 @@ elseif &background == "light"
     " Urls                      : pale light purple
     hi notesUrl cterm=underline ctermfg=147
     " Link                      : vivid pink, light purple
-    hi notesLinkPrefix ctermfg=211
     hi notesLink ctermfg=105
 
     " Code                      : pale dark green

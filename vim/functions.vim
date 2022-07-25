@@ -62,13 +62,13 @@ com! -nargs=+ S exec 'silent !<args>' | redraw!
 "   TOGGLE COLORS
 function! ColorSwitch(clight, cdark)
     if &background ==# "dark"
-        exec 'silent !sed -i --follow-symlinks "s/^color.*/color ' . a:clight . ' | set bg=light/g" ~/.config/vim/options.vim'
+        exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:clight . ' | set bg=light/g" ~/.config/vim/options.vim'
         exec 'silent set bg=light'
         exec 'colors ' . a:clight
         exec 'hi Normal ctermbg=NONE'
         exec 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
     elseif &background ==# "light"
-        exec 'silent !sed -i --follow-symlinks "s/^color.*/color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
+        exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
         exec 'silent set bg=dark'
         exec 'colors ' . a:cdark
         exec 'hi Normal ctermbg=NONE'

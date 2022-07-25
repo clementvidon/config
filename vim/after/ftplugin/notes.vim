@@ -1,3 +1,151 @@
+" --------------------------------- FUNCTIONS {{{
+
+"    @brief Print the time difference between two tasks.
+"
+"    @param line1 first task.
+"    @param line2 second task.
+
+function! NotesTimeDiff(line1, line2)
+    " Get line content and extract the time
+    let l:t1List = split(getline(a:line1), " ")
+    let l:t2List = split(getline(a:line1), " ")
+    let l:t1List = split((l:t1List[2]), ":")
+    let l:t2List = split((l:t2List[1]), ":")
+    " Get the diff in minutes between the timestamps.
+    let l:diff = 0
+    let l:time1 = l:t1List[0] * 3600 + l:t1List[1] * 60
+    let l:time2 = l:t2List[0] * 3600 + l:t2List[1] * 60
+    if l:time1 > l:time2
+        let l:diff = l:time1 - l:time2
+    elseif l:time1 < l:time2
+        let l:diff = (24 * 3600) - (l:time2 - l:time1)
+    endif
+    let l:min=trunc(fmod(l:diff,3600) / 60)
+    let l:hrs=trunc(l:diff / 3600)
+    " Replace the line with the result.
+    call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
+endfunction
+
+command! -range NotesTimeDiff :call NotesTimeDiff(<line1>,<line2>)
+
+"    @brief Open the link location into the current buffer.  Jump to the
+"           first line matching the optionally given ':pattern' i.
+"           (Like vim 'gF' but works with a string pattern)
+
+function! NotesNavigate()
+    " One 'path' in the current line
+    if count(getline('.'), "@") == 1
+        " Path extraction
+        let l:path = getline('.')
+        let l:chr = stridx(l:path, "@", 0) + 1
+        let l:path = strpart(l:path, l:chr, strlen(l:path))
+        if count(l:path, " ") >= 1
+            let l:chr = stridx(l:path, " ", 0)
+            let l:path = strpart(l:path, 0, l:chr)
+        endif
+        " If the path comes with a line pattern or not
+        if count(l:path, ":") == 1
+            " Line pattern extraction
+            let l:path = split(l:path, ":")
+            let l:file = l:path[0]
+            let l:line = substitute(l:path[1], '_', '\\ ', "g")
+            " If the line pattern is a number only or a string
+            exec 'silent find +/' . l:line . ' ' . l:file
+            exec 'normal z.'
+        else
+            exec 'silent find ' . l:path
+            exec 'normal z.'
+        endif
+        " TODO
+        " Multiple 'path' in the current line
+        " elseif count(getline('.'), "@") > 1
+        " expand("<cword>")
+    endif
+endfunction
+
+"   Send 'today' to 'history' and replace it with 'tomorrow'.
+function! NotesArchiveDay()
+    let l:save = winsaveview()
+    "   Check file
+    if expand('%:t:r') . "." . expand('%:e') != "todo.md"
+        echom ">>> Not in \"todo.md\" <<<"
+        return 1
+    endif
+    "   Check stats
+    if strlen(getline(searchpos("^\\[-\\]\\[ST\\]")[0])) != 31
+        echom ">>> Incomplete stats \"ST\" <<<"
+        return 1
+    endif
+    "   Check day
+    let l:checkday = 0
+    if strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
+        let l:checkday = 1
+    endif
+    "   Locate today and tomorrow
+    let l:today_loc = searchpos("##  Today")[0]
+    let l:tomorrow_loc = searchpos("##  Tomorrow")[0]
+    "   Insert fancy date
+    if getline(l:today_loc + 1) == ""
+        call setline(l:today_loc + 1, "#[ " . strftime('%a %d %b %Y') . " ]")
+    else
+        call append(l:today_loc, "#[ " . strftime('%a %d %b %Y') . " ]")
+    endif
+    "   Fill the date placeholders
+    execute "silent " . l:today_loc . ",$s/^\\[-/\\[" . strftime('%y%m%d') . "/g"
+    "   Hide the >> section
+    execute l:today_loc . ",$g/\\[>>\\]/norm g??"
+    "   Copy today
+    let l:today_tasks = getline(l:today_loc + 1, line('$'))
+    "   Copy and reset SLEEP
+    let l:today_sleep = getline(line('$'))
+    let l:today_sleep = substitute(
+                \l:today_sleep, strpart(l:today_sleep, 1, 6), "-", "")
+    "   Archive it
+    write
+    execute "silent edit $NOTES/Lists/history.gpg.md"
+    call append(5, l:today_tasks)
+    write
+    "   Delete today
+    execute "silent edit #"
+    execute "silent " . l:today_loc . ",$delete"
+    delete
+    "   Update Today
+    call append(line('$'), l:today_sleep)
+    call append(l:tomorrow_loc + 1, "[-][>>]")
+    call append(l:tomorrow_loc + 1, "[-][>>] -")
+    call append(l:tomorrow_loc + 1, "[-][>>] +")
+    call append(l:tomorrow_loc + 1, "[-][ST] ph en mi st fo yi")
+    call append(l:tomorrow_loc + 1, "")
+    call append(l:tomorrow_loc + 1, "##  Today")
+    call append(l:tomorrow_loc + 1, "")
+    if l:checkday == 0
+        call append(line('$') - 2, "[][Note upd] @Lists/history")
+    endif
+    "   Tomorrow template
+    call append(l:tomorrow_loc + 1, "[][Life] wake; snack + reading")
+    call append(l:tomorrow_loc + 1, "[][Note upd] @Lists/todo")
+    call append(l:tomorrow_loc + 1, "[][Life] gardening; prepare")
+    call append(l:tomorrow_loc + 1, "[][Life] lunch")
+    call append(l:tomorrow_loc + 1, "[][Life] dinner")
+    call append(l:tomorrow_loc + 1, "[][Note upd] @Lists/todo")
+    call append(l:tomorrow_loc + 1, "[][Life] podcast")
+    write
+    call winrestview(l:save)
+    return 0
+endfunction
+
+"   Unhide personal tasks.
+function! Perso()
+    if &background == "dark"
+        hi notesTaskPerso ctermfg=NONE
+    elseif &background == "light"
+        hi notesTaskPerso ctermfg=NONE
+    endif
+endfunction
+
+" }}}
+
+
 augroup filetype_notes
     autocmd!
     " --------------------------------- OPTIONS {{{
@@ -26,156 +174,14 @@ augroup filetype_notes
     au BufWritePost,FileWritePost *.gpg.* exec "normal! u"|
                 \ call winrestview(g:view) | setl title!
     " }}}
-    " --------------------------------- PLUGINS {{{
-    " }}}
-    " --------------------------------- FUNCTIONS {{{
-    "   Toggle hidden mode for personal tasks.
-    function! Perso()
-        if &background == "dark"
-            hi notesTaskPerso ctermfg=NONE
-        elseif &background == "light"
-            hi notesTaskPerso ctermfg=NONE
-        endif
-    endfun
-    "   Compute the time difference between two tasks
-    function! TimeDiff(line1, line2)
-        " Get line content and extract the time
-        let l:t1List = split(getline(a:line1), " ")
-        let l:t2List = split(getline(a:line1), " ")
-        let l:t1List = split((l:t1List[2]), ":")
-        let l:t2List = split((l:t2List[1]), ":")
-        " Get the diff in minutes between the timestamps.
-        let l:diff = 0
-        let l:time1 = l:t1List[0] * 3600 + l:t1List[1] * 60
-        let l:time2 = l:t2List[0] * 3600 + l:t2List[1] * 60
-        if l:time1 > l:time2
-            let l:diff = l:time1 - l:time2
-        elseif l:time1 < l:time2
-            let l:diff = (24 * 3600) - (l:time2 - l:time1)
-        endif
-        let l:min=trunc(fmod(l:diff,3600) / 60)
-        let l:hrs=trunc(l:diff / 3600)
-        " Replace the line with the result.
-        call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
-    endfunction
-    command! -range TimeDiff :call TimeDiff(<line1>,<line2>)
-
-    "   Like vim gF but works with pattern (ie. todo:today)
-    fu! NotesGF()
-        " One 'path' in the current line
-        if count(getline('.'), "@") == 1
-            " Path extraction
-            let l:path = getline('.')
-            let l:chr = stridx(l:path, "@", 0) + 1
-            let l:path = strpart(l:path, l:chr, strlen(l:path))
-            if count(l:path, " ") >= 1
-                let l:chr = stridx(l:path, " ", 0)
-                let l:path = strpart(l:path, 0, l:chr)
-            endif
-            " If the path comes with a line pattern or not
-            if count(l:path, ":") == 1
-                " Line pattern extraction
-                let l:path = split(l:path, ":")
-                let l:file = l:path[0]
-                let l:line = substitute(l:path[1], '_', '\\ ', "g")
-                echo l:file
-                " If the line pattern is a number only or a string
-                if l:line =~# '^\d\+$'
-                    exec 'silent find ' . l:file
-                    exec 'normal ' . l:line . 'G'
-                    exec 'normal z.'
-                else
-                    exec 'silent find +/' . l:line . ' ' . l:file
-                    exec 'normal z.'
-                endif
-            else
-                exec 'silent find ' . l:path
-                exec 'normal z.'
-            endif
-            " TODO
-            " Multiple 'path' in the current line
-            " elseif count(getline('.'), "@") > 1
-            " expand("<cword>")
-        endif
-    endfun
-
-    "   Send 'today' to 'history' and replace it with 'tomorrow'.
-    fu! NotesArchiveDay()
-        let l:save = winsaveview()
-        "   Check file
-        if expand('%:t:r') . "." . expand('%:e') != "todo.md"
-            echom ">>> Not in \"todo.md\" <<<"
-            return 1
-        endif
-        "   Check END
-        if strlen(getline(searchpos("^\\[.*\\]\\[END\\]")[0])) != 19
-            echom ">>> Unchecked \"END\" <<<"
-            return 1
-        endif
-        "   Check stats
-        if strlen(getline(searchpos("^\\[-\\]\\[ST\\]")[0])) != 31
-            echom ">>> Incomplete stats \"ST\" <<<"
-            return 1
-        endif
-        "   Check day
-        let l:checkday = 0
-        if strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
-            let l:checkday = 1
-        endif
-        "   Locate today and tomorrow
-        let l:today_loc = searchpos("##  Today")[0]
-        let l:tomorrow_loc = searchpos("##  Tomorrow")[0]
-        "   Insert fancy date
-        if getline(l:today_loc + 1) == ""
-            call setline(l:today_loc + 1, "#[ " . strftime('%a %d %b %Y') . " ]")
-        else
-            call append(l:today_loc, "#[ " . strftime('%a %d %b %Y') . " ]")
-        endif
-        "   Fill the date placeholders
-        execute "silent " . l:today_loc . ",$s/^\\[-/\\[" . strftime('%y%m%d') . "/g"
-        "   Hide the >> section
-        execute l:today_loc . ",$g/\\[>>\\]/norm g??"
-        "   Delete the END section
-        execute l:today_loc . ",$g/\\[END\\]/norm dd"
-        "   Copy today
-        let l:today_tasks = getline(l:today_loc + 1, line('$'))
-        "   Copy and reset SLEEP
-        let l:today_sleep = getline(line('$'))
-        let l:today_sleep = substitute(
-                    \l:today_sleep, strpart(l:today_sleep, 1, 6), "-", "")
-        "   Archive it
-        write
-        execute "silent edit $NOTES/Lists/history.gpg.md"
-        call append(5, l:today_tasks)
-        write
-        "   Delete today
-        execute "silent edit #"
-        execute "silent " . l:today_loc . ",$delete"
-        delete
-        "   Update Today
-        call append(line('$'), l:today_sleep)
-        call append(l:tomorrow_loc + 1, "[][END]")
-        call append(l:tomorrow_loc + 1, "[-][>>]")
-        call append(l:tomorrow_loc + 1, "[-][>>] -")
-        call append(l:tomorrow_loc + 1, "[-][>>] +")
-        call append(l:tomorrow_loc + 1, "[-][ST] ph en mi st fo yi")
-        call append(l:tomorrow_loc + 1, "")
-        call append(l:tomorrow_loc + 1, "##  Today")
-        call append(l:tomorrow_loc + 1, "")
-        if l:checkday == 0
-            call append(line('$') - 2, "[][Note upd] @Lists/history")
-        endif
-        "   Tomorrow template
-        call append(l:tomorrow_loc + 1, "[][Life] wake; snack + reading; gardening; prepare; reading")
-        call append(l:tomorrow_loc + 1, "[][Life] lunch; break")
-        call append(l:tomorrow_loc + 1, "[][Life] dinner; break; podcast")
-        write
-        call winrestview(l:save)
-        return 0
-    endfun
-
-    " }}}
     " --------------------------------- MAPPINGS {{{
+
+    "   NotesTimeDiff
+    au FileType notes nn <buffer><silent> <Space>T V:NotesTimeDiff<CR>J$daW0f]P<esc>0
+
+    "   ArchiveDay
+    au FileType notes nn <buffer><silent> <Space>a :call NotesArchiveDay()<CR>
+
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Space>? :echo "
                 \\n
                 \================[Notes]================\n
@@ -210,17 +216,16 @@ augroup filetype_notes
                 \ TASK_CHECK        : Space Space      \|\n
                 \ TASK_RECHECK      : Space r          \|\n
                 \ TASK_NOW          : Space n          \|\n
-                \ TASK_REPEAT       : Space .          \|\n
                 \ TASK_BREAK        : Space b          \|\n
                 \ TASK_BREAK_REPEAT : Space B          \|\n
-                \ TASK_POSTPONE_TOP : Space P          \|\n
-                \ TASK_POSTPONE_BOT : Space p          \|\n
+                \ TASK_POSTPONE     : Space p          \|\n
                 \ TASK_CLEAR        : Space c          \|\n
                 \ TASK_FIX          : Space f          \|\n
                 \                                      \|\n
                 \ ARCHIVE_DAY       : Space A          \|\n
                 \ TIME_DIFF         : Space T          \|\n
-                \ ROT               : Space g?         \|\n
+                \                                      \|\n
+                \ ROT >>            : Space g?         \|\n
                 \                                      \|\n
                 \"<CR>
 
@@ -263,10 +268,9 @@ augroup filetype_notes
                 \:q<CR>:redr!<CR>
 
 
-    "   NOTES_NAV
+    "   NotesNavigate
     au FileType notes nn <silent><buffer> <Space><Tab> :silent write<CR>gogF
-    au FileType notes nn <silent><buffer> <Space><CR> :call NotesGF()<CR>
-    " au FileType notes nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0:call NotesGF()<CR>
+    au FileType notes nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0:call NotesNavigate()<CR>
 
     "   INDEX_GEN
     au FileType notes nn <silent><buffer> <Space># :silent
@@ -284,9 +288,9 @@ augroup filetype_notes
 
 
     "   GPG ENC
-    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>E :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
     "   GPG DEC
-    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>D :silent %!gpg -d 2>/dev/null<CR>
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>dec :silent %!gpg -d 2>/dev/null<CR>
 
 
     "                       TODO LIST :
@@ -296,9 +300,9 @@ augroup filetype_notes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][Life]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>se O[][Self]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Comp]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cp O[][Comp]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mo O[][Phon]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
@@ -322,11 +326,11 @@ augroup filetype_notes
                 \ Tags:     Life → Life                                   \|\n
                 \           Admi → Administration                         \|\n
                 \           Fina → Finance                                \|\n
-                \           Self → Self                                   \|\n
                 \           Home → Home                                   \|\n
                 \           Comp → Computer                               \|\n
+                \           Conf → Config (conf/ repo)                    \|\n
                 \           Phon → Phone                                  \|\n
-                \           Note → Notes                                  \|\n
+                \           Note → Notes (Notes/ repo)                    \|\n
                 \           Inet → Internet                               \|\n
                 \           Code → Coding                                 \|\n
                 \           Crea → Creative                               \|\n
@@ -335,8 +339,9 @@ augroup filetype_notes
                 \ Life:     break, lunch, dinner, shopping                \|\n
                 \           sleep, wake, prepare, transport               \|\n
                 \           lostmyway, idle, unable, travel, vacation     \|\n
-                \           podcast, series, meet, drink, party           \|\n
-                \           sport, reading                                \|\n
+                \           podcast, series, reading, sport               \|\n
+                \           msg, call, meet, drink, party                 \|\n
+                \                                                         \|\n
                 \"<CR>
 
     "   TASK_FOCUS_TAG
@@ -355,9 +360,6 @@ augroup filetype_notes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cln<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i rvw<Esc>A<Space>
 
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \me 0f[f]i mee<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ca 0f[f]i cal<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ms 0f[f]i msg<Esc>A<Space>
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \? :echo "
                 \\n
                 \===========[Actions]==========\n
@@ -373,10 +375,6 @@ augroup filetype_notes
                 \           fix → fix         \|\n
                 \           cln → cleanup     \|\n
                 \           rvw → review      \|\n
-                \                             \|\n
-                \           mee → meet        \|\n
-                \           cal → call        \|\n
-                \           msg → msg         \|\n
                 \                             \|\n
                 \  ONLY FOR PRODUCTIVE TASKS  \|\n
                 \                             \|\n
@@ -411,12 +409,6 @@ augroup filetype_notes
     "   TASK_NOW
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>n GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
 
-    "   TASK_REPEAT
-    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>. mmY
-                \
-                \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>:let @/ = ""<CR>
-                \Pdi[$`mk
-
     "   TASK_BREAK
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>b :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
@@ -427,7 +419,7 @@ augroup filetype_notes
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
                 \:sil ec "datestamp check"<CR>
-                \:let @/ = ""<CR>:write<CR>A<Space><Esc>
+                \:let @/ = ""<CR>$:write<CR>
 
     "   TASK_BREAK_REPEAT
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>B :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
@@ -443,15 +435,10 @@ augroup filetype_notes
                 \:sil ec "clone current"<CR>
                 \:let @/ = ""<CR>:write<CR>jA<Space>
 
-    "   TASK_POSTPONE_TOP
-    au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>P kmmj
-                \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/[Life<CR>p`m:let @/ = ""<CR>
-
-    "   TASK_POSTPONE_BOT
+    "   TASK_POSTPONE
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/[Life<CR>nP`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/[Life<CR>p`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
@@ -468,12 +455,6 @@ augroup filetype_notes
                 \`m:let @/ = ""\|write<CR>
 
     "                       HISTORY
-
-    "   ARCHIVE_DAY
-    au FileType notes nn <buffer><silent> <Space>a :call NotesArchiveDay()<CR>
-
-    "   TIME_DIFF
-    au FileType notes nn <buffer><silent> <Space>T V:TimeDiff<CR>J$daW0f]P<esc>0
 
     "   ROT
     au FileType notes nn <buffer><silent> <Space>g? Mmm

@@ -87,20 +87,23 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias latr="ls --color=auto -latr"
 fi
 
-alias vi='vim'
-alias code=''
-alias atom=''
-alias grep='grep --color=auto'
 alias ag='grep -r --color=auto'
-alias nt="vim -c 'call Notrace()'"
+alias atom="vim -c ':smile'"
+alias code="vim -c ':smile'"
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
+alias grep='grep --color=auto'
+alias nt="vim -c 'call Notrace()'"
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
+alias vi='vim'
+
+#       [ git ]
 alias gad="git add"
-alias gau="git add -u"
 alias gap="git add -p"
+alias gau="git add -u"
 alias gbr="git branch"
 alias gca="git commit --amend"
 alias gcm="git commit -m"
+alias gco="git commit"
 alias gcp="git commit -p"
 alias gcv="git commit -v"
 alias gdi="git diff"
@@ -109,13 +112,34 @@ alias gpl="git pull"
 alias gpla="bash $HOME/git/utils/pull_all.zsh"
 alias gps="git push"
 alias gpsa="bash $HOME/git/utils/push_all.zsh"
-alias grs="git reset"
 alias grb="git rebase --interactive"
 alias grm="git rm"
-alias gst="git status"
-alias gsw="git switch"
+alias grs="git reset"
 alias gsh="git show"
+alias gst="git status"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
+alias gsw="git switch"
 
-alias km='kill -9 $(pgrep minishell)'
-alias mm='make sani && ./minishell'
+#       [ Make ]
+alias ma='make all'
+alias mar='make all valgrind'
+alias mc='make clean'
+alias mfc='make fclean'
+alias mn='make norm'
+alias mr='make re'
+alias mrs='make fclean san'
+alias ms='make san'
+alias msr='make san run'
+alias mu='make update'
+
+#------------------------------------------------------------------------------#
+#                  functions                                                   #
+#------------------------------------------------------------------------------#
+
+# @brief        Kill a process by giving its name
+# @param        The name of the proc to kill.
+
+function    k()
+{
+    kill -9 $(pgrep $1)
+}

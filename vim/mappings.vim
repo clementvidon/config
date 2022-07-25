@@ -122,7 +122,7 @@ nn <silent> glsl :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<
 "   GET SYNTAX
 nn glsy :call GetSyntax()<CR>
 "   TIME STAMP
-nn glts :put=strftime('%y%m%d')<CR>
+nn glts :put=strftime('%y%m%d%H%M%S')<CR>
 "   ROT%
 nn gl? GVgog?g;g;
 "   CHANGE COLORS
