@@ -76,3 +76,44 @@ function! ColorSwitch(clight, cdark)
     endif
 endfunction
 " }}}
+" --------------------------------- IMPROVE {{{
+
+"   @brief  Vim 'gF' extension to make it accept a string pattern as a cursor
+"           position in the target file.
+"
+"   @see    gf, gF
+"
+"           TODO
+"           See ':h isfname'
+
+function! GFPattern()
+    " One 'path' in the current line
+    if count(getline('.'), "@") == 1
+        " Path extraction
+        let l:path = getline('.')
+        let l:chr = stridx(l:path, "@", 0) + 1
+        let l:path = strpart(l:path, l:chr, strlen(l:path))
+        if count(l:path, " ") >= 1
+            let l:chr = stridx(l:path, " ", 0)
+            let l:path = strpart(l:path, 0, l:chr)
+        endif
+        " If the path comes with a line pattern or not
+        if count(l:path, "#") == 1
+            " Line pattern extraction
+            let l:path = split(l:path, "#")
+            let l:file = l:path[0]
+            let l:line = substitute(l:path[1], '_', '\\ ', "g")
+            " If the line pattern is a number only or a string
+            exec 'silent find +/' . l:line . ' ' . l:file
+            exec 'normal z.'
+        else
+            exec 'silent find ' . l:path
+            exec 'normal z.'
+        endif
+        " TODO
+        " Multiple 'path' in the current line
+        " elseif count(getline('.'), "@") > 1
+        " expand("<cword>")
+    endif
+endfunction
+" }}}

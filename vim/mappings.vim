@@ -90,8 +90,6 @@ nn glkp :if &keywordprg == ":help" <BAR> set keywordprg=man <BAR>
             \ endif <BAR> set keywordprg?<CR>
 "   LIST
 nn glli :set list!<CR>
-"   NUMBERS
-nn glnu :set relativenumber!<CR>
 "   PASTE MODE
 nn glpa :set paste!<CR>
 "   PRINT DATE

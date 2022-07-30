@@ -85,6 +85,7 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias ls="ls --color=auto"
     alias la="ls --color=auto -la"
     alias latr="ls --color=auto -latr"
+    alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
 fi
 
 alias ag='grep -r --color=auto'
@@ -122,12 +123,13 @@ alias gsw="git switch"
 
 #       [ Make ]
 alias ma='make all'
-alias mar='make all valgrind'
+alias mav='make all valgrind_run'
 alias mc='make clean'
-alias mfc='make fclean'
+alias mf='make fclean'
+alias mfs='make fclean san'
 alias mn='make norm'
 alias mr='make re'
-alias mrs='make fclean san'
+alias mrv='make re valgrind_run'
 alias ms='make san'
 alias msr='make san run'
 alias mu='make update'

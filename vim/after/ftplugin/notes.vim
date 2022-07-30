@@ -1,9 +1,9 @@
 " --------------------------------- FUNCTIONS {{{
 
-"    @brief Print the time difference between two tasks.
+"   @brief Print the time difference between two tasks.
 "
-"    @param line1 first task.
-"    @param line2 second task.
+"   @param line1 first task.
+"   @param line2 second task.
 
 function! NotesTimeDiff(line1, line2)
     " Get line content and extract the time
@@ -28,9 +28,9 @@ endfunction
 
 command! -range NotesTimeDiff :call NotesTimeDiff(<line1>,<line2>)
 
-"    @brief Open the link location into the current buffer.  Jump to the
-"           first line matching the optionally given ':pattern' i.
-"           (Like vim 'gF' but works with a string pattern)
+"   @brief Open the link location into the current buffer.
+"          Jump to the first line matching the optionally given '#pattern'
+"          (Like web URLs)
 
 function! NotesNavigate()
     " One 'path' in the current line
@@ -44,9 +44,9 @@ function! NotesNavigate()
             let l:path = strpart(l:path, 0, l:chr)
         endif
         " If the path comes with a line pattern or not
-        if count(l:path, ":") == 1
+        if count(l:path, "#") == 1
             " Line pattern extraction
-            let l:path = split(l:path, ":")
+            let l:path = split(l:path, "#")
             let l:file = l:path[0]
             let l:line = substitute(l:path[1], '_', '\\ ', "g")
             " If the line pattern is a number only or a string
@@ -119,15 +119,14 @@ function! NotesArchiveDay()
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][Note upd] @Lists/history")
+        call append(line('$') - 2, "[][Note] @Lists/history update")
     endif
     "   Tomorrow template
-    call append(l:tomorrow_loc + 1, "[][Life] wake; snack + reading")
-    call append(l:tomorrow_loc + 1, "[][Note upd] @Lists/todo")
-    call append(l:tomorrow_loc + 1, "[][Life] gardening; prepare")
+    call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read")
+    call append(l:tomorrow_loc + 1, "[][Life] sport; prepare")
     call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] dinner")
-    call append(l:tomorrow_loc + 1, "[][Note upd] @Lists/todo")
+    call append(l:tomorrow_loc + 1, "[][Note] @Lists/todo update")
     call append(l:tomorrow_loc + 1, "[][Life] podcast")
     write
     call winrestview(l:save)
@@ -144,7 +143,6 @@ function! Perso()
 endfunction
 
 " }}}
-
 
 augroup filetype_notes
     autocmd!
@@ -301,9 +299,9 @@ augroup filetype_notes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cp O[][Comp]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mo O[][Phon]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][Phon]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Code]<Esc><<$
@@ -328,8 +326,8 @@ augroup filetype_notes
                 \           Fina → Finance                                \|\n
                 \           Home → Home                                   \|\n
                 \           Comp → Computer                               \|\n
-                \           Conf → Config (conf/ repo)                    \|\n
                 \           Phon → Phone                                  \|\n
+                \           Conf → Config (conf/ repo)                    \|\n
                 \           Note → Notes (Notes/ repo)                    \|\n
                 \           Inet → Internet                               \|\n
                 \           Code → Coding                                 \|\n
@@ -346,43 +344,6 @@ augroup filetype_notes
 
     "   TASK_FOCUS_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>\ 0f[l
-
-    "   TASK_ADD_ACT
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \ch 0f[f]i chk<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \di 0f[f]i dig<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \st 0f[f]i std<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \pr 0f[f]i prx<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \th 0f[f]i thk<Esc>A<Space>
-
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \se 0f[f]i stp<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \up 0f[f]i upd<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \fi 0f[f]i fix<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \cl 0f[f]i cln<Esc>A<Space>
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \re 0f[f]i rvw<Esc>A<Space>
-
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \? :echo "
-                \\n
-                \===========[Actions]==========\n
-                \                             \|\n
-                \ Actions:  chk → check       \|\n
-                \           dig → dig         \|\n
-                \           std → study       \|\n
-                \           prx → practice    \|\n
-                \           thk → think       \|\n
-                \                             \|\n
-                \           stp → setup       \|\n
-                \           upd → update      \|\n
-                \           fix → fix         \|\n
-                \           cln → cleanup     \|\n
-                \           rvw → review      \|\n
-                \                             \|\n
-                \  ONLY FOR PRODUCTIVE TASKS  \|\n
-                \                             \|\n
-                \"<CR>
-
-    "   TASK_FOCUS_ACT
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> \<Tab> 0f[f l
-
 
     "   TASK_CHECK
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
@@ -438,7 +399,7 @@ augroup filetype_notes
     "   TASK_POSTPONE
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Tomorrow$<CR>/[Life<CR>p`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Today$<CR>?[Note<CR>P`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m

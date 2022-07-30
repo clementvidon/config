@@ -3,19 +3,22 @@ augroup filetype_c
     " --------------------------------- HIGHLIGHTS {{{
     if &background == "dark"
         au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
-        au FileType c,cpp hi cPrint ctermfg=158
+        au FileType c,cpp hi cDebug ctermfg=158
         au FileType c,cpp hi cString ctermfg=102
         au FileType c,cpp hi cTodo ctermfg=84
+        au FileType c,cpp hi cComment ctermfg=103
+        au FileType c,cpp hi link cCommentL cComment
+        au FileType c,cpp hi link cCommentStart cComment
     elseif &background == "light"
         au FileType c,cpp hi Search ctermbg=229 ctermfg=NONE
-        au FileType c,cpp hi cPrint ctermfg=34
+        au FileType c,cpp hi cDebug ctermfg=31
         au FileType c,cpp hi cString ctermfg=245
         au FileType c,cpp hi cTodo ctermfg=205
+        au FileType c,cpp hi cComment ctermfg=103
+        au FileType c,cpp hi link cCommentL cComment
+        au FileType c,cpp hi link cCommentStart cComment
     endif
     au FileType c,cpp hi link cCharacter cleared
-    au FileType c,cpp hi link cComment Type
-    au FileType c,cpp hi link cCommentL Type
-    au FileType c,cpp hi link cCommentStart Type
     au FileType c,cpp hi link cConditional cleared
     au FileType c,cpp hi link cConstant cleared
     au FileType c,cpp hi link cDefine cleared
@@ -33,8 +36,7 @@ augroup filetype_c
     au FileType c,cpp hi link cType cleared
     au FileType c,cpp hi link cppNumber cleared
     au FileType c,cpp hi! link cIncluded cleared
-    au FileType c,cpp syn match cPrint "printf" contains=cString,cComment,cCommentL
-    au FileType c,cpp syn match cPrint ".*ft_put.*fd (.*" contains=cString,cComment,cCommentL
+    au FileType c,cpp syn match cDebug "printf\|dprintf" contains=cString,cComment,cCommentL
     " }}}
     " --------------------------------- OPTIONS {{{
     au FileType qf setl wrap
@@ -58,40 +60,35 @@ augroup filetype_c
     " }}}
     " --------------------------------- MAPPINGS {{{
 
-    "   MAKE
+    "   Make + run
 
-    "   :make san
+    au Filetype c,cpp,make nn <silent><buffer> mm :wa<CR>
+                \
+                \:!clear<CR>:make run<CR>
+
+    au Filetype c,cpp,make nn <silent><buffer> mM :wa<CR>
+                \
+                \:!clear<CR>:make re run<CR>
+
+    "   Make sani + run
+
     au Filetype c,cpp,make nn <silent><buffer> ms :wa<CR>
                 \
-                \:exec 'silent !rm -f philo'<CR>
-                \:exec 'make -j san'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
-    "   :make fclean san
+                \:!clear<CR>:make san run<CR>
+
     au Filetype c,cpp,make nn <silent><buffer> mS :wa<CR>
                 \
-                \:exec 'silent !rm -f philo'<CR>
-                \:exec 'make fclean && make -j san'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
-    "   :make all
-    au Filetype c,cpp,make nn <silent><buffer> ma :wa<CR>
-                \
-                \:exec 'silent !rm -f philo'<CR>
-                \:!clear<CR>
-                \:exec 'make -j all'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
-    "   :make fclean all
-    au Filetype c,cpp,make nn <silent><buffer> mA :wa<CR>
-                \
-                \:exec 'silent !rm -f philo'<CR>
-                \:exec 'make fclean && make -j all'<CR>:cw<CR>:!clear; ./philo 4 410 200 200<CR>
-    "   :make all + valgrind
+                \:!clear<CR>:make fclean san run<CR>
+
+    "   Make + valgrind run
+
     au Filetype c,cpp,make nn <silent><buffer> mv :wa<CR>
                 \
-                \:exec 'silent !rm -f philo'<CR>
-                \:!clear<CR>
-                \:exec 'make -j all'<CR>:cw<CR>:!clear; valgrind -q --leak-check=yes --show-leak-kinds=all ./philo 4 410 200 200<CR>
-    "   :make fclean all + valgrind
+                \:!clear<CR>:make valgrind_run<CR>
+
     au Filetype c,cpp,make nn <silent><buffer> mV :wa<CR>
                 \
-                \:exec 'silent !rm -f philo'<CR>
-                \:exec 'make fclean && make -j all'<CR>:cw<CR>:!clear; valgrind -q --leak-check=yes --show-leak-kinds=all ./philo 4 410 200 200<CR>
+                \:!clear<CR>:make re valgrind_run<CR>
 
     "   COMPILE [& RUN] ALL
 
