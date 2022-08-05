@@ -1,6 +1,6 @@
 augroup filetype_c
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
+    " --------------------------------- HIGHLIGHTS >>>
     if &background == "dark"
         au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
         au FileType c,cpp hi cDebug ctermfg=158
@@ -37,14 +37,14 @@ augroup filetype_c
     au FileType c,cpp hi link cppNumber cleared
     au FileType c,cpp hi! link cIncluded cleared
     au FileType c,cpp syn match cDebug "printf\|dprintf" contains=cString,cComment,cCommentL
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType qf setl wrap
     au FileType c,cpp setl showmatch
     au FileType c,cpp setl noexpandtab cindent textwidth=80
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/*src/**
     au FileType c,cpp setl foldmethod=marker
-    au FileType c,cpp setl foldmarker={{{,}}}
+    au FileType c,cpp setl foldmarker=>>>,<<<
 
     " Compile
     au FileType c,cpp let b:name = "philo"
@@ -53,12 +53,12 @@ augroup filetype_c
     au FileType c,cpp let b:san = "-fsanitize=address,undefined,signed-integer-overflow -g"
     au FileType c,cpp let b:valgrind = "valgrind -q --leak-check=yes --show-leak-kinds=all --track-fds=yes"
     au FileType c,cpp let b:librairies = ""
-    " }}}
-    " --------------------------------- PLUGINS {{{
+    " <<<
+    " --------------------------------- PLUGINS >>>
     au FileType c,cpp let g:gutentags_enabled = 1
     au FileType c,cpp let b:surround_45 = '("\r");'
-    " }}}
-    " --------------------------------- MAPPINGS {{{
+    " <<<
+    " --------------------------------- MAPPINGS >>>
 
     "   Make + run
 
@@ -108,7 +108,7 @@ augroup filetype_c
                 \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;./a.out'<CR>
-                " \:exec '!clear;./a.out /bin/ls "\|" /usr/bin/grep microshell ";" /bin/echo hello\|cat -e'<CR>
+    " \:exec '!clear;./a.out /bin/ls "\|" /usr/bin/grep microshell ";" /bin/echo hello\|cat -e'<CR>
 
     "   nothing
     au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
@@ -172,5 +172,5 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> <Space>m <nop>
     au Filetype c nn <silent><buffer> <Space>mm mmodprintf (2, "(%s: %s: %d)\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
-    " }}}
+    " <<<
 augroup END

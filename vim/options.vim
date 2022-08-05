@@ -1,4 +1,4 @@
-" --------------------------------- UI {{{
+" --------------------------------- UI >>>
 filetype plugin indent on           "   filetype, plugin, indent auto-detect
 set fillchars+=vert:\  "            "   custom vert window separator
 augroup custom_hi
@@ -17,8 +17,8 @@ elseif system("uname -s") == "Linux\n"
     color nord | set bg=dark
 endif
 
-" }}}
-" --------------------------------- ERGONOMIC {{{
+" <<<
+" --------------------------------- ERGONOMIC >>>
 set ignorecase smartcase            "   ignore case except if uppercase used
 set listchars=tab:>\ ,trail:-       "   strings to use for :list command
 set nowrap                          "   disable screen line wrapping
@@ -36,25 +36,25 @@ if empty(glob($DOTVIM . "/spell"))
     exec 'silent !mkdir $DOTVIM/spell'
 endif
 set spellfile=$DOTVIM/spell/custom.utf-8.add
-" }}}
-" --------------------------------- INDENTATION {{{
+" <<<
+" --------------------------------- INDENTATION >>>
 set autoindent                      "   auto indent
 set expandtab                       "   insert spaces instead tab
 set formatoptions+=j                "   see ':h fo-table'
 set shiftround                      "   indent to the nearest tab mark
 set shiftwidth=4 tabstop=4          "   shift and tab width in spaces
-" }}}
-" --------------------------------- PATH {{{
+" <<<
+" --------------------------------- PATH >>>
 set pa=.,$DOTVIM                    "   :find path
 set wig=.git                        "   wildmenu results to hide
-" }}}
-" --------------------------------- PERFORMANCES{{{
+" <<<
+" --------------------------------- PERFORMANCES >>>
 set lazyredraw                      "   increase macro fluidity
 set maxmempattern=100000            "   pattern matching memory in kB (max 2kk)
 set ttimeoutlen=0                   "   mapping and keycode delays (fix esc)
 set updatetime=100                  "   gitgutter update faster
-" }}}
-" --------------------------------- SECURITY {{{
+" <<<
+" --------------------------------- SECURITY >>>
 set belloff=all                     "   no more ring the bell
 set history=9999                    "   extends cmdline history
 set nomodeline secure               "   disables shell access / modelines
@@ -72,8 +72,8 @@ endif
 set undodir=$DOTVIM/.undo//,/tmp//       "   undo files directory
 set undofile                        "   enable undofiles
 set viminfo+='100,<50,s10,h,n$DOTVIM/.viminfo " viminfo location
-" }}}
-" --------------------------------- EXTERNAL PRG {{{
+" <<<
+" --------------------------------- EXTERNAL PRG >>>
 "   GREP
 if executable('ag')
     " grep [<flags>] <pattern> [<files>]
@@ -85,11 +85,11 @@ let &makeprg = 'if [ -f Makefile ]; then make $* 1>/dev/null; elif [ -f "../Make
             \ elif [ -f ../../Makefile ]; then make -C ../.. $* 1>/dev/null;
             \ elif [ -f ../../../Makefile ]; then make -C ../../.. $* 1>/dev/null;
             \fi'
-" }}}
-" --------------------------------- MISC {{{
+" <<<
+" --------------------------------- MISC >>>
 " fix remote shell arrows keys
 "set t_ku=OA
 "set t_kd=OB
 "set t_kr=OC
 "set t_kl=OD
-" }}}
+" <<<

@@ -1,4 +1,4 @@
-" --------------------------------- PLUGINS OPTIONS {{{
+" --------------------------------- PLUGINS OPTIONS >>>
 "   ALE
 let g:ale_enabled = 1
 let g:ale_echo_msg_format = '%s [%linter% %severity%]'
@@ -60,8 +60,8 @@ let g:netrw_dirhistmax = 0
 
 "   RAINBOW
 let g:rainbow_active = 0
-" }}}
-" --------------------------------- PLUGINS LOADER {{{
+" <<<
+" --------------------------------- PLUGINS LOADER >>>
 "ackadd cfilter                         "   REDUCE THE QF OUTPUT
 "ackadd matchit                         "   CLOSING TAG MATCH
 call plug#begin('$DOTVIM/.plugged')
@@ -97,4 +97,4 @@ Plug 'junegunn/seoul256.vim'            "   COLORSCHEME
 "   CREATIVE
 "lug 'tidalcycles/vim-tidal'            "   LIVE CODING
 call plug#end()
-" }}}
+" <<<

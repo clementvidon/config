@@ -1,13 +1,13 @@
 augroup filetype_yml
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- HIGHLIGHTS >>>
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType yml let &l:formatprg="prettier --stdin-filepath %"
     au FileType yml setl pa+=$DOTVIM/after/ftplugin/
-    " }}}
-    " --------------------------------- PLUGINS {{{
-    " }}}
-    " --------------------------------- MAPPINGS {{{
-    " }}}
+    " <<<
+    " --------------------------------- PLUGINS >>>
+    " <<<
+    " --------------------------------- MAPPINGS >>>
+    " <<<
 augroup END

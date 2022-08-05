@@ -1,16 +1,16 @@
 augroup filetype_php
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- HIGHLIGHTS >>>
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType php let &l:formatprg="~/vendor/bin/phpcbf --standard=PSR12 -"
     au FileType php let g:php_folding=2             " folding level max
     au FileType php setl foldmethod=syntax
     au FileType php setl path+=**                   " find any project file
     au FileType php setl pa+=$DOTVIM/after/ftplugin/
     au FileType php setl suffixesadd+=.php          " gf to filename even without.ext
-    " }}}
-    " --------------------------------- PLUGINS {{{
+    " <<<
+    " --------------------------------- PLUGINS >>>
     "   ALE
     au FileType php let g:ale_linters = {'phpcs': ['php']}
     "   PHP DOCUMENTOR
@@ -26,8 +26,8 @@ augroup filetype_php
     au FileType php nn \e :call PhpExpandClass()<CR>
     "   VIM SURROUND
     au FileType php let b:surround_45 = "<?php \r ?>" " yss-
-    " }}}
-    " --------------------------------- MAPPINGS {{{
+    " <<<
+    " --------------------------------- MAPPINGS >>>
     "   RUN
     au FileType php nn <buffer> <Space>5 :w!<CR>:!/usr/bin/php %<CR>
     "   TAGS GEN
@@ -38,5 +38,5 @@ augroup filetype_php
     au FileType php nn <buffer> <Space><Space>ft :call Tgfiletype("php","html")<CR>
     "   BEAUTIFY html indent then php indent and fix
     au FileType php nn <buffer> <Space><Space>gq mm:set ft=html<CR>gg=G`m:set ft=php<CR>mmgggqG`m:silent write\|echo "html indented, php indented and fixed --"<CR>
-    " }}}
+    " <<<
 augroup END

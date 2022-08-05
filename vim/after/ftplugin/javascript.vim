@@ -1,19 +1,19 @@
 augroup filetype_javascript
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- HIGHLIGHTS >>>
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType qf setl wrap
     au FileType javascript setl autoindent expandtab textwidth=80
     au FileType javascript setl shiftwidth=2 tabstop=2
     au FileType javascript let &l:formatprg="prettier --stdin-filepath %"
     au FileType javascript setl pa+=$DOTVIM/after/ftplugin/
-    " }}}
-    " --------------------------------- PLUGINS {{{
+    " <<<
+    " --------------------------------- PLUGINS >>>
     "   ALE
     au FileType javascript let g:ale_linters = {'javascript': ['eslint']}
-    " }}}
-    " --------------------------------- MAPPINGS {{{
+    " <<<
+    " --------------------------------- MAPPINGS >>>
     "   RUN FILE
     au FileType javascript nn <buffer> <Space>5 :w\|lc %:h<CR>:!clear; node %<CR>
 
@@ -41,5 +41,5 @@ augroup filetype_javascript
 
     "   PRINT WRAP
     au Filetype javascript nn <silent><buffer> <Space>P 0<<V:norm f;Di<Esc>Iconsole.log(<Esc>A);<Esc>==f)h
-    " }}}
+    " <<<
 augroup END

@@ -1,4 +1,4 @@
-" --------------------------------- COMMANDS {{{
+" --------------------------------- COMMANDS >>>
 "   SUDO :WRITE
 com! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
@@ -53,12 +53,12 @@ augroup END
 "     au!
 "     au BufWritePre,FileWritePre * if &expandtab ==# "noexpandtab" | execute ':%retab' | endif
 " augroup END
-" }}}
-" --------------------------------- OPTIMIZE {{{
+" <<<
+" --------------------------------- OPTIMIZE >>>
 "   SILENT SHELL CMD
 com! -nargs=+ S exec 'silent !<args>' | redraw!
-" }}}
-" --------------------------------- TOGGLE {{{
+" <<<
+" --------------------------------- TOGGLE >>>
 "   TOGGLE COLORS
 function! ColorSwitch(clight, cdark)
     if &background ==# "dark"
@@ -75,8 +75,8 @@ function! ColorSwitch(clight, cdark)
         exec 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.yml ~/.config/alacritty/colors.yml'
     endif
 endfunction
-" }}}
-" --------------------------------- IMPROVE {{{
+" <<<
+" --------------------------------- IMPROVE >>>
 
 "   @brief  Vim 'gF' extension to make it accept a string pattern as a cursor
 "           position in the target file.
@@ -116,4 +116,4 @@ function! GFPattern()
         " expand("<cword>")
     endif
 endfunction
-" }}}
+" <<<

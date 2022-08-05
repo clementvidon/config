@@ -1,14 +1,14 @@
 augroup filetype_markdown
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- HIGHLIGHTS >>>
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType markdown let &l:formatprg="prettier --stdin-filepath %"
     au FileType markdown setl pa+=$DOTVIM/after/ftplugin/
-    " }}}
-    " --------------------------------- PLUGINS {{{
-    " }}}
-    " --------------------------------- MAPPINGS {{{
-    " }}}
+    " <<<
+    " --------------------------------- PLUGINS >>>
+    " <<<
+    " --------------------------------- MAPPINGS >>>
+    " <<<
 augroup END
 

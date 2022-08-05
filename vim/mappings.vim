@@ -4,7 +4,7 @@
 "             '<Tab> '<Space> `<Tab> `<Space>
 "             dc ds dy d! d= d< d> yc yd yo ys y! y= =p =P cd cs co cp
 "             z
-" --------------------------------- NAV (s gs sh sv) {{{
+" --------------------------------- NAV (s gs sh sv) >>>
 "                       FILE
 "   FIND
 nn sf :fin<Space>
@@ -71,8 +71,8 @@ nn xxi :e ~/.config/i3/config<CR>gi<Esc>
 nn xxx :e ~/.Xresources<CR>gi<Esc>
 nn xxt :e ~/.tmux.conf<CR>gi<Esc>
 nn xxn :!sudo vi /etc/netplan/00-installer-config.yaml<CR>
-" }}}
-" --------------------------------- CMDLINE (gl) {{{
+" <<<
+" --------------------------------- CMDLINE (gl) >>>
 "                       OPTIONS
 "   FUNC CALL
 nn glca :call<Space>
@@ -111,6 +111,8 @@ nn glsp :set spell!<CR>
 nn glve :if &virtualedit == "" <BAR> set virtualedit=all <BAR>
             \ else <BAR> set virtualedit= <BAR>
             \ endif <BAR> set virtualedit?<CR>
+"   WRAPSCAN
+nn glws :set wrapscan!<CR>
 "                       FUNCTIONS
 "   RUN CURRENT LINE
 nn glru :exe getline(".")<CR>
@@ -138,8 +140,8 @@ nn glrm :cd %:h<CR>:!rm -f %<CR>:q<CR>
 nn glta :S ctags -R<CR>
 "   BC
 nn glbc V:!bc<CR>
-" }}}
-" --------------------------------- PLUGINS (g h-ltyszcn) {{{
+" <<<
+" --------------------------------- PLUGINS (g h-ltyszcn) >>>
 "                       GITGUTTER
 "   NAV
 nm ]g <Plug>(GitGutterNextHunk)
@@ -181,13 +183,11 @@ nn [a :ALEPrevious<CR>
 nn <Space>q :cw<CR>
 nn ]q :cnext<CR>
 nn [q :cprev<CR>
-" }}}
-" --------------------------------- IMPROVEMENTS {{{
+" <<<
+" --------------------------------- IMPROVEMENTS >>>
 "   QUICK CMDLINE
 no ; :
 cno <c-h> <left>
-cno <c-j> <down>
-cno <c-k> <up>
 cno <c-l> <right>
 "   INDENT
 nn <Space>= Mmmgo=G`mzz3<C-O>
@@ -247,4 +247,4 @@ no <Right>v <c-v>
 ino <Right>b <c-b>
 no <Right>b <c-b>
 ino <Right>xf <c-x><c-f>
-" }}}
+" <<<

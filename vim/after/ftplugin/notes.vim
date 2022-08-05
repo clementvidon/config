@@ -1,5 +1,4 @@
-" --------------------------------- FUNCTIONS {{{
-
+" --------------------------------- FUNCTIONS >>>
 "   @brief Print the time difference between two tasks.
 "
 "   @param line1 first task.
@@ -63,7 +62,9 @@ function! NotesNavigate()
     endif
 endfunction
 
-"   Send 'today' to 'history' and replace it with 'tomorrow'.
+"   @brief Archive 'todo' Today done tasks to 'history' and replace it with
+"          Tomorrow ones.
+
 function! NotesArchiveDay()
     let l:save = winsaveview()
     "   Check file
@@ -119,21 +120,22 @@ function! NotesArchiveDay()
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][Note] @Lists/history update")
+        call append(line('$') - 2, "[][Note] @history update")
     endif
     "   Tomorrow template
     call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read")
-    call append(l:tomorrow_loc + 1, "[][Life] sport; prepare")
+    call append(l:tomorrow_loc + 1, "[][Life] run; prepare")
     call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] dinner")
-    call append(l:tomorrow_loc + 1, "[][Note] @Lists/todo update")
+    call append(l:tomorrow_loc + 1, "[][Note] @todo update")
     call append(l:tomorrow_loc + 1, "[][Life] podcast")
     write
     call winrestview(l:save)
     return 0
 endfunction
 
-"   Unhide personal tasks.
+"   @brief Unhide 'notesTaskPerso' highlighted tasks
+
 function! Perso()
     if &background == "dark"
         hi notesTaskPerso ctermfg=NONE
@@ -142,11 +144,11 @@ function! Perso()
     endif
 endfunction
 
-" }}}
+" <<<
 
 augroup filetype_notes
     autocmd!
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- OPTIONS >>>
     au BufRead,BufNewFile *.md,*.markdown set filetype=notes
     au BufRead,BufNewFile *.md,*.markdown
                 \   setl textwidth=80
@@ -171,8 +173,8 @@ augroup filetype_notes
                 \exec 'silent %!gpg --default-recipient Clem9nt --armor --encrypt 2>/dev/null'
     au BufWritePost,FileWritePost *.gpg.* exec "normal! u"|
                 \ call winrestview(g:view) | setl title!
-    " }}}
-    " --------------------------------- MAPPINGS {{{
+    " <<<
+    " --------------------------------- MAPPINGS >>>
 
     "   NotesTimeDiff
     au FileType notes nn <buffer><silent> <Space>T V:NotesTimeDiff<CR>J$daW0f]P<esc>0
@@ -180,6 +182,7 @@ augroup filetype_notes
     "   ArchiveDay
     au FileType notes nn <buffer><silent> <Space>a :call NotesArchiveDay()<CR>
 
+    "   MappingInfo
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Space>? :echo "
                 \\n
                 \================[Notes]================\n
@@ -206,6 +209,7 @@ augroup filetype_notes
                 \\n
                 \================[Todos]================\n
                 \                                      \|\n
+                \ TASK_TAG_HELP     : Tab   ?          \|\n
                 \ TASK_ADD_TAG      : Tab   …          \|\n
                 \ TASK_FOCUS_TAG    : Tab   \\          \|\n
                 \ TASK_ADD_ACT      : \\     …          \|\n
@@ -296,49 +300,56 @@ augroup filetype_notes
     "   TASK_ADD_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>[ O[][]<Esc><<2f]i
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][Life]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ho O[][Home]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cp O[][Comp]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][Phon]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Code]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Code]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][Phon]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cp O[][Comp]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cr O[][Crea]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Misc]<Esc><<$
     "   Tags/Life
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][Life] break<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>di O[][Life] dinner<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>id O[][Life] idle<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lo O[][Life] lostmyway<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>lu O[][Life] lunch<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>sp O[][Life] sport<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>tv O[][Life] travel (From -> To)<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>un O[][Life] unable<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>va O[][Life] vacation<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>di O[][Life] digress<Esc><<$
+    "   TASK_TAG_HELP
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
                 \\n
                 \===========================[Tags]=========================\n
                 \                                                         \|\n
-                \ Tags:     Life → Life                                   \|\n
-                \           Admi → Administration                         \|\n
-                \           Fina → Finance                                \|\n
-                \           Home → Home                                   \|\n
-                \           Comp → Computer                               \|\n
-                \           Phon → Phone                                  \|\n
-                \           Conf → Config (conf/ repo)                    \|\n
-                \           Note → Notes (Notes/ repo)                    \|\n
-                \           Inet → Internet                               \|\n
-                \           Code → Coding                                 \|\n
-                \           Crea → Creative                               \|\n
-                \           Misc → Miscellaneous                          \|\n
+                \ Tags:     Life → Life             <action> [<details>]  \|\n
+                \           Code → Coding        @ [<action> [<details>]] \|\n
+                \           Conf → Config        @ [<action> [<details>]] \|\n
+                \           Note → Notes         @ [<action> [<details>]] \|\n
+                \           Phon → Phone            <action> [<details>]  \|\n
+                \           Comp → Computer         <action> [<details>]  \|\n
+                \           Crea → Creative         <action> [<details>]  \|\n
+                \           Admi → Administration   <action> [<details>]  \|\n
+                \           Fina → Finance          <action> [<details>]  \|\n
+                \           Inet → Internet         <action> [<details>]  \|\n
+                \           Misc → Miscellaneous    <action> [<details>]  \|\n
                 \                                                         \|\n
-                \ Life:     break, lunch, dinner, shopping                \|\n
-                \           sleep, wake, prepare, transport               \|\n
-                \           lostmyway, idle, unable, travel, vacation     \|\n
-                \           podcast, series, reading, sport               \|\n
-                \           msg, call, meet, drink, party                 \|\n
+                \ Actions:  check       -                                 \|\n
+                \           dig         -                                 \|\n
+                \           study       -                                 \|\n
+                \           praxis      -                                 \|\n
+                \           think       -                                 \|\n
+                \           talk        -                                 \|\n
+                \           setup       -                                 \|\n
+                \           dev         - Develop something new.          \|\n
+                \           protect     -                                 \|\n
+                \           remove      -                                 \|\n
+                \           fix         -                                 \|\n
+                \           update      - Modify something that was done. \|\n
+                \           cleanup     -                                 \|\n
+                \           review      -                                 \|\n
+                \           defend      -                                 \|\n
+                \           evaluate    -                                 \|\n
+                \           help        -                                 \|\n
+                \                                                         \|\n
+                \ Test:     add         - ???                             \|\n
+                \           make        - for Crea ???                    \|\n
                 \                                                         \|\n
                 \"<CR>
 
@@ -423,9 +434,10 @@ augroup filetype_notes
                 \:g/\[>>\]/norm g??<CR>
                 \`mzz3<C-O>
 
-    " }}}
-    " --------------------------------- DIGRAPHS {{{
-    au FileType notes exec "digraphs as " . 0x2090
+    " <<<
+    " --------------------------------- DIGRAPHS >>>
+    au FileType notes exec "ino <C-K><Space><BS> <Nop>"
+
     au FileType notes exec "digraphs es " . 0x2091
     au FileType notes exec "digraphs hs " . 0x2095
     au FileType notes exec "digraphs is " . 0x1D62
@@ -488,5 +500,5 @@ augroup filetype_notes
     au FileType notes exec "digraphs US " . 0x1D41
     au FileType notes exec "digraphs VS " . 0x2C7D
     au FileType notes exec "digraphs WS " . 0x1D42
-    " }}}
+    " <<<
 augroup END

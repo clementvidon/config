@@ -7,7 +7,7 @@
 if exists("b:current_syntax")
     finish
 endif
-" --------------------------------- SYNTAX {{{
+" --------------------------------- SYNTAX >>>
 " Headers
 syn region notesH1 start="^##\@!" end="#*\s*$"
 syn region notesH2 start="^###\@!" end="#*\s*$"
@@ -60,8 +60,8 @@ syn match notesEscape "\\[][\\`*_{}()<>#+.!-]"
 " Keywords
 syn keyword notesBoldItalic TODO
 
-" }}}
-" --------------------------------- COLORS {{{
+" <<<
+" --------------------------------- COLORS >>>
 " FG: for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
 " BG: for i in {0..255}; do printf '\e[48;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
 " dark:  0:black  1:red  2:green  3:yellow  4:blue  5:magenta  6:cyan  7:white
@@ -153,5 +153,5 @@ elseif &background == "light"
     " Escape                    : dark grey
     hi notesEscape ctermfg=213
 endif
-" }}}
+" <<<
 let b:current_syntax = "notes"

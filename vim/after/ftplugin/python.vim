@@ -1,20 +1,20 @@
 augroup filetype_python
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- HIGHLIGHTS >>>
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType python setl showmatch
     au FileType python setl expandtab cindent tw=80
     au FileType python setl foldmethod=marker
-    au FileType python setl foldmarker={{{,}}}
+    au FileType python setl foldmarker=>>>,<<<
     au FileType python setl pa+=$DOTVIM/after/ftplugin/
     au FileType python let &l:formatprg="black --quiet - 2>/tmp/vim_gq_err"
-    " }}}
-    " --------------------------------- PLUGINS {{{
+    " <<<
+    " --------------------------------- PLUGINS >>>
     "   ALE
     au FileType python let g:ale_linters = {'python': ['flake8', 'pylint']}
-    " }}}
-    " --------------------------------- MAPPINGS {{{
+    " <<<
+    " --------------------------------- MAPPINGS >>>
     "   INDENT
     au Filetype python nn <buffer> gq :let g:save = winsaveview()<CR>
                 \:try <BAR>
@@ -55,5 +55,5 @@ augroup filetype_python
 
     "   PRINT WRAP
     au Filetype python nn <silent><buffer> <Space>P 0iprint (<Esc>A)<Esc>==f)h
-    " }}}
+    " <<<
 augroup END

@@ -1,15 +1,15 @@
 augroup filetype_json
     autocmd!
-    " --------------------------------- HIGHLIGHTS {{{
-    " }}}
-    " --------------------------------- OPTIONS {{{
+    " --------------------------------- HIGHLIGHTS >>>
+    " <<<
+    " --------------------------------- OPTIONS >>>
     au FileType json let &l:formatprg="prettier --stdin-filepath %"
     au FileType json setl pa+=$DOTVIM/after/ftplugin/
-    " }}}
-    " --------------------------------- PLUGINS {{{
+    " <<<
+    " --------------------------------- PLUGINS >>>
     "   ALE
     au FileType json let g:ale_linters = {'json': ['jsonlint']}
-    " }}}
-    " --------------------------------- MAPPINGS {{{
-    " }}}
+    " <<<
+    " --------------------------------- MAPPINGS >>>
+    " <<<
 augroup END
