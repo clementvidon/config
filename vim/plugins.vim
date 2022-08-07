@@ -91,6 +91,7 @@ Plug 'arcticicestudio/nord-vim'         "   COLORSCHEME
 Plug 'junegunn/seoul256.vim'            "   COLORSCHEME
 "lug 'dracula/vim'                      "   COLORSCHEME
 "   TRY
+"lug 'alexandregv/norminette-vim'       "   42 C NORM
 "lug 'tpope/vim-dispatch'               "   MAKE WRAPPER
 "lug 'tpope/vim-fugitive'               "   GIT WRAPPER
 "lug 'jaxbot/semantic-highlight.vim'    "   SEMANTIC HIGHLIGHT

@@ -86,6 +86,7 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias la="ls --color=auto -la"
     alias latr="ls --color=auto -latr"
     alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
+    alias copy='xclip -sel clip'
 fi
 
 alias ag='grep -r --color=auto'
