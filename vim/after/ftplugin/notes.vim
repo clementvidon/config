@@ -489,7 +489,10 @@ augroup filetype_notes
 
     " <<<
     " --------------------------------- DIGRAPHS >>>
-    au FileType notes exec "ino <C-K><Space><BS> <Nop>"
+    au FileType notes cno <C-K><BS> <Nop>
+    au FileType notes cno <C-K><Space> <Nop>
+    au FileType notes ino <C-K><BS> <Nop>
+    au FileType notes ino <C-K><Space> <Nop>
 
     au FileType notes exec "digraphs es " . 0x2091
     au FileType notes exec "digraphs hs " . 0x2095

@@ -185,6 +185,8 @@ nn ]q :cnext<CR>
 nn [q :cprev<CR>
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
+"   CLIPBOARD
+no <silent> <Space>y :silent !echo -n "<C-r>"" \| xclip -sel clip<CR>:redr!<CR>
 "   QUICK CMDLINE
 no ; :
 cno <c-h> <left>
