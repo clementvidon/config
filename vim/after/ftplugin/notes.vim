@@ -395,8 +395,7 @@ augroup filetype_notes
                 \           fix         -                                 \|\n
                 \           update      - Modify something that was done. \|\n
                 \           review      -                                 \|\n
-                \           refactor    -                                 \|\n
-                \           cleanup     -                                 \|\n
+                \           cleanup     - Refactor, norm, docstring       \|\n
                 \           defend      -                                 \|\n
                 \           evaluate    -                                 \|\n
                 \           help        -                                 \|\n
