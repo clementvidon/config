@@ -134,16 +134,6 @@ function! NotesArchiveDay()
     return 0
 endfunction
 
-"   @brief Unhide 'notesTaskPerso' highlighted tasks
-
-function! Perso()
-    if &background == "dark"
-        hi notesTaskPerso ctermfg=NONE
-    elseif &background == "light"
-        hi notesTaskPerso ctermfg=NONE
-    endif
-endfunction
-
 " <<<
 
 

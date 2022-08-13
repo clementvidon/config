@@ -1,3 +1,7 @@
+# @file     .zshrc
+# @author   Clément Vidon
+# @brief    Zsh configuration file.
+
 #------------------------------------------------------------------------------#
 #                  tmux                                                        #
 #------------------------------------------------------------------------------#
@@ -104,6 +108,7 @@ alias gap="git add -p"
 alias gau="git add -u"
 alias gbr="git branch"
 alias gca="git commit --amend"
+alias gcl="git clone"
 alias gcm="git commit -m"
 alias gco="git commit"
 alias gcp="git commit -p"

@@ -152,11 +152,17 @@ augroup filetype_c
     "   PARENTHESIS AND BRACKETS
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
 
-    "   FUNCTION DOC
+    "   PARAGRAPH TAB TO SPACES
+    au Filetype c nn <silent><buffer> <space>S mm
+                \
+                \<Esc>:set expandtab<CR>vip:retab<CR>:set expandtab!<CR>
+                \`m
+
+    "   FUNCTIONS DOCSTRING
     au Filetype c nn <silent><buffer> <space>D mdj
                 \
                 \:keeppatterns ?^\a<CR>
-                \O<Esc>O/*<Esc>o<C-w>** @brief <Esc>o*/<Esc>=ip
+                \O<Esc>O/*<Esc>o<C-w>** @brief<Tab><Tab><Esc>o*/<Esc>=ip
                 \jA<Space><BS><Esc>
 
     "   NORMINETTE
