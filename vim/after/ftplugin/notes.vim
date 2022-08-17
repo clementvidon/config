@@ -124,7 +124,7 @@ function! NotesArchiveDay()
     endif
     "   Tomorrow template
     call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read")
-    call append(l:tomorrow_loc + 1, "[][Life] run; prepare")
+    call append(l:tomorrow_loc + 1, "[][Life] sport; prepare")
     call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] dinner")
     call append(l:tomorrow_loc + 1, "[][Note] @todo update")
@@ -360,13 +360,13 @@ augroup filetype_notes
                 \\n
                 \===========================[Tags]=========================\n
                 \                                                         \|\n
-                \ Tags:     Life → Life             <action> [<details>]  \|\n
+                \ Tags:     Life → Life                <act> [<details>]  \|\n
                 \           Code → Coding        @ [<action> [<details>]] \|\n
                 \           Conf → Config        @ [<action> [<details>]] \|\n
                 \           Note → Notes         @ [<action> [<details>]] \|\n
                 \           Phon → Phone            <action> [<details>]  \|\n
                 \           Comp → Computer         <action> [<details>]  \|\n
-                \           Crea → Creative         <action> [<details>]  \|\n
+                \           Crea → Creative            <act> [<details>]  \|\n
                 \           Admi → Administration   <action> [<details>]  \|\n
                 \           Fina → Finance          <action> [<details>]  \|\n
                 \           Inet → Internet         <action> [<details>]  \|\n
@@ -385,13 +385,15 @@ augroup filetype_notes
                 \           fix         -                                 \|\n
                 \           update      - Modify something that was done. \|\n
                 \           review      -                                 \|\n
-                \           cleanup     - Refactor, norm, docstring       \|\n
+                \           cleanup     - Refactor, norm, docstring…      \|\n
                 \           defend      -                                 \|\n
                 \           evaluate    -                                 \|\n
                 \           help        -                                 \|\n
                 \                                                         \|\n
                 \ Test:     add         - ???                             \|\n
-                \           make        - for Crea ???                    \|\n
+                \           move        - ???                             \|\n
+                \           create      - for Crea ???                    \|\n
+                \           change      -                                 \|\n
                 \                                                         \|\n
                 \"<CR>
 

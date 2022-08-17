@@ -26,7 +26,7 @@ syn match notesBlockquote "^>\%(\s\|$\)"
 " Url
 syn match notesUrl "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[a-z0-9/]"
 " Link
-syn match notesLink "\(\s@\|^@\)\@<=[a-zA-Z0-9/_.-~]\{-}\(\ze\s\|$\|\ze#\)"
+syn match notesLink "\(\s@\|^@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\)"
 
 " Code
 syn match notesCodeBlock "^\s\{4}.*$"
@@ -35,16 +35,16 @@ if has("conceal")
     set conceallevel=2
     set concealcursor=n
     " Code Italic Bold BoldItalic
-    syn region notesCode concealends matchgroup=notesDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`" oneline
-    syn region notesItalic concealends matchgroup=notesDelimiter start="\S\@<=\*\|\*\S\@=" end="\S\@<=\*\|\*\S\@=" skip="\\\*" oneline
-    syn region notesBold concealends matchgroup=notesDelimiter start="\S\@<=\*\*\|\*\*\S\@=" end="\S\@<=\*\*\|\*\*\S\@=" skip="\\\*" oneline
-    syn region notesBoldItalic concealends matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*" oneline
+    syn region notesCode concealends matchgroup=notesDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`"
+    syn region notesItalic concealends matchgroup=notesDelimiter start="\S\@<=\*\|\*\S\@=" end="\S\@<=\*\|\*\S\@=" skip="\\\*"
+    syn region notesBold concealends matchgroup=notesDelimiter start="\S\@<=\*\*\|\*\*\S\@=" end="\S\@<=\*\*\|\*\*\S\@=" skip="\\\*"
+    syn region notesBoldItalic concealends matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 else
     " Code Italic Bold BoldItalic
-    syn region notesCode matchgroup=notesDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`" oneline
-    syn region notesItalic matchgroup=notesDelimiter start="\S\@<=\*\|\*\S\@=" end="\S\@<=\*\|\*\S\@=" skip="\\\*" oneline
-    syn region notesBold matchgroup=notesDelimiter start="\S\@<=\*\*\|\*\*\S\@=" end="\S\@<=\*\*\|\*\*\S\@=" skip="\\\*" oneline
-    syn region notesBoldItalic matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*" oneline
+    syn region notesCode matchgroup=notesDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`"
+    syn region notesItalic matchgroup=notesDelimiter start="\S\@<=\*\|\*\S\@=" end="\S\@<=\*\|\*\S\@=" skip="\\\*"
+    syn region notesBold matchgroup=notesDelimiter start="\S\@<=\*\*\|\*\*\S\@=" end="\S\@<=\*\*\|\*\*\S\@=" skip="\\\*"
+    syn region notesBoldItalic matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
 
 " Task Stamp/Tag

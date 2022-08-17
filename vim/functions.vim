@@ -49,10 +49,6 @@ augroup trailing_spaces
     au!
     au BufWritePre,FileWritePre * :call StripTrailingSpaces()
 augroup END
-" augroup retab
-"     au!
-"     au BufWritePre,FileWritePre * if &expandtab ==# "noexpandtab" | execute ':%retab' | endif
-" augroup END
 " <<<
 " --------------------------------- OPTIMIZE >>>
 "   SILENT SHELL CMD

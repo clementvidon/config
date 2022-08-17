@@ -153,21 +153,39 @@ augroup filetype_c
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
 
     "   PARAGRAPH TAB TO SPACES
-    au Filetype c nn <silent><buffer> <space>S mm
+    au Filetype c,cpp nn <silent><buffer> <space>S mp
                 \
                 \<Esc>:set expandtab<CR>vip:retab<CR>:set expandtab!<CR>
-                \`m
+                \`p
+    " TODO
+    au Filetype c nn <silent><buffer> <space>s :set expandtab<CR>
+                \
+                \:g/@brief/norm! vip:retab<CR>
+    " "   TRAILING SPACES
+    " function! StripTrailingSpaces()
+    "     if !&binary && &filetype != 'diff'
+    "         let l:view = winsaveview()
+    "         keeppatterns %s/\s\+$//e
+    "         call winrestview(l:view)
+    "     endif
+    " endfunction
+    " augroup trailing_spaces
+    "     au!
+    "     au BufWritePre,FileWritePre * :call StripTrailingSpaces()
+    " augroup END
 
     "   FUNCTIONS DOCSTRING
     au Filetype c nn <silent><buffer> <space>D mdj
                 \
                 \:keeppatterns ?^\a<CR>
                 \O<Esc>O/*<Esc>o<C-w>** @brief<Tab><Tab><Esc>o*/<Esc>=ip
-                \jA<Space><BS><Esc>
+                \jA
 
+    "   FILTERED NORMINETTE
+    au Filetype c,cpp nn <silent><buffer> <Space>n :w<CR>:!clear; norminette % \| grep -Ev
+                \ "TOO_MANY_FUNCS\|EMPTY_LINE_FUNCTION\|INVALID_HEADER\|WRONG_SCOPE_COMMENT\|TOO_MANY_LINES\|LINE_TOO_LONG"<CR>
     "   NORMINETTE
-    au Filetype cpp nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckDefine %<CR>
-    au Filetype c nn <silent><buffer> <Space>n :w<CR>:!clear; norminette -R CheckForbiddenSourceHeader %<CR>
+    au Filetype c,cpp nn <silent><buffer> <Space>N :w<CR>:!clear; norminette %<CR>
 
     "   PRINT
     au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\i
