@@ -128,7 +128,7 @@ function! NotesArchiveDay()
     call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] dinner")
     call append(l:tomorrow_loc + 1, "[][Note] @todo update")
-    call append(l:tomorrow_loc + 1, "[][Life] podcast")
+    call append(l:tomorrow_loc + 1, "[][Life] listen podcast")
     write
     call winrestview(l:save)
     return 0
@@ -196,6 +196,7 @@ augroup filetype_notes
                 \   setl textwidth=80
                 \ | setl suffixesadd+=.md
                 \ | setl suffixesadd+=.gpg.md
+                \ | setl path+=$DOTVIM
                 \ | setl path+=$DOTVIM/after/ftplugin/**
                 \ | setl path+=$NOTES
                 \ | setl path+=$NOTES/Lists/**
@@ -392,8 +393,8 @@ augroup filetype_notes
                 \                                                         \|\n
                 \ Test:     add         - ???                             \|\n
                 \           move        - ???                             \|\n
-                \           create      - for Crea ???                    \|\n
                 \           change      -                                 \|\n
+                \           create      - for Crea ???                    \|\n
                 \                                                         \|\n
                 \"<CR>
 
@@ -480,10 +481,9 @@ augroup filetype_notes
 
     " <<<
     " --------------------------------- DIGRAPHS >>>
-    au FileType notes cno <C-K><BS> <Nop>
-    au FileType notes cno <C-K><Space> <Nop>
-    au FileType notes ino <C-K><BS> <Nop>
-    au FileType notes ino <C-K><Space> <Nop>
+    "
+    au FileType notes cno <C-K>% <Nop>
+    au FileType notes ino <C-K>% <Nop>
 
     au FileType notes exec "digraphs es " . 0x2091
     au FileType notes exec "digraphs hs " . 0x2095

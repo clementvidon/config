@@ -45,7 +45,7 @@ set shiftround                      "   indent to the nearest tab mark
 set shiftwidth=4 tabstop=4          "   shift and tab width in spaces
 " <<<
 " --------------------------------- PATH >>>
-set pa=.,$DOTVIM                    "   :find path
+set pa=.                            "   :find path
 set wig=.git                        "   wildmenu results to hide
 " <<<
 " --------------------------------- PERFORMANCES >>>

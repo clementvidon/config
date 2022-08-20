@@ -18,6 +18,9 @@ if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]; then
     export GNUPGHOME=$HOME/.gnupg
     export PATH=$HOME/.npm/bin:$PATH
     export PATH=$PATH:"$HOME/node_modules/.bin"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        export MallocNanoZone=0
+    fi
 fi
 
 ## 42

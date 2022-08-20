@@ -6,7 +6,7 @@ augroup filetype_vim
     au FileType vim setl foldmethod=marker
     au FileType vim setl foldmarker=>>>,<<<
     au FileType vim setl textwidth=80
-    au FileType vim setl pa+=$DOTVIM/after/ftplugin/
+    au FileType vim setl pa+=$DOTVIM/after/ftplugin/,$DOTVIM
     " <<<
     " --------------------------------- PLUGINS >>>
     " <<<
