@@ -151,3 +151,24 @@ function    k()
 {
     kill -9 $(pgrep $1)
 }
+
+# @brief        Kill a process by giving its name
+# @param        The name of the proc to kill.
+
+function    main()
+{
+    if [ $1 = c ]; then
+        file="/tmp/main-$(date +"%y%m%d%H%M%S").c"
+        echo "#include <stdio.h>"   >> $file
+        echo "#include <unistd.h>"  >> $file
+        echo "#include <stdlib.h>"  >> $file
+        echo "#include <limits.h>"  >> $file
+        echo ""                     >> $file
+        echo "int\tmain(void)"      >> $file
+        echo "{"                    >> $file
+        echo "\t"                   >> $file
+        echo "\treturn (0);"        >> $file
+        echo "}"                    >> $file
+        vi -c '8|startinsert' $file
+    fi
+}
