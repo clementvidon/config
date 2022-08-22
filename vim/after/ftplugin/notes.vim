@@ -115,7 +115,7 @@ function! NotesArchiveDay()
     call append(l:tomorrow_loc + 1, "[-][>>]")
     call append(l:tomorrow_loc + 1, "[-][>>] -")
     call append(l:tomorrow_loc + 1, "[-][>>] +")
-    call append(l:tomorrow_loc + 1, "[-][ST] ph en mi st fo yi")
+    call append(l:tomorrow_loc + 1, "[-][ST] ph me mi st fo yi")
     call append(l:tomorrow_loc + 1, "")
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
@@ -391,10 +391,11 @@ augroup filetype_notes
                 \           evaluate    -                                 \|\n
                 \           help        -                                 \|\n
                 \                                                         \|\n
-                \ Test:     add         - ???                             \|\n
-                \           move        - ???                             \|\n
+                \ New:      add         -                                 \|\n
+                \           move        -                                 \|\n
                 \           change      -                                 \|\n
-                \           create      - for Crea ???                    \|\n
+                \           create      -                                 \|\n
+                \           backup      -                                 \|\n
                 \                                                         \|\n
                 \"<CR>
 
