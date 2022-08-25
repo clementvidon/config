@@ -346,8 +346,7 @@ augroup filetype_notes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Code]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ph O[][Phon]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cp O[][Comp]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>te O[][Term]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cr O[][Crea]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
@@ -365,8 +364,7 @@ augroup filetype_notes
                 \           Code → Coding        @ [<action> [<details>]] \|\n
                 \           Conf → Config        @ [<action> [<details>]] \|\n
                 \           Note → Notes         @ [<action> [<details>]] \|\n
-                \           Phon → Phone            <action> [<details>]  \|\n
-                \           Comp → Computer         <action> [<details>]  \|\n
+                \           Term → Terminal      @ [<action> [<details>]] \|\n
                 \           Crea → Creative            <act> [<details>]  \|\n
                 \           Admi → Administration   <action> [<details>]  \|\n
                 \           Fina → Finance          <action> [<details>]  \|\n
