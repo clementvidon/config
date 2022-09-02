@@ -21,7 +21,7 @@ the first place a cloud.
 ## Usage
 
 ```bash
-    bash deploy.sh
+bash deploy.sh
 ```
 
 ## Misc
