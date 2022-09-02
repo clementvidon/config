@@ -1,3 +1,7 @@
+# @file     .zprofile
+# @brief    Zsh profile.
+# @author   clemedon (Clément Vidon)
+
 ## General
 ##########
 

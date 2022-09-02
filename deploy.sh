@@ -1,4 +1,7 @@
 #!/bin/bash
+# @file     deploy.sh
+# @brief    Configuration deployment script.
+# @author   clemedon (Clément Vidon)
 
 mkdir -pv $HOME/.fonts
 ln -fsv $HOME/git/config/.fonts/*.ttc                   $HOME/.fonts/

@@ -1,3 +1,7 @@
+# @file     .gitignore
+# @brief    Files to be ignored by git.
+# @author   clemedon (Clément Vidon)
+
 # Compiled source #
 ###################
 *.o

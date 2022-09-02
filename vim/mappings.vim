@@ -53,16 +53,9 @@ nn sis :isearch /
 
 "                       NOTES
 nn sl :e $NOTES/Lists/todo.md<CR>gi<Esc>z.
-nn xI :e $NOTES/INDEX.md<CR>
-nn xc :e $NOTES/Lists/calendar.md<CR>gi<Esc>
 nn xe :e $NOTES/Lists/english.md<CR>/##  Voca<CR>
 nn xf :e $NOTES/Lists/french.md<CR>/##  Voca<CR>
 nn xp :e $NOTES/Lists/post-it.md<CR>gi<Esc>
-nn xs :e $NOTES/Lists/shop-list.md<CR>gi<Esc>
-nn xi :e $NOTES/Lists/ideas.gpg.md<CR>
-nn xh :e $NOTES/Lists/history.gpg.md<CR>gi<Esc>z.
-nn x4 :e $NOTES/Projects/42.md<CR>gi<Esc>z.
-nn xN :e $NOTES/Projects/Notes.md<CR>gi<Esc>z.
 "                       CONF
 nn xxv :e ~/.vimrc<CR>gi<Esc>
 nn xxz :e ~/.zshrc<CR>gi<Esc>
@@ -197,7 +190,7 @@ nn <Space>= Mmmgo=G`mzz3<C-O>
 no z, z.10<C-e>
 "   SPACE WINDOW
 no <Space>w <C-W>
-tno <Right>w <C-W>
+tno <Space>w <C-W>
 nn <S-Left> <C-W><
 nn <S-Up> <C-W>+
 nn <S-Right> <C-W>>

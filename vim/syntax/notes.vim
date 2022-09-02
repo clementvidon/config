@@ -28,9 +28,6 @@ syn match notesUrl "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|abo
 " Link
 syn match notesLink "\(\s@\|^@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\)"
 
-" Code
-syn match notesCodeBlock "^\s\{4}.*$"
-
 if has("conceal")
     set conceallevel=2
     set concealcursor=n
@@ -47,6 +44,10 @@ else
     syn region notesBoldItalic matchgroup=notesDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
 
+" Code
+syn match notesCodeLine "^\s\{4}.*$"
+syn match notesCodeMarker "^```.*$"
+
 " Task Stamp/Tag
 syn match notesTaskStamp "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\@="
 syn match notesTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
@@ -55,7 +56,7 @@ syn match notesTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 syn match notesTaskPerso "\(\]\[\(Home\|Life\|>>\)\]\)\@<=.*"
 
 " Escape
-syn match notesEscape "\\[][\\`*_{}()<>#+.!-]"
+syn match notesEscape "\\."
 
 " Keywords
 syn keyword notesBoldItalic TODO
@@ -89,8 +90,11 @@ if &background == "dark"
     hi notesLink ctermfg=103
 
     " Code                  : pale light green
-    hi link notesCodeBlock notesCode
+    hi link notesCodeLine notesCode
     hi notesCode ctermfg=151
+
+    " Code Marker
+    hi notesCodeMarker ctermfg=154
 
     " Italic                : pale light yellow
     hi notesItalic ctermfg=230
@@ -133,7 +137,10 @@ elseif &background == "light"
 
     " Code                      : pale dark green
     hi notesCode ctermfg=101
-    hi link notesCodeBlock notesCode
+    hi link notesCodeLine notesCode
+
+    " Code Marker
+    hi notesCodeMarker ctermfg=178
 
     " Italic                    : pale light yellow
     hi notesItalic ctermbg=230

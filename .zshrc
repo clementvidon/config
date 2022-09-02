@@ -1,6 +1,6 @@
 # @file     .zshrc
-# @author   Clément Vidon
 # @brief    Zsh configuration file.
+# @author   clemedon (Clément Vidon)
 
 #------------------------------------------------------------------------------#
 #                  tmux                                                        #
@@ -145,20 +145,22 @@ alias mu='make update'
 #------------------------------------------------------------------------------#
 
 # @brief        Kill a process by giving its name
-# @param        The name of the proc to kill.
+# @param[in]    proc the name of the proc to kill.
 
 function    k()
 {
-    kill -9 $(pgrep $1)
+    proc=$1
+    kill -9 $(pgrep $proc)
 }
 
-# @brief        Kill a process by giving its name
-# @param        The name of the proc to kill.
+# @brief        Quickly create a coding test file.
+# @param[in]    lang the wanted programming language.
 
 function    main()
 {
-    if [ $1 = c ]; then
-        file="/tmp/main-$(date +"%y%m%d%H%M%S").c"
+    lang=$1
+    if [ $lang = c ]; then
+        file="./main-$(date +"%y%m%d%H%M%S").c"
         echo "#include <stdio.h>"   >> $file
         echo "#include <unistd.h>"  >> $file
         echo "#include <stdlib.h>"  >> $file

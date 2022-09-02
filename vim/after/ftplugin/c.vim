@@ -96,7 +96,7 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc ' ' . b:cflags . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc ' ' . b:cflags . ' -x c % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;' . b:valgrind . ' ./a.out \|cat -e'<CR>
 
@@ -105,7 +105,7 @@ augroup filetype_c
                 \
                 \:exec '!clear;'<CR>
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' -x c % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;./a.out'<CR>
     " \:exec '!clear;./a.out /bin/ls "\|" /usr/bin/grep microshell ";" /bin/echo hello\|cat -e'<CR>
@@ -114,7 +114,7 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc . ' -Wno-everything % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc . ' -Wno-everything  -x c % ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
                 \:exec '!clear;./a.out'<CR>
 
@@ -123,16 +123,16 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> <Space>8 :wa\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc ' ' . b:cflags . ' ' . b:san . ' -x c % *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>:
-                \:exec '!clear;./a.out \|cat -e'<CR>
+                \:exec '!clear;./a.out'<CR>
 
     au Filetype c nn <silent><buffer> <Space>* :wa\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !' . b:cc . ' -Wno-everything *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
+                \:exec 'silent !' . b:cc . ' -Wno-everything -x c % *.c ' . b:librairies . ' 2>/tmp/c_qf_err'<CR>
                 \:cfile /tmp/c_qf_err<CR>:5cw<CR>
-                \:exec '!clear;./a.out \|cat -e'<CR>
+                \:exec '!clear;./a.out'<CR>
 
     ""   COMPILE & RUN % & C-Z
     "au Filetype c,cpp nn <silent><buffer> <Space>5 :silent! w \| lc %:h \| se t_ti= t_tr= <CR>
@@ -153,14 +153,15 @@ augroup filetype_c
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
 
     "   PARAGRAPH TAB TO SPACES
-    au Filetype c,cpp nn <silent><buffer> <space>S mp
+    au Filetype c,cpp,make nn <silent><buffer> <space>S mp
                 \
                 \<Esc>:set expandtab<CR>vip:retab<CR>:set expandtab!<CR>
                 \`p
     " TODO
-    au Filetype c nn <silent><buffer> <space>s :set expandtab<CR>
-                \
-                \:g/@brief/norm! vip:retab<CR>
+    " au Filetype c nn <silent><buffer> <space>s :set expandtab<CR>
+    "             \
+    "             \:g/@brief/norm! vip:retab<CR>
+    "
     " "   TRAILING SPACES
     " function! StripTrailingSpaces()
     "     if !&binary && &filetype != 'diff'

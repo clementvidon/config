@@ -1,3 +1,7 @@
+# @file     alacritty.yml
+# @brief    Alacritty configuration file.
+# @author   clemedon (Clément Vidon)
+
 ## Import files (Colors, Fonts, Etc)
 import:
   - ~/.config/alacritty/colors.yml

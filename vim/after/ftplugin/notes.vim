@@ -192,7 +192,8 @@ augroup filetype_notes
     autocmd!
     " --------------------------------- OPTIONS >>>
     au BufRead,BufNewFile *.md,*.markdown set filetype=notes
-    au BufRead,BufNewFile *.md,*.markdown
+    " au BufRead,BufNewFile *.md,*.markdown
+    au FileType notes
                 \   setl textwidth=80
                 \ | setl suffixesadd+=.md
                 \ | setl suffixesadd+=.gpg.md

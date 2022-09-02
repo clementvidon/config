@@ -1,3 +1,7 @@
+# @file     .gitconfig
+# @brief    Git configuration file.
+# @author   clemedon (Clément Vidon)
+
 [user]
 	name = Clément VIDON
 	email = cvidon@student.42.fr
