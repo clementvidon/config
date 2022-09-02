@@ -14,7 +14,9 @@
 
 ## Summary
 
-The configuration of my everyday tools.
+The configuration of my everyday tools.  Due to the massive atomic changes the
+commit messages do not detail the changes that are made. This repository is in
+the first place a cloud.
 
 ## Usage
 
