@@ -5,9 +5,9 @@ com! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 "   BUFONLY
 com! BufOnly execute '%bdelete | edit # | normal `"'
 
-"   TRANSLATOR
+"   TRANSLATOR (add -play flag to hear pronunciation)
 com! -nargs=+ Fr exec '! clear; trans "<args>" -from en -to fr -brief 2> /dev/null'
-com! -nargs=+ En exec '! clear; trans "<args>" -from fr -to en -brief -play 2> /dev/null'
+com! -nargs=+ En exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null'
 "   SYNONYM ('-l fr salut' for french Syn) (APIKEY:K4f8SzzxLdtH1YVpwRON)
 com! -nargs=+ Sy exec '! clear; synonym <args>' | redraw!
 

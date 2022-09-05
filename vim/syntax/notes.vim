@@ -47,6 +47,7 @@ endif
 " Code
 syn match notesCodeLine "^\s\{4}.*$"
 syn match notesCodeMarker "^```.*$"
+syn region notesCodeBlock matchgroup=notesCodeMarker start="^```" end="^```" skip="\\``"
 
 " Task Stamp/Tag
 syn match notesTaskStamp "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\@="
@@ -90,8 +91,9 @@ if &background == "dark"
     hi notesLink ctermfg=103
 
     " Code                  : pale light green
-    hi link notesCodeLine notesCode
     hi notesCode ctermfg=151
+    hi link notesCodeLine notesCode
+    hi link notesCodeBlock notesCode
 
     " Code Marker
     hi notesCodeMarker ctermfg=154
@@ -138,6 +140,7 @@ elseif &background == "light"
     " Code                      : pale dark green
     hi notesCode ctermfg=101
     hi link notesCodeLine notesCode
+    hi link notesCodeBlock notesCode
 
     " Code Marker
     hi notesCodeMarker ctermfg=178

@@ -120,15 +120,15 @@ function! NotesArchiveDay()
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][Note] @history update")
+        call append(line('$') - 2, "[][Note] @history **POSSIBLE DATE ERROR**")
     endif
     "   Tomorrow template
     call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read")
-    call append(l:tomorrow_loc + 1, "[][Life] sport; prepare")
+    call append(l:tomorrow_loc + 1, "[][Life] sport; prepare; transport")
+    call append(l:tomorrow_loc + 1, "[][Note] @todo update")
     call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] dinner")
-    call append(l:tomorrow_loc + 1, "[][Note] @todo update")
-    call append(l:tomorrow_loc + 1, "[][Life] listen podcast")
+    call append(l:tomorrow_loc + 1, "[][Life] listen podcast; meditate")
     write
     call winrestview(l:save)
     return 0
@@ -192,7 +192,6 @@ augroup filetype_notes
     autocmd!
     " --------------------------------- OPTIONS >>>
     au BufRead,BufNewFile *.md,*.markdown set filetype=notes
-    " au BufRead,BufNewFile *.md,*.markdown
     au FileType notes
                 \   setl textwidth=80
                 \ | setl suffixesadd+=.md
@@ -205,6 +204,7 @@ augroup filetype_notes
                 \ | setl path+=$NOTES/Projects/**
                 \ | setl path+=$NOTES/Resources/**
                 \ | setl expandtab
+                \ | syntax sync fromstart
     au BufRead,BufNewFile $NOTES/Lists/*.md setl textwidth=0
 
     " GPG
@@ -348,7 +348,7 @@ augroup filetype_notes
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>te O[][Term]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cr O[][Crea]<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ar O[][Arts]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
@@ -366,7 +366,8 @@ augroup filetype_notes
                 \           Conf → Config        @ [<action> [<details>]] \|\n
                 \           Note → Notes         @ [<action> [<details>]] \|\n
                 \           Term → Terminal      @ [<action> [<details>]] \|\n
-                \           Crea → Creative            <act> [<details>]  \|\n
+                \           Tuto → Tutorials           <act> [<details>]  \|\n
+                \           Arts → Arts                <act> [<details>]  \|\n
                 \           Admi → Administration   <action> [<details>]  \|\n
                 \           Fina → Finance          <action> [<details>]  \|\n
                 \           Inet → Internet         <action> [<details>]  \|\n
@@ -393,6 +394,8 @@ augroup filetype_notes
                 \ New:      add         -                                 \|\n
                 \           move        -                                 \|\n
                 \           change      -                                 \|\n
+                \           sketch      -                                 \|\n
+                \           reply       -                                 \|\n
                 \           create      -                                 \|\n
                 \           backup      -                                 \|\n
                 \                                                         \|\n

@@ -173,24 +173,29 @@ nn [a :ALEPrevious<CR>
 
 "                       QUICKFIX
 "   NAV
-nn <Space>q :cw<CR>
+nn <Space>Q :cw<CR>
 nn ]q :cnext<CR>
 nn [q :cprev<CR>
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
-"   CLIPBOARD
-no <silent> <Space>y :silent !echo -n "<C-r>"" \| xclip -sel clip<CR>:redr!<CR>
 "   QUICK CMDLINE
 no ; :
 cno <c-h> <left>
 cno <c-l> <right>
-"   INDENT
-nn <Space>= Mmmgo=G`mzz3<C-O>
 "   EYES LEVEL CURSOR AND VIEW
 no z, z.10<C-e>
-"   SPACE WINDOW
+
+"                       SPACE
+"   INDENT
+nn <Space>= Mmmgo=G`mzz3<C-O>
+
+"   WINDOWS
 no <Space>w <C-W>
+no <Space>wM <C-W>_\|<C-W><BAR>
+no <Space>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 tno <Space>w <C-W>
+tno <Space>wM <C-W>_\|<C-W><BAR>
+tno <Space>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 nn <S-Left> <C-W><
 nn <S-Up> <C-W>+
 nn <S-Right> <C-W>>
@@ -199,18 +204,31 @@ tno <S-Left> <C-W><
 tno <S-Up> <C-W>+
 tno <S-Right> <C-W>>
 tno <S-Down> <C-W>-
-nn <Space>wM <C-W>_\|<C-W><BAR>
-no <Space>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 
-"                       GARDE FOU
+"   CLIPBOARD
+nn <Space>y :call system("xclip -sel clip", getreg("\""))<CR>
+"   TAGS
+nn <space>t <c-t>
+nn <space>] <c-]>
+"   NAV
+nn <space>d <c-d>
+nn <space>u <c-u>
+nn <space>f <c-f>
+nn <space>b <c-b>
+"   VISUAL BLOCK
+nn <space>v <c-v>
+"   SUSPEND
+nn <space>z <c-z>
+
+
+"                       GUARD RAIL
 no x :echo "!x"<CR>
 no s :echo "!s"<CR>
 no X :echo "!x"<CR>
 nn S :echo "!s"<CR>
 nn Q :echo "!q"<CR>
 
-"                       PINKY TEMP
-"   keyboard fix
+"                       R_CTRL ALIASES
 ino <Right>q <c-q>
 no <Right>q <c-q>
 ino <Right>w <c-w>

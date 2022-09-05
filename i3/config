@@ -232,9 +232,9 @@ bar {
 }
 
 # increase brightness
-bindsym XF86MonBrightnessUp exec "light -A 2"
+bindsym XF86MonBrightnessUp exec "light -A 1"
 # decrease brightness
-bindsym XF86MonBrightnessDown exec "light -U 2"
+bindsym XF86MonBrightnessDown exec "light -U 1"
 
 # Hide windows borders
 hide_edge_borders both

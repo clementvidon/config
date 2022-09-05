@@ -90,7 +90,6 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias la="ls --color=auto -la"
     alias latr="ls --color=auto -latr"
     alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
-    alias copy='xclip -sel clip'
 fi
 
 alias ag='grep -r --color=auto'
@@ -108,6 +107,7 @@ alias gap="git add -p"
 alias gau="git add -u"
 alias gbr="git branch"
 alias gca="git commit --amend"
+alias gch="git checkout"
 alias gcl="git clone"
 alias gcm="git commit -m"
 alias gco="git commit"
@@ -120,12 +120,14 @@ alias gpla="bash $HOME/git/utils/pull_all.zsh"
 alias gps="git push"
 alias gpsa="bash $HOME/git/utils/push_all.zsh"
 alias grb="git rebase --interactive"
+alias gre="git restore"
 alias grm="git rm"
 alias grs="git reset"
 alias gsh="git show"
 alias gst="git status"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
 alias gsw="git switch"
+alias gup="git add -u && git commit -m Update && git push"
 
 #       [ Make ]
 alias ma='make all'
@@ -172,5 +174,18 @@ function    main()
         echo "\treturn (0);"        >> $file
         echo "}"                    >> $file
         vi -c '8|startinsert' $file
+    fi
+}
+
+# @biref        Copy the given file content to clipboard.
+# @param[in]    file a file
+
+function    copy()
+{
+    file=$1
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        pbcopy < $file
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        cat $file | xclip -sel clip
     fi
 }
