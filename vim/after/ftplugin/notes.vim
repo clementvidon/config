@@ -123,7 +123,7 @@ function! NotesArchiveDay()
         call append(line('$') - 2, "[][Note] @history **POSSIBLE DATE ERROR**")
     endif
     "   Tomorrow template
-    call append(l:tomorrow_loc + 1, "[][Life] wake; write my dream; snack + read; sport; prepare; transport")
+    call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read; sport; prepare; transport")
     call append(l:tomorrow_loc + 1, "[][Note] @todo update")
     call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] dinner")
