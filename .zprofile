@@ -17,7 +17,7 @@ export DOTVIM=$HOME/.config/vim
 ## Home
 #######
 
-if [[ "${LOGNAME}" = "clem" ]] || [[ "${LOGNAME}" = "clemedon" ]]; then
+if [[ "${LOGNAME}" = "clem"* ]]; then
     export GPG_TTY=$(tty)
     export GNUPGHOME=$HOME/.gnupg
     export PATH=$HOME/.npm/bin:$PATH
