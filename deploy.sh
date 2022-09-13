@@ -18,6 +18,10 @@ if command -v zsh &> /dev/null; then
     ln -fsv $HOME/git/config/.zprofile                  $HOME/.zprofile
 fi
 
+if command -v bash &> /dev/null; then
+    ln -fsv $HOME/git/config/.bashrc                    $HOME/.bashrc
+fi
+
 if command -v tmux &> /dev/null; then
     ln -fsv $HOME/git/config/.tmux.conf                 $HOME/.tmux.conf
 fi

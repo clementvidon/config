@@ -263,18 +263,34 @@ ino <Right>xf <c-x><c-f>
 
 "                       QWERTZU HOME
 " TODO  operator pending
-" elsif 42
 " juste pour les top ones
-cno <C-K>§ <C-K>`
-ino <C-K>§ <C-K>`
 
-ino § `
-ino ± ~
+if system("uname -s") == "Darwin\n"
+    cno <C-K>§ <C-K>`
+    ino <C-K>§ <C-K>`
 
-no § `
-no ± ~
-no f§ f`
-no F§ F`
+    ino § `
+    ino ± ~
+
+    no § `
+    no ± ~
+
+    no f§ f`
+    no F§ F`
+
+elseif system("uname -s") == "Linux\n"
+    cno <C-K>< <C-K>`
+    ino <C-K>< <C-K>`
+
+    ino < `
+    ino > ~
+
+    no f< f`
+    no F< F`
+
+    ino \, <
+    ino \. >
+endif
 
 ino `6 ^
 ino `7 &
@@ -329,65 +345,5 @@ no `l L
 no `b B
 no `n N
 no `m M
-
-"                       QWERTZU 42
-" cno <C-K>< <C-K>`
-" ino <C-K>< <C-K>`
-
-" ino < `
-" ino `6 ^
-" ino `7 &
-" ino `8 *
-" ino `9 (
-" ino `0 )
-" ino `- _
-" ino `= +
-" ino `[ {
-" ino `] }
-" ino `' "
-" ino `\\ \|
-" ino `, <
-" ino `. >
-" ino `/ ?
-" ino `y Y
-" ino `u U
-" ino `i I
-" ino `o O
-" ino `p P
-" ino `h H
-" ino `j J
-" ino `k K
-" ino `l L
-" ino `b B
-" ino `n N
-" ino `m M
-
-" no < `
-" no `6 ^
-" no `7 &
-" no `8 *
-" no `9 (
-" no `0 )
-" no `- _
-" no `= +
-" no `[ {
-" no `] }
-" no `' "
-" no `\\ \|
-" no `, <
-" no `. >
-" no `/ ?
-" no `y Y
-" no `u U
-" no `i I
-" no `o O
-" no `p P
-" no `h H
-" no `j J
-" no `k K
-" no `l L
-" no `b B
-" no `n N
-" no `m M
 
 " <<<
