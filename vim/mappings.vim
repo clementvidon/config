@@ -282,8 +282,16 @@ elseif system("uname -s") == "Linux\n"
     cno <C-K>< <C-K>`
     ino <C-K>< <C-K>`
 
+    no < `
+    no > ~
     ino < `
     ino > ~
+    ono < `
+    ono > ~
+    tno < `
+    tno > ~
+    cno < `
+    cno > ~
 
     no f< f`
     no F< F`
