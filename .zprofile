@@ -17,7 +17,7 @@ export DOTVIM=$HOME/.config/vim
 ## Home
 #######
 
-if [[ "${LOGNAME}" = "clem"* ]]; then
+if [[ "$LOGNAME" = "clem"* ]]; then
     export GPG_TTY=$(tty)
     export GNUPGHOME=$HOME/.gnupg
     export PATH=$HOME/.npm/bin:$PATH
@@ -30,7 +30,7 @@ fi
 ## 42
 #####
 
-if [[ "${LOGNAME}" = "cvidon" ]]
+if [[ "$LOGNAME" = "cvidon" ]]
 then
     export PATH=$PATH:"$HOME/.linuxbrew/bin"
     export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"

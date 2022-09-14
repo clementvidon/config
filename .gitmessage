@@ -6,27 +6,28 @@
 #       <BODY>
 #       <BODY>
 #
-# TITLE
+# TITLE:
 #
 #       Summary, IMPERATIVE, start UPPER CASE, don't end with a period.
 #       50 characters max----------------------->#
 #
-# BODY
+# BODY:
 #
 #       WHAT and WHY (NOT HOW). 72 characters max--------------------->#
 #
-# TYPES
+# TYPES:
 #
 #       save typo docs build
 #       feat norm test fix
 #       refactor perf
 #
-# OPTIONAL SCOPE
+# OPTIONAL SCOPE:
 #
 #       Anything relevant.
 #
 # EXAMPLE:
 #
 # build(Makefile): Add test rules using valgrind
-#  - test_custom for test/custom.sh
-#  - test_all for test/all.sh
+#
+# - test_custom for test/custom.sh
+# - test_all for test/all.sh
