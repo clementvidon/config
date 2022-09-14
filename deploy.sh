@@ -9,6 +9,7 @@ mkdir -pv $HOME/.icons
 ln -fsv $HOME/git/config/.icons/*                       $HOME/.icons/
 
 if command -v git &> /dev/null; then
+    ln -fsv $HOME/git/config/.gitmessage                $HOME/.gitmessage
     ln -fsv $HOME/git/config/.gitconfig                 $HOME/.gitconfig
     ln -fsv $HOME/git/config/.gitignore                 $HOME/.gitignore
 fi

@@ -43,3 +43,5 @@
     pu = push
     re = reset
     ss = status -sb
+[commit]
+	template = "$HOME/..gitmessage"
