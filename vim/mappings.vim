@@ -206,7 +206,7 @@ tno <S-Right> <C-W>>
 tno <S-Down> <C-W>-
 
 "   CLIPBOARD
-nn <Space>y :call system("xclip -sel clip", getreg("\""))<CR>
+nn <silent> <Space>y :call system("xclip -sel clip", getreg("\""))<CR>
 "   TAGS
 nn <space>t <c-t>
 nn <space>] <c-]>
