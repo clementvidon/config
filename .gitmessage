@@ -15,15 +15,21 @@
 #
 #       WHAT and WHY (NOT HOW). 72 characters max--------------------->#
 #
-# TYPES:
+# TYPE:
 #
-#       save typo docs build
-#       feat norm test fix
-#       refactor perf
+#       style:      changes that doesnt affect the code (typo, norm...)
+#       docs:       changes to the documentation
+#       build:      changes to the build
+#       chore:      changes that dont involve production code change (config)
+#
+#       feat:       creation of a new feature
+#       test:       creation of tests
+#       fix:        fix a bug
+#       refactor:   code changes that doesnt fix or bring a new feature
 #
 # OPTIONAL SCOPE:
 #
-#       Anything relevant.
+#       Anything RELEVANT.
 #
 # EXAMPLE:
 #

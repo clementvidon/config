@@ -274,6 +274,17 @@ if system("uname -s") == "Darwin\n"
 
     no § `
     no ± ~
+    ino § `
+    ino ± ~
+    ono § `
+    ono ± ~
+    tno § `
+    tno ± ~
+    cno § `
+    cno ± ~
+
+    no § `
+    no ± ~
 
     no f§ f`
     no F§ F`
