@@ -61,6 +61,8 @@ syn match notesEscape "\\."
 
 " Keywords
 syn keyword notesBoldItalic TODO
+syn keyword notesBoldItalic DONE
+syn keyword notesBoldItalic XXX
 
 " <<<
 " --------------------------------- COLORS >>>

@@ -210,11 +210,6 @@ nn <silent> <Space>y :call system("xclip -sel clip", getreg("\""))<CR>
 "   TAGS
 nn <space>t <c-t>
 nn <space>] <c-]>
-"   NAV
-nn <space>d <c-d>
-nn <space>u <c-u>
-nn <space>f <c-f>
-nn <space>b <c-b>
 "   VISUAL BLOCK
 nn <space>v <c-v>
 "   SUSPEND
@@ -309,6 +304,12 @@ elseif system("uname -s") == "Linux\n"
 
     ino \, <
     ino \. >
+    ono \, <
+    ono \. >
+    tno \, <
+    tno \. >
+    cno \, <
+    cno \. >
 endif
 
 ino `6 ^

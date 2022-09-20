@@ -37,6 +37,9 @@ augroup filetype_c
     au FileType c,cpp hi link cppNumber cleared
     au FileType c,cpp hi! link cIncluded cleared
     au FileType c,cpp syn match cDebug "printf\|dprintf" contains=cString,cComment,cCommentL
+    au FileType c,cpp syn keyword cTodo DONE
+    au FileType c,cpp syn keyword cTodo WHY
+    au FileType c,cpp syn keyword cTodo TRY
     " <<<
     " --------------------------------- OPTIONS >>>
     au FileType qf setl wrap
@@ -145,15 +148,15 @@ augroup filetype_c
     au Filetype c,cpp nn <silent><buffer> =f mm?^\a<CR>j=%`m:let @/=""<CR>
 
     "   SEARCH FUNCTIONS
-    au Filetype c,cpp nn <silent><buffer> <Tab>f /^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> <Space>f /^\a<CR>
     "   LIST FILE FUNCTIONS
-    au Filetype c,cpp nn <silent><buffer> <Tab><Tab>f :keeppatterns g/^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> <Space><Space>f :keeppatterns g/^\a<CR>
 
     "   PARENTHESIS AND BRACKETS
     au Filetype c ino <silent><buffer> \<space> ()<Esc>o{<CR>}<Esc>kk$i
 
     "   PARAGRAPH TAB TO SPACES
-    au Filetype c,cpp,make nn <silent><buffer> <space><Tab> mp
+    au Filetype c,cpp,make nn <silent><buffer> <Space><Tab> mp
                 \
                 \<Esc>:set expandtab<CR>vip:retab<CR>:set expandtab!<CR>
                 \`p
@@ -176,26 +179,26 @@ augroup filetype_c
     " augroup END
 
     "   FUNCTIONS DOCSTRING
-    au Filetype c nn <silent><buffer> <Tab>D mdj
+    au Filetype c nn <silent><buffer> <Space>d mdj
                 \
                 \:keeppatterns ?^\a<CR>
                 \O<Esc>O/*<Esc>o<C-w>** @brief<Tab><Tab><Esc>o*/<Esc>=ip
                 \jA
 
     "   FILTERED NORMINETTE
-    au Filetype c,cpp nn <silent><buffer> <Tab>n :w<CR>:!clear; norminette % \| grep -Ev
+    au Filetype c,cpp nn <silent><buffer> <Space>n :w<CR>:!clear; norminette % \| grep -Ev
                 \ "TOO_MANY_FUNCS\|EMPTY_LINE_FUNCTION\|INVALID_HEADER\|WRONG_SCOPE_COMMENT\|TOO_MANY_LINES\|LINE_TOO_LONG"<CR>
     "   NORMINETTE
-    au Filetype c,cpp nn <silent><buffer> <Tab><Tab>n :w<CR>:!clear; norminette %<CR>
+    au Filetype c,cpp nn <silent><buffer> <Space><Space>n :w<CR>:!clear; norminette %<CR>
 
     "   PRINT
-    au Filetype c nn <silent><buffer> <Tab>p mpodprintf (2, "\n");<Esc>==f\i
+    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\i
     "   PRINT WRAP
-    au Filetype c nn <silent><buffer> <Tab><Tab>p 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
+    au Filetype c nn <silent><buffer> <Space><Space>p 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
 
     "   MARKER
-    au Filetype c nn <silent><buffer> <Tab>m <nop>
-    au Filetype c nn <silent><buffer> <Tab>mm mmodprintf (2, "(%s: %s: %d)\n",
+    au Filetype c nn <silent><buffer> <Space>m <nop>
+    au Filetype c nn <silent><buffer> <Space>mm mmodprintf (2, "(%s: %s: %d)\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
     " <<<
 augroup END
