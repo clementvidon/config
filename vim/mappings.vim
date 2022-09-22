@@ -149,6 +149,7 @@ nm gha <Plug>(GitGutterStageHunk)
 nn ghA :!clear; git add -p %<CR>
 nn ghs :!clear; git status<CR>
 nn ghl :!clear; git log --oneline<CR>
+nn ghL :!clear; git log -p %<CR>
 nn ghc <nop>
 nn ghcm :!git commit -m ""<Left>
 nn ghcv :!git commit -v <CR>
