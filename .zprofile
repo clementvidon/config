@@ -46,3 +46,5 @@ if [[ "$OSTYPE" == "linux"* ]] && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]
 then
     startx
 fi
+
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin

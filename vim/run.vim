@@ -11,6 +11,7 @@ source $DOTVIM/mappings.vim
 "           FTPLUGIN
 
 source $DOTVIM/after/ftplugin/css.vim
+source $DOTVIM/after/ftplugin/go.vim
 source $DOTVIM/after/ftplugin/html.vim
 source $DOTVIM/after/ftplugin/javascript.vim
 source $DOTVIM/after/ftplugin/json.vim
