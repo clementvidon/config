@@ -181,8 +181,6 @@ nn [q :cprev<CR>
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK CMDLINE
 no ; :
-cno <c-h> <left>
-cno <c-l> <right>
 "   EYES LEVEL CURSOR AND VIEW
 no z, z.10<C-e>
 
