@@ -127,19 +127,18 @@ alias gsh="git show"
 alias gst="git status -s --show-stash --ignore-submodules=untracked"
 alias gsta="bash $HOME/git/utils/status_all.zsh"
 alias gsw="git switch"
-alias gup="git add -u && git commit -m Update && git push"
 
 #       [ Make ]
 alias ma='make all'
-alias mav='make all valgrind_run'
+alias mav='make all vrun'
 alias mc='make clean'
 alias mf='make fclean'
-alias mfs='make fclean san'
+alias mfs='make fclean asan'
 alias mn='make norm'
 alias mr='make re'
-alias mrv='make re valgrind_run'
-alias ms='make san'
-alias msr='make san run'
+alias mrv='make re vrun'
+alias ms='make asan'
+alias msr='make asan run'
 alias mu='make update'
 
 #------------------------------------------------------------------------------#
@@ -177,7 +176,7 @@ function    main()
     fi
 }
 
-# @biref        Copy the given file content to clipboard.
+# @brief        Copy the given file content to clipboard.
 # @param[in]    file a file
 
 function    copy()
@@ -188,4 +187,13 @@ function    copy()
     elif [[ "$OSTYPE" == "linux"* ]]; then
         cat $file | xclip -sel clip
     fi
+}
+
+# @brief        Git add-commit-push an update.
+# @param[in]    message a message that suffixes "Update…"
+
+function    gup()
+{
+    message=$1
+    echo "git add -u && git commit -m \"Update $1\" && git push"
 }
