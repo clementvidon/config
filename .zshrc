@@ -196,7 +196,7 @@ function    gup()
 {
     message=$1
     echo $message
-    git add -u
-    git commit -m "Update $message"
-    # git push
+    # git add -u
+    # git commit -m "Update $message"
+    # # git push
 }
