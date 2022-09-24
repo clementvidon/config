@@ -20,7 +20,7 @@ augroup filetype_c
     endif
     au FileType c,cpp hi link cCharacter cleared
     au FileType c,cpp hi link cConditional cleared
-    au FileType c,cpp hi link cConstant cleared
+    " au FileType c,cpp hi link cConstant cleared
     au FileType c,cpp hi link cDefine cleared
     au FileType c,cpp hi link cInclude cleared
     au FileType c,cpp hi link cIncluded cleared
