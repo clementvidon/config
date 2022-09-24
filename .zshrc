@@ -130,15 +130,15 @@ alias gsw="git switch"
 
 #       [ Make ]
 alias ma='make all'
-alias mav='make all vrun'
+alias mav='make all vrun-'
 alias mc='make clean'
 alias mf='make fclean'
 alias mfs='make fclean asan'
 alias mn='make norm'
 alias mr='make re'
-alias mrv='make re vrun'
+alias mrv='make re vrun-'
 alias ms='make asan'
-alias msr='make asan run'
+alias msr='make asan run-'
 alias mu='make update'
 
 #------------------------------------------------------------------------------#

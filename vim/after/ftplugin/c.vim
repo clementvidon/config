@@ -182,7 +182,7 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> <Space>d mdj
                 \
                 \:keeppatterns ?^\a<CR>
-                \O<Esc>O/*<Esc>o<C-w>** @brief<Tab><Tab><Esc>o*/<Esc>=ip
+                \O<Esc>O/*<Esc>o<C-w>** @brief      <Esc>o*/<Esc>=ip
                 \jA
 
     "   FILTERED NORMINETTE
