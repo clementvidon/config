@@ -195,5 +195,7 @@ function    copy()
 function    gup()
 {
     message=$1
-    echo "git add -u && git commit -m \"Update $1\" && git push"
+    git add -u
+    git commit -m "Update $1"
+    # git push
 }
