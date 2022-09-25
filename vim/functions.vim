@@ -11,6 +11,10 @@ com! -nargs=+ En exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/nu
 "   SYNONYM ('-l fr salut' for french Syn) (APIKEY:K4f8SzzxLdtH1YVpwRON)
 com! -nargs=+ Sy exec '! clear; synonym <args>' | redraw!
 
+"   TMUX SENDKEY
+com! -nargs=+ Sl exec 'silent ! tmux send-keys -t left "<args>" Enter' | redraw!
+com! -nargs=+ Sr exec 'silent ! tmux send-keys -t right "<args>" Enter' | redraw!
+
 "   GET HILIGHT
 function! GetSyntaxID()
     return synID(line('.'), col('.'), 1)

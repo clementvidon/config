@@ -7,6 +7,8 @@ mkdir -pv $HOME/.fonts
 ln -fsv $HOME/git/config/.fonts/*.ttc                   $HOME/.fonts/
 mkdir -pv $HOME/.icons
 ln -fsv $HOME/git/config/.icons/*                       $HOME/.icons/
+mkdir -pv $HOME/.local/script
+ln -fsv $HOME/git/config/.local/script/*                $HOME/.local/script/
 
 if command -v git &> /dev/null; then
     ln -fsv $HOME/git/config/.gitmessage                $HOME/.gitmessage

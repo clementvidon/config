@@ -7,10 +7,10 @@
 #------------------------------------------------------------------------------#
 
 if [[ $DISPLAY ]] || [[ "$OSTYPE" == "darwin"* ]]; then
-    if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-        exec tmux
-        # exec '/mnt/nfs/homes/cvidon/.linuxbrew/bin/tmux'
-    fi
+	if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+		exec tmux
+		# exec '/mnt/nfs/homes/cvidon/.linuxbrew/bin/tmux'
+	fi
 fi
 
 #------------------------------------------------------------------------------#
@@ -82,14 +82,14 @@ PROMPT='%m%{%F{102}%}${vcs_info_msg_0_}%{%F{none}%}%# '
 #------------------------------------------------------------------------------#
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    alias ls="ls -G"
-    alias la="ls -G -la"
-    alias latr="ls -G -latr"
+	alias ls="ls -G"
+	alias la="ls -G -la"
+	alias latr="ls -G -latr"
 elif [[ "$OSTYPE" == "linux"* ]]; then
-    alias ls="ls --color=auto"
-    alias la="ls --color=auto -la"
-    alias latr="ls --color=auto -latr"
-    alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
+	alias ls="ls --color=auto"
+	alias la="ls --color=auto -la"
+	alias latr="ls --color=auto -latr"
+	alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
 fi
 
 alias ag='grep -r --color=auto'
@@ -150,8 +150,8 @@ alias mu='make update'
 
 function    k()
 {
-    proc=$1
-    kill -9 $(pgrep $proc)
+	proc=$1
+	kill -9 $(pgrep $proc)
 }
 
 # @brief        Quickly create a coding test file.
@@ -159,21 +159,21 @@ function    k()
 
 function    main()
 {
-    lang=$1
-    if [ $lang = c ]; then
-        file="./main-$(date +"%y%m%d%H%M%S").c"
-        echo "#include <stdio.h>"   >> $file
-        echo "#include <unistd.h>"  >> $file
-        echo "#include <stdlib.h>"  >> $file
-        echo "#include <limits.h>"  >> $file
-        echo ""                     >> $file
-        echo "int\tmain(void)"      >> $file
-        echo "{"                    >> $file
-        echo "\t"                   >> $file
-        echo "\treturn (0);"        >> $file
-        echo "}"                    >> $file
-        vi -c '8|startinsert' $file
-    fi
+	lang=$1
+	if [ $lang = c ]; then
+		file="./main-$(date +"%y%m%d%H%M%S").c"
+		echo "#include <stdio.h>"   >> $file
+		echo "#include <unistd.h>"  >> $file
+		echo "#include <stdlib.h>"  >> $file
+		echo "#include <limits.h>"  >> $file
+		echo ""                     >> $file
+		echo "int\tmain(void)"      >> $file
+		echo "{"                    >> $file
+		echo "\t"                   >> $file
+		echo "\treturn (0);"        >> $file
+		echo "}"                    >> $file
+		vi -c '8|startinsert' $file
+	fi
 }
 
 # @brief        Copy the given file content to clipboard.
@@ -181,12 +181,12 @@ function    main()
 
 function    copy()
 {
-    file=$1
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        pbcopy < $file
-    elif [[ "$OSTYPE" == "linux"* ]]; then
-        cat $file | xclip -sel clip
-    fi
+	file=$1
+	if [[ "$OSTYPE" == "darwin"* ]]; then
+		pbcopy < $file
+	elif [[ "$OSTYPE" == "linux"* ]]; then
+		cat $file | xclip -sel clip
+	fi
 }
 
 # @brief        Git add-commit-push an update.
@@ -194,8 +194,8 @@ function    copy()
 
 function    gup()
 {
-    message=$1
-    git add -u
-    git commit -m "Update $message"
-    git push
+	message=$1
+	git add -u
+	git commit -m "Update $message"
+	git push
 }
