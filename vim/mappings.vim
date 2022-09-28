@@ -133,6 +133,8 @@ nn glrm :cd %:h<CR>:!rm -f %<CR>:q<CR>
 nn glta :S ctags -R<CR>
 "   BC
 nn glbc V:!bc<CR>
+"   SEND KEY
+nn gs :S0<Space>
 " <<<
 " --------------------------------- PLUGINS (g h-ltyszcn) >>>
 "                       GITGUTTER
@@ -366,5 +368,8 @@ function! SwissKeyboard()
     no `n N
     no `m M
 endfunction
+
+"                       TEMP
+nn <space>x :noau w<CR>:S0 make asan run-simple.cub<CR>
 
 " <<<

@@ -14,6 +14,12 @@ com! -nargs=+ Sy exec '! clear; synonym <args>' | redraw!
 "   TMUX SENDKEY
 com! -nargs=+ Sl exec 'silent ! tmux send-keys -t left "<args>" Enter' | redraw!
 com! -nargs=+ Sr exec 'silent ! tmux send-keys -t right "<args>" Enter' | redraw!
+com! -nargs=+ S0 exec 'silent ! tmux send-keys -t 0 "<args>" Enter' | redraw!
+com! -nargs=+ S1 exec 'silent ! tmux send-keys -t 1 "<args>" Enter' | redraw!
+com! -nargs=+ S2 exec 'silent ! tmux send-keys -t 2 "<args>" Enter' | redraw!
+com! -nargs=+ S3 exec 'silent ! tmux send-keys -t 3 "<args>" Enter' | redraw!
+com! -nargs=+ S4 exec 'silent ! tmux send-keys -t 4 "<args>" Enter' | redraw!
+com! -nargs=+ S5 exec 'silent ! tmux send-keys -t 5 "<args>" Enter' | redraw!
 
 "   GET HILIGHT
 function! GetSyntaxID()
