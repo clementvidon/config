@@ -370,6 +370,7 @@ function! SwissKeyboard()
 endfunction
 
 "                       TEMP
-nn <space>x :noau w<CR>:S0 make asan run-simple.cub<CR>
+nn <space>x :noau w<CR>:S0 make asan && ./cube_parsing test/simple.cub 2>/dev/null<CR>
+nn <space>X :noau w<CR>:S0 make asan && ./cube_parsing test/simple.cub<CR>
 
 " <<<

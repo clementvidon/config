@@ -124,8 +124,9 @@ function! NotesArchiveDay()
     endif
     "   Tomorrow template
     call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read; sport; prepare; transport")
+    call append(l:tomorrow_loc + 1, "[][Life] lunch")
     call append(l:tomorrow_loc + 1, "[][Life] transport")
-    call append(l:tomorrow_loc + 1, "[][Life] dinner + Vickings; listen podcast; meditate")
+    call append(l:tomorrow_loc + 1, "[][Life] dinner + watch Vickings; listen podcast")
     write
     call winrestview(l:save)
     return 0
