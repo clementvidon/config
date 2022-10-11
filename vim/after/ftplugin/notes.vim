@@ -120,13 +120,13 @@ function! NotesArchiveDay()
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][Note] @history **POSSIBLE DATE ERROR**")
+        call append(line('$') - 2, "[][memo] @history **POSSIBLE DATE ERROR**")
     endif
     "   Tomorrow template
-    call append(l:tomorrow_loc + 1, "[][Life] wake; snack + read; sport; prepare; transport")
-    call append(l:tomorrow_loc + 1, "[][Life] lunch")
-    call append(l:tomorrow_loc + 1, "[][Life] transport")
-    call append(l:tomorrow_loc + 1, "[][Life] dinner + watch Vickings; listen podcast")
+    call append(l:tomorrow_loc + 1, "[][rout] wake; snack + read; sport; prepare; transport")
+    call append(l:tomorrow_loc + 1, "[][rout] lunch")
+    call append(l:tomorrow_loc + 1, "[][rout] transport")
+    call append(l:tomorrow_loc + 1, "[][rout] dinner + watch Vickings; listen podcast")
     write
     call winrestview(l:save)
     return 0
@@ -203,7 +203,7 @@ augroup filetype_notes
                 \ | setl path+=$NOTES/Resources/**
                 \ | setl expandtab
                 \ | syntax sync fromstart
-    au BufRead,BufNewFile $NOTES/Lists/*.md setl textwidth=0
+    au BufRead,BufNewFile $NOTES/Lists/history.gpg.md setl textwidth=0
 
     " GPG
     au BufReadPre,FileReadPre *.gpg.* setl viminfo=""
@@ -341,62 +341,30 @@ augroup filetype_notes
 
     "   TASK_ADD_TAG
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>[ O[][]<Esc><<2f]i
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][Life]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>co O[][Code]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][Conf]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>no O[][Note]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>te O[][Term]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ar O[][Arts]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ad O[][Admi]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>fi O[][Fina]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>in O[][Inet]<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>mi O[][Misc]<Esc><<$
-    "   Tags/Life
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][Life] break<Esc><<$
-    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>di O[][Life] digress<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>li O[][life]<Esc><<$A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ro O[][rout]<Esc><<$A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>me O[][memo]<Esc><<$A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>ma O[][main]<Esc><<$A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>si O[][side]<Esc><<$A<Space>
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>cf O[][conf]<Esc><<$A<Space>
+    "   Tags/life
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>br O[][life] break<Esc><<$
+    au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>de O[][life] deviated<Esc><<$
     "   TASK_TAG_HELP
     au BufRead,BufNewFile $NOTES/Lists/* nn <silent><buffer> <Tab>? :echo "
                 \\n
-                \===========================[Tags]=========================\n
-                \                                                         \|\n
-                \ Tags:     Life → Life                <act> [<details>]  \|\n
-                \           Code → Coding        @ [<action> [<details>]] \|\n
-                \           Conf → Config        @ [<action> [<details>]] \|\n
-                \           Note → Notes         @ [<action> [<details>]] \|\n
-                \           Term → Terminal      @ [<action> [<details>]] \|\n
-                \           Tuto → Tutorials           <act> [<details>]  \|\n
-                \           Arts → Arts                <act> [<details>]  \|\n
-                \           Admi → Administration   <action> [<details>]  \|\n
-                \           Fina → Finance          <action> [<details>]  \|\n
-                \           Inet → Internet         <action> [<details>]  \|\n
-                \           Misc → Miscellaneous    <action> [<details>]  \|\n
-                \                                                         \|\n
-                \ Actions:  check       -                                 \|\n
-                \           dig         -                                 \|\n
-                \           study       -                                 \|\n
-                \           praxis      -                                 \|\n
-                \           think       -                                 \|\n
-                \           talk        -                                 \|\n
-                \           setup       -                                 \|\n
-                \           dev         - Develop something new.          \|\n
-                \           protect     -                                 \|\n
-                \           remove      -                                 \|\n
-                \           fix         -                                 \|\n
-                \           update      - Modify something that was done. \|\n
-                \           review      -                                 \|\n
-                \           cleanup     - Refactor, norm, docstring…      \|\n
-                \           defend      -                                 \|\n
-                \           evaluate    -                                 \|\n
-                \           help        -                                 \|\n
-                \                                                         \|\n
-                \ New:      add         -                                 \|\n
-                \           move        -                                 \|\n
-                \           change      -                                 \|\n
-                \           sketch      -                                 \|\n
-                \           reply       -                                 \|\n
-                \           create      -                                 \|\n
-                \           backup      -                                 \|\n
-                \                                                         \|\n
+                \=====================[Tags]===================\n
+                \                                             \|\n
+                \  Everything that follows counts in the      \|\n
+                \  physical as well as in the virtual world.  \|\n
+                \                                             \|\n
+                \  life → everything from the real life       \|\n
+                \  rout → routines                            \|\n
+                \  memo → brain memory (brain, Notes…)        \|\n
+                \  main → main projects (42)                  \|\n
+                \  side → side projects and quests (shoot…)   \|\n
+                \  conf → configurations (tools, home…)       \|\n
+                \                                             \|\n
                 \"<CR>
 
     "   TASK_FOCUS_TAG
@@ -432,7 +400,7 @@ augroup filetype_notes
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
-                \O[][Life] break<Space><Esc>mm
+                \O[][life] break<Space><Esc>mm
                 \:sil ec "insert break"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -444,7 +412,7 @@ augroup filetype_notes
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
-                \O[][Life] break<Space><Esc>mm
+                \O[][life] break<Space><Esc>mm
                 \:sil ec "insert [break]"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -456,7 +424,7 @@ augroup filetype_notes
     "   TASK_POSTPONE
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>p kmmj
                 \jk
-                \0di[V/\[.*\]<CR>kd?^##  Today$<CR>?[Note<CR>P`m:let @/ = ""<CR>
+                \0di[V/\[.*\]<CR>kd?^##  Today$<CR>?[wake<CR>P`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
     au BufRead,BufNewFile $NOTES/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m

@@ -54,7 +54,7 @@ syn match notesTaskStamp "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\@="
 syn match notesTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 
 " Task Perso
-syn match notesTaskPerso "\(\]\[\(Life\|>>\)\]\)\@<=.*"
+syn match notesTaskPerso "\(\]\[\(rout\|>>\)\]\)\@<=.*"
 
 " Escape
 syn match notesEscape "\\."
