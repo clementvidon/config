@@ -51,11 +51,12 @@ nn sij :ijump /
 nn sil :ilist /
 nn sis :isearch /
 
-"                       NOTES
-nn sl :e $NOTES/Lists/todo.md<CR>gi<Esc>z.
-nn xe :e $NOTES/Lists/english.md<CR>/##  Voca<CR>
-nn xf :e $NOTES/Lists/french.md<CR>/##  Voca<CR>
-nn xp :e $NOTES/Lists/post-it.md<CR>gi<Esc>
+"                       MEMO
+nn sl :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
+nn xe :e $MEMO/Lists/english.md<CR>/##  Voca<CR>
+nn xf :e $MEMO/Lists/french.md<CR>/##  Voca<CR>
+nn xp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
+nn xa :e $MEMO/Archives/Archives.md<CR>gi<Esc>
 "                       CONF
 nn xxv :e ~/.vimrc<CR>gi<Esc>
 nn xxz :e ~/.zshrc<CR>gi<Esc>
@@ -209,6 +210,9 @@ tno <S-Left> <C-W><
 tno <S-Up> <C-W>+
 tno <S-Right> <C-W>>
 tno <S-Down> <C-W>-
+
+no <Space>we :exec 'vertical resize '. string(&columns * 0.75)<CR>
+no <Space>wE :exec 'vertical resize '. string(&columns * 0.25)<CR>
 
 "   CLIPBOARD
 nn <silent> <Space>y :call system("xclip -sel clip", getreg("\""))<CR>

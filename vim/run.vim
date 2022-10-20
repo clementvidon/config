@@ -20,10 +20,12 @@ source $DOTVIM/after/ftplugin/json.vim
 " source $DOTVIM/after/ftplugin/yml.vim
 source $DOTVIM/after/ftplugin/c.vim
 source $DOTVIM/after/ftplugin/markdown.vim
-source $DOTVIM/after/ftplugin/notes.vim
 source $DOTVIM/after/ftplugin/python.vim
 source $DOTVIM/after/ftplugin/qf.vim
 source $DOTVIM/after/ftplugin/vim.vim
+
+source $DOTVIM/after/ftplugin/memo.vim
+source $DOTVIM/after/ftplugin/todo.vim
 
 "           PLUGINS
 
@@ -34,6 +36,6 @@ source $DOTVIM/autoload/plugin/redact_pass.vim
 
 augroup startup
     autocmd!
-    au VimEnter * if @% == '' | setl path+=$DOTVIM/**,$NOTES | endif
-    au VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOTES/**/todo.md<CR>GMz. | endif
+    au VimEnter * if @% == '' | setl path+=$DOTVIM/**,$MEMO | endif
+    au VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $MEMO/**/todo.md<CR>GMz. | endif
 augroup END

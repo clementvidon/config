@@ -72,6 +72,7 @@ Plug 'tpope/vim-commentary'             "   COMMENT OUT
 Plug 'airblade/vim-gitgutter'           "   GIT GUTTER
 Plug 'AndrewRadev/linediff.vim'         "   DIFF BUFFER CHUNK
 Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
+"lug 'roman/golden-ratio'               "   SMART SPLIT SIZE
 "lug 'dense-analysis/ale'               "   ASYNC LINT ENGINE
 "   HTML CSS
 "lug 'andrewradev/tagalong.vim'         "   AU-REN CLOSING TAG

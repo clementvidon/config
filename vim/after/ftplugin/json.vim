@@ -11,5 +11,6 @@ augroup filetype_json
     au FileType json let g:ale_linters = {'json': ['jsonlint']}
     " <<<
     " --------------------------------- MAPPINGS >>>
+	au Filetype json nn <silent><buffer> <Space>F :%!jq '.'<CR>
     " <<<
 augroup END
