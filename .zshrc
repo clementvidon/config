@@ -194,8 +194,9 @@ function    copy()
 
 function    gup()
 {
-	message=$1
+	message=$@
 	git add -u
 	git commit -m "Update $message"
 	git push
+	git status
 }

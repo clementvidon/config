@@ -2,7 +2,6 @@
 # a simple logout dialog
 
 # launch exit menu
-choice=`echo -e "0: logout\n1: shutdown\n2: suspend\n3: reboot\n4: cancel" | dmenu -p "select an action" | cut -d ':' -f 1`
 choice=`echo -e "0: lock\n1: logout\n2: suspend\n3: hibernate\n4: reboot\n5: shutdown\n6: cancel" | dmenu -p "select an action" | cut -d ':' -f 1`
 
 lock() {

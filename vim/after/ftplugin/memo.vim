@@ -346,7 +346,7 @@ augroup filetype_memo
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>me O[][memo]<Esc><<$A<Space>
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>ma O[][main]<Esc><<$A<Space>
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>si O[][side]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>cf O[][conf]<Esc><<$A<Space>
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>co O[][conf]<Esc><<$A<Space>
     "   Tags/life
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>jo O[][memo] @todo update journal<Esc><<$
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>br O[][life] break<Esc><<$
