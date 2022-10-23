@@ -19,6 +19,7 @@ export DOTVIM=$HOME/.config/vim
 
 if [[ "$LOGNAME" = "clem"* ]]; then
     export GPG_TTY=$(tty)
+    export GPG_KEY=Clem9nt
     export GNUPGHOME=$HOME/.gnupg
     export PATH=$HOME/.npm/bin:$PATH
     export PATH=$PATH:"$HOME/node_modules/.bin"
