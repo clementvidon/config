@@ -1,0 +1,14 @@
+#!/bin/bash
+# a simple logout dialog
+
+# launch exit menu
+choice=`echo -e "0: Logout\n1: Shutdown\n2: Suspend\n3: Reboot\n4: Cancel" | dmenu -p "select an action" | cut -d ':' -f 1`
+
+# execute the choice in background
+case "$choice" in
+    0) i3-msg exit & ;;
+    1) systemctl poweroff & ;;
+    2) systemctl suspend & ;;
+    3) systemctl reboot & ;;
+    4) exit ;;
+esac

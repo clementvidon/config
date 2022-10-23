@@ -37,6 +37,8 @@ fi
 
 if command -v i3 &> /dev/null; then
     mkdir -pv $HOME/.config/i3/
+    mkdir -pv $HOME/.local/script/i3
+    ln -fsv $HOME/git/config/.local/script/i3/*                $HOME/.local/script/i3
     ln -fsv $HOME/git/config/i3/config                  $HOME/.config/i3/
     ln -fsv $HOME/git/config/.xinitrc                   $HOME/.xinitrc
     ln -fsv $HOME/git/config/.Xresources                $HOME/.Xresources

@@ -1,3 +1,66 @@
-Xft.dpi: 220
-Xcursor.size: 48
+! nord inspired colors
+! black
+*color0:  #3B4252
+*color8:  #4C566A
+! red
+*color1:  #BF616A
+*color9:  #BF616A
+! green
+*color2:  #A3BE8C
+*color10: #A3BE8C
+! yellow
+*color3:  #EBCB8B
+*color11: #EBCB8B
+! blue
+*color4:  #81A1C1
+*color12: #81A1C1
+! purple
+*color5:  #B48EAD
+*color13: #B48EAD
+! cyan
+*color6:  #88C0D0
+*color14: #8FBCBB
+! white
+*color7:  #E5E9F0
+*color15: #ECEFF4
+
+*background:  #2E3440
+*foreground:  #D8DEE9
+*fading:      40
+*fadeColor:   #4C566A
+*cursorColor: #D8DEE9
+*colorUL:     #A3BE8C
+
+
+! xmessage -------------------------------------------------------------
+Xmessage.form.okay.shapeStyle:       rectangle
+Xmessage.center:                     TRUE
+Xmessage*buttons:                    OK
+Xmessage*defaultButton:              OK
+Xmessage.form.message.Scroll:        WhenNeeded
+Xmessage*borderWidth:                0
+Xmessage*Text.borderWidth:           0
+Xmessage*Command.borderWidth:        0
+Xmessage*Command.shapeStyle:         rectangle
+Xmessage*Command.highlightThickness: 2
+Xmessage*Command.internalWidth:      5
+Xmessage*Command.internalHeight:     1
+Xmessage*message.scrollHorizontal:   Never
+Xmessage*message.scrollVertical:     Never
+Xmessage.form.Command.background:    #2e3440
+Xmessage.form.Command.foreground:    #d8dee9
+
+
+
+
+Xft.dpi:       220
+Xft.autohint:  false
+Xft.lcdfilter: lcddefault
+Xft.antialias: true
+Xft.rgba:      rgb
+Xft.hinting:   true
+Xft.hintstyle: hintslight
+
+
+Xcursor.size:  48
 Xcursor.theme: capitaine-cursors
