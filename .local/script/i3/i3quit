@@ -2,13 +2,19 @@
 # a simple logout dialog
 
 # launch exit menu
-choice=`echo -e "0: Logout\n1: Shutdown\n2: Suspend\n3: Reboot\n4: Cancel" | dmenu -p "select an action" | cut -d ':' -f 1`
+choice=`echo -e "0: logout\n1: shutdown\n2: suspend\n3: reboot\n4: cancel" | dmenu -p "select an action" | cut -d ':' -f 1`
+choice=`echo -e "0: lock\n1: logout\n2: suspend\n3: hibernate\n4: reboot\n5: shutdown\n6: cancel" | dmenu -p "select an action" | cut -d ':' -f 1`
+
+lock() {
+    i3lock -u -c 00ff79 -f
+}
 
 # execute the choice in background
 case "$choice" in
-    0) i3-msg exit & ;;
-    1) systemctl poweroff & ;;
-    2) systemctl suspend & ;;
-    3) systemctl reboot & ;;
-    4) exit ;;
+    0) lock ;;
+    1) i3-msg exit & ;;
+    2) lock && systemctl suspend & ;;
+    3) lock && systemctl hibernate & ;;
+    4) systemctl reboot & ;;
+    5) systemctl poweroff & ;;
 esac
