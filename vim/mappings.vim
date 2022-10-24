@@ -211,8 +211,8 @@ tno <S-Up> <C-W>+
 tno <S-Right> <C-W>>
 tno <S-Down> <C-W>-
 
-no <Space>we :exec 'vertical resize '. string(&columns * 0.65)<CR>
-no <Space>wE :exec 'vertical resize '. string(&columns * 0.35)<CR>
+no <Space>we :exec 'vertical resize '. string(&columns * 0.70)<CR>
+no <Space>wE :exec 'vertical resize '. string(&columns * 0.30)<CR>
 
 "   CLIPBOARD
 nn <silent> <Space>y :call system("xclip -sel clip", getreg("\""))<CR>

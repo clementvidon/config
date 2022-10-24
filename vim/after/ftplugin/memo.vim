@@ -126,7 +126,7 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, "[][rout] wake; snack + read S1S2; sport; prepare; transport + read Deepwork")
     call append(l:tomorrow_loc + 1, "[][rout] lunch")
     call append(l:tomorrow_loc + 1, "[][rout] transport + read Deepwork")
-    call append(l:tomorrow_loc + 1, "[][rout] dinner + watch Vickings; listen podcast")
+    call append(l:tomorrow_loc + 1, "[][rout] dinner + watch TheOSINTCuriousProject; listen podcast")
     write
     call winrestview(l:save)
     return 0
