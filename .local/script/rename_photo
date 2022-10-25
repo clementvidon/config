@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# @brief        Rename my phone pictures YYMMDD_DayCount.HEIC
+# @param[in]    a directory that contains the files to rename
+
+if [ ! $1 ]
+then
+    echo "You have to specify a target directory"
+    exit
+fi
+
+prevts=000000 # the timestamp of the previous file
+currts=000000 # the timestamp of the current file
+n=1          # file count on the same day
+declare -a files=($1/*)
+for (( i = 0; i < ${#files[*]}; ++ i ))
+do
+    [[ $i -gt 0 ]] && prevts=$(date -r "${files[$i-1]}" +"%g%m%d")
+    currts=$(date -r "${files[$i]}" +"%g%m%d")
+    [[ "$currts" != "$prevts" ]] && n=1
+
+    oldname=${files[$i]}
+    extension="${oldname##*.}"
+    newname="CV_$currts"_"$(printf "%03d\n" "$n")"
+    # mv -n "${files[$i]}" "$filename".$extension
+    echo "${files[$i]}" $1/"$newname".$extension
+    let "n=$n+1"
+done
