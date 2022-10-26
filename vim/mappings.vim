@@ -46,8 +46,7 @@ nn gsd :bn!\|bd! #<CR>
 "                       GREP
 nn sg :grep -r<Space>
 "                       TAG
-nn st :tag /
-nn sij :ijump /
+nn st :ijump /
 nn sil :ilist /
 nn sis :isearch /
 
