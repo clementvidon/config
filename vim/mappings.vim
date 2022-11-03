@@ -46,7 +46,8 @@ nn gsd :bn!\|bd! #<CR>
 "                       GREP
 nn sg :grep -r<Space>
 "                       TAG
-nn st :ijump /
+nn st :tag /
+nn sij :ilist /
 nn sil :ilist /
 nn sis :isearch /
 
@@ -378,7 +379,7 @@ endfunction
 
 "                       TEMP
 nn <space>x :noau w<CR>:S0 \!\!<CR>
-nn <space>X :noau w<CR>:S0 clear<CR>
+nn <space>X :noau w<CR>:S0<Space>
 " nn <space>x :noau w<CR>:S0 make asan && ./cube_parsing test/simple.cub 2>/dev/null<CR>
 " nn <space>X :noau w<CR>:S0 make asan && ./cube_parsing test/simple.cub<CR>
 
