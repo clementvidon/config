@@ -115,7 +115,7 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, "[-][>>]")
     call append(l:tomorrow_loc + 1, "[-][>>] -")
     call append(l:tomorrow_loc + 1, "[-][>>] +")
-    call append(l:tomorrow_loc + 1, "[-][ST] ph me mi st fo yi")
+    call append(l:tomorrow_loc + 1, "[-][ST] ph me mo st fo yi")
     call append(l:tomorrow_loc + 1, "")
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
@@ -123,9 +123,9 @@ function! MemoArchiveDay()
         call append(line('$') - 2, "[][memo] @history **POSSIBLE DATE ERROR**")
     endif
     "   Tomorrow template
-    call append(l:tomorrow_loc + 1, "[][rout] wake; snack + read S1S2; sport; prepare; transport + read Deepwork")
+    call append(l:tomorrow_loc + 1, "[][rout] wake; snack + read S1S2; sport; prepare; move + read Deepwork")
     call append(l:tomorrow_loc + 1, "[][rout] lunch")
-    call append(l:tomorrow_loc + 1, "[][rout] transport + read Deepwork")
+    call append(l:tomorrow_loc + 1, "[][rout] move + read Deepwork")
     call append(l:tomorrow_loc + 1, "[][rout] dinner + watch TheOSINTCuriousProject; listen podcast")
     write
     call winrestview(l:save)
@@ -152,7 +152,7 @@ augroup filetype_memo
                 \ | setl path+=$MEMO/Resources/**
                 \ | setl expandtab
                 \ | syntax sync fromstart
-    au BufRead,BufNewFile $MEMO/Lists/history.gpg.md setl textwidth=0
+    au BufRead,BufNewFile $MEMO/Lists/history.gpg.md setl textwidth=0 " TODO doesnt work
 
     " GPG
     au BufReadPre,FileReadPre *.gpg.* setl viminfo=""
