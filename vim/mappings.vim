@@ -135,7 +135,9 @@ nn glta :S ctags -R<CR>
 "   BC
 nn glbc V:!bc<CR>
 "   SEND KEY
-nn gs :S0<Space>
+nn glsr :noau w<CR>:S0 \!\!<CR>
+"   SEND KEY REPEAT
+nn glsk :noau w<CR>:S0<Space>
 " <<<
 " --------------------------------- PLUGINS (g h-ltyszcn) >>>
 "                       GITGUTTER
@@ -376,11 +378,4 @@ function! SwissKeyboard()
     no `n N
     no `m M
 endfunction
-
-"                       TEMP
-nn <space>x :noau w<CR>:S0 \!\!<CR>
-nn <space>X :noau w<CR>:S0<Space>
-" nn <space>x :noau w<CR>:S0 make asan && ./cube_parsing test/simple.cub 2>/dev/null<CR>
-" nn <space>X :noau w<CR>:S0 make asan && ./cube_parsing test/simple.cub<CR>
-
 " <<<
