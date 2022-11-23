@@ -1,6 +1,6 @@
 colors:
   primary:
-    background: '#2e3340' #darker 23252a 2e3340 lighter
+    background: '#2e3340' # 42:1E2229 darker:23252a lighter:2e3340
     foreground: '#d8dee9'
     dim_foreground: '#a5abb6'
   cursor:

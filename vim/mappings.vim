@@ -189,6 +189,9 @@ no ; :
 "   EYES LEVEL CURSOR AND VIEW
 no z, z.15<C-e>
 
+" TODO
+" :exec 'normal z.'. string(&lines / 5) .'<C-y>'
+
 "                       SPACE
 "   INDENT
 nn <Space>= Mmmgo=G`mzz3<C-O>

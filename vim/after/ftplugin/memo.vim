@@ -123,10 +123,14 @@ function! MemoArchiveDay()
         call append(line('$') - 2, "[][memo] @history **POSSIBLE DATE ERROR**")
     endif
     "   Tomorrow template
-    call append(l:tomorrow_loc + 1, "[][rout] wake; snack + read S1S2; sport; prepare; move + read Deepwork")
-    call append(l:tomorrow_loc + 1, "[][rout] lunch")
-    call append(l:tomorrow_loc + 1, "[][rout] move + read Deepwork")
-    call append(l:tomorrow_loc + 1, "[][rout] dinner + watch TheOSINTCuriousProject; listen podcast")
+    call append(l:tomorrow_loc + 1, "[][rout] wake up; snack")
+    call append(l:tomorrow_loc + 1, "[][rout] sport; prepare; lunch")
+    call append(l:tomorrow_loc + 1, "[][rout] dinner")
+    call append(l:tomorrow_loc + 1, "[][rout] go to sleep")
+    "[][rout] wake up; snack; sport; prepare; shift")
+    "[][rout] lunch")
+    "[][rout] shift")
+    "[][rout] dinner; listen podcast")
     write
     call winrestview(l:save)
     return 0
@@ -308,12 +312,12 @@ augroup filetype_memo
                 \  Everything that follows counts in the      \|\n
                 \  physical as well as in the virtual world.  \|\n
                 \                                             \|\n
-                \  life → everything from the real life       \|\n
-                \  rout → routines                            \|\n
-                \  memo → brain memory (brain, Memo…)        \|\n
                 \  main → main projects (42)                  \|\n
                 \  side → side projects and quests (shoot…)   \|\n
                 \  conf → configurations (tools, home…)       \|\n
+                \  memo → memory (brain, Memo…)               \|\n
+                \  life → everything from the real life       \|\n
+                \  rout → routines                            \|\n
                 \                                             \|\n
                 \"<CR>
 

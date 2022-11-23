@@ -91,6 +91,7 @@ endfunction
 "
 "           TODO
 "           See ':h isfname'
+"  use      echo col('.')
 
 function! GFPattern()
     " One 'path' in the current line
