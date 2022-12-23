@@ -48,4 +48,8 @@ then
     startx
 fi
 
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+export PATH=$PATH:"$HOME/processing"
+
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin

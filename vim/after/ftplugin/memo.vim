@@ -120,24 +120,31 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][memo] @history **POSSIBLE DATE ERROR**")
+        call append(line('$') - 2, "[][memo] @history **FIX DATE**")
     endif
     "   Tomorrow template
-    call append(l:tomorrow_loc + 1, "[][rout] wake up; snack")
-    call append(l:tomorrow_loc + 1, "[][rout] sport; prepare; lunch")
-    call append(l:tomorrow_loc + 1, "[][rout] dinner")
-    call append(l:tomorrow_loc + 1, "[][rout] go to sleep")
-    "[][rout] wake up; snack; sport; prepare; shift")
-    "[][rout] lunch")
-    "[][rout] shift")
-    "[][rout] dinner; listen podcast")
+
+    " call append(l:tomorrow_loc + 1, '[][rout] get up; sport; breakfast; prepare')
+    " call append(l:tomorrow_loc + 1, '[][rout] lunch')
+    " call append(l:tomorrow_loc + 1, '[][rout] dinner; go to bed')
+
+    " call append(l:tomorrow_loc + 1, '[][rout] get up; sport; breakfast; prepare')
+    " call append(l:tomorrow_loc + 1, '[][life] move')
+    " call append(l:tomorrow_loc + 1, '[][rout] lunch')
+    " call append(l:tomorrow_loc + 1, '[][life] move')
+    " call append(l:tomorrow_loc + 1, '[][rout] dinner; go to bed')
+
+    call append(l:tomorrow_loc + 1, '[][rout] get up; breakfast')
+    call append(l:tomorrow_loc + 1, '[][rout] sport; prepare')
+    call append(l:tomorrow_loc + 1, '[][rout] lunch')
+    call append(l:tomorrow_loc + 1, '[][rout] dinner; go to bed')
+
     write
     call winrestview(l:save)
     return 0
 endfunction
 
 " <<<
-"}}}
 
 augroup filetype_memo
     autocmd!
@@ -176,6 +183,9 @@ augroup filetype_memo
 
     "   ArchiveDay
     au FileType memo nn <buffer><silent> <Space>A :call MemoArchiveDay()<CR>
+                \:sil cd $MEMO/<CR>
+                \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
+                \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
     "   MappingInfo
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Space>? :echo "
@@ -399,7 +409,7 @@ augroup filetype_memo
     "   ROT
     au FileType memo nn <buffer><silent> <Space>g? Mmm
                 \
-                \:g/\[>>\]/norm g??<CR>
+                \:keeppatterns g/\[>>\]/norm g??<CR>
                 \`mzz3<C-O>
 
     " <<<

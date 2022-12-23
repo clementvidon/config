@@ -36,6 +36,6 @@ source $DOTVIM/autoload/plugin/redact_pass.vim
 
 augroup startup
     autocmd!
-    au VimEnter * if @% == '' | setl path+=$DOTVIM/**,$MEMO | endif
+    au VimEnter * if @% == '' | setl path+=$DOTVIM/**,$MEMO/*/** | endif
     au VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $MEMO/Lists/todo.md<CR>GMz. | endif
 augroup END
