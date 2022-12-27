@@ -112,7 +112,7 @@ augroup filetype_c
     " augroup END
 
     "   indent
-    au Filetype cpp nn gq Mmm
+    au Filetype cpp nn gq mm
                 \
                 \:silent %!clang-format --style=Chromium<CR>
                 \`mzz
@@ -122,7 +122,7 @@ augroup filetype_c
                 \
                 \:keeppatterns ?^\a<CR>
                 \O<Esc>O/*<Esc>o<C-w>* @brief      TODO<CR><BS>/<Esc>=ip
-                \j$vb
+                \j$b
 
     "   print
     au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\i
