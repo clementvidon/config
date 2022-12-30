@@ -19,6 +19,7 @@ endif
 
 " <<<
 " --------------------------------- ERGONOMIC >>>
+set relativenumber                  "   number column
 set ignorecase smartcase            "   ignore case except if uppercase used
 set listchars=tab:>\ ,trail:-       "   strings to use for :list command
 set nowrap                          "   disable screen line wrapping

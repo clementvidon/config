@@ -114,7 +114,7 @@ augroup filetype_c
     "   indent
     au Filetype cpp nn gq mm
                 \
-                \:silent %!clang-format --style=Chromium<CR>
+                \:silent %!clang-format -style=file<CR>
                 \`mzz
 
     "   functions docstring

@@ -3,6 +3,18 @@
 # @brief    Configuration deployment script.
 # @author   clemedon (Clément Vidon)
 
+if command -v zsh &> /dev/null; then
+    zsh
+    ln -fsv $HOME/git/config/.zshrc                     $HOME/.zshrc
+    ln -fsv $HOME/git/config/.zprofile                  $HOME/.zprofile
+    source ~/.zshrc
+    source ~/.zprofile
+fi
+
+if command -v bash &> /dev/null; then
+    ln -fsv $HOME/git/config/.bashrc                    $HOME/.bashrc
+fi
+
 mkdir -pv $HOME/.fonts
 ln -fsv $HOME/git/config/.fonts/*.ttc                   $HOME/.fonts/
 mkdir -pv $HOME/.icons
@@ -14,15 +26,6 @@ if command -v git &> /dev/null; then
     ln -fsv $HOME/git/config/.gitmessage                $HOME/.gitmessage
     ln -fsv $HOME/git/config/.gitconfig                 $HOME/.gitconfig
     ln -fsv $HOME/git/config/.gitignore                 $HOME/.gitignore
-fi
-
-if command -v zsh &> /dev/null; then
-    ln -fsv $HOME/git/config/.zshrc                     $HOME/.zshrc
-    ln -fsv $HOME/git/config/.zprofile                  $HOME/.zprofile
-fi
-
-if command -v bash &> /dev/null; then
-    ln -fsv $HOME/git/config/.bashrc                    $HOME/.bashrc
 fi
 
 if command -v tmux &> /dev/null; then
@@ -42,6 +45,10 @@ if command -v i3 &> /dev/null; then
     ln -fsv $HOME/git/config/i3/config                  $HOME/.config/i3/
     ln -fsv $HOME/git/config/.xinitrc                   $HOME/.xinitrc
     ln -fsv $HOME/git/config/.Xresources                $HOME/.Xresources
+fi
+
+if command -v clang-format &> /dev/null; then
+    ln -fsv $HOME/git/config/.clang-format              $HOME
 fi
 
 if command -v vim &> /dev/null; then
