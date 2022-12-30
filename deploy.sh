@@ -1,14 +1,11 @@
-#!/bin/bash
+#!/bin/zsh
 # @file     deploy.sh
 # @brief    Configuration deployment script.
 # @author   clemedon (Clément Vidon)
 
 if command -v zsh &> /dev/null; then
-    zsh
     ln -fsv $HOME/git/config/.zshrc                     $HOME/.zshrc
     ln -fsv $HOME/git/config/.zprofile                  $HOME/.zprofile
-    source ~/.zshrc
-    source ~/.zprofile
 fi
 
 if command -v bash &> /dev/null; then
@@ -62,5 +59,12 @@ if command -v vim &> /dev/null; then
     ln -fsv $HOME/git/config/vim/autoload/plugin/*.vim  $HOME/.config/vim/autoload/plugin/
     ln -fsv $HOME/git/config/vim/after/ftplugin/*.vim   $HOME/.config/vim/after/ftplugin/
     ln -fsv $HOME/git/config/vim/syntax/*.vim           $HOME/.config/vim/syntax/
-    vim -c ':PlugInstall'
 fi
+
+echo ""
+echo ">>> Config is installed!"
+echo ">>> Do not forget to run:"
+echo "zsh"
+echo "source ~/.zshrc"
+echo "source ~/.zprofile"
+echo "vim -c ':PlugInstall'"
