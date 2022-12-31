@@ -217,8 +217,6 @@ augroup filetype_memo
                 \ TASK_TAG_HELP     : Tab   ?          \|\n
                 \ TASK_ADD_TAG      : Tab   …          \|\n
                 \ TASK_FOCUS_TAG    : Tab   \\          \|\n
-                \ TASK_ADD_ACT      : \\     …          \|\n
-                \ TASK_FOCUS_ACT    : \\     Tab        \|\n
                 \                                      \|\n
                 \ TASK_CHECK        : Space Space      \|\n
                 \ TASK_RECHECK      : Space r          \|\n

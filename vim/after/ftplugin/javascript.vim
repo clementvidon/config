@@ -6,7 +6,7 @@ augroup filetype_javascript
     au FileType qf setl wrap
     au FileType javascript setl autoindent expandtab textwidth=80
     au FileType javascript setl shiftwidth=2 tabstop=2
-    au FileType javascript let &l:formatprg="prettier --stdin-filepath %"
+    au FileType javascript setl formatprg=prettier\ --stdin-filepath\ %
     au FileType javascript setl pa+=$DOTVIM/after/ftplugin/
     " <<<
     " --------------------------------- PLUGINS >>>
@@ -33,8 +33,14 @@ augroup filetype_javascript
 
     "   CLEANUP
     au Filetype javascript nn <buffer> <Space>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
+
     "   FORMAT
-    au Filetype javascript nn <buffer> gqq mmGgqgo`m
+    function! FormatJS()
+        let l:view = winsaveview()
+        exec 'normal gggqG'
+        call winrestview(l:view)
+    endfunction
+    au Filetype cpp nn <space>f :call FormatJS()<CR>
 
     "   PRINT
     au Filetype javascript nn <silent><buffer> <Space>p oconsole.log()<Esc>==f)i

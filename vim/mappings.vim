@@ -72,8 +72,9 @@ nn xxn :!sudo vi /etc/netplan/00-installer-config.yaml<CR>
 nn glca :call<Space>
 "   CURSORCOLUMN
 nn glcc :set cursorcolumn!<CR>
-"   LCD
-nn glcd :lc %:h<CR>
+"   CD
+nn gllc :lc %:h<CR>
+nn glcd :cd %:h<CR>
 "   CURSORLINE
 nn glcl :set cursorline!<CR>
 "   HLSEARCH
@@ -183,9 +184,17 @@ nn <Space>Q :cw<CR>
 nn ]q :cnext<CR>
 nn [q :cprev<CR>
 " <<<
+" --------------------------------- TEXT OBJECTS >>>
+"  FUNCTIONS
+xn if /^}$<CR>on%j0ok
+xn af /^}$<CR>on%0
+ono if :normal Vif<CR>
+ono af :normal Vaf<CR>
+" <<<
 " --------------------------------- IMPROVEMENTS >>>
-"   QUICK CMDLINE
+"   QUICK WRITE
 no ; :
+no : ;
 "   EYES LEVEL CURSOR AND VIEW
 no z, z.15<C-e>
 
@@ -238,37 +247,40 @@ nn S :echo "!s"<CR>
 nn Q :echo "!q"<CR>
 
 "                       R_CTRL ALIASES
-ino <Right>q <c-q>
-no <Right>q <c-q>
-ino <Right>w <c-w>
-no <Right>w <c-w>
-ino <Right>e <c-e>
-no <Right>e <c-e>
-ino <Right>r <c-r>
-no <Right>r <c-r>
-ino <Right>t <c-t>
-no <Right>t <c-t>
-ino <Right>a <c-a>
-no <Right>a <c-a>
-ino <Right>s <c-s>
-no <Right>s <c-s>
-ino <Right>d <c-d>
-no <Right>d <c-d>
-ino <Right>f <c-f>
-no <Right>f <c-f>
-ino <Right>g <c-g>
-no <Right>g <c-g>
-ino <Right>z <c-z>
-no <Right>z <c-z>
-ino <Right>x <c-x>
-no <Right>x <c-x>
-ino <Right>c <c-c>
-no <Right>c <c-c>
-ino <Right>v <c-v>
-no <Right>v <c-v>
-ino <Right>b <c-b>
-no <Right>b <c-b>
-ino <Right>xf <c-x><c-f>
+
+function! RightCtrlArrow()
+    ino <Right>q <c-q>
+    no <Right>q <c-q>
+    ino <Right>w <c-w>
+    no <Right>w <c-w>
+    ino <Right>e <c-e>
+    no <Right>e <c-e>
+    ino <Right>r <c-r>
+    no <Right>r <c-r>
+    ino <Right>t <c-t>
+    no <Right>t <c-t>
+    ino <Right>a <c-a>
+    no <Right>a <c-a>
+    ino <Right>s <c-s>
+    no <Right>s <c-s>
+    ino <Right>d <c-d>
+    no <Right>d <c-d>
+    ino <Right>f <c-f>
+    no <Right>f <c-f>
+    ino <Right>g <c-g>
+    no <Right>g <c-g>
+    ino <Right>z <c-z>
+    no <Right>z <c-z>
+    ino <Right>x <c-x>
+    no <Right>x <c-x>
+    ino <Right>c <c-c>
+    no <Right>c <c-c>
+    ino <Right>v <c-v>
+    no <Right>v <c-v>
+    ino <Right>b <c-b>
+    no <Right>b <c-b>
+    ino <Right>xf <c-x><c-f>
+endfunction
 
 "                       QWERTZU HOME
 " TODO  operator pending
@@ -278,10 +290,8 @@ function! SwissKeyboard()
     if system("uname -s") == "Darwin\n"
         cno <C-K>§ <C-K>`
         ino <C-K>§ <C-K>`
-
         ino § `
         ino ± ~
-
         no § `
         no ± ~
         ino § `
@@ -292,17 +302,13 @@ function! SwissKeyboard()
         tno ± ~
         cno § `
         cno ± ~
-
         no § `
         no ± ~
-
         no f§ f`
         no F§ F`
-
     elseif system("uname -s") == "Linux\n"
         cno <C-K>< <C-K>`
         ino <C-K>< <C-K>`
-
         no < `
         no > ~
         ino < `
@@ -313,10 +319,8 @@ function! SwissKeyboard()
         tno > ~
         cno < `
         cno > ~
-
         no f< f`
         no F< F`
-
         ino \, <
         ino \. >
         ono \, <
@@ -326,7 +330,6 @@ function! SwissKeyboard()
         cno \, <
         cno \. >
     endif
-
     ino `6 ^
     ino `7 &
     ino `8 *
@@ -353,7 +356,6 @@ function! SwissKeyboard()
     ino `b B
     ino `n N
     ino `m M
-
     no `6 ^
     no `7 &
     no `8 *

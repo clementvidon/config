@@ -18,26 +18,31 @@ augroup filetype_c
         au FileType c,cpp hi link cCommentL cComment
         au FileType c,cpp hi link cCommentStart cComment
     endif
+    au FileType c,cpp hi link cppBoolean cleared
     au FileType c,cpp hi link cCharacter cleared
-    au FileType c,cpp hi link cConditional cleared
+    " au FileType c,cpp hi link cConditional cleared
     au FileType c,cpp hi link cDefine cleared
     au FileType c,cpp hi link cInclude cleared
     au FileType c,cpp hi link cIncluded cleared
     au FileType c,cpp hi link cNumber cleared
     au FileType c,cpp hi link cOperator cleared
     au FileType c,cpp hi link cPreCondit cleared
-    au FileType c,cpp hi link cRepeat cleared
+    " au FileType c,cpp hi link cRepeat cleared
     au FileType c,cpp hi link cSpecial cleared
-    au FileType c,cpp hi link cStatement cleared
+    " au FileType c,cpp hi link cStatement cleared
+    au FileType c,cpp hi link cppStatement cleared
     au FileType c,cpp hi link cStorageClass cleared
     au FileType c,cpp hi link cStructure cleared
+    au FileType c,cpp hi link cppStructure cleared
     au FileType c,cpp hi link cTypedef cleared
     au FileType c,cpp hi link cType cleared
+    au FileType c,cpp hi link cppType cleared
     au FileType c,cpp hi link cppNumber cleared
     au FileType c,cpp hi! link cIncluded cleared
+    au FileType c,cpp hi link cConstant cleared
+    " au FileType c,cpp syn match mycConstant "\v\w@<!(\u|_+[A-Z0-9])[A-Z0-9_]*\w@!"
+    " au FileType c,cpp hi link mycConstant cConstant
     au FileType c,cpp syn match mycDebug "printf\|dprintf" contains=cString,cComment,cCommentL
-    au FileType c,cpp syn match mycConstant "\v\w@<!(\u|_+[A-Z0-9])[A-Z0-9_]*\w@!"
-    au FileType c,cpp hi link mycConstant cConstant
     au FileType c,cpp syn keyword cTodo DONE
     au FileType c,cpp syn keyword cTodo WHY
     au FileType c,cpp syn keyword cTodo TRY
@@ -45,8 +50,8 @@ augroup filetype_c
     " --------------------------------- OPTIONS >>>
     au FileType qf setl wrap
     au FileType c,cpp setl expandtab tabstop=2 shiftwidth=2 textwidth=80
-    au FileType c,cpp let &l:formatprg="clang-format --style=Chromium"
-    au FileType c,cpp let mapleader = "<BS>"
+    au FileType c,cpp setl formatprg=clang-format\ --style=file
+    au FileType c,cpp let mapleader="<BS>"
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
     " <<<
     " --------------------------------- PLUGINS >>>
@@ -54,6 +59,8 @@ augroup filetype_c
     au FileType c,cpp let b:surround_45 = '("\r");'
     " <<<
     " --------------------------------- MAPPINGS >>>
+    "   make and run
+    au Filetype c,cpp nn <silent><buffer> <Space>r :w\|!clear; make -j asan && ./$(ls -t \| head -1)<CR>
     "   compile and run one
     au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
                 \
@@ -83,9 +90,9 @@ augroup filetype_c
                 \:exec '!clear;./a.out'<CR>
 
     "   search functions
-    au Filetype c,cpp nn <silent><buffer> <Space>f /^\a<CR>
+    " au Filetype c,cpp nn <silent><buffer> <Space>f /^\a<CR>
     "   list functions
-    au Filetype c,cpp nn <silent><buffer> <Space><Space>f :keeppatterns g/^\a<CR>
+    " au Filetype c,cpp nn <silent><buffer> <Space><Space>f :keeppatterns g/^\a<CR>
 
     "   paragraph tabs to spaces
     au Filetype c,cpp,make nn <silent><buffer> <Space><Tab> mp
@@ -93,29 +100,13 @@ augroup filetype_c
                 \<Esc>:set expandtab<CR>vip:retab<CR>:set expandtab!<CR>
                 \`p
 
-    " TODO
-    " au Filetype c nn <silent><buffer> <Tab>s :set expandtab<CR>
-    "             \
-    "             \:g/@brief/norm! vip:retab<CR>
-    "
-    " "   TRAILING SPACES
-    " function! StripTrailingSpaces()
-    "     if !&binary && &filetype != 'diff'
-    "         let l:view = winsaveview()
-    "         keeppatterns %s/\s\+$//e
-    "         call winrestview(l:view)
-    "     endif
-    " endfunction
-    " augroup trailing_spaces
-    "     au!
-    "     au BufWritePre,FileWritePre * :call StripTrailingSpaces()
-    " augroup END
-
-    "   indent
-    au Filetype cpp nn gq mm
-                \
-                \:silent %!clang-format -style=file<CR>
-                \`mzz
+    "   format
+    function! FormatCPP()
+        let l:view = winsaveview()
+        exec 'normal gggqG'
+        call winrestview(l:view)
+    endfunction
+    au Filetype cpp nn <space>f :call FormatCPP()<CR>
 
     "   functions docstring
     au Filetype c,cpp nn <silent><buffer> <Space>d mdj
@@ -124,14 +115,18 @@ augroup filetype_c
                 \O<Esc>O/*<Esc>o<C-w>* @brief      TODO<CR><BS>/<Esc>=ip
                 \j$b
 
+
     "   print
-    au Filetype c nn <silent><buffer> <Space>p mpodprintf (2, "\n");<Esc>==f\i
+    au Filetype c nn <silent><buffer> <Space>p odprintf (2, "\n");<Esc>==f\i
+    au Filetype cpp nn <silent><buffer> <Space>p ostd::cerr << "" << std::endl;<Esc>==f"a
     "   print wrap
     au Filetype c nn <silent><buffer> <Space><Space>p 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
+    au Filetype cpp nn <silent><buffer> <Space><Space>p 0<<V:norm f;Di<Esc>Istd::cerr << "" << <Esc>A << std::endl;<Esc>==f"a
 
     "   marker
-    au Filetype c nn <silent><buffer> <Space>m <nop>
-    au Filetype c nn <silent><buffer> <Space>mm mmodprintf (2, "(%s: %s: %d)\n",
+    au Filetype c nn <silent><buffer> <Space>m odprintf (2, "(%s: %s: %d)\n",
                 \__FILE__, __func__, __LINE__);<Esc>==f%
+    au Filetype cpp nn <silent><buffer> <Space>m ostd::cerr << __FILE__ << ":" << __func__  << ":" << __LINE__ << std::endl;<Esc>==
+
     " <<<
 augroup END
