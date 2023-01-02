@@ -82,6 +82,7 @@ if executable('ag')
     set grepprg=ag\ --vimgrep\ $*   " faster grep
 endif
 
+"   TODO check :h shellpipe
 let &makeprg = 'if [ -f Makefile ]; then make $* 1>/dev/null; elif [ -f "../Makefile" ]; then make -C .. $* 1>/dev/null;
             \ elif [ -f ../../Makefile ]; then make -C ../.. $* 1>/dev/null;
             \ elif [ -f ../../../Makefile ]; then make -C ../../.. $* 1>/dev/null;

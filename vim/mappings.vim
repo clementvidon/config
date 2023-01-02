@@ -140,38 +140,38 @@ nn glsr :noau w<CR>:S0 \!\!<CR>
 "   SEND KEY REPEAT
 nn glsk :noau w<CR>:S0<Space>
 " <<<
-" --------------------------------- PLUGINS (g h-ltyszcn) >>>
+" --------------------------------- PLUGINS (g t-lhyszcn) >>>
 "                       GITGUTTER
 "   NAV
 nm ]g <Plug>(GitGutterNextHunk)
 nm [g <Plug>(GitGutterPrevHunk)
-nn gh <nop>
-no ghg :GitGutterToggle<CR>
-nn ghq :GitGutterQuickFix\|10cw<CR>
+nn gt <nop>
+no gtg :GitGutterToggle<CR>
+nn gtq :GitGutterQuickFix\|10cw<CR>
 "   ACTIONS : diff, add, status, log, commit, reset, undo, pull, push
-nm ghd <Plug>(GitGutterPreviewHunk)
-nn ghD :!git difftool %<CR>
-nm gha <Plug>(GitGutterStageHunk)
-nn ghA :!clear; git add -p %<CR>
-nn ghs :!clear; git status<CR>
-nn ghl :!clear; git log --oneline<CR>
-nn ghL :!clear; git log -p %<CR>
-nn ghc <nop>
-nn ghcm :!git commit -m ""<Left>
-nn ghcv :!git commit -v <CR>
-nn ghca :!git commit -v --amend<CR>
-nn ghr :silent !clear; git reset %<CR>:redr!<CR>
-nm ghu <Plug>(GitGutterUndoHunk)
-nn ghp <nop>
-nn ghpl :!git pull<CR>
-nn ghps :!git push<CR>
+nm gtd <Plug>(GitGutterPreviewHunk)
+nn gtD :!git difftool %<CR>
+nm gta <Plug>(GitGutterStageHunk)
+nn gtA :!clear; git add -p %<CR>
+nn gts :!clear; git status<CR>
+nn gtl :!clear; git log --oneline<CR>
+nn gtL :!clear; git log -p %<CR>
+nn gtc <nop>
+nn gtcm :!git commit -m ""<Left>
+nn gtcv :!git commit -v <CR>
+nn gtca :!git commit -v --amend<CR>
+nn gtr :silent !clear; git reset %<CR>:redr!<CR>
+nm gtu <Plug>(GitGutterUndoHunk)
+nn gtp <nop>
+nn gtpl :!git pull<CR>
+nn gtps :!git push<CR>
 "   TEXT OBJECT : hunk
 om ih <Plug>(GitGutterTextObjectInnerPending)
 om ah <Plug>(GitGutterTextObjectOuterPending)
 xm ih <Plug>(GitGutterTextObjectInnerVisual)
 xm ah <Plug>(GitGutterTextObjectOuterVisual)
 "   FOLD : zr to unfold 3 context lines
-nn ghf :GitGutterFold<CR>
+nn gtf :GitGutterFold<CR>
 
 "                       ALE
 "   NAV
@@ -184,12 +184,6 @@ nn <Space>Q :cw<CR>
 nn ]q :cnext<CR>
 nn [q :cprev<CR>
 " <<<
-" --------------------------------- TEXT OBJECTS >>>
-"  FUNCTIONS
-xn if /^}$<CR>on%j0ok
-xn af /^}$<CR>on%0
-ono if :normal Vif<CR>
-ono af :normal Vaf<CR>
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE

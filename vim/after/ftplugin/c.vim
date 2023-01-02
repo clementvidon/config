@@ -1,6 +1,8 @@
 augroup filetype_c
     autocmd!
+
     " --------------------------------- HIGHLIGHTS >>>
+
     if &background == "dark"
         au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
         au FileType c,cpp hi mycDebug ctermfg=158
@@ -18,6 +20,7 @@ augroup filetype_c
         au FileType c,cpp hi link cCommentL cComment
         au FileType c,cpp hi link cCommentStart cComment
     endif
+
     au FileType c,cpp hi link cppBoolean cleared
     au FileType c,cpp hi link cCharacter cleared
     " au FileType c,cpp hi link cConditional cleared
@@ -47,86 +50,106 @@ augroup filetype_c
     au FileType c,cpp syn keyword cTodo WHY
     au FileType c,cpp syn keyword cTodo TRY
     " <<<
+
     " --------------------------------- OPTIONS >>>
+
     au FileType qf setl wrap
     au FileType c,cpp setl expandtab tabstop=2 shiftwidth=2 textwidth=80
     au FileType c,cpp setl formatprg=clang-format\ --style=file
     au FileType c,cpp let mapleader="<BS>"
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
+
     " <<<
+
     " --------------------------------- PLUGINS >>>
+
     au FileType c,cpp let g:gutentags_enabled = 1
     au FileType c,cpp let b:surround_45 = '("\r");'
+
     " <<<
+
     " --------------------------------- MAPPINGS >>>
-    "   make and run
-    au Filetype c,cpp nn <silent><buffer> <Space>r :w\|!clear; make -j asan && ./$(ls -t \| head -1)<CR>
-    "   compile and run one
-    au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
+
+    " -------------------------- PRIMARY (GH?)
+
+    " --------------- RUN
+
+    "   Make + run
+    au Filetype c,cpp nn <silent><buffer> ghm :w<CR>
+                \
+                \:!clear; make -j asan && ./$(ls -t \| head -1)<CR>
+
+    "   Make + valgrind run
+    au Filetype c,cpp nn <silent><buffer> ghv :w<CR>
+                \
+                \:!clear; make -j && valgrind -q ./$(ls -t \| head -1)<CR>
+
+    "   Compile + run
+    au Filetype c nn <silent><buffer> ghr :w\|lc %:h<CR>
                 \
                 \:exec 'silent !rm -rf a.out'<CR>
-                \:exec 'silent !clang -Wall -Wextra -Werror -x c % 2>/tmp/qf_' . %<CR>
-                \:cfile /tmp/qf_%<CR>:5cw<CR>
-                \:exec '!clear; ./a.out \|cat -e'<CR>
-    au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
-                \
-                \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !clang -Wno-everything  -x c % 2>/tmp/qf_' . %<CR>
-                \:cfile /tmp/qf_%<CR>:5cw<CR>
+                \:exec 'silent !clang -Wno-everything  -x c % 2>/tmp/' . %<CR>
+                \:cfile /tmp/%<CR>:5cw<CR>
                 \:exec '!clear;./a.out'<CR>
 
-    "   compile and run all
-    au Filetype c nn <silent><buffer> <Space>4 :w\|lc %:h<CR>
-                \
-                \:exec 'silent !rm -rf a.out'<CR>
-                \:exec 'silent !clang -Wall -Wextra -Werror -x c *.c 2>/tmp/qf_' . %<CR>
-                \:cfile /tmp/qf_%<CR>:5cw<CR>
-                \:exec '!clear; ./a.out \|cat -e'<CR>
-    au Filetype c nn <silent><buffer> <Space>% :w\|lc %:h<CR>
-                \
-                \:exec 'silent !rm -rf a.out a.out.dSYM'<CR>
-                \:exec 'silent !clang -Wno-everything  -x c *.c 2>/tmp/qf_' . %<CR>
-                \:cfile /tmp/qf_%<CR>:5cw<CR>
-                \:exec '!clear;./a.out'<CR>
+    " --------------- CLEAN CODE
 
-    "   search functions
-    " au Filetype c,cpp nn <silent><buffer> <Space>f /^\a<CR>
-    "   list functions
-    " au Filetype c,cpp nn <silent><buffer> <Space><Space>f :keeppatterns g/^\a<CR>
-
-    "   paragraph tabs to spaces
-    au Filetype c,cpp,make nn <silent><buffer> <Space><Tab> mp
-                \
-                \<Esc>:set expandtab<CR>vip:retab<CR>:set expandtab!<CR>
-                \`p
-
-    "   format
-    function! FormatCPP()
-        let l:view = winsaveview()
-        exec 'normal gggqG'
-        call winrestview(l:view)
-    endfunction
-    au Filetype cpp nn <space>f :call FormatCPP()<CR>
-
-    "   functions docstring
-    au Filetype c,cpp nn <silent><buffer> <Space>d mdj
+    "   Docstring
+    au Filetype c,cpp nn <silent><buffer> ghd mdj
                 \
                 \:keeppatterns ?^\a<CR>
-                \O<Esc>O/*<Esc>o<C-w>* @brief      TODO<CR><BS>/<Esc>=ip
-                \j$b
+                \O<Esc>O/*<Esc>o<C-w>* @brief       .<CR><CR>
+                \@param[out]  .<CR>
+                \@param[in]   .<CR>
+                \@return      .<CR>
+                \<BS>/<Esc>=ip
+                \jf.
 
+    "   Format
+    au Filetype c,cpp nn ghf :call FormatCurrentFile()<CR>
 
-    "   print
-    au Filetype c nn <silent><buffer> <Space>p odprintf (2, "\n");<Esc>==f\i
-    au Filetype cpp nn <silent><buffer> <Space>p ostd::cerr << "" << std::endl;<Esc>==f"a
-    "   print wrap
-    au Filetype c nn <silent><buffer> <Space><Space>p 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
-    au Filetype cpp nn <silent><buffer> <Space><Space>p 0<<V:norm f;Di<Esc>Istd::cerr << "" << <Esc>A << std::endl;<Esc>==f"a
+    " --------------- DEBUG
 
-    "   marker
-    au Filetype c nn <silent><buffer> <Space>m odprintf (2, "(%s: %s: %d)\n",
-                \__FILE__, __func__, __LINE__);<Esc>==f%
-    au Filetype cpp nn <silent><buffer> <Space>m ostd::cerr << __FILE__ << ":" << __func__  << ":" << __LINE__ << std::endl;<Esc>==
+    "   Print anything
+    au Filetype c nn <silent><buffer> ghp odprintf (2, "\n");<Esc>==f\i
+    au Filetype cpp nn <silent><buffer> ghp ostd::cerr << "" << std::endl;<Esc>==f"a
 
-    " <<<
+    "   Print wrapped
+    au Filetype c nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
+    au Filetype cpp nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Istd::cerr << "" << <Esc>A << std::endl;<Esc>==f"a
+
+    "   Print location
+    au Filetype c nn <silent><buffer> ghl odprintf (2, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
+    au Filetype cpp nn <silent><buffer> ghl ostd::cerr << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
+
+    " -------------------------- SECONDARY (Z??)
+
+    "   Functions nav
+    au Filetype c,cpp nn <silent><buffer> zfn /^\a<CR>
+
+    "   Functions list
+    au Filetype c,cpp nn <silent><buffer> zfl :keeppatterns g/^\a<CR>
+
+    " -------------------------- TEXT OBJECTS
+
+    "   Functions
+    au Filetype c,cpp xn <silent><buffer> if /^}$<CR>on%j0ok
+    au Filetype c,cpp xn <silent><buffer> af /^}$<CR>on%{
+                \:}<Esc>
+    au Filetype c,cpp ono <silent><buffer> if :normal Vif<CR>
+    au Filetype c,cpp ono <silent><buffer> af :normal Vaf<CR>
+
+    "   Functions + docstring
+    au Filetype c,cpp xn <silent><buffer> aF /^}$<CR>on%{{
+                \:}<Esc>
+    au Filetype c,cpp ono <silent><buffer> aF :normal VaF<CR>
+
+    " -------------------------- ABBREVIATIONS
+
+    iabbr <silent><buffer> if if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    iabbr <silent><buffer> else else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
+    iabbr <silent><buffer> elseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+
+    iabbr <silent><buffer> while while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+
 augroup END

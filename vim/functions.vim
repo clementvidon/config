@@ -6,20 +6,20 @@ com! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 com! BufOnly execute '%bdelete | edit # | normal `"'
 
 "   TRANSLATOR (add -play flag to hear pronunciation)
-com! -nargs=+ Fr exec '! clear; trans "<args>" -from en -to fr -brief 2> /dev/null'
-com! -nargs=+ En exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null'
+com! -nargs=+ -bar Fr exec '! clear; trans "<args>" -from en -to fr -brief 2> /dev/null'
+com! -nargs=+ -bar En exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null'
 "   SYNONYM ('-l fr salut' for french Syn) (APIKEY:K4f8SzzxLdtH1YVpwRON)
-com! -nargs=+ Sy exec '! clear; synonym <args>' | redraw!
+com! -nargs=+ -bar Sy exec '! clear; synonym <args>' | redraw!
 
 "   TMUX SENDKEY
-com! -nargs=+ Sl exec 'silent ! tmux send-keys -t left "<args>" Enter' | redraw!
-com! -nargs=+ Sr exec 'silent ! tmux send-keys -t right "<args>" Enter' | redraw!
-com! -nargs=+ S0 exec 'silent ! tmux send-keys -t 0 "<args>" Enter' | redraw!
-com! -nargs=+ S1 exec 'silent ! tmux send-keys -t 1 "<args>" Enter' | redraw!
-com! -nargs=+ S2 exec 'silent ! tmux send-keys -t 2 "<args>" Enter' | redraw!
-com! -nargs=+ S3 exec 'silent ! tmux send-keys -t 3 "<args>" Enter' | redraw!
-com! -nargs=+ S4 exec 'silent ! tmux send-keys -t 4 "<args>" Enter' | redraw!
-com! -nargs=+ S5 exec 'silent ! tmux send-keys -t 5 "<args>" Enter' | redraw!
+com! -nargs=+ -bar Sl exec 'silent ! tmux send-keys -t left "<args>" Enter' | redraw!
+com! -nargs=+ -bar Sr exec 'silent ! tmux send-keys -t right "<args>" Enter' | redraw!
+com! -nargs=+ -bar S0 exec 'silent ! tmux send-keys -t 0 "<args>" Enter' | redraw!
+com! -nargs=+ -bar S1 exec 'silent ! tmux send-keys -t 1 "<args>" Enter' | redraw!
+com! -nargs=+ -bar S2 exec 'silent ! tmux send-keys -t 2 "<args>" Enter' | redraw!
+com! -nargs=+ -bar S3 exec 'silent ! tmux send-keys -t 3 "<args>" Enter' | redraw!
+com! -nargs=+ -bar S4 exec 'silent ! tmux send-keys -t 4 "<args>" Enter' | redraw!
+com! -nargs=+ -bar S5 exec 'silent ! tmux send-keys -t 5 "<args>" Enter' | redraw!
 
 "   GET HILIGHT
 function! GetSyntaxID()
@@ -83,6 +83,17 @@ function! ColorSwitch(clight, cdark)
 endfunction
 " <<<
 " --------------------------------- IMPROVE >>>
+
+"   @brief  Format the whole file according to formatprg.
+"
+"   @see    ':formatprg'
+"
+
+function! FormatCurrentFile()
+    let l:view = winsaveview()
+    exec 'normal gggqG'
+    call winrestview(l:view)
+endfunction
 
 "   @brief  Vim 'gF' extension to make it accept a string pattern as a cursor
 "           position in the target file.
@@ -174,4 +185,13 @@ hi def Highlighter3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
 hi def Highlighter4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def Highlighter5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def Highlighter6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
+"   Useful to remove the :abbreviate finale space
+"   Cf. :helpgrep Eatchar
+
+function Eatchar(pat)
+    let c = nr2char(getchar(0))
+    return (c =~ a:pat) ? '' : c
+endfunction
+
 " <<<

@@ -54,12 +54,10 @@
       {"code": 55, "label": {"base": ".", "shifted": ">"}},
       {"code": 56, "label": {"base": "/", "shifted": "?"}},
       {
-        "code": 49734,
-        "baseCode": 53,
-        "label": {"hint": "Alt/", "base": "`"},
-        "modifier": "Alt",
-        "rangeStart": 49169,
-        "categories": ["modifier", "dualuse", "alt"]
+        "code": 226,
+        "label": {"base": "Alt"},
+        "location": "left",
+        "categories": ["modifier"]
       },
       {
         "code": 49980,
@@ -70,18 +68,18 @@
         "categories": ["modifier", "dualuse", "gui"]
       },
       {
-        "code": 17495,
-        "label": {"hint": "MoveTo", "base": "#3"},
+        "code": 49164,
+        "label": {"hint": {"full": "OneShot", "1u": "OSL"}, "base": "#3"},
         "target": 3,
-        "rangeStart": 17492,
-        "categories": ["layer", "movetolayer"]
-      },
-      {
-        "code": 49163,
-        "label": {"hint": {"full": "OneShot", "1u": "OSL"}, "base": "#2"},
-        "target": 2,
         "rangeStart": 49161,
         "categories": ["layer", "oneshot"]
+      },
+      {
+        "code": 17452,
+        "label": {"hint": "ShiftTo", "base": "#2"},
+        "target": 2,
+        "rangeStart": 17450,
+        "categories": ["layer", "shifttolayer"]
       },
       {
         "code": 224,
@@ -89,37 +87,40 @@
         "location": "left",
         "categories": ["modifier"]
       },
-      {"code": 57, "label": {"base": {"full": "Caps Lock", "1u": "Caps"}}},
-      {"code": 46, "label": {"base": "=", "shifted": "+"}},
+      {
+        "code": 225,
+        "label": {"base": "Shift"},
+        "location": "left",
+        "categories": ["modifier"]
+      },
       {
         "code": 229,
         "label": {"base": "Shift"},
         "location": "right",
         "categories": ["modifier"]
       },
+      {"code": 44, "label": {"base": "Space"}},
       {
-        "code": 49162,
-        "label": {"hint": {"full": "OneShot", "1u": "OSL"}, "base": "#1"},
+        "code": 17451,
+        "label": {"hint": "ShiftTo", "base": "#1"},
         "target": 1,
-        "rangeStart": 49161,
-        "categories": ["layer", "oneshot"]
+        "rangeStart": 17450,
+        "categories": ["layer", "shifttolayer"]
       },
       {"code": 45, "label": {"base": "-", "shifted": "_"}},
       {
-        "code": 49989,
-        "baseCode": 52,
-        "label": {"hint": "Super/", "base": "'"},
+        "code": 49983,
+        "baseCode": 46,
+        "label": {"hint": "Super/", "base": "="},
         "modifier": "Super",
         "rangeStart": 49169,
         "categories": ["modifier", "dualuse", "gui"]
       },
       {
-        "code": 49730,
-        "baseCode": 49,
-        "label": {"hint": "Alt/", "base": "\\"},
-        "modifier": "Alt",
-        "rangeStart": 49169,
-        "categories": ["modifier", "dualuse", "alt"]
+        "code": 226,
+        "label": {"base": "Alt"},
+        "location": "left",
+        "categories": ["modifier"]
       }
     ],
     [
@@ -293,9 +294,11 @@
         "categories": ["blanks"]
       },
       {
-        "code": 53630,
-        "label": {"hint": {"full": "OneShot", "1u": "OS"}, "base": "Cancel"},
-        "categories": ["oneshot"]
+        "code": 17492,
+        "label": {"hint": "MoveTo", "base": "#0"},
+        "target": 0,
+        "rangeStart": 17492,
+        "categories": ["layer", "movetolayer"]
       },
       {
         "code": 224,
@@ -314,15 +317,16 @@
         "categories": ["blanks"]
       },
       {
-        "code": 225,
-        "label": {"base": "Shift"},
-        "location": "left",
-        "categories": ["modifier"]
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
       },
       {
-        "code": 53630,
-        "label": {"hint": {"full": "OneShot", "1u": "OS"}, "base": "Cancel"},
-        "categories": ["oneshot"]
+        "code": 17492,
+        "label": {"hint": "MoveTo", "base": "#0"},
+        "target": 0,
+        "rangeStart": 17492,
+        "categories": ["layer", "movetolayer"]
       },
       {
         "code": 0,
@@ -344,72 +348,62 @@
     ],
     [
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 65535,
-        "label": {"base": {"full": "Transparent", "1u": " "}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 65535,
-        "label": {"base": {"full": "Transparent", "1u": " "}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 2086,
-        "label": {"hint": null, "base": "("},
+        "code": 2101,
+        "label": {"hint": null, "base": "~"},
         "categories": ["with-modifiers", "shift"],
-        "baseCode": 38
+        "baseCode": 53
       },
       {
-        "code": 2087,
-        "label": {"hint": null, "base": ")"},
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
+      {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
+      {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
+      {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
+      {
+        "code": 65535,
+        "label": {"base": {"full": "Transparent", "1u": " "}},
+        "categories": ["blanks"]
+      },
+      {
+        "code": 65535,
+        "label": {"base": {"full": "Transparent", "1u": " "}},
+        "categories": ["blanks"]
+      },
+      {"code": 53, "label": {"base": "`", "shifted": "~"}},
+      {
+        "code": 2101,
+        "label": {"hint": null, "base": "~"},
         "categories": ["with-modifiers", "shift"],
-        "baseCode": 39
+        "baseCode": 53
+      },
+      {"code": 43, "label": {"base": "Tab"}},
+      {
+        "code": 2095,
+        "label": {"hint": null, "base": "{"},
+        "categories": ["with-modifiers", "shift"],
+        "baseCode": 47
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 2096,
+        "label": {"hint": null, "base": "}"},
+        "categories": ["with-modifiers", "shift"],
+        "baseCode": 48
       },
+      {"code": 53, "label": {"base": "`", "shifted": "~"}},
       {
         "code": 0,
         "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
@@ -440,20 +434,13 @@
         "label": {"base": {"full": "Transparent", "1u": " "}},
         "categories": ["blanks"]
       },
+      {"code": 42, "label": {"base": {"full": "Backspace", "1u": "Bksp"}}},
+      {"code": 52, "label": {"base": "'", "shifted": "\""}},
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 2100,
+        "label": {"hint": null, "base": "\""},
+        "categories": ["with-modifiers", "shift"],
+        "baseCode": 52
       },
       {"code": 47, "label": {"base": "[", "shifted": "{"}},
       {"code": 48, "label": {"base": "]", "shifted": "}"}},
@@ -489,37 +476,21 @@
         "rangeStart": 17492,
         "categories": ["layer", "movetolayer"]
       },
+      {"code": 49, "label": {"base": "\\", "shifted": "|"}},
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 2095,
-        "label": {"hint": null, "base": "{"},
+        "code": 2097,
+        "label": {"hint": null, "base": "|"},
         "categories": ["with-modifiers", "shift"],
-        "baseCode": 47
+        "baseCode": 49
       },
+      {"code": 40, "label": {"base": "Enter"}},
+      {"code": 46, "label": {"base": "=", "shifted": "+"}},
+      {"code": 45, "label": {"base": "-", "shifted": "_"}},
       {
-        "code": 2096,
-        "label": {"hint": null, "base": "}"},
+        "code": 2093,
+        "label": {"hint": null, "base": "_"},
         "categories": ["with-modifiers", "shift"],
-        "baseCode": 48
+        "baseCode": 45
       },
       {
         "code": 226,
@@ -539,20 +510,17 @@
         "categories": ["blanks"]
       },
       {
-        "code": 53630,
-        "label": {"hint": {"full": "OneShot", "1u": "OS"}, "base": "Cancel"},
-        "categories": ["oneshot"]
+        "code": 17492,
+        "label": {"hint": "MoveTo", "base": "#0"},
+        "target": 0,
+        "rangeStart": 17492,
+        "categories": ["layer", "movetolayer"]
       },
       {
-        "code": 228,
+        "code": 224,
         "label": {"base": {"full": "Control", "1u": "Ctrl"}},
-        "location": "right",
+        "location": "left",
         "categories": ["modifier"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
       },
       {
         "code": 0,
@@ -566,14 +534,23 @@
         "categories": ["modifier"]
       },
       {
-        "code": 53630,
-        "label": {"hint": {"full": "OneShot", "1u": "OS"}, "base": "Cancel"},
-        "categories": ["oneshot"]
+        "code": 224,
+        "label": {"base": {"full": "Control", "1u": "Ctrl"}},
+        "location": "left",
+        "categories": ["modifier"]
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 17492,
+        "label": {"hint": "MoveTo", "base": "#0"},
+        "target": 0,
+        "rangeStart": 17492,
+        "categories": ["layer", "movetolayer"]
+      },
+      {
+        "code": 2094,
+        "label": {"hint": null, "base": "+"},
+        "categories": ["with-modifiers", "shift"],
+        "baseCode": 46
       },
       {
         "code": 227,
@@ -760,16 +737,16 @@
         "categories": ["modifier"]
       },
       {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
+      {
         "code": 17496,
         "label": {"hint": "MoveTo", "base": "#4"},
         "target": 4,
         "rangeStart": 17492,
         "categories": ["layer", "movetolayer"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
       },
       {
         "code": 224,
@@ -778,19 +755,21 @@
         "categories": ["modifier"]
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 225,
+        "label": {"base": "Shift"},
+        "location": "left",
+        "categories": ["modifier"]
       },
       {
         "code": 229,
         "label": {"base": "Shift"},
         "location": "right",
+        "categories": ["modifier"]
+      },
+      {
+        "code": 224,
+        "label": {"base": {"full": "Control", "1u": "Ctrl"}},
+        "location": "left",
         "categories": ["modifier"]
       },
       {
@@ -862,16 +841,13 @@
         "categories": ["blanks"]
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 20484,
+        "label": {"hint": "Mouse", "base": "Left"},
+        "categories": ["mousekeys"]
       },
       {
-        "code": 20500,
-        "label": {
-          "hint": {"full": "Mouse Wheel", "1u": "M.Whl"},
-          "base": "Left"
-        },
+        "code": 20482,
+        "label": {"hint": "Mouse", "base": "Down"},
         "categories": ["mousekeys"]
       },
       {
@@ -923,6 +899,11 @@
           "base": {"full": "East", "1u": "East"}
         },
         "categories": ["mousekeys"]
+      },
+      {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
       },
       {
         "code": 0,
@@ -997,9 +978,11 @@
         "categories": ["mousekeys"]
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 17492,
+        "label": {"hint": "MoveTo", "base": "#0"},
+        "target": 0,
+        "rangeStart": 17492,
+        "categories": ["layer", "movetolayer"]
       },
       {
         "code": 17492,
@@ -1024,10 +1007,10 @@
         "categories": ["blanks"]
       },
       {
-        "code": 20498,
+        "code": 20548,
         "label": {
-          "hint": {"full": "Mouse Wheel", "1u": "M.Whl"},
-          "base": "Down"
+          "hint": {"full": "Mouse Button", "1u": "M.Btn"},
+          "base": "Middle"
         },
         "categories": ["mousekeys"]
       },
@@ -1055,16 +1038,16 @@
         "categories": ["mousekeys"]
       },
       {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
+      {
         "code": 17497,
         "label": {"hint": "MoveTo", "base": "#5"},
         "target": 5,
         "rangeStart": 17492,
         "categories": ["layer", "movetolayer"]
-      },
-      {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
       },
       {
         "code": 0,
@@ -1095,14 +1078,6 @@
         "categories": ["blanks"]
       },
       {
-        "code": 20548,
-        "label": {
-          "hint": {"full": "Mouse Button", "1u": "M.Btn"},
-          "base": "Middle"
-        },
-        "categories": ["mousekeys"]
-      },
-      {
         "code": 0,
         "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
         "categories": ["blanks"]
@@ -1114,6 +1089,11 @@
       }
     ],
     [
+      {
+        "code": 0,
+        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
+        "categories": ["blanks"]
+      },
       {
         "code": 0,
         "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
@@ -1225,9 +1205,11 @@
         "categories": ["blanks"]
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 17492,
+        "label": {"hint": "MoveTo", "base": "#0"},
+        "target": 0,
+        "rangeStart": 17492,
+        "categories": ["layer", "movetolayer"]
       },
       {
         "code": 17492,
@@ -1237,16 +1219,16 @@
         "categories": ["layer", "movetolayer"]
       },
       {
-        "code": 2083,
-        "label": {"hint": null, "base": "^"},
-        "categories": ["with-modifiers", "shift"],
-        "baseCode": 35
-      },
-      {
         "code": 2080,
         "label": {"hint": null, "base": "#"},
         "categories": ["with-modifiers", "shift"],
         "baseCode": 32
+      },
+      {
+        "code": 2083,
+        "label": {"hint": null, "base": "^"},
+        "categories": ["with-modifiers", "shift"],
+        "baseCode": 35
       },
       {"code": 30, "label": {"base": "1", "shifted": "!"}},
       {"code": 31, "label": {"base": "2", "shifted": "@"}},
@@ -1268,11 +1250,11 @@
         "categories": ["blanks"]
       },
       {
-        "code": 49163,
-        "label": {"hint": {"full": "OneShot", "1u": "OSL"}, "base": "#2"},
+        "code": 17452,
+        "label": {"hint": "ShiftTo", "base": "#2"},
         "target": 2,
-        "rangeStart": 49161,
-        "categories": ["layer", "oneshot"]
+        "rangeStart": 17450,
+        "categories": ["layer", "shifttolayer"]
       },
       {
         "code": 0,
@@ -1285,9 +1267,10 @@
         "categories": ["blanks"]
       },
       {
-        "code": 0,
-        "label": {"base": {"full": "Blocked", "1u": "Blkd"}},
-        "categories": ["blanks"]
+        "code": 2081,
+        "label": {"hint": null, "base": "$"},
+        "categories": ["with-modifiers", "shift"],
+        "baseCode": 33
       },
       {
         "code": 2082,
@@ -1296,19 +1279,14 @@
         "baseCode": 34
       },
       {
-        "code": 49162,
-        "label": {"hint": {"full": "OneShot", "1u": "OSL"}, "base": "#1"},
+        "code": 17451,
+        "label": {"hint": "ShiftTo", "base": "#1"},
         "target": 1,
-        "rangeStart": 49161,
-        "categories": ["layer", "oneshot"]
+        "rangeStart": 17450,
+        "categories": ["layer", "shifttolayer"]
       },
       {"code": 39, "label": {"base": "0", "shifted": ")"}},
-      {"code": 55, "label": {"base": ".", "shifted": ">"}},
-      {
-        "code": 88,
-        "label": {"base": {"full": "Enter", "1u": "Ent"}},
-        "location": "numpad"
-      }
+      {"code": 55, "label": {"base": ".", "shifted": ">"}}
     ],
     [
       {
@@ -2037,6 +2015,6 @@
       }
     ]
   ],
-  "colormaps": [null, null, null, [], [], [], [], []],
+  "colormaps": [],
   "palette": []
 }

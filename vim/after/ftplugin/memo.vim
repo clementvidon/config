@@ -367,7 +367,7 @@ augroup filetype_memo
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
                 \:sil ec "datestamp check"<CR>
-                \:let @/ = ""<CR>$:write<CR>
+                \:let @/ = ""<CR>:write<CR>A<Space><Space><Esc>
 
     "   TASK_BREAK_REPEAT
     au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>B :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
@@ -381,7 +381,7 @@ augroup filetype_memo
                 \:sil ec "datestamp check"<CR>
                 \jYGV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>Pdi[$
                 \:sil ec "clone current"<CR>
-                \:let @/ = ""<CR>:write<CR>jA<Space>
+                \:let @/ = ""<CR>:write<CR>jA<Space><Space><Esc>
 
     "   TASK_POSTPONE
     au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>p kmmj
