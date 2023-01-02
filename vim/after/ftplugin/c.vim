@@ -1,67 +1,18 @@
 augroup filetype_c
     autocmd!
 
-    " --------------------------------- HIGHLIGHTS >>>
-
-    if &background == "dark"
-        au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
-        au FileType c,cpp hi mycDebug ctermfg=158
-        au FileType c,cpp hi cString ctermfg=102
-        au FileType c,cpp hi cTodo ctermfg=84
-        au FileType c,cpp hi cComment ctermfg=103
-        au FileType c,cpp hi link cCommentL cComment
-        au FileType c,cpp hi link cCommentStart cComment
-    elseif &background == "light"
-        au FileType c,cpp hi Search ctermbg=229 ctermfg=NONE
-        au FileType c,cpp hi mycDebug ctermfg=31
-        au FileType c,cpp hi cString ctermfg=245
-        au FileType c,cpp hi cTodo ctermfg=205
-        au FileType c,cpp hi cComment ctermfg=103
-        au FileType c,cpp hi link cCommentL cComment
-        au FileType c,cpp hi link cCommentStart cComment
-    endif
-
-    au FileType c,cpp hi link cppBoolean cleared
-    au FileType c,cpp hi link cCharacter cleared
-    " au FileType c,cpp hi link cConditional cleared
-    au FileType c,cpp hi link cDefine cleared
-    au FileType c,cpp hi link cInclude cleared
-    au FileType c,cpp hi link cIncluded cleared
-    au FileType c,cpp hi link cNumber cleared
-    au FileType c,cpp hi link cOperator cleared
-    au FileType c,cpp hi link cPreCondit cleared
-    " au FileType c,cpp hi link cRepeat cleared
-    au FileType c,cpp hi link cSpecial cleared
-    " au FileType c,cpp hi link cStatement cleared
-    au FileType c,cpp hi link cppStatement cleared
-    au FileType c,cpp hi link cStorageClass cleared
-    au FileType c,cpp hi link cStructure cleared
-    au FileType c,cpp hi link cppStructure cleared
-    au FileType c,cpp hi link cTypedef cleared
-    au FileType c,cpp hi link cType cleared
-    au FileType c,cpp hi link cppType cleared
-    au FileType c,cpp hi link cppNumber cleared
-    au FileType c,cpp hi! link cIncluded cleared
-    au FileType c,cpp hi link cConstant cleared
-    " au FileType c,cpp syn match mycConstant "\v\w@<!(\u|_+[A-Z0-9])[A-Z0-9_]*\w@!"
-    " au FileType c,cpp hi link mycConstant cConstant
-    au FileType c,cpp syn match mycDebug "printf\|dprintf" contains=cString,cComment,cCommentL
-    au FileType c,cpp syn keyword cTodo DONE
-    au FileType c,cpp syn keyword cTodo WHY
-    au FileType c,cpp syn keyword cTodo TRY
-    " <<<
-
     " --------------------------------- OPTIONS >>>
+
+    " .......................... BUILTIN
 
     au FileType qf setl wrap
     au FileType c,cpp setl expandtab tabstop=2 shiftwidth=2 textwidth=80
+    au FileType c,cpp setl softtabstop=2 autoindent cindent
     au FileType c,cpp setl formatprg=clang-format\ --style=file
     au FileType c,cpp let mapleader="<BS>"
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
 
-    " <<<
-
-    " --------------------------------- PLUGINS >>>
+    " .......................... PLUGIN
 
     au FileType c,cpp let g:gutentags_enabled = 1
     au FileType c,cpp let b:surround_45 = '("\r");'
@@ -70,9 +21,9 @@ augroup filetype_c
 
     " --------------------------------- MAPPINGS >>>
 
-    " -------------------------- PRIMARY (GH?)
+    " .......................... PRIMARY (GH?)
 
-    " --------------- RUN
+    " ............... RUN
 
     "   Make + run
     au Filetype c,cpp nn <silent><buffer> ghm :w<CR>
@@ -92,7 +43,7 @@ augroup filetype_c
                 \:cfile /tmp/%<CR>:5cw<CR>
                 \:exec '!clear;./a.out'<CR>
 
-    " --------------- CLEAN CODE
+    " ............... CLEAN CODE
 
     "   Docstring
     au Filetype c,cpp nn <silent><buffer> ghd mdj
@@ -108,7 +59,7 @@ augroup filetype_c
     "   Format
     au Filetype c,cpp nn ghf :call FormatCurrentFile()<CR>
 
-    " --------------- DEBUG
+    " ............... DEBUG
 
     "   Print anything
     au Filetype c nn <silent><buffer> ghp odprintf (2, "\n");<Esc>==f\i
@@ -122,7 +73,19 @@ augroup filetype_c
     au Filetype c nn <silent><buffer> ghl odprintf (2, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
     au Filetype cpp nn <silent><buffer> ghl ostd::cerr << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
 
-    " -------------------------- SECONDARY (Z??)
+    " ............... NAV
+
+    "   Switch from %.hpp to %.cpp and vis versa
+    function SwitchHppCpp()
+        if match(expand('%:e'), 'cpp')
+            edit %<.cpp
+        elseif match(expand('%:e'), 'hpp')
+            edit %<.hpp
+        endif
+    endfunction
+    au Filetype cpp nn ghs :call SwitchHppCpp()<CR>
+
+    " .......................... SECONDARY (Z??)
 
     "   Functions nav
     au Filetype c,cpp nn <silent><buffer> zfn /^\a<CR>
@@ -130,7 +93,21 @@ augroup filetype_c
     "   Functions list
     au Filetype c,cpp nn <silent><buffer> zfl :keeppatterns g/^\a<CR>
 
-    " -------------------------- TEXT OBJECTS
+    "   Include Guard
+    function IncludeGuardCpp()
+        if match(getline(1), '#ifndef')
+            let basename = expand("%:t:r")
+            let includeGuard = toupper (basename . '_h_')
+            call append(0, "#ifndef " . includeGuard)
+            call append(1, "#define " . includeGuard)
+            call append(2, "")
+            call append(line("$"), "")
+            call append(line("$"), "#endif")
+        endif
+    endfunction
+    au Filetype c,cpp nn zig :call IncludeGuardCpp()<CR>
+
+    " .......................... TEXT OBJECTS
 
     "   Functions
     au Filetype c,cpp xn <silent><buffer> if /^}$<CR>on%j0ok
@@ -144,12 +121,74 @@ augroup filetype_c
                 \:}<Esc>
     au Filetype c,cpp ono <silent><buffer> aF :normal VaF<CR>
 
-    " -------------------------- ABBREVIATIONS
+    " .......................... ABBREVIATIONS
 
-    iabbr <silent><buffer> if if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-    iabbr <silent><buffer> else else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
-    iabbr <silent><buffer> elseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> if if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> else else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> elseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> while while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 
-    iabbr <silent><buffer> while while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> sstr str::string
+    au Filetype cpp iabbr <silent><buffer> csstr const str::string
+
+    " <<<
+
+    " --------------------------------- HIGHLIGHTS >>>
+
+    " .......................... COLORS
+
+    if &background == "dark"
+        au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
+        au FileType c,cpp hi mycDebug ctermfg=158
+        au FileType c,cpp hi cString ctermfg=102
+        au FileType c,cpp hi cTodo ctermfg=84
+        au FileType c,cpp hi cComment ctermfg=103
+        au FileType c,cpp hi link cCommentL cComment
+        au FileType c,cpp hi link cCommentStart cComment
+    elseif &background == "light"
+        au FileType c,cpp hi Search ctermbg=229 ctermfg=NONE
+        au FileType c,cpp hi mycDebug ctermfg=31
+        au FileType c,cpp hi cString ctermfg=245
+        au FileType c,cpp hi cTodo ctermfg=205
+        au FileType c,cpp hi cComment ctermfg=103
+        au FileType c,cpp hi link cCommentL cComment
+        au FileType c,cpp hi link cCommentStart cComment
+    endif
+
+    " .......................... PATTERN
+
+    " au FileType c,cpp syn match mycConstant "\v\w@<!(\u|_+[A-Z0-9])[A-Z0-9_]*\w@!"
+    " au FileType c,cpp hi link mycConstant cConstant
+    au FileType c,cpp syn match mycDebug "printf\|dprintf" contains=cString,cComment,cCommentL
+    au FileType c,cpp syn keyword cTodo DONE
+    au FileType c,cpp syn keyword cTodo WHY
+    au FileType c,cpp syn keyword cTodo TRY
+
+    " .......................... OFF
+
+    " au FileType c,cpp hi link cConditional cleared
+    " au FileType c,cpp hi link cRepeat cleared
+    " au FileType c,cpp hi link cStatement cleared
+    au FileType c,cpp hi link cCharacter cleared
+    au FileType c,cpp hi link cConstant cleared
+    au FileType c,cpp hi link cDefine cleared
+    au FileType c,cpp hi link cInclude cleared
+    au FileType c,cpp hi link cIncluded cleared
+    au FileType c,cpp hi link cIncluded cleared
+    au FileType c,cpp hi link cNumber cleared
+    au FileType c,cpp hi link cOperator cleared
+    au FileType c,cpp hi link cPreCondit cleared
+    au FileType c,cpp hi link cSpecial cleared
+    au FileType c,cpp hi link cStorageClass cleared
+    au FileType c,cpp hi link cStructure cleared
+    au FileType c,cpp hi link cType cleared
+    au FileType c,cpp hi link cTypedef cleared
+    au FileType c,cpp hi link cppBoolean cleared
+    au FileType c,cpp hi link cppNumber cleared
+    au FileType c,cpp hi link cppStatement cleared
+    au FileType c,cpp hi link cppStructure cleared
+    au FileType c,cpp hi link cppType cleared
+
+    " <<<
 
 augroup END

@@ -44,6 +44,7 @@ set expandtab                       "   insert spaces instead tab
 set formatoptions+=j                "   see ':h fo-table'
 set shiftround                      "   indent to the nearest tab mark
 set shiftwidth=4 tabstop=4          "   shift and tab width in spaces
+set softtabstop=4                   "   simulate tabs for backspaces too
 " <<<
 " --------------------------------- PATH >>>
 set pa=.                            "   :find path
