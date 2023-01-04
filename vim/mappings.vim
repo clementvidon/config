@@ -140,38 +140,38 @@ nn glsr :noau w<CR>:S0 \!\!<CR>
 "   SEND KEY REPEAT
 nn glsk :noau w<CR>:S0<Space>
 " <<<
-" --------------------------------- PLUGINS (g t-lhyszcn) >>>
+" --------------------------------- PLUGINS (gy-szcn) >>>
 "                       GITGUTTER
+nn gy <nop>
 "   NAV
-nm ]g <Plug>(GitGutterNextHunk)
-nm [g <Plug>(GitGutterPrevHunk)
-nn gt <nop>
-no gtg :GitGutterToggle<CR>
-nn gtq :GitGutterQuickFix\|10cw<CR>
+nm gy; <Plug>(GitGutterNextHunk)
+nm gy, <Plug>(GitGutterPrevHunk)
+no gyg :GitGutterToggle<CR>
+nn gyq :GitGutterQuickFix\|10cw<CR>
 "   ACTIONS : diff, add, status, log, commit, reset, undo, pull, push
-nm gtd <Plug>(GitGutterPreviewHunk)
-nn gtD :!git difftool %<CR>
-nm gta <Plug>(GitGutterStageHunk)
-nn gtA :!clear; git add -p %<CR>
-nn gts :!clear; git status<CR>
-nn gtl :!clear; git log --oneline<CR>
-nn gtL :!clear; git log -p %<CR>
-nn gtc <nop>
-nn gtcm :!git commit -m ""<Left>
-nn gtcv :!git commit -v <CR>
-nn gtca :!git commit -v --amend<CR>
-nn gtr :silent !clear; git reset %<CR>:redr!<CR>
-nm gtu <Plug>(GitGutterUndoHunk)
-nn gtp <nop>
-nn gtpl :!git pull<CR>
-nn gtps :!git push<CR>
+nm gyd <Plug>(GitGutterPreviewHunk)
+nn gyD :!git difftool %<CR>
+nm gya <Plug>(GitGutterStageHunk)
+nn gyA :!clear; git add -p %<CR>
+nn gys :!clear; git status<CR>
+nn gyl :!clear; git log --oneline<CR>
+nn gyL :!clear; git log -p %<CR>
+nn gyc <nop>
+nn gycm :!git commit -m ""<Left>
+nn gycv :!git commit -v <CR>
+nn gyca :!git commit -v --amend<CR>
+nn gyr :silent !clear; git reset %<CR>:redr!<CR>
+nm gyu <Plug>(GitGutterUndoHunk)
+nn gyp <nop>
+nn gypl :!git pull<CR>
+nn gyps :!git push<CR>
 "   TEXT OBJECT : hunk
 om ih <Plug>(GitGutterTextObjectInnerPending)
 om ah <Plug>(GitGutterTextObjectOuterPending)
 xm ih <Plug>(GitGutterTextObjectInnerVisual)
 xm ah <Plug>(GitGutterTextObjectOuterVisual)
 "   FOLD : zr to unfold 3 context lines
-nn gtf :GitGutterFold<CR>
+nn gyf :GitGutterFold<CR>
 
 "                       ALE
 "   NAV
@@ -183,7 +183,6 @@ nn [a :ALEPrevious<CR>
 nn <Space>Q :cw<CR>
 nn ]q :cnext<CR>
 nn [q :cprev<CR>
-" <<<
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE
@@ -223,14 +222,18 @@ no <Space>we :exec 'vertical resize '. string(&columns * 0.66)<CR>
 no <Space>wE :exec 'vertical resize '. string(&columns * 0.33)<CR>
 
 "   CLIPBOARD
-nn <silent> <Space>y :call system("xclip -sel clip", getreg("\""))<CR>
+no "+Y V:!xclip -f -sel clip<CR>
+vn "+y :!xclip -f -sel clip<CR>
+no "+p :r!xclip -o -sel clip<CR>
+no "+P :-1r!xclip -o -sel clip<CR>
+
 "   TAGS
-nn <space>t <c-t>
-nn <space>] <c-]>
+nn <Space>t <c-t>
+nn <Space>] <c-]>
 "   VISUAL BLOCK
-nn <space>v <c-v>
+nn <Space>v <c-v>
 "   SUSPEND
-nn <space>z <c-z>
+nn <Space>z <c-z>
 
 
 "                       GUARD RAIL

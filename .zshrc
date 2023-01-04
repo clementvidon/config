@@ -93,13 +93,11 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
 fi
 
 alias ag='grep -r --color=auto'
-alias atom="vim -c ':smile'"
-alias code="vim -c ':smile'"
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
 alias grep='grep --color=auto'
-alias nt="vim -c 'call Notrace()'"
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
 alias vi='vim'
+alias iv="vim -c 'call Notrace()'"
 
 #       [ git ]
 alias gad="git add"
@@ -116,30 +114,21 @@ alias gcv="git commit -v"
 alias gdi="git diff"
 alias glo="git log --oneline"
 alias gpl="git pull"
-alias gpla="bash $HOME/git/utils/pull_all.zsh"
 alias gps="git push"
-alias gpsa="bash $HOME/git/utils/push_all.zsh"
 alias grb="git rebase --interactive"
 alias gre="git restore"
 alias grm="git rm"
 alias grs="git reset"
 alias gsh="git show"
 alias gst="git status -s --show-stash --ignore-submodules=untracked"
-alias gsta="bash $HOME/git/utils/status_all.zsh"
 alias gsw="git switch"
 
 #       [ Make ]
-alias ma='make all'
-alias mav='make all vrun-'
-alias mc='make clean'
-alias mf='make fclean'
-alias mfs='make fclean asan'
-alias mn='make norm'
-alias mr='make re'
-alias mrv='make re vrun-'
-alias ms='make asan'
-alias msr='make asan run-'
-alias mu='make update'
+alias mk='make all'
+alias mkc='make clean'
+alias mkr='make re'
+alias mka='make asan'
+alias mku='make update'
 
 #------------------------------------------------------------------------------#
 #                  functions                                                   #

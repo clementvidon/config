@@ -320,12 +320,12 @@ augroup filetype_memo
                 \  Everything that follows counts in the      \|\n
                 \  physical as well as in the virtual world.  \|\n
                 \                                             \|\n
-                \  main → main projects (42)                  \|\n
-                \  side → side projects and quests (shoot…)   \|\n
-                \  conf → configurations (tools, home…)       \|\n
-                \  memo → memory (brain, Memo…)               \|\n
                 \  life → everything from the real life       \|\n
                 \  rout → routines                            \|\n
+                \  main → main projects (42)                  \|\n
+                \  side → side projects and quests (shoot…)   \|\n
+                \  memo → memory (brain, Memo…)               \|\n
+                \  conf → configurations (tools, home…)       \|\n
                 \                                             \|\n
                 \"<CR>
 

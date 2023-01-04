@@ -23,10 +23,17 @@ augroup filetype_c
 
     " .......................... PRIMARY (GH?)
 
+    au Filetype c,cpp nn <silent><buffer> gh <nop>
+
     " ............... RUN
 
     "   Make + run
     au Filetype c,cpp nn <silent><buffer> ghm :w<CR>
+                \
+                \:!clear; make -j && ./$(ls -t \| head -1)<CR>
+
+    "   Make asan + run
+    au Filetype c,cpp nn <silent><buffer> gha :w<CR>
                 \
                 \:!clear; make -j asan && ./$(ls -t \| head -1)<CR>
 
@@ -38,9 +45,17 @@ augroup filetype_c
     "   Compile + run
     au Filetype c nn <silent><buffer> ghr :w\|lc %:h<CR>
                 \
-                \:exec 'silent !rm -rf a.out'<CR>
-                \:exec 'silent !clang -Wno-everything  -x c % 2>/tmp/' . %<CR>
+                \:exec 'silent !rm -f a.out'<CR>
+                \:exec 'silent !clang -Werror -Wall -Wextra  -x c % 2>/tmp/' . %<CR>
                 \:cfile /tmp/%<CR>:5cw<CR>
+                \:exec '!clear;./a.out'<CR>
+
+    au Filetype cpp nn <silent><buffer> ghr :w\|lc %:h<CR>
+                \
+                \:exec 'silent !rm -f a.out err'<CR>
+                \:exec 'silent !c++ -Werror -Wall -Wextra % 2>_err'<CR>
+                \:cfile _err<CR>
+                \:5cw<CR>
                 \:exec '!clear;./a.out'<CR>
 
     " ............... CLEAN CODE
@@ -49,7 +64,7 @@ augroup filetype_c
     au Filetype c,cpp nn <silent><buffer> ghd mdj
                 \
                 \:keeppatterns ?^\a<CR>
-                \O<Esc>O/*<Esc>o<C-w>* @brief       .<CR><CR>
+                \O<Esc>O/**<Esc>o<C-w>* @brief       .<CR><CR>
                 \@param[out]  .<CR>
                 \@param[in]   .<CR>
                 \@return      .<CR>
@@ -57,7 +72,7 @@ augroup filetype_c
                 \jf.
 
     "   Format
-    au Filetype c,cpp nn ghf :call FormatCurrentFile()<CR>
+    au Filetype c,cpp nn <silent><buffer> ghf :call FormatCurrentFile()<CR>
 
     " ............... DEBUG
 
@@ -78,12 +93,12 @@ augroup filetype_c
     "   Switch from %.hpp to %.cpp and vis versa
     function SwitchHppCpp()
         if match(expand('%:e'), 'cpp')
-            edit %<.cpp
+            find %<.cpp
         elseif match(expand('%:e'), 'hpp')
-            edit %<.hpp
+            find %<.hpp
         endif
     endfunction
-    au Filetype cpp nn ghs :call SwitchHppCpp()<CR>
+    au Filetype cpp nn <silent><buffer> ghs :call SwitchHppCpp()<CR>
 
     " .......................... SECONDARY (Z??)
 
@@ -93,43 +108,59 @@ augroup filetype_c
     "   Functions list
     au Filetype c,cpp nn <silent><buffer> zfl :keeppatterns g/^\a<CR>
 
-    "   Include Guard
-    function IncludeGuardCpp()
-        if match(getline(1), '#ifndef')
-            let basename = expand("%:t:r")
-            let includeGuard = toupper (basename . '_h_')
+    "   New Class
+    function NewClassCpp()
+        if  (expand(line('$')) == 1 && getline(1) =~ '^$')
+            let className = expand("%:t:r")
+            let includeGuard = toupper ('__' . className . '_h__')
+            call append(0, "#ifndef " . includeGuard)
+            call append(1, "#define " . includeGuard)
+            call append(2, "")
+            call append(3, "class" . className . " {")
+            call append(4, " public:")
+            call append(5, "  " . className . " (void);")
+            call append(6, "  ~" . className . " (void);")
+            call append(7, "")
+            call append(8, " private:")
+            call append(9, "};")
+            call append(line("$"), "#endif /* " . includeGuard . " */")
+            call search("void")
+        elseif !(getline(expand(line('$'))) =~ '#endif') && !(getline(1) =~ '#ifndef')
+            let className = expand("%:t:r")
+            let includeGuard = toupper ('__' . className . '_h__')
             call append(0, "#ifndef " . includeGuard)
             call append(1, "#define " . includeGuard)
             call append(2, "")
             call append(line("$"), "")
-            call append(line("$"), "#endif")
+            call append(line("$"), "#endif /* " . includeGuard . " */")
         endif
     endfunction
-    au Filetype c,cpp nn zig :call IncludeGuardCpp()<CR>
+    au Filetype c,cpp nn <silent><buffer> znc :call NewClassCpp()<CR>
 
     " .......................... TEXT OBJECTS
 
     "   Functions
     au Filetype c,cpp xn <silent><buffer> if /^}$<CR>on%j0ok
-    au Filetype c,cpp xn <silent><buffer> af /^}$<CR>on%{
-                \:}<Esc>
+    au Filetype c,cpp xn <silent><buffer> af /^}$<CR>on%?^$<CR>
     au Filetype c,cpp ono <silent><buffer> if :normal Vif<CR>
     au Filetype c,cpp ono <silent><buffer> af :normal Vaf<CR>
 
     "   Functions + docstring
-    au Filetype c,cpp xn <silent><buffer> aF /^}$<CR>on%{{
-                \:}<Esc>
+    au Filetype c,cpp xn <silent><buffer> aF /^}$<CR>on%?^$<CR>n
     au Filetype c,cpp ono <silent><buffer> aF :normal VaF<CR>
 
     " .......................... ABBREVIATIONS
 
+    au Filetype cpp iabbr <silent><buffer> { {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> if if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> else else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> elseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> while while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> sstr str::string
-    au Filetype cpp iabbr <silent><buffer> csstr const str::string
+    au Filetype cpp iabbr <silent><buffer> sstr std::string<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> sendl std::endl<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> scout std::cout
+    au Filetype cpp iabbr <silent><buffer> scin std::cin
 
     " <<<
 
