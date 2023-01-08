@@ -19,20 +19,20 @@ endif
 
 " <<<
 " --------------------------------- ERGONOMIC >>>
-set relativenumber                  "   number column
 set ignorecase smartcase            "   ignore case except if uppercase used
 set listchars=tab:>\ ,trail:-       "   strings to use for :list command
 set nowrap                          "   disable screen line wrapping
 set ofu=syntaxcomplete#Complete     "   func to be used in C-X C-O completion
+set relativenumber                  "   number column
 set ruler                           "   cursor pos%[y:x] in statusline
-set showcmd                         "   cursor pos%[y:x] in statusline
-set showmatch                       "   set showmatch
-set shortmess-=S                    "   displays [x/y] for search pattern occurences
-set wildmenu                        "   displays possible completion matches
-set spelllang=en,fr                 "   spell lang suggestions
 set sessionoptions-=curdir          "   mksession cd to the session file dir
 set sessionoptions+=sesdir          "   mksession cd to the session file dir
-set laststatus=0                    "   hide the bottom bare with the current path/filename
+set shortmess-=S                    "   displays [x/y] for search pattern occurences
+set showcmd                         "   cursor pos%[y:x] in statusline
+set showmatch                       "   set showmatch
+set spelllang=en,fr                 "   spell lang suggestions
+set switchbuf+=uselast              "   load the quickfix item into prev used split
+set wildmenu                        "   displays possible completion matches
 if empty(glob($DOTVIM . "/spell"))
     exec 'silent !mkdir $DOTVIM/spell'
 endif

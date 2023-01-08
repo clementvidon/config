@@ -137,7 +137,8 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, '[][rout] get up; breakfast')
     call append(l:tomorrow_loc + 1, '[][rout] sport; prepare')
     call append(l:tomorrow_loc + 1, '[][rout] lunch')
-    call append(l:tomorrow_loc + 1, '[][rout] dinner; go to bed')
+    call append(l:tomorrow_loc + 1, '[][rout] dinner')
+    call append(l:tomorrow_loc + 1, '[][rout] go to bed')
 
     write
     call winrestview(l:save)
@@ -307,7 +308,6 @@ augroup filetype_memo
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>me O[][memo]<Esc><<$A<Space>
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>ma O[][main]<Esc><<$A<Space>
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>si O[][side]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>co O[][conf]<Esc><<$A<Space>
     "   Tags/life
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>jo O[][memo] @todo update journal<Esc><<$
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>br O[][life] break<Esc><<$
@@ -325,7 +325,6 @@ augroup filetype_memo
                 \  main → main projects (42)                  \|\n
                 \  side → side projects and quests (shoot…)   \|\n
                 \  memo → memory (brain, Memo…)               \|\n
-                \  conf → configurations (tools, home…)       \|\n
                 \                                             \|\n
                 \"<CR>
 
@@ -410,6 +409,9 @@ augroup filetype_memo
                 \:keeppatterns g/\[>>\]/norm g??<CR>
                 \`mzz3<C-O>
 
+    "                       MISC :
+    au FileType memo nn <buffer><silent> gns, mm^i`<Esc>g_a`<Esc>`m
+    au FileType memo nn <buffer><silent> gns` <Space>< mmi`<Esc>g_a`<Esc>
     " <<<
     " --------------------------------- DIGRAPHS >>>
     "

@@ -30,7 +30,10 @@ augroup filetype_c
     "   Make + run
     au Filetype c,cpp nn <silent><buffer> ghm :w<CR>
                 \
-                \:!clear; make -j && ./$(ls -t \| head -1)<CR>
+                \:!clear; make -j 2>_err<CR>
+                \:cfile _err<CR>
+                \:5cw<CR>
+                \:!clear; ./$(ls -t \| head -1 \| grep -v _err)<CR>
 
     "   Make asan + run
     au Filetype c,cpp nn <silent><buffer> gha :w<CR>
@@ -42,21 +45,24 @@ augroup filetype_c
                 \
                 \:!clear; make -j && valgrind -q ./$(ls -t \| head -1)<CR>
 
+    " TODO remove exec
+
     "   Compile + run
     au Filetype c nn <silent><buffer> ghr :w\|lc %:h<CR>
                 \
-                \:exec 'silent !rm -f a.out'<CR>
-                \:exec 'silent !clang -Werror -Wall -Wextra  -x c % 2>/tmp/' . %<CR>
-                \:cfile /tmp/%<CR>:5cw<CR>
-                \:exec '!clear;./a.out'<CR>
+                \:exec 'silent !rm -f a.out _err'<CR>
+                \:exec 'silent !clang -Werror -Wall -Wextra % 2>_err'<CR>
+                \:cfile _err<CR>
+                \:5cw<CR>
+                \:exec '!clear; ./a.out'<CR>
 
     au Filetype cpp nn <silent><buffer> ghr :w\|lc %:h<CR>
                 \
-                \:exec 'silent !rm -f a.out err'<CR>
-                \:exec 'silent !c++ -Werror -Wall -Wextra % 2>_err'<CR>
+                \:!rm -f a.out _err<CR>
+                \:silent !c++ -Werror -Wall -Wextra % 2>_err<CR>
                 \:cfile _err<CR>
                 \:5cw<CR>
-                \:exec '!clear;./a.out'<CR>
+                \:!clear; ./$(ls -t \| head -1 \| grep -v _err)<CR>
 
     " ............... CLEAN CODE
 
@@ -76,13 +82,9 @@ augroup filetype_c
 
     " ............... DEBUG
 
-    "   Print anything
-    au Filetype c nn <silent><buffer> ghp odprintf (2, "\n");<Esc>==f\i
-    au Filetype cpp nn <silent><buffer> ghp ostd::cerr << "" << std::endl;<Esc>==f"a
-
     "   Print wrapped
     au Filetype c nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
-    au Filetype cpp nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Istd::cerr << "" << <Esc>A << std::endl;<Esc>==f"a
+    au Filetype cpp nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Istd::cerr << ">" << <Esc>A << std::endl;<Esc>==f"a
 
     "   Print location
     au Filetype c nn <silent><buffer> ghl odprintf (2, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
@@ -100,42 +102,56 @@ augroup filetype_c
     endfunction
     au Filetype cpp nn <silent><buffer> ghs :call SwitchHppCpp()<CR>
 
-    " .......................... SECONDARY (Z??)
+    " .......................... SECONDARY (GZ??)
 
     "   Functions nav
-    au Filetype c,cpp nn <silent><buffer> zfn /^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> gzfn /^\a<CR>
 
     "   Functions list
-    au Filetype c,cpp nn <silent><buffer> zfl :keeppatterns g/^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> gzfl :keeppatterns g/^\a<CR>
 
     "   New Class
-    function NewClassCpp()
-        if  (expand(line('$')) == 1 && getline(1) =~ '^$')
-            let className = expand("%:t:r")
-            let includeGuard = toupper ('__' . className . '_h__')
-            call append(0, "#ifndef " . includeGuard)
-            call append(1, "#define " . includeGuard)
-            call append(2, "")
-            call append(3, "class" . className . " {")
-            call append(4, " public:")
-            call append(5, "  " . className . " (void);")
-            call append(6, "  ~" . className . " (void);")
-            call append(7, "")
-            call append(8, " private:")
-            call append(9, "};")
-            call append(line("$"), "#endif /* " . includeGuard . " */")
-            call search("void")
-        elseif !(getline(expand(line('$'))) =~ '#endif') && !(getline(1) =~ '#ifndef')
-            let className = expand("%:t:r")
-            let includeGuard = toupper ('__' . className . '_h__')
-            call append(0, "#ifndef " . includeGuard)
-            call append(1, "#define " . includeGuard)
-            call append(2, "")
-            call append(line("$"), "")
-            call append(line("$"), "#endif /* " . includeGuard . " */")
+    function ClassInitCpp()
+        if  (expand("%:e") == "cpp")
+            if  (expand(line('$')) == 1 && getline(1) =~ '^$')
+                let className = expand("%:t:r")
+                call append(0, "#include \"" . className . ".hpp\"")
+                call append(1, "")
+                call append(2, className . "::" . className . " (void) {")
+                call append(3, "}")
+                call append(4, "")
+                call append(5, className . "::~" . className . " (void) {")
+                call append(6, "}")
+                call search("void")
+            endif
+        elseif  (expand("%:e") == "hpp")
+            if  (expand(line('$')) == 1 && getline(1) =~ '^$')
+                let className = expand("%:t:r")
+                let includeGuard = toupper ('__' . className . '_HPP__')
+                call append(0, "#ifndef " . includeGuard)
+                call append(1, "#define " . includeGuard)
+                call append(2, "")
+                call append(3, "class " . className . " {")
+                call append(4, " public:")
+                call append(5, "  " . className . " (void);")
+                call append(6, "  ~" . className . " (void);")
+                call append(7, "")
+                call append(8, " private:")
+                call append(9, "};")
+                call append(line("$"), "#endif /* " . includeGuard . " */")
+                call search("void")
+            elseif !(getline(expand(line('$'))) =~ '#endif') && !(getline(1) =~ '#ifndef')
+                let className = expand("%:t:r")
+                let includeGuard = toupper ('__' . className . '_HPP__')
+                call append(0, "#ifndef " . includeGuard)
+                call append(1, "#define " . includeGuard)
+                call append(2, "")
+                call append(line("$"), "")
+                call append(line("$"), "#endif /* " . includeGuard . " */")
+            endif
         endif
     endfunction
-    au Filetype c,cpp nn <silent><buffer> znc :call NewClassCpp()<CR>
+    au Filetype c,cpp nn <silent><buffer> gzci :call ClassInitCpp()<CR>
 
     " .......................... TEXT OBJECTS
 
@@ -150,17 +166,28 @@ augroup filetype_c
     au Filetype c,cpp ono <silent><buffer> aF :normal VaF<CR>
 
     " .......................... ABBREVIATIONS
+    "
+    au Filetype cpp iabbr <silent><buffer> main int main () {<CR>return 0;<CR>}<Esc>kO<C-R>=Eatchar('\s')<CR>
 
     au Filetype cpp iabbr <silent><buffer> { {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> if if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> else else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> elseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> while while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> for for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> sstr std::string<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> sendl std::endl<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> scout std::cout
-    au Filetype cpp iabbr <silent><buffer> scin std::cin
+    au Filetype cpp iabbr <silent><buffer> sstr std::string
+    au Filetype cpp iabbr <silent><buffer> "" ""<Left><C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> '' ''<Left><C-R>=Eatchar('\s')<CR>
+
+    au Filetype cpp iabbr <silent><buffer> cin   std::cin >>;<Left>
+    au Filetype cpp iabbr <silent><buffer> cerr  std::cerr <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> cout  std::cout <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> endl  << std::endl<Esc>
+    au Filetype cpp iabbr <silent><buffer> cendl std::cout << std::endl;<Esc>
+
+    au Filetype cpp iabbr <silent><buffer> pcerr std::cerr << << std::endl;<Esc>13hi
+    au Filetype cpp iabbr <silent><buffer> pcout std::cout << << std::endl;<Esc>13hi
 
     " <<<
 

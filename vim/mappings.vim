@@ -47,24 +47,17 @@ nn gsd :bn!\|bd! #<CR>
 nn sg :grep -r<Space>
 "                       TAG
 nn st :tag /
-nn sij :ilist /
+nn sij :ijump /
 nn sil :ilist /
 nn sis :isearch /
 
 "                       MEMO
-nn sl :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
-nn xe :e $MEMO/Lists/english.md<CR>/##  Voca<CR>
-nn xf :e $MEMO/Lists/french.md<CR>/##  Voca<CR>
-nn xp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
-nn xa :e $MEMO/Archives/Archives.md<CR>gi<Esc>
-"                       CONF
-nn xxv :e ~/.vimrc<CR>gi<Esc>
-nn xxz :e ~/.zshrc<CR>gi<Esc>
-nn xxa :e ~/.config/alacritty/alacritty.yml<CR>gi<Esc>
-nn xxi :e ~/.config/i3/config<CR>gi<Esc>
-nn xxx :e ~/.Xresources<CR>gi<Esc>
-nn xxt :e ~/.tmux.conf<CR>gi<Esc>
-nn xxn :!sudo vi /etc/netplan/00-installer-config.yaml<CR>
+nn sl  <nop>
+nn slt :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
+nn sle :e $MEMO/Lists/english.md<CR>/##  Voca<CR>
+nn slf :e $MEMO/Lists/french.md<CR>/##  Voca<CR>
+nn slp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
+nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
 " <<<
 " --------------------------------- CMDLINE (gl) >>>
 "                       OPTIONS
@@ -221,6 +214,8 @@ tno <S-Down> <C-W>-
 no <Space>we :exec 'vertical resize '. string(&columns * 0.66)<CR>
 no <Space>wE :exec 'vertical resize '. string(&columns * 0.33)<CR>
 
+"   CLIPBOARD
+nn <silent> <Space>y :call system("xclip -sel clip", getreg("\""))<CR>
 "   CLIPBOARD
 no "+Y V:!xclip -f -sel clip<CR>
 vn "+y :!xclip -f -sel clip<CR>

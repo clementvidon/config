@@ -13,7 +13,7 @@
 #   To interactively enter a key and see what keysym it is configured to, use
 #   xev.
 
-set $mod Mod1
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -158,7 +158,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exit (custom lockscreen there too)
-bindsym $mod+Shift+e exec ~/.local/script/i3/i3quit
+bindsym $mod+Shift+e exec ~/.local/script/i3/i3https://i3wm.org/docs/userguide.htmlquit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
