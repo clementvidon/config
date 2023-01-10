@@ -30,10 +30,10 @@ augroup filetype_c
     "   Make + run
     au Filetype c,cpp nn <silent><buffer> ghm :w<CR>
                 \
-                \:!clear; make -j 2>_err<CR>
-                \:cfile _err<CR>
+                \:!clear; make -j 2>/tmp/_err<CR>
+                \:cfile /tmp/_err<CR>
                 \:5cw<CR>
-                \:!clear; ./$(ls -t \| head -1 \| grep -v _err)<CR>
+                \:!clear; ./$(ls -t \| head -1 \| grep -v /tmp/_err)<CR>
 
     "   Make asan + run
     au Filetype c,cpp nn <silent><buffer> gha :w<CR>
@@ -50,19 +50,19 @@ augroup filetype_c
     "   Compile + run
     au Filetype c nn <silent><buffer> ghr :w\|lc %:h<CR>
                 \
-                \:exec 'silent !rm -f a.out _err'<CR>
-                \:exec 'silent !clang -Werror -Wall -Wextra % 2>_err'<CR>
-                \:cfile _err<CR>
+                \:exec 'silent !rm -f a.out /tmp/_err'<CR>
+                \:exec 'silent !clang -Werror -Wall -Wextra % 2>/tmp/_err'<CR>
+                \:cfile /tmp/_err<CR>
                 \:5cw<CR>
                 \:exec '!clear; ./a.out'<CR>
 
     au Filetype cpp nn <silent><buffer> ghr :w\|lc %:h<CR>
                 \
-                \:!rm -f a.out _err<CR>
-                \:silent !c++ -Werror -Wall -Wextra % 2>_err<CR>
-                \:cfile _err<CR>
+                \:!rm -f a.out /tmp/_err<CR>
+                \:silent !c++ -Werror -Wall -Wextra % 2>/tmp/_err<CR>
+                \:cfile /tmp/_err<CR>
                 \:5cw<CR>
-                \:!clear; ./$(ls -t \| head -1 \| grep -v _err)<CR>
+                \:!clear; ./$(ls -t \| head -1 \| grep -v /tmp/_err)<CR>
 
     " ............... CLEAN CODE
 
@@ -127,7 +127,7 @@ augroup filetype_c
         elseif  (expand("%:e") == "hpp")
             if  (expand(line('$')) == 1 && getline(1) =~ '^$')
                 let className = expand("%:t:r")
-                let includeGuard = toupper ('__' . className . '_HPP__')
+                let includeGuard = toupper (className . '_HPP_')
                 call append(0, "#ifndef " . includeGuard)
                 call append(1, "#define " . includeGuard)
                 call append(2, "")
@@ -138,16 +138,16 @@ augroup filetype_c
                 call append(7, "")
                 call append(8, " private:")
                 call append(9, "};")
-                call append(line("$"), "#endif /* " . includeGuard . " */")
+                call append(line("$"), "#endif  // " . includeGuard)
                 call search("void")
             elseif !(getline(expand(line('$'))) =~ '#endif') && !(getline(1) =~ '#ifndef')
                 let className = expand("%:t:r")
-                let includeGuard = toupper ('__' . className . '_HPP__')
+                let includeGuard = toupper (className . '_HPP_')
                 call append(0, "#ifndef " . includeGuard)
                 call append(1, "#define " . includeGuard)
                 call append(2, "")
                 call append(line("$"), "")
-                call append(line("$"), "#endif /* " . includeGuard . " */")
+                call append(line("$"), "#endif  // " . includeGuard)
             endif
         endif
     endfunction
@@ -180,11 +180,14 @@ augroup filetype_c
     au Filetype cpp iabbr <silent><buffer> "" ""<Left><C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> '' ''<Left><C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> cin   std::cin >>;<Left>
-    au Filetype cpp iabbr <silent><buffer> cerr  std::cerr <<;<Left>
-    au Filetype cpp iabbr <silent><buffer> cout  std::cout <<;<Left>
-    au Filetype cpp iabbr <silent><buffer> endl  << std::endl<Esc>
-    au Filetype cpp iabbr <silent><buffer> cendl std::cout << std::endl;<Esc>
+    au Filetype cpp iabbr <silent><buffer> sscin   std::cin >>;<Left>
+    au Filetype cpp iabbr <silent><buffer> sscerr  std::cerr <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> sscout  std::cout <<;<Left>
+
+    au Filetype cpp iabbr <silent><buffer> scin    std::cin
+    au Filetype cpp iabbr <silent><buffer> scerr   std::cerr
+    au Filetype cpp iabbr <silent><buffer> scout   std::cout
+    au Filetype cpp iabbr <silent><buffer> sendl   std::endl<C-R>=Eatchar('\s')<CR>
 
     au Filetype cpp iabbr <silent><buffer> pcerr std::cerr << << std::endl;<Esc>13hi
     au Filetype cpp iabbr <silent><buffer> pcout std::cout << << std::endl;<Esc>13hi

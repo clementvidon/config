@@ -482,3 +482,7 @@ augroup filetype_memo
     au FileType memo exec "digraphs WS " . 0x1D42
     " <<<
 augroup END
+
+
+"   TASK SWITCH
+au FileType memo nn <buffer><silent> <Space>s mmk0di[ddpkdi[0jp`m

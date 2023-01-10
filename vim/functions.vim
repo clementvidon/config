@@ -8,6 +8,7 @@ com! BufOnly execute '%bdelete | edit # | normal `"'
 "   TRANSLATOR (add -play flag to hear pronunciation)
 com! -nargs=+ -bar Fr exec '! clear; trans "<args>" -from en -to fr -brief 2> /dev/null'
 com! -nargs=+ -bar En exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null'
+com! -nargs=+ -bar EnPlay exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null -play'
 "   SYNONYM ('-l fr salut' for french Syn) (APIKEY:K4f8SzzxLdtH1YVpwRON)
 com! -nargs=+ -bar Sy exec '! clear; synonym <args>' | redraw!
 
