@@ -112,6 +112,33 @@ alias gsh="git show"
 alias gst="git status -s --show-stash --ignore-submodules=untracked"
 alias gsw="git switch"
 
+#       [ dfx ]
+
+alias dboo="dfx bootstrap"
+alias dbui="dfx build"
+alias dcac="dfx cache"
+alias dcan="dfx canister"
+alias ddep="dfx deploy"
+alias ddia="dfx diagnose"
+alias dfix="dfx fix"
+alias dgen="dfx generate"
+alias dhel="dfx help"
+alias dide="dfx identity"
+alias dinf="dfx info"
+alias dled="dfx ledger"
+alias dnew="dfx new"
+alias dnns="dfx nns"
+alias dpin="dfx ping"
+alias dqui="dfx quickstart"
+alias drem="dfx remote"
+alias drep="dfx replica"
+alias dsch="dfx schema"
+alias dsta="dfx start"
+alias dsto="dfx stop"
+alias dtoo="dfx toolchain"
+alias dupg="dfx upgrade"
+alias dwal="dfx wallet"
+
 #       [ Make ]
 alias mk='make all'
 alias mkc='make clean'

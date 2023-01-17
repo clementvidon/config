@@ -3,6 +3,8 @@ augroup filetype_json
     " --------------------------------- HIGHLIGHTS >>>
     " <<<
     " --------------------------------- OPTIONS >>>
+    au FileType json setl expandtab tabstop=2 shiftwidth=2
+    au FileType json setl softtabstop=2 autoindent
     au FileType json let &l:formatprg="prettier --stdin-filepath %"
     au FileType json setl pa+=$DOTVIM/after/ftplugin/
     " <<<

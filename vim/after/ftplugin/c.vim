@@ -9,7 +9,6 @@ augroup filetype_c
     au FileType c,cpp setl expandtab tabstop=2 shiftwidth=2 textwidth=80
     au FileType c,cpp setl softtabstop=2 autoindent cindent
     au FileType c,cpp setl formatprg=clang-format\ --style=file
-    au FileType c,cpp let mapleader="<BS>"
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
 
     " .......................... PLUGIN
@@ -131,13 +130,20 @@ augroup filetype_c
                 call append(0, "#ifndef " . includeGuard)
                 call append(1, "#define " . includeGuard)
                 call append(2, "")
-                call append(3, "class " . className . " {")
-                call append(4, " public:")
-                call append(5, "  " . className . " (void);")
-                call append(6, "  ~" . className . " (void);")
-                call append(7, "")
-                call append(8, " private:")
-                call append(9, "};")
+                call append(3, "#include <iostream>")
+                call append(4, "")
+                call append(5, "class " . className . " {")
+                call append(6, " public:")
+                call append(7, "  " . className . " (void);")
+                call append(8, "  " . className . " (" . className . " const& src);")
+                call append(9, "  ~" . className . " (void);")
+                call append(10, "")
+                call append(11, "  " . className . "& operator= (" . className . " const& src);")
+                call append(12, "")
+                call append(13, " private:")
+                call append(14, "};")
+                call append(15, "")
+                call append(16, "std::ostream& operator<< (std::ostream& o, " . className . " const& i);")
                 call append(line("$"), "#endif  // " . includeGuard)
                 call search("void")
             elseif !(getline(expand(line('$'))) =~ '#endif') && !(getline(1) =~ '#ifndef')

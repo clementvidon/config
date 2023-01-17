@@ -4,6 +4,11 @@
 " Maintainer:   Clément Vidon  <cvidon@student.42.fr>
 " Last Change:  2022 Aug
 
+" Print FG colors
+" for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
+" Print BG colors
+" for i in {0..255}; do printf '\e[48;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
+
 if exists("b:current_syntax")
     finish
 endif
@@ -55,7 +60,7 @@ syn match memoTaskStamp contains=@NoSpell "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\
 syn match memoTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 
 " Task Perso
-syn match memoTaskPerso "\(\]\[\(rout\|>>\)\]\)\@<=.*"
+syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*"
 
 " Escape
 syn match memoEscape "\\."
@@ -109,10 +114,12 @@ if &background == "dark"
     hi memoBoldItalic ctermfg=209
 
     " Task Stamp/Tag        : dark grey, pale light brown
-    hi memoTaskStamp ctermfg=240
+    " tag 240
+    " perso 8
+    hi memoTaskStamp ctermfg=59
     hi memoTaskTag ctermfg=248
     " Task Perso            : pale dark blue
-    hi memoTaskPerso ctermfg=8
+    hi memoTaskPerso ctermfg=60
 
     " Delimiter             : dark grey
     hi memoDelimiter ctermfg=238

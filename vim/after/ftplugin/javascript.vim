@@ -4,10 +4,9 @@ augroup filetype_javascript
     " <<<
     " --------------------------------- OPTIONS >>>
     au FileType qf setl wrap
-    au FileType javascript setl autoindent expandtab textwidth=80
-    au FileType javascript setl shiftwidth=2 tabstop=2
+    au FileType javascript setl expandtab tabstop=2 shiftwidth=2 textwidth=80
+    au FileType javascript setl softtabstop=2 autoindent
     au FileType javascript setl formatprg=prettier\ --stdin-filepath\ %
-    au FileType javascript setl pa+=$DOTVIM/after/ftplugin/
     " <<<
     " --------------------------------- PLUGINS >>>
     "   ALE

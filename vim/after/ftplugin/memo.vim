@@ -72,9 +72,13 @@ function! MemoArchiveDay()
         echom ">>> Not in \"todo.md\" <<<"
         return 1
     endif
-    "   Check stats
-    if strlen(getline(searchpos("^\\[-\\]\\[ST\\]")[0])) != 31
-        echom ">>> Incomplete stats \"ST\" <<<"
+    "   Check stats TODO check if there is no ? instead the len
+    if strlen(getline(searchpos("^\\[-\\]\\[pm\\]")[0])) =~ 'X'
+        echom ">>> Incomplete \"pm\" stats <<<"
+        return 1
+    endif
+    if strlen(getline(searchpos("^\\[-\\]\\[am\\]")[0])) =~ 'X'
+        echom ">>> Incomplete \"am\" stats <<<"
         return 1
     endif
     "   Check day
@@ -115,30 +119,54 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, "[-][>>]")
     call append(l:tomorrow_loc + 1, "[-][>>] -")
     call append(l:tomorrow_loc + 1, "[-][>>] +")
-    call append(l:tomorrow_loc + 1, "[-][ST] ph me mo st fo yi")
+    call append(l:tomorrow_loc + 1, "[-][pm] phX meX moX stX foX yiX")
+    call append(l:tomorrow_loc + 1, "[-][am] phX meX moX stX foX yiX")
     call append(l:tomorrow_loc + 1, "")
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][memo] @history **FIX DATE**")
+        call append(line('$') - 2, "[][2] @achiever fix history")
     endif
-    "   Tomorrow template
 
-    " call append(l:tomorrow_loc + 1, '[][rout] get up; sport; breakfast; prepare')
-    " call append(l:tomorrow_loc + 1, '[][rout] lunch')
-    " call append(l:tomorrow_loc + 1, '[][rout] dinner; go to bed')
+    "   bda
 
-    " call append(l:tomorrow_loc + 1, '[][rout] get up; sport; breakfast; prepare')
-    " call append(l:tomorrow_loc + 1, '[][life] move')
-    " call append(l:tomorrow_loc + 1, '[][rout] lunch')
-    " call append(l:tomorrow_loc + 1, '[][life] move')
-    " call append(l:tomorrow_loc + 1, '[][rout] dinner; go to bed')
+    call append(l:tomorrow_loc + 1, '[][0] get up')
+    call append(l:tomorrow_loc + 1, '[][0] breakfast + cc + @achiever update todo')
+    call append(l:tomorrow_loc + 1, '[][0] cc')
+    call append(l:tomorrow_loc + 1, '[][0] home sport Xmin + crypto news')
+    call append(l:tomorrow_loc + 1, '[][0] prepare + crypto news')
+    call append(l:tomorrow_loc + 1, '[][0] lunch')
+    call append(l:tomorrow_loc + 1, '[][0] tv + X')
+    call append(l:tomorrow_loc + 1, '[][0] cc')
+    call append(l:tomorrow_loc + 1, '[][0] dinner')
+    call append(l:tomorrow_loc + 1, '[][0] tv + X')
+    call append(l:tomorrow_loc + 1, '[][0] goto sleep + podcast')
 
-    call append(l:tomorrow_loc + 1, '[][rout] get up; breakfast')
-    call append(l:tomorrow_loc + 1, '[][rout] sport; prepare')
-    call append(l:tomorrow_loc + 1, '[][rout] lunch')
-    call append(l:tomorrow_loc + 1, '[][rout] dinner')
-    call append(l:tomorrow_loc + 1, '[][rout] go to bed')
+    "   paris home
+
+    " call append(l:tomorrow_loc + 1, '[][0] get up')
+    " call append(l:tomorrow_loc + 1, '[][0] breakfast + book')
+    " call append(l:tomorrow_loc + 1, '[][0] home sport Xmin + crypto news')
+    " call append(l:tomorrow_loc + 1, '[][0] prepare + crypto news')
+    " call append(l:tomorrow_loc + 1, '[][0] cc')
+    " call append(l:tomorrow_loc + 1, '[][0] lunch + X')
+    " call append(l:tomorrow_loc + 1, '[][0] cc')
+    " call append(l:tomorrow_loc + 1, '[][0] dinner + X')
+    " call append(l:tomorrow_loc + 1, '[][0] goto sleep + podcast')
+
+    "   42
+
+    " call append(l:tomorrow_loc + 1, '[][0] get up')
+    " call append(l:tomorrow_loc + 1, '[][0] breakfast + book')
+    " call append(l:tomorrow_loc + 1, '[][0] home sport Xmin + crypto news')
+    " call append(l:tomorrow_loc + 1, '[][0] prepare + crypto news')
+    " call append(l:tomorrow_loc + 1, '[][0] goto 42 + X')
+    " call append(l:tomorrow_loc + 1, '[][0] cc')
+    " call append(l:tomorrow_loc + 1, '[][0] lunch + X')
+    " call append(l:tomorrow_loc + 1, '[][0] cc')
+    " call append(l:tomorrow_loc + 1, '[][0] goto home + X')
+    " call append(l:tomorrow_loc + 1, '[][0] dinner + X')
+    " call append(l:tomorrow_loc + 1, '[][0] goto sleep + podcast')
 
     write
     call winrestview(l:save)
@@ -150,7 +178,7 @@ endfunction
 augroup filetype_memo
     autocmd!
     " --------------------------------- OPTIONS >>>
-    au BufRead,BufNewFile *.md,*.markdown set filetype=memo
+    au BufRead,BufNewFile *.md,*.markdown,*.MD,*.MARKDOWN set filetype=memo
     au FileType memo
                 \   setl textwidth=80
                 \ | setl suffixesadd+=.md
@@ -298,35 +326,11 @@ augroup filetype_memo
     "   GPG DEC
     au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>dec :silent %!gpg -d 2>/dev/null<CR>
 
-
     "                       TODO LIST :
 
     "   TASK_ADD_TAG
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>[ O[][]<Esc><<2f]i
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>li O[][life]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>ro O[][rout]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>me O[][memo]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>ma O[][main]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>si O[][side]<Esc><<$A<Space>
-    "   Tags/life
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>jo O[][memo] @todo update journal<Esc><<$
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>br O[][life] break<Esc><<$
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>de O[][life] deviated<Esc><<$
-    "   TASK_TAG_HELP
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>? :echo "
-                \\n
-                \=====================[Tags]===================\n
-                \                                             \|\n
-                \  Everything that follows counts in the      \|\n
-                \  physical as well as in the virtual world.  \|\n
-                \                                             \|\n
-                \  life → everything from the real life       \|\n
-                \  rout → routines                            \|\n
-                \  main → main projects (42)                  \|\n
-                \  side → side projects and quests (shoot…)   \|\n
-                \  memo → memory (brain, Memo…)               \|\n
-                \                                             \|\n
-                \"<CR>
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <space>t O[][1]<Esc><<$A<Space>
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <space>de O[][1] deviated to<Esc><<$
 
     "   TASK_FOCUS_TAG
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>\ 0f[l
@@ -361,7 +365,7 @@ augroup filetype_memo
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
-                \O[][life] break<Space><Esc>mm
+                \O[][1] break<Space><Esc>mm
                 \:sil ec "insert break"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -373,7 +377,7 @@ augroup filetype_memo
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
-                \O[][life] break<Space><Esc>mm
+                \O[][1] break<Space><Esc>mm
                 \:sil ec "insert [break]"<CR>
                 \0di["dPa<Space><C-R>t<Esc>0
                 \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
@@ -404,7 +408,7 @@ augroup filetype_memo
     "                       HISTORY
 
     "   ROT
-    au FileType memo nn <buffer><silent> <Space>g? Mmm
+    au FileType memo nn <buffer><silent> <Space>13 Mmm
                 \
                 \:keeppatterns g/\[>>\]/norm g??<CR>
                 \`mzz3<C-O>
@@ -484,5 +488,10 @@ augroup filetype_memo
 augroup END
 
 
-"   TASK SWITCH
-au FileType memo nn <buffer><silent> <Space>s mmk0di[ddpkdi[0jp`m
+"   task switch
+au FileType memo nn <buffer><silent> <Space>s 02f]lv$hdj02f]lv$hpk$p
+au FileType memo nn <buffer><silent> <Space>S 02f]lv$hdk02f]lv$hpj$p
+
+"   task group
+" au FileType memo nn <buffer><silent> <Space>g mm0jyf]kvf]pk
+" au FileType memo nn <buffer><silent> <Space>G mm0kyf]jvf]pk

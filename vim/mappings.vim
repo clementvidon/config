@@ -222,15 +222,6 @@ vn "+y :!xclip -f -sel clip<CR>
 no "+p :r!xclip -o -sel clip<CR>
 no "+P :-1r!xclip -o -sel clip<CR>
 
-"   TAGS
-nn <Space>t <c-t>
-nn <Space>] <c-]>
-"   VISUAL BLOCK
-nn <Space>v <c-v>
-"   SUSPEND
-nn <Space>z <c-z>
-
-
 "                       GUARD RAIL
 no x :echo "!x"<CR>
 no s :echo "!s"<CR>
