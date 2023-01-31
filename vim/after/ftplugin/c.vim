@@ -200,7 +200,7 @@ augroup filetype_c
                 call append(line("$"), " public:")
                 call append(line("$"), "  " . className . "( void );")
                 call append(line("$"), "  " . className . "( " . className . " const& src );")
-                call append(line("$"), "  ~" . className . "( void );")
+                call append(line("$"), "  virtual ~" . className . "( void );")
                 call append(line("$"), "  " . className . "& operator=( " . className . " const& rhs );")
                 call append(line("$"), "  void   print( std::ostream& o ) const;")
                 call append(line("$"), "")
