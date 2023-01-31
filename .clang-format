@@ -155,7 +155,7 @@ SpaceBeforeAssignmentOperators: true
 SpaceBeforeCpp11BracedList: false
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
-SpaceBeforeParens: Always
+SpaceBeforeParens: false
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
@@ -164,7 +164,7 @@ SpacesInAngles:  false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
-SpacesInParentheses: false
+SpacesInParentheses: true
 SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
 Standard:        Auto

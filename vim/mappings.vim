@@ -61,8 +61,6 @@ nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
 " <<<
 " --------------------------------- CMDLINE (gl) >>>
 "                       OPTIONS
-"   FUNC CALL
-nn glca :call<Space>
 "   CURSORCOLUMN
 nn glcc :set cursorcolumn!<CR>
 "   CD
@@ -78,19 +76,20 @@ nn glkp :if &keywordprg == ":help" <BAR> set keywordprg=man <BAR>
             \ endif <BAR> set keywordprg?<CR>
 "   LIST
 nn glli :set list!<CR>
+"   NUMBERS
+nn glnu :set number!<CR>
 "   PASTE MODE
 nn glpa :set paste!<CR>
-"   PRINT DATE
-nn glpd :put=strftime('%a %d %b %Y')<CR>
-"   COPY PATH
-nn glpw :let @+=@%<CR>
 "   REDRAW
 nn glre :redraw!<CR>
+"   RNUMBERS
+nn glrn :set relativenumber!<CR>
 "   SCROLLBIND
 nn glsb :set scrollbind!<CR>
 "   SCROLLOFF
 nn <silent> glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
-
+"   START OF LINE
+nn glsl :set startofline!<CR>
 "   SOURCE VIMRC
 nn glso :silent write\|source $MYVIMRC\|e<CR>zR
 "   SPELL
@@ -101,12 +100,18 @@ nn <silent> glve :if &virtualedit == "" <BAR> set virtualedit=all <BAR>
             \ endif <BAR> set virtualedit?<CR>
 "   WRAPSCAN
 nn glws :set wrapscan!<CR>
-"                       FUNCTIONS
+"                       TRICKS
+"   FUNC CALL
+nn glca :call<Space>
+"   PRINT DATE
+nn glpd :put=strftime('%a %d %b %Y')<CR>
+"   COPY PATH
+nn glpw :let @+=@%<CR>
 "   RUN CURRENT LINE
 nn glru :exe getline(".")<CR>
 vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 "   RESOLVE SYMLINK
-nn <silent> glsl :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
+nn <silent> glsy :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
 "   GET SYNTAX
 nn glsy :call GetSyntax()<CR>
 "   TIME STAMP

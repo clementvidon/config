@@ -40,11 +40,11 @@ let g:goyo_width = 90
 let g:goyo_height = '100%'
 
 "   GUTENTAGS
-let g:gutentags_enabled = 1
-let g:gutentags_ctags_exclude = ['*.md', 'doc/**', 'test/**', '*.h']
+let g:gutentags_enabled = 0
+let g:gutentags_ctags_exclude = ['*.svelte', '*.md', 'doc/**', 'test/**', '*.h']
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_add_default_project_roots = 0
-let g:gutentags_project_root = ['.project_root', '.git']
+let g:gutentags_project_root = ['.project_root', 'Makefile', '.git']
 if $LOGNAME == "cvidon" " 42
     " let g:gutentags_ctags_executable = '$HOME/.linuxbrew/bin/ctags'
     let g:gutentags_ctags_executable = '/usr/bin/ctags'
@@ -73,6 +73,10 @@ Plug 'airblade/vim-gitgutter'           "   GIT GUTTER
 Plug 'AndrewRadev/linediff.vim'         "   DIFF BUFFER CHUNK
 Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
 "lug 'dense-analysis/ale'               "   ASYNC LINT ENGINE
+"   SVELTE
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
 "   HTML CSS
 "lug 'andrewradev/tagalong.vim'         "   AU-REN CLOSING TAG
 "lug 'gregsexton/matchtag'              "   HI MATCHING HTML TAG
@@ -97,6 +101,6 @@ Plug 'junegunn/seoul256.vim'            "   COLORSCHEME
 "lug 'jaxbot/semantic-highlight.vim'    "   SEMANTIC HIGHLIGHT
 "   CREATIVE
 "lug 'tidalcycles/vim-tidal'            "   LIVE CODING
-Plug 'sophacles/vim-processing'         "   PROCESSING VIM
+"lug 'sophacles/vim-processing'         "   PROCESSING VIM
 call plug#end()
 " <<<

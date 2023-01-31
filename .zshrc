@@ -71,14 +71,14 @@ PROMPT='%m%{%F{102}%}${vcs_info_msg_0_}%{%F{none}%}%# '
 #------------------------------------------------------------------------------#
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	alias ls="ls -G"
-	alias la="ls -G -la"
-	alias latr="ls -G -latr"
+    alias ls="ls -G"
+    alias la="ls -G -la"
+    alias latr="ls -G -latr"
 elif [[ "$OSTYPE" == "linux"* ]]; then
-	alias ls="ls --color=auto"
-	alias la="ls --color=auto -la"
-	alias latr="ls --color=auto -latr"
-	alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
+    alias ls="ls --color=auto"
+    alias la="ls --color=auto -la"
+    alias latr="ls --color=auto -latr"
+    alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
 fi
 
 alias ag='grep -r --color=auto'
@@ -112,32 +112,59 @@ alias gsh="git show"
 alias gst="git status -s --show-stash --ignore-submodules=untracked"
 alias gsw="git switch"
 
-#       [ dfx ]
+#       [ Make ]
+alias mal='make all'
+alias mcl='make clean'
+alias mre='make re'
+alias mas='make asan'
+alias mru='make run'
 
-alias dboo="dfx bootstrap"
-alias dbui="dfx build"
-alias dcac="dfx cache"
-alias dcan="dfx canister"
-alias ddep="dfx deploy"
-alias ddia="dfx diagnose"
-alias dfix="dfx fix"
-alias dgen="dfx generate"
-alias dhel="dfx help"
-alias dide="dfx identity"
-alias dinf="dfx info"
-alias dled="dfx ledger"
-alias dnew="dfx new"
-alias dnns="dfx nns"
-alias dpin="dfx ping"
-alias dqui="dfx quickstart"
-alias drem="dfx remote"
-alias drep="dfx replica"
-alias dsch="dfx schema"
-alias dsta="dfx start"
-alias dsto="dfx stop"
-alias dtoo="dfx toolchain"
-alias dupg="dfx upgrade"
-alias dwal="dfx wallet"
+#------------------------------------------------------------------------------#
+#                  functions                                                   #
+#------------------------------------------------------------------------------#
+
+# @brief        Kill a process by giving its name
+# @param[in]    proc the name of the proc to kill.
+
+function    k()
+{
+    proc=$1
+    kill -9 $(pgrep $proc)
+}
+
+# @brief        Copy the given file content to clipboard.
+# @param[in]    file a file
+
+function    copy()
+{
+    file=$1
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        pbcopy < $file
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        cat $file | xclip -sel clip
+    fi
+}
+
+# @brief        Git add-commit-push an update.
+# @param[in]    message a message that suffixes "Update…"
+
+function    gup()
+{
+    message=$@
+    if [[ "$message" == "" ]]; then
+        git status -s --show-stash --ignore-submodules=untracked
+        git add -u
+        git commit
+        git push
+        git status
+    else
+        git status -s --show-stash --ignore-submodules=untracked
+        git add -u
+        git commit -m "$message"
+        git push
+        git status
+    fi
+}
 
 #       [ Make ]
 alias mk='make all'
@@ -155,8 +182,8 @@ alias mku='make update'
 
 function    k()
 {
-	proc=$1
-	kill -9 $(pgrep $proc)
+    proc=$1
+    kill -9 $(pgrep $proc)
 }
 
 # @brief        Quickly create a coding test file.
@@ -164,21 +191,21 @@ function    k()
 
 function    main()
 {
-	lang=$1
-	if [ $lang = c ]; then
-		file="./main-$(date +"%y%m%d%H%M%S").c"
-		echo "#include <stdio.h>"   >> $file
-		echo "#include <unistd.h>"  >> $file
-		echo "#include <stdlib.h>"  >> $file
-		echo "#include <limits.h>"  >> $file
-		echo ""                     >> $file
-		echo "int\tmain(void)"      >> $file
-		echo "{"                    >> $file
-		echo "\t"                   >> $file
-		echo "\treturn (0);"        >> $file
-		echo "}"                    >> $file
-		vi -c '8|startinsert' $file
-	fi
+    lang=$1
+    if [ $lang = c ]; then
+        file="./main-$(date +"%y%m%d%H%M%S").c"
+        echo "#include <stdio.h>"   >> $file
+        echo "#include <unistd.h>"  >> $file
+        echo "#include <stdlib.h>"  >> $file
+        echo "#include <limits.h>"  >> $file
+        echo ""                     >> $file
+        echo "int\tmain(void)"      >> $file
+        echo "{"                    >> $file
+        echo "\t"                   >> $file
+        echo "\treturn (0);"        >> $file
+        echo "}"                    >> $file
+        vi -c '8|startinsert' $file
+    fi
 }
 
 # @brief        Copy the given file content to clipboard.
@@ -186,12 +213,12 @@ function    main()
 
 function    copy()
 {
-	file=$1
-	if [[ "$OSTYPE" == "darwin"* ]]; then
-		pbcopy < $file
-	elif [[ "$OSTYPE" == "linux"* ]]; then
-		cat $file | xclip -sel clip
-	fi
+    file=$1
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        pbcopy < $file
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        cat $file | xclip -sel clip
+    fi
 }
 
 # @brief        Git add-commit-push an update.
@@ -199,9 +226,16 @@ function    copy()
 
 function    gup()
 {
-	message=$@
-	git add -u
-	git commit -m "Update $message"
-	git push
-	git status
+    message=$@
+    git add -u
+    git commit -m "Update $message"
+    git push
+    git status
 }
+
+# Motoko bootcamp
+
+alias moday="cd /home/clem/git/motoko/days"
+alias modao="cd /home/clem/git/motoko/dao"
+
+alias moc="$(dfx cache show)/moc --package base $(dfx cache show)/base"

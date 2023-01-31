@@ -23,6 +23,7 @@ source $DOTVIM/after/ftplugin/motoko.vim
 source $DOTVIM/after/ftplugin/markdown.vim
 source $DOTVIM/after/ftplugin/python.vim
 source $DOTVIM/after/ftplugin/qf.vim
+source $DOTVIM/after/ftplugin/svelte.vim
 source $DOTVIM/after/ftplugin/vim.vim
 
 source $DOTVIM/after/ftplugin/memo.vim

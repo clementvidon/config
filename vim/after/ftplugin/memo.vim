@@ -117,8 +117,10 @@ function! MemoArchiveDay()
     "   Update Today
     call append(line('$'), l:today_sleep)
     call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] -")
-    call append(l:tomorrow_loc + 1, "[-][>>] +")
+    call append(l:tomorrow_loc + 1, "[-][>>] pm - ")
+    call append(l:tomorrow_loc + 1, "[-][>>] pm + ")
+    call append(l:tomorrow_loc + 1, "[-][>>] am - ")
+    call append(l:tomorrow_loc + 1, "[-][>>] am + ")
     call append(l:tomorrow_loc + 1, "[-][pm] phX meX moX stX foX yiX")
     call append(l:tomorrow_loc + 1, "[-][am] phX meX moX stX foX yiX")
     call append(l:tomorrow_loc + 1, "")
@@ -131,9 +133,9 @@ function! MemoArchiveDay()
     "   bda
 
     call append(l:tomorrow_loc + 1, '[][0] get up')
-    call append(l:tomorrow_loc + 1, '[][0] breakfast + cc + @achiever update todo')
+    call append(l:tomorrow_loc + 1, '[][0] breakfast + read Deep Work')
     call append(l:tomorrow_loc + 1, '[][0] cc')
-    call append(l:tomorrow_loc + 1, '[][0] home sport Xmin + crypto news')
+    call append(l:tomorrow_loc + 1, '[][0] home sport 10min + crypto news')
     call append(l:tomorrow_loc + 1, '[][0] prepare + crypto news')
     call append(l:tomorrow_loc + 1, '[][0] lunch')
     call append(l:tomorrow_loc + 1, '[][0] tv + X')
@@ -207,6 +209,8 @@ augroup filetype_memo
     " <<<
     " --------------------------------- MAPPINGS >>>
 
+    au FileType memo let maplocalleader = "\\"
+
     "   MemoTimeDiff
     au FileType memo nn <buffer><silent> <Space>T V:MemoTimeDiff<CR>J$daW0f]P<esc>0
 
@@ -259,7 +263,7 @@ augroup filetype_memo
                 \ ARCHIVE_DAY       : Space A          \|\n
                 \ TIME_DIFF         : Space T          \|\n
                 \                                      \|\n
-                \ ROT >>            : Space g?         \|\n
+                \ ROT >>            : Space g13        \|\n
                 \                                      \|\n
                 \"<CR>
 
@@ -489,8 +493,8 @@ augroup END
 
 
 "   task switch
-au FileType memo nn <buffer><silent> <Space>s 02f]lv$hdj02f]lv$hpk$p
-au FileType memo nn <buffer><silent> <Space>S 02f]lv$hdk02f]lv$hpj$p
+au FileType memo nn <buffer><silent> <LocalLeader>s 02f]lv$hdj02f]lv$hpk$p
+au FileType memo nn <buffer><silent> <LocalLeader>S 02f]lv$hdk02f]lv$hpj$p
 
 "   task group
 " au FileType memo nn <buffer><silent> <Space>g mm0jyf]kvf]pk

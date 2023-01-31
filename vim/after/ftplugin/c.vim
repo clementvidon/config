@@ -69,12 +69,12 @@ augroup filetype_c
     au Filetype c,cpp nn <silent><buffer> ghd mdj
                 \
                 \:keeppatterns ?^\a<CR>
-                \O<Esc>O/**<Esc>o<C-w>* @brief       .<CR><CR>
-                \@param[out]  .<CR>
-                \@param[in]   .<CR>
-                \@return      .<CR>
+                \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
+                \@param[out]  TODO<CR>
+                \@param[in]   TODO<CR>
+                \@return      TODO<CR>
                 \<BS>/<Esc>=ip
-                \jf.
+                \jfT
 
     "   Format
     au Filetype c,cpp nn <silent><buffer> ghf :call FormatCurrentFile()<CR>
@@ -94,70 +94,142 @@ augroup filetype_c
     "   Switch from %.hpp to %.cpp and vis versa
     function SwitchHppCpp()
         if match(expand('%:e'), 'cpp')
-            find %<.cpp
+            edit %<.cpp
         elseif match(expand('%:e'), 'hpp')
-            find %<.hpp
+            edit %<.hpp
         endif
     endfunction
     au Filetype cpp nn <silent><buffer> ghs :call SwitchHppCpp()<CR>
 
-    " .......................... SECONDARY (GZ??)
+    " .......................... SECONDARY (GZ?)
 
     "   Functions nav
-    au Filetype c,cpp nn <silent><buffer> gzfn /^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> gzf /^\a<CR>
 
     "   Functions list
-    au Filetype c,cpp nn <silent><buffer> gzfl :keeppatterns g/^\a<CR>
+    au Filetype c,cpp nn <silent><buffer> gzF :keeppatterns g/^\a<CR>
 
     "   New Class
     function ClassInitCpp()
         if  (expand("%:e") == "cpp")
             if  (expand(line('$')) == 1 && getline(1) =~ '^$')
+                "   Class.cpp
                 let className = expand("%:t:r")
-                call append(0, "#include \"" . className . ".hpp\"")
-                call append(1, "")
-                call append(2, className . "::" . className . " (void) {")
-                call append(3, "}")
-                call append(4, "")
-                call append(5, className . "::~" . className . " (void) {")
-                call append(6, "}")
+                call append(line("$"), "#include <iostream>")
+                call append(line("$"), "#include <sstream>")
+                call append(line("$"), "#include <string>")
+                call append(line("$"), "#include \"" . className . ".hpp\"")
+                call append(line("$"), "")
+                call append(line("$"), "/*  ORTHODOX CANONICAL CANONICAL FORM")
+                call append(line("$"), "------------------------------------------------- */")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * @brief       Default Constructor")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "" . className . "::" . className . "( void ) {")
+                call append(line("$"), "  return;")
+                call append(line("$"), "}")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * @brief       Copy Constructor")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "" . className . "::" . className . "( " . className . " const& src ) {")
+                call append(line("$"), "  *this = src;")
+                call append(line("$"), "  return;")
+                call append(line("$"), "}")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * @brief       Destructor")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "" . className . "::~" . className . "( void ) {")
+                call append(line("$"), "  return;")
+                call append(line("$"), "}")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * @brief       Copy Assignment Operator")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "" . className . "& " . className . "::operator=( " . className . " const& rhs ) {")
+                call append(line("$"), "  if( this == &rhs ) {")
+                call append(line("$"), "    return *this;")
+                call append(line("$"), "  }")
+                call append(line("$"), "  return *this;")
+                call append(line("$"), "}")
+                call append(line("$"), "")
+                call append(line("$"), "/*  MEMBER FUNCTIONS")
+                call append(line("$"), "------------------------------------------------- */")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * @brief       Print Instance State")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "void " . className . "::print( std::ostream& o ) const {")
+                call append(line("$"), "  o << \"class: " . className . "\";")
+                call append(line("$"), "  return;")
+                call append(line("$"), "}")
+                call append(line("$"), "")
+                call append(line("$"), "/*  FUNCTIONS")
+                call append(line("$"), "------------------------------------------------- */")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * @brief       Output Operator Handling")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "std::ostream& operator<<( std::ostream& o, " . className . " const& i ) {")
+                call append(line("$"), "  i.print( o );")
+                call append(line("$"), "  return o;")
+                call append(line("$"), "}")
+                0delete
                 call search("void")
             endif
         elseif  (expand("%:e") == "hpp")
             if  (expand(line('$')) == 1 && getline(1) =~ '^$')
+                "   Class.hpp
                 let className = expand("%:t:r")
                 let includeGuard = toupper (className . '_HPP_')
-                call append(0, "#ifndef " . includeGuard)
-                call append(1, "#define " . includeGuard)
-                call append(2, "")
-                call append(3, "#include <iostream>")
-                call append(4, "")
-                call append(5, "class " . className . " {")
-                call append(6, " public:")
-                call append(7, "  " . className . " (void);")
-                call append(8, "  " . className . " (" . className . " const& src);")
-                call append(9, "  ~" . className . " (void);")
-                call append(10, "")
-                call append(11, "  " . className . "& operator= (" . className . " const& src);")
-                call append(12, "")
-                call append(13, " private:")
-                call append(14, "};")
-                call append(15, "")
-                call append(16, "std::ostream& operator<< (std::ostream& o, " . className . " const& i);")
+                call append(line("$"), "#ifndef " . includeGuard)
+                call append(line("$"), "#define " . includeGuard)
+                call append(line("$"), "")
+                call append(line("$"), "#include <iostream>")
+                call append(line("$"), "#include <string>")
+                call append(line("$"), "")
+                call append(line("$"), "/**")
+                call append(line("$"), " * TODO")
+                call append(line("$"), " */")
+                call append(line("$"), "")
+                call append(line("$"), "class " . className . " {")
+                call append(line("$"), " public:")
+                call append(line("$"), "  " . className . "( void );")
+                call append(line("$"), "  " . className . "( " . className . " const& src );")
+                call append(line("$"), "  ~" . className . "( void );")
+                call append(line("$"), "  " . className . "& operator=( " . className . " const& rhs );")
+                call append(line("$"), "")
+                call append(line("$"), "  void print( std::ostream& o ) const;")
+                call append(line("$"), "")
+                call append(line("$"), " private:")
+                call append(line("$"), "};")
+                call append(line("$"), "")
+                call append(line("$"), "std::ostream& operator<<( std::ostream& os, " . className . " const& i );")
+                call append(line("$"), "")
                 call append(line("$"), "#endif  // " . includeGuard)
+                0delete
                 call search("void")
             elseif !(getline(expand(line('$'))) =~ '#endif') && !(getline(1) =~ '#ifndef')
+                "   Class.hpp include guard
                 let className = expand("%:t:r")
                 let includeGuard = toupper (className . '_HPP_')
-                call append(0, "#ifndef " . includeGuard)
-                call append(1, "#define " . includeGuard)
-                call append(2, "")
+                call append(1, "#ifndef " . includeGuard)
+                call append(2, "#define " . includeGuard)
+                call append(3, "")
                 call append(line("$"), "")
                 call append(line("$"), "#endif  // " . includeGuard)
             endif
         endif
     endfunction
-    au Filetype c,cpp nn <silent><buffer> gzci :call ClassInitCpp()<CR>
+    au Filetype c,cpp nn <silent><buffer> gzi :call ClassInitCpp()<CR>
 
     " .......................... TEXT OBJECTS
 
@@ -173,30 +245,36 @@ augroup filetype_c
 
     " .......................... ABBREVIATIONS
     "
-    au Filetype cpp iabbr <silent><buffer> main int main () {<CR>return 0;<CR>}<Esc>kO<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> mmain int main () {<CR>return 0;<CR>}<Esc>kO<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> { {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> if if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> else else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> elseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> while while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> for for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> sstr std::string
+    au Filetype cpp iabbr <silent><buffer> (( ()<Left><C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> "" ""<Left><C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> '' ''<Left><C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> sscin   std::cin >>;<Left>
-    au Filetype cpp iabbr <silent><buffer> sscerr  std::cerr <<;<Left>
-    au Filetype cpp iabbr <silent><buffer> sscout  std::cout <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> iif if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> scin    std::cin
-    au Filetype cpp iabbr <silent><buffer> scerr   std::cerr
-    au Filetype cpp iabbr <silent><buffer> scout   std::cout
-    au Filetype cpp iabbr <silent><buffer> sendl   std::endl<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> sstr std::string<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> sstrc std::string const<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> pcerr std::cerr << << std::endl;<Esc>13hi
-    au Filetype cpp iabbr <silent><buffer> pcout std::cout << << std::endl;<Esc>13hi
+    au Filetype cpp iabbr <silent><buffer> cccin   std::cin >>;<Left>
+    au Filetype cpp iabbr <silent><buffer> cccerr  std::cerr <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> cccout  std::cout <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> eeendl  std::cout << std::endl;<Esc>
+
+    au Filetype cpp iabbr <silent><buffer> ccin    std::cin
+    au Filetype cpp iabbr <silent><buffer> ccerr   std::cerr
+    au Filetype cpp iabbr <silent><buffer> ccout   std::cout
+    au Filetype cpp iabbr <silent><buffer> eendl   std::endl<C-R>=Eatchar('\s')<CR>
+
+    au Filetype cpp iabbr <silent><buffer> pcerr std::cerr << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> pcout std::cout << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
 
     " <<<
 

@@ -14,10 +14,22 @@ augroup filetype_javascript
     " <<<
     " --------------------------------- MAPPINGS >>>
     "   RUN FILE
-    au FileType javascript nn <buffer> <Space>5 :w\|lc %:h<CR>:!clear; node %<CR>
+    au FileType javascript nn <buffer> ghr :w\|lc %:h<CR>:!clear; node %<CR>
+
+    "   CLEANUP
+    au Filetype javascript nn <buffer> <Space>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
+
+    "   Format
+    au Filetype javascript nn <silent><buffer> ghf :call FormatCurrentFile()<CR>
+
+    "   PRINT
+    au Filetype javascript nn <silent><buffer> ghpr oconsole.log()<Esc>==f)i
+
+    "   PRINT WRAP
+    au Filetype javascript nn <silent><buffer> ghpw 0<<V:norm f;Di<Esc>Iconsole.log(<Esc>A);<Esc>==f)h
 
     "   PRINT EXPR VALUE
-    au FileType javascript nn <buffer> <Space>3 :lc %:h<CR>
+    au FileType javascript nn <buffer> ghpv :lc %:h<CR>
                 \
                 \:sil ec "Cleanup the line."<CR>
                 \0f;C;<Esc>
@@ -29,22 +41,5 @@ augroup filetype_javascript
                 \:undojoin \| r!node % 2>/dev/null<CR>`[V`]<C-V>0I//> <Esc>
                 \:sil ec "Delete line"<CR>
                 \kddkJ
-
-    "   CLEANUP
-    au Filetype javascript nn <buffer> <Space>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
-
-    "   FORMAT
-    function! FormatJS()
-        let l:view = winsaveview()
-        exec 'normal gggqG'
-        call winrestview(l:view)
-    endfunction
-    au Filetype cpp nn <space>f :call FormatJS()<CR>
-
-    "   PRINT
-    au Filetype javascript nn <silent><buffer> <Space>p oconsole.log()<Esc>==f)i
-
-    "   PRINT WRAP
-    au Filetype javascript nn <silent><buffer> <Space>P 0<<V:norm f;Di<Esc>Iconsole.log(<Esc>A);<Esc>==f)h
     " <<<
 augroup END

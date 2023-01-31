@@ -84,10 +84,10 @@ if executable('ag')
 endif
 
 "   TODO check :h shellpipe
-let &makeprg = 'if [ -f Makefile ]; then make $* 1>/dev/null; elif [ -f "../Makefile" ]; then make -C .. $* 1>/dev/null;
-            \ elif [ -f ../../Makefile ]; then make -C ../.. $* 1>/dev/null;
-            \ elif [ -f ../../../Makefile ]; then make -C ../../.. $* 1>/dev/null;
-            \fi'
+" let &makeprg = 'if [ -f Makefile ]; then make $* 1>/dev/null; elif [ -f "../Makefile" ]; then make -C .. $* 1>/dev/null;
+"             \ elif [ -f ../../Makefile ]; then make -C ../.. $* 1>/dev/null;
+"             \ elif [ -f ../../../Makefile ]; then make -C ../../.. $* 1>/dev/null;
+"             \fi'
 " <<<
 " --------------------------------- MISC >>>
 " fix remote shell arrows keys

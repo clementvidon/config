@@ -70,6 +70,9 @@ syn keyword memoBoldItalic TODO
 syn keyword memoBoldItalic DONE
 syn keyword memoBoldItalic XXX
 
+" TaskParent
+" syn match memoTaskParent "\(^\[.\{-}\]\[1\]\)\@<= [a-zA-Z0-9]*\ze\( : \)" TODO
+
 " <<<
 " --------------------------------- COLORS >>>
 " FG: for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
@@ -96,7 +99,7 @@ if &background == "dark"
     " Url                   : dark pale purple
     hi memoUrl cterm=underline ctermfg=103
     " Link                  : vivid pink, dark purple
-    hi memoLink ctermfg=103
+    hi memoLink ctermfg=104
 
     " Code                  : pale light green
     hi memoCode ctermfg=151
@@ -125,6 +128,8 @@ if &background == "dark"
     hi memoDelimiter ctermfg=238
     " Escape                : dark grey
     hi memoEscape ctermfg=105
+
+    " hi memoTaskParent ctermfg=192 TODO
 
 elseif &background == "light"
     " Headers                   : vivid blue
@@ -172,6 +177,9 @@ elseif &background == "light"
     hi memoDelimiter ctermfg=255
     " Escape                    : dark grey
     hi memoEscape ctermfg=213
+
+    " hi memoTaskParent ctermfg=197 TODO
+
 endif
 " <<<
 let b:current_syntax = "memo"
