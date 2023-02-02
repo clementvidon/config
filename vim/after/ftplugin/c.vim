@@ -10,6 +10,7 @@ augroup filetype_c
     au FileType c,cpp setl softtabstop=2 autoindent cindent
     au FileType c,cpp setl formatprg=clang-format\ --style=file
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
+    au FileType c,cpp let maplocalleader = "gh"
 
     " .......................... PLUGIN
 
@@ -22,51 +23,49 @@ augroup filetype_c
 
     " .......................... PRIMARY (GH?)
 
-    au Filetype c,cpp nn <silent><buffer> gh <nop>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader> <nop>
 
     " ............... RUN
 
     "   Make + run
-    au Filetype c,cpp nn <silent><buffer> ghm :w<CR>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>m :w<CR>
                 \
                 \:!clear; make -j 2>/tmp/_err<CR>
                 \:cfile /tmp/_err<CR>
                 \:5cw<CR>
-                \:!clear; ./$(ls -t \| head -1 \| grep -v /tmp/_err)<CR>
+                \:!clear; make -j run<CR>
 
     "   Make asan + run
-    au Filetype c,cpp nn <silent><buffer> gha :w<CR>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>a :w<CR>
                 \
                 \:!clear; make -j asan && ./$(ls -t \| head -1)<CR>
 
     "   Make + valgrind run
-    au Filetype c,cpp nn <silent><buffer> ghv :w<CR>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>v :w<CR>
                 \
                 \:!clear; make -j && valgrind -q ./$(ls -t \| head -1)<CR>
 
-    " TODO remove exec
-
     "   Compile + run
-    au Filetype c nn <silent><buffer> ghr :w\|lc %:h<CR>
-                \
-                \:exec 'silent !rm -f a.out /tmp/_err'<CR>
-                \:exec 'silent !clang -Werror -Wall -Wextra % 2>/tmp/_err'<CR>
-                \:cfile /tmp/_err<CR>
-                \:5cw<CR>
-                \:exec '!clear; ./a.out'<CR>
-
-    au Filetype cpp nn <silent><buffer> ghr :w\|lc %:h<CR>
+    au Filetype c nn <silent><buffer> <LocalLeader>r :w\|lc %:h<CR>
                 \
                 \:!rm -f a.out /tmp/_err<CR>
-                \:silent !c++ -Werror -Wall -Wextra % 2>/tmp/_err<CR>
+                \:silent !clang -Werror -Wall -Wextra -pedantic -W % 2>/tmp/_err<CR>
                 \:cfile /tmp/_err<CR>
                 \:5cw<CR>
-                \:!clear; ./$(ls -t \| head -1 \| grep -v /tmp/_err)<CR>
+                \:!clear; ./a.out<CR>
+
+    au Filetype cpp nn <silent><buffer> <LocalLeader>r :w\|lc %:h<CR>
+                \
+                \:!rm -f a.out /tmp/_err<CR>
+                \:silent !c++ -Werror -Wall -Wextra -std=c++98 -pedantic -W % 2>/tmp/_err<CR>
+                \:cfile /tmp/_err<CR>
+                \:5cw<CR>
+                \:!clear; ./a.out<CR>
 
     " ............... CLEAN CODE
 
     "   Docstring
-    au Filetype c,cpp nn <silent><buffer> ghd mdj
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>d mdj
                 \
                 \:keeppatterns ?^\a<CR>
                 \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
@@ -77,17 +76,17 @@ augroup filetype_c
                 \jfT
 
     "   Format
-    au Filetype c,cpp nn <silent><buffer> ghf :call FormatCurrentFile()<CR>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>f :call FormatCurrentFile()<CR>
 
     " ............... DEBUG
 
     "   Print wrapped
-    au Filetype c nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
-    au Filetype cpp nn <silent><buffer> ghw 0<<V:norm f;Di<Esc>Istd::cerr << ">" << <Esc>A << std::endl;<Esc>==f"a
+    au Filetype c nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
+    au Filetype cpp nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cerr << ">" << <Esc>A << std::endl;<Esc>==f"a
 
     "   Print location
-    au Filetype c nn <silent><buffer> ghl odprintf (2, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
-    au Filetype cpp nn <silent><buffer> ghl ostd::cerr << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
+    au Filetype c nn <silent><buffer> <LocalLeader>l odprintf (2, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
+    au Filetype cpp nn <silent><buffer> <LocalLeader>l ostd::cerr << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
 
     " ............... NAV
 
@@ -99,7 +98,7 @@ augroup filetype_c
             edit %<.hpp
         endif
     endfunction
-    au Filetype cpp nn <silent><buffer> ghs :call SwitchHppCpp()<CR>
+    au Filetype cpp nn <silent><buffer> <LocalLeader>s :call SwitchHppCpp()<CR>
 
     " .......................... SECONDARY (GZ?)
 
@@ -201,8 +200,8 @@ augroup filetype_c
                 call append(line("$"), "  " . className . "( void );")
                 call append(line("$"), "  " . className . "( " . className . " const& src );")
                 call append(line("$"), "  virtual ~" . className . "( void );")
-                call append(line("$"), "  " . className . "& operator=( " . className . " const& rhs );")
-                call append(line("$"), "  void   print( std::ostream& o ) const;")
+                call append(line("$"), "  " . className . "&    operator=( " . className . " const& rhs );")
+                call append(line("$"), "  virtual void print( std::ostream& o ) const;")
                 call append(line("$"), "")
                 call append(line("$"), " private:")
                 call append(line("$"), "};")
@@ -261,7 +260,7 @@ augroup filetype_c
     au Filetype cpp iabbr <silent><buffer> cccin   std::cin >>;<Left>
     au Filetype cpp iabbr <silent><buffer> cccerr  std::cerr <<;<Left>
     au Filetype cpp iabbr <silent><buffer> cccout  std::cout <<;<Left>
-    au Filetype cpp iabbr <silent><buffer> eeendl  std::cout << std::endl;<Esc>
+    au Filetype cpp iabbr <silent><buffer> eeendl  std::cout << std::endl;<Esc>0fl
 
     au Filetype cpp iabbr <silent><buffer> ccin    std::cin
     au Filetype cpp iabbr <silent><buffer> ccerr   std::cerr

@@ -32,7 +32,7 @@ syn match memoBlockquote "^>\%(\s\|$\)"
 syn match memoUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 
 " Link
-syn match memoLink "\(\s@\|^@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\)"
+syn match memoLink "\(\s@\|^@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
 if has("conceal")
     set conceallevel=2
@@ -61,6 +61,9 @@ syn match memoTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 
 " Task Perso
 syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*"
+
+" Project (achiever)
+syn match memoProject "\(\s>\|^>\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
 " Escape
 syn match memoEscape "\\."
@@ -100,6 +103,8 @@ if &background == "dark"
     hi memoUrl cterm=underline ctermfg=103
     " Link                  : vivid pink, dark purple
     hi memoLink ctermfg=104
+    " Project               :
+    hi memoProject ctermfg=157
 
     " Code                  : pale light green
     hi memoCode ctermfg=151
@@ -151,6 +156,8 @@ elseif &background == "light"
     hi memoUrl cterm=underline ctermfg=147
     " Link                      : vivid pink, light purple
     hi memoLink ctermfg=105
+    " Project                   :
+    hi link memoProject memoBold
 
     " Code                      : pale dark green
     hi memoCode ctermfg=101

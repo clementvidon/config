@@ -127,7 +127,7 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
     if l:checkday == 0
-        call append(line('$') - 2, "[][2] @achiever fix history")
+        call append(line('$') - 2, "[][2] @history fix")
     endif
 
     "   bda
@@ -135,14 +135,17 @@ function! MemoArchiveDay()
     call append(l:tomorrow_loc + 1, '[][0] get up')
     call append(l:tomorrow_loc + 1, '[][0] breakfast + book (deep work)')
     call append(l:tomorrow_loc + 1, '[][0] cc')
-    call append(l:tomorrow_loc + 1, '[][0] home sport 10min + news crypto')
+
+    call append(l:tomorrow_loc + 1, '[][0] sport home (10min) + news crypto')
     call append(l:tomorrow_loc + 1, '[][0] prepare + news crypto')
     call append(l:tomorrow_loc + 1, '[][0] lunch')
-    call append(l:tomorrow_loc + 1, '[][0] tv + X')
+    call append(l:tomorrow_loc + 1, '[][0] tv + misc cleanup')
     call append(l:tomorrow_loc + 1, '[][0] cc')
+
     call append(l:tomorrow_loc + 1, '[][0] dinner')
-    call append(l:tomorrow_loc + 1, '[][0] tv + X')
+    call append(l:tomorrow_loc + 1, '[][0] tv + misc cleanup')
     call append(l:tomorrow_loc + 1, '[][0] bed + podcast')
+    call append(l:tomorrow_loc + 1, '[][0] goto sleep + podcast')
 
     "   paris home
 
@@ -209,7 +212,7 @@ augroup filetype_memo
     " <<<
     " --------------------------------- MAPPINGS >>>
 
-    au FileType memo let maplocalleader = "\\"
+    au FileType memo let maplocalleader = "gh"
 
     "   MemoTimeDiff
     au FileType memo nn <buffer><silent> <Space>T V:MemoTimeDiff<CR>J$daW0f]P<esc>0
@@ -249,7 +252,6 @@ augroup filetype_memo
                 \                                      \|\n
                 \ TASK_TAG_HELP     : Tab   ?          \|\n
                 \ TASK_ADD_TAG      : Tab   …          \|\n
-                \ TASK_FOCUS_TAG    : Tab   \\          \|\n
                 \                                      \|\n
                 \ TASK_CHECK        : Space Space      \|\n
                 \ TASK_RECHECK      : Space r          \|\n
@@ -335,9 +337,6 @@ augroup filetype_memo
     "   TASK_ADD_TAG
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <space>t O[][1]<Esc><<$A<Space>
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <space>de O[][1] deviated to<Esc><<$
-
-    "   TASK_FOCUS_TAG
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Tab>\ 0f[l
 
     "   TASK_CHECK
     au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
@@ -496,6 +495,12 @@ augroup END
 au FileType memo nn <buffer><silent> <LocalLeader>s 02f]lv$hdj02f]lv$hpk$p
 au FileType memo nn <buffer><silent> <LocalLeader>S 02f]lv$hdk02f]lv$hpj$p
 
+"   task switch
+au FileType memo nn <buffer><silent> <LocalLeader>a  mm
+            \0jf]B"yyt]
+            \k0f:2hR<C-R>y<Esc>f:2hR<C-R>y<Esc>
+            \`m
+
 "   task group
-" au FileType memo nn <buffer><silent> <Space>g mm0jyf]kvf]pk
-" au FileType memo nn <buffer><silent> <Space>G mm0kyf]jvf]pk
+" au FileType memo nn <buffer><silent> <Space>g mm0jyf]kvf]pk`m
+" au FileType memo nn <buffer><silent> <Space>G mm0kyf]jvf]pk`m
