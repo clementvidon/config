@@ -76,7 +76,7 @@ augroup filetype_c
                 \jfT
 
     "   Format
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>f :call FormatCurrentFile()<CR>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>f :call FormatCurrentFile()<CR>:w<CR>
 
     " ............... DEBUG
 
@@ -200,7 +200,7 @@ augroup filetype_c
                 call append(line("$"), "  " . className . "( void );")
                 call append(line("$"), "  " . className . "( " . className . " const& src );")
                 call append(line("$"), "  virtual ~" . className . "( void );")
-                call append(line("$"), "  " . className . "&    operator=( " . className . " const& rhs );")
+                call append(line("$"), "  " . className . "&      operator=( " . className . " const& rhs );")
                 call append(line("$"), "  virtual void print( std::ostream& o ) const;")
                 call append(line("$"), "")
                 call append(line("$"), " private:")

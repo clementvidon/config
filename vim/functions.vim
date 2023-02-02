@@ -92,7 +92,8 @@ endfunction
 
 function! FormatCurrentFile()
     let l:view = winsaveview()
-    exec 'undojoin | normal gggqG'
+    exec 'normal gggqG'
+    " exec 'undojoin | normal gggqG'
     call winrestview(l:view)
 endfunction
 
