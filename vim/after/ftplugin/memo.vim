@@ -19,10 +19,17 @@ function! MemoTimeDiff(line1, line2)
     elseif l:time1 < l:time2
         let l:diff = (24 * 3600) - (l:time2 - l:time1)
     endif
-    let l:min=trunc(fmod(l:diff,3600) / 60)
-    let l:hrs=trunc(l:diff / 3600)
-    " Replace the line with the result.
-    call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
+
+    " hh:mm version
+    " let l:min=trunc(fmod(l:diff,3600) / 60)
+    " let l:hrs=trunc(l:diff / 3600)
+    " " Replace the line with the result.
+    " call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
+
+    " mm version
+    let l:min=trunc((fmod(l:diff,3600) / 60) + (l:diff / 3600 * 60))
+    call append(a:line2, printf(" %0.0f", l:min))
+
 endfunction
 
 command! -range MemoTimeDiff :call MemoTimeDiff(<line1>,<line2>)
@@ -73,14 +80,14 @@ function! MemoArchiveDay()
         return 1
     endif
     "   Check stats TODO check if there is no ? instead the len
-    if strlen(getline(searchpos("^\\[-\\]\\[pm\\]")[0])) =~ 'X'
-        echom ">>> Incomplete \"pm\" stats <<<"
-        return 1
-    endif
-    if strlen(getline(searchpos("^\\[-\\]\\[am\\]")[0])) =~ 'X'
-        echom ">>> Incomplete \"am\" stats <<<"
-        return 1
-    endif
+    " if strlen(getline(searchpos("^\\[-\\]\\[pm\\]")[0])) =~ 'X'
+    "     echom ">>> Incomplete \"pm\" stats <<<"
+    "     return 1
+    " endif
+    " if strlen(getline(searchpos("^\\[-\\]\\[am\\]")[0])) =~ 'X'
+    "     echom ">>> Incomplete \"am\" stats <<<"
+    "     return 1
+    " endif
     "   Check day
     let l:checkday = 0
     if strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
@@ -116,13 +123,19 @@ function! MemoArchiveDay()
     delete
     "   Update Today
     call append(line('$'), l:today_sleep)
-    call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm - ")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm + ")
-    call append(l:tomorrow_loc + 1, "[-][>>] am - ")
-    call append(l:tomorrow_loc + 1, "[-][>>] am + ")
-    call append(l:tomorrow_loc + 1, "[-][pm] phX meX moX stX foX yiX")
-    call append(l:tomorrow_loc + 1, "[-][am] phX meX moX stX foX yiX")
+    call append(l:tomorrow_loc + 1, "[-][>>] diary:")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  elastiband               50    X")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  abWheel                  5     X")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  pushup                   12    X")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  abs                      20    X")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  legFlexion (+ gripRing)  10x2  Xx2")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  calfRaises (+ gripRing)  20x2  Xx2")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:")
+    call append(l:tomorrow_loc + 1, "[-][>>] sport:  series                   3     1")
+    call append(l:tomorrow_loc + 1, "[-][>>] bot:")
+    call append(l:tomorrow_loc + 1, "[-][>>] top:")
+    call append(l:tomorrow_loc + 1, "[-][>>] pm: phX miX moX stX foX yiX")
+    call append(l:tomorrow_loc + 1, "[-][>>] am: phX miX moX stX foX yiX")
     call append(l:tomorrow_loc + 1, "")
     call append(l:tomorrow_loc + 1, "##  Today")
     call append(l:tomorrow_loc + 1, "")
@@ -132,20 +145,22 @@ function! MemoArchiveDay()
 
     "   bda
 
-    call append(l:tomorrow_loc + 1, '[][0] get up')
-    call append(l:tomorrow_loc + 1, '[][0] breakfast + book (deep work)')
-    call append(l:tomorrow_loc + 1, '[][0] cc')
-
-    call append(l:tomorrow_loc + 1, '[][0] sport home (10min) + news crypto')
-    call append(l:tomorrow_loc + 1, '[][0] prepare + news crypto')
-    call append(l:tomorrow_loc + 1, '[][0] lunch')
-    call append(l:tomorrow_loc + 1, '[][0] tv + misc cleanup')
-    call append(l:tomorrow_loc + 1, '[][0] cc')
-
-    call append(l:tomorrow_loc + 1, '[][0] dinner')
-    call append(l:tomorrow_loc + 1, '[][0] tv + misc cleanup')
-    call append(l:tomorrow_loc + 1, '[][0] bed + podcast')
-    call append(l:tomorrow_loc + 1, '[][0] goto sleep + podcast')
+    call append(l:tomorrow_loc + 1, '[(06:25)][0] get up')
+    call append(l:tomorrow_loc + 1, '[(06:30)][0] breakfast + book (plongée au cœur des patrons de conception)')
+    call append(l:tomorrow_loc + 1, '[(07:00)][0] cc')
+    call append(l:tomorrow_loc + 1, '[(07:05)][0] @todo update')
+    call append(l:tomorrow_loc + 1, '[(09:00)][1] break (harvests, stats)')
+    call append(l:tomorrow_loc + 1, '[(11:20)][0] sport home (20min) + news crypto')
+    call append(l:tomorrow_loc + 1, '[(11:50)][0] prepare + news crypto')
+    call append(l:tomorrow_loc + 1, '[(12:00)][0] lunch')
+    call append(l:tomorrow_loc + 1, '[(12:40)][0] tv + misc clear (inboxes, todo)')
+    call append(l:tomorrow_loc + 1, '[(13:40)][0] cc')
+    call append(l:tomorrow_loc + 1, '[(16:00)][1] break (harvests, stats')
+    call append(l:tomorrow_loc + 1, '[(19:00)][0] dinner')
+    call append(l:tomorrow_loc + 1, '[(19:30)][0] tv + misc clear (inboxes, todo)')
+    call append(l:tomorrow_loc + 1, '[(20:40)][0] cc')
+    call append(l:tomorrow_loc + 1, '[(20:45)][0] bed + book (deep work)')
+    call append(l:tomorrow_loc + 1, '[(21:30)][0] bed + podcast')
 
     "   paris home
 
@@ -197,6 +212,11 @@ augroup filetype_memo
                 \ | setl path+=$MEMO/Resources/**
                 \ | setl expandtab
                 \ | syntax sync fromstart
+
+    au FileType memo
+                \   setl formatoptions+=ro
+                \ | setl comments+=s:[-][>>],m:[-][>>],e:[-][>>]
+
     au BufRead,BufNewFile $MEMO/Lists/history.gpg.md setl textwidth=0 " TODO doesnt work
 
     " GPG
@@ -213,6 +233,7 @@ augroup filetype_memo
     " --------------------------------- MAPPINGS >>>
 
     au FileType memo let maplocalleader = "gh"
+    au FileType memo nn <buffer><silent> <LocalLeader> <nop>
 
     "   MemoTimeDiff
     au FileType memo nn <buffer><silent> <Space>T V:MemoTimeDiff<CR>J$daW0f]P<esc>0
@@ -495,11 +516,20 @@ augroup END
 au FileType memo nn <buffer><silent> <LocalLeader>s 02f]lv$hdj02f]lv$hpk$p
 au FileType memo nn <buffer><silent> <LocalLeader>S 02f]lv$hdk02f]lv$hpj$p
 
-"   task switch
-au FileType memo nn <buffer><silent> <LocalLeader>a  mm
-            \0jf]B"yyt]
-            \k0f:2hR<C-R>y<Esc>f:2hR<C-R>y<Esc>
-            \`m
+"   task merge (or unite, union, join, aggregate, unify..)
+au FileType memo nn <buffer><silent> <LocalLeader>m  mm
+            \0di[jf]B"yyt]
+            \k0a<C-e><C-e><C-e><C-e><C-e><C-e><Space>
+            \<C-r>y<Space><C-r>y<Esc>
+            \`mk
+
+"   weekly review
+au FileType memo vn <buffer><silent> <LocalLeader>wr go
+            \VG:norm d3f<Space><CR>
+            \gv:norm f]D<CR>
+            \gvk:norm A+<CR>
+            \gvjgJ
+
 
 "   task group
 " au FileType memo nn <buffer><silent> <Space>g mm0jyf]kvf]pk`m

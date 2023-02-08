@@ -41,8 +41,6 @@ nn sb :ls<CR>:b<Space>
 "   MRU
 nn so :bro old<CR>
 "   MISC
-nn sd :bn\|bd#<CR>
-nn gsd :bn!\|bd! #<CR>
 "                       GREP
 nn sg :grep -r<Space>
 "                       TAG
@@ -98,7 +96,7 @@ nn <silent> glsp :set spell!<CR>
 nn <silent> glve :if &virtualedit == "" <BAR> set virtualedit=all <BAR>
             \ else <BAR> set virtualedit= <BAR>
             \ endif <BAR> set virtualedit?<CR>
-"   WRAPSCAN
+"   WRAPSCAN TODO ???
 nn glws :set wrapscan!<CR>
 "                       TRICKS
 "   FUNC CALL
@@ -184,9 +182,32 @@ nn [q :cprev<CR>
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE
+" no mW :noautocmd write<CR>
+no mw :write<CR>
+no mgw :write!<CR>
+no mW :wall<CR>
+no mgW :wall!<CR>
+no mq :quit<CR>
+no mgq :quit!<CR>
+no mQ :wall<CR>:qall<CR>
+no mgQ :wall!<CR>:qall!<CR>
+nn md :bn\|bd#<CR>
+nn mgd :bn!\|bd! #<CR>
+
+"   QUICK CMDLINE
 no ; :
 no : ;
+
 "   EYES LEVEL CURSOR AND VIEW
+no z, z.15<C-e>
+
+"   PASTE WITHOUT MOVING CURSOR POSITION
+
+no gP P`[
+vn gP P`[
+vn gp p`[
+no gp p`[
+
 no z, z.15<C-e>
 
 " TODO

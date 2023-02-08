@@ -8,6 +8,8 @@ augroup filetype_c
     au FileType qf setl wrap
     au FileType c,cpp setl expandtab tabstop=2 shiftwidth=2 textwidth=80
     au FileType c,cpp setl softtabstop=2 autoindent cindent
+    au FileType c,cpp setl ls=2
+    au FileType c,cpp let &makeprg = "make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
     au FileType c,cpp setl formatprg=clang-format\ --style=file
     au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
     au FileType c,cpp let maplocalleader = "gh"
@@ -25,28 +27,38 @@ augroup filetype_c
 
     au Filetype c,cpp nn <silent><buffer> <LocalLeader> <nop>
 
-    " ............... RUN
+    " ............... MAKE
 
-    "   Make + run
+    "   clean
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>c :w<CR>
+                \:make! clean<CR>
+                \:cw<CR>
+
+    "   make
     au Filetype c,cpp nn <silent><buffer> <LocalLeader>m :w<CR>
-                \
-                \:!clear; make -j 2>/tmp/_err<CR>
-                \:cfile /tmp/_err<CR>
-                \:5cw<CR>
-                \:!clear; make -j run<CR>
+                \:make!<CR>
+                \:cw<CR>
 
-    "   Make asan + run
+    "   asan
     au Filetype c,cpp nn <silent><buffer> <LocalLeader>a :w<CR>
-                \
-                \:!clear; make -j asan && ./$(ls -t \| head -1)<CR>
+                \:make! asan<CR>
+                \:cw<CR>
 
-    "   Make + valgrind run
+    "   run
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>r :w<CR>
+                \:make! run<CR>
+
+    "   run-valgrind
     au Filetype c,cpp nn <silent><buffer> <LocalLeader>v :w<CR>
-                \
-                \:!clear; make -j && valgrind -q ./$(ls -t \| head -1)<CR>
+                \:make! run-valgrind<CR>
+
+    " \:make! re<CR>
+    " \:!valgrind -q ./$(ls -t \| head -1)<CR>
+
+    " ............... COMPILE
 
     "   Compile + run
-    au Filetype c nn <silent><buffer> <LocalLeader>r :w\|lc %:h<CR>
+    au Filetype c nn <silent><buffer> <LocalLeader>x :w\|lc %:h<CR>
                 \
                 \:!rm -f a.out /tmp/_err<CR>
                 \:silent !clang -Werror -Wall -Wextra -pedantic -W % 2>/tmp/_err<CR>
@@ -54,7 +66,7 @@ augroup filetype_c
                 \:5cw<CR>
                 \:!clear; ./a.out<CR>
 
-    au Filetype cpp nn <silent><buffer> <LocalLeader>r :w\|lc %:h<CR>
+    au Filetype cpp nn <silent><buffer> <LocalLeader>x :w\|lc %:h<CR>
                 \
                 \:!rm -f a.out /tmp/_err<CR>
                 \:silent !c++ -Werror -Wall -Wextra -std=c++98 -pedantic -W % 2>/tmp/_err<CR>
@@ -92,10 +104,13 @@ augroup filetype_c
 
     "   Switch from %.hpp to %.cpp and vis versa
     function SwitchHppCpp()
-        if match(expand('%:e'), 'cpp')
-            edit %<.cpp
-        elseif match(expand('%:e'), 'hpp')
-            edit %<.hpp
+        if  (expand('%:t:r') =~# "[A-Z]")
+            if match(expand('%:e'), 'cpp')
+                exec 'find ' . expand("%:t:r") . '.cpp'
+            elseif match(expand('%:e'), 'hpp')
+                exec 'find ' . expand("%:t:r") . '.hpp'
+                " edit %<.hpp
+            endif
         endif
     endfunction
     au Filetype cpp nn <silent><buffer> <LocalLeader>s :call SwitchHppCpp()<CR>
@@ -163,7 +178,7 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "void " . className . "::print( std::ostream& o ) const {")
-                call append(line("$"), "  o << \"class: " . className . "\";")
+                call append(line("$"), "  o << \"" . className . "\";")
                 call append(line("$"), "  return;")
                 call append(line("$"), "}")
                 call append(line("$"), "")
@@ -200,7 +215,7 @@ augroup filetype_c
                 call append(line("$"), "  " . className . "( void );")
                 call append(line("$"), "  " . className . "( " . className . " const& src );")
                 call append(line("$"), "  virtual ~" . className . "( void );")
-                call append(line("$"), "  " . className . "&      operator=( " . className . " const& rhs );")
+                call append(line("$"), "  " . className . "&  operator=( " . className . " const& rhs );")
                 call append(line("$"), "  virtual void print( std::ostream& o ) const;")
                 call append(line("$"), "")
                 call append(line("$"), " private:")
@@ -228,8 +243,8 @@ augroup filetype_c
     " .......................... TEXT OBJECTS
 
     "   Functions
-    au Filetype c,cpp xn <silent><buffer> if /^}$<CR>on%j0ok
-    au Filetype c,cpp xn <silent><buffer> af /^}$<CR>on%?^$<CR>
+    au Filetype c,cpp xn <silent><buffer> if /^}$<CR>on%j0ok$
+    au Filetype c,cpp xn <silent><buffer> af /^}$<CR>on%?^$<CR>j
     au Filetype c,cpp ono <silent><buffer> if :normal Vif<CR>
     au Filetype c,cpp ono <silent><buffer> af :normal Vaf<CR>
 

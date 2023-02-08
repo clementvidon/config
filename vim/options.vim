@@ -10,11 +10,11 @@ augroup custom_hi
 augroup END
 
 if system("uname -s") == "Darwin\n"
-    color nord | set bg=dark
+    color seoul256-light | set bg=light
     " color seoul256 | set bg=light
 elseif system("uname -s") == "Linux\n"
     " color seoul256 | set bg=light
-    color nord | set bg=dark
+    color seoul256-light | set bg=light
 endif
 
 " <<<
@@ -83,13 +83,14 @@ if executable('ag')
     set grepprg=ag\ --vimgrep\ $*   " faster grep
 endif
 
-"   TODO check :h shellpipe
-" let &makeprg = 'if [ -f Makefile ]; then make $* 1>/dev/null; elif [ -f "../Makefile" ]; then make -C .. $* 1>/dev/null;
-"             \ elif [ -f ../../Makefile ]; then make -C ../.. $* 1>/dev/null;
-"             \ elif [ -f ../../../Makefile ]; then make -C ../../.. $* 1>/dev/null;
-"             \fi'
 " <<<
 " --------------------------------- MISC >>>
+
+augroup changeQfCmdDirectory
+    au!
+    au QuickFixCmdPre make exec "lc " . fnamemodify(findfile('Makefile', '.;'), ":h")
+augroup END
+
 " fix remote shell arrows keys
 "set t_ku=OA
 "set t_kd=OB

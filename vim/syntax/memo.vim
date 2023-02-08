@@ -70,7 +70,6 @@ syn match memoEscape "\\."
 
 " Keywords
 syn keyword memoBoldItalic TODO
-syn keyword memoBoldItalic DONE
 syn keyword memoBoldItalic XXX
 
 " TaskParent
