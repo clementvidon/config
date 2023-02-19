@@ -214,6 +214,10 @@ no z, z.15<C-e>
 " :exec 'normal z.'. string(&lines / 5) .'<C-y>'
 
 "                       SPACE
+"   SPELL
+nn <Space>s 1z=
+nn <Space>S 2z=
+
 "   INDENT
 nn <Space>= Mmmgo=G`mzz3<C-O>
 
