@@ -90,7 +90,7 @@ Plug 'evanleck/vim-svelte', {'branch': 'main'}
 "   SWEET
 "lug 'ap/vim-css-color'                 "   COLOR PREVIEW
 Plug 'junegunn/goyo.vim'                "   DISTRACTION FREE
-"lug 'junegunn/limelight.vim'           "   HYPERFOCUS
+Plug 'junegunn/limelight.vim'           "   HYPERFOCUS
 Plug 'arcticicestudio/nord-vim'         "   COLORSCHEME
 Plug 'junegunn/seoul256.vim'            "   COLORSCHEME
 "lug 'dracula/vim'                      "   COLORSCHEME

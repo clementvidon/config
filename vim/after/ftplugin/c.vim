@@ -11,7 +11,7 @@ augroup filetype_c
     au FileType c,cpp setl ls=2
     au FileType c,cpp let &makeprg = "make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
     au FileType c,cpp setl formatprg=clang-format\ --style=file
-    au FileType c,cpp,make setl path+=$PWD/include/,$PWD/src/**
+    au FileType c,cpp,make setl path+=$PWD/inc/,$PWD/incs/,$PWD/include/,$PWD/includes/,$PWD/src/**,$PWD/srcs/**,$PWD/source/**,$PWD/sources/**
     au FileType c,cpp let maplocalleader = "gh"
 
     " .......................... PLUGIN
@@ -22,6 +22,11 @@ augroup filetype_c
     " <<<
 
     " --------------------------------- MAPPINGS >>>
+    "
+
+    au Filetype c,cpp nn <silent><buffer> <Space>= <nop>
+    au Filetype c,cpp nn <silent><buffer> sh :fin *hpp
+    au Filetype c,cpp nn <silent><buffer> sc :fin *cpp
 
     " .......................... PRIMARY (GH?)
 
@@ -92,13 +97,17 @@ augroup filetype_c
 
     " ............... DEBUG
 
+    "   Print
+    au Filetype c nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==f"a
+    au Filetype cpp nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==f"a
+
     "   Print wrapped
-    au Filetype c nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(2, "> %\n", <Esc>A);<Esc>==f%a
-    au Filetype cpp nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cerr << ">" << <Esc>A << std::endl;<Esc>==f"a
+    au Filetype c nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(1, "> %\n", <Esc>A);<Esc>==f%a
+    au Filetype cpp nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cout << "" << <Esc>A << std::endl;<Esc>==f"a
 
     "   Print location
-    au Filetype c nn <silent><buffer> <LocalLeader>l odprintf (2, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
-    au Filetype cpp nn <silent><buffer> <LocalLeader>l ostd::cerr << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
+    au Filetype c nn <silent><buffer> <LocalLeader>l odprintf (1, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
+    au Filetype cpp nn <silent><buffer> <LocalLeader>l ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
 
     " ............... NAV
 
@@ -117,6 +126,13 @@ augroup filetype_c
 
     " .......................... SECONDARY (GZ?)
 
+    "   Class nav
+    au Filetype c,cpp nn <silent><buffer> gzc  mm:r !ls -1 inc*<CR>V`[J
+                \
+                \V:s/\.hpp /\\\\|/g<CR>f.D0
+                \i\(\/\/.*\\|^ \* .*\)\@<!\(<Esc>A\)<Esc>
+                \dd/<C-r>"<BS><CR>`m
+
     "   Functions nav
     au Filetype c,cpp nn <silent><buffer> gzf /^\a<CR>
 
@@ -130,7 +146,6 @@ augroup filetype_c
                 "   Class.cpp
                 let className = expand("%:t:r")
                 call append(line("$"), "#include <iostream>")
-                call append(line("$"), "#include <sstream>")
                 call append(line("$"), "#include <string>")
                 call append(line("$"), "#include \"" . className . ".hpp\"")
                 call append(line("$"), "")
@@ -142,6 +157,10 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "::" . className . "( void ) {")
+                call append(line("$"), "std::cout << __FILE__;")
+                call append(line("$"), "std::cout << \" CONSTRUCTED \";")
+                call append(line("$"), "std::cout << *this;")
+                call append(line("$"), "std::cout << std::endl;")
                 call append(line("$"), "  return;")
                 call append(line("$"), "}")
                 call append(line("$"), "")
@@ -150,7 +169,13 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "::" . className . "( " . className . " const& src ) {")
-                call append(line("$"), "  *this = src;")
+                call append(line("$"), "*this = src;")
+                call append(line("$"), "std::cout << __FILE__;")
+                call append(line("$"), "std::cout << \ COPY CONSTRUCTED \";")
+                call append(line("$"), "std::cout << *this;")
+                call append(line("$"), "std::cout << \" FROM \";")
+                call append(line("$"), "std::cout << src;")
+                call append(line("$"), "std::cout << std::endl;")
                 call append(line("$"), "  return;")
                 call append(line("$"), "}")
                 call append(line("$"), "")
@@ -159,6 +184,10 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "::~" . className . "( void ) {")
+                call append(line("$"), "std::cout << __FILE__;")
+                call append(line("$"), "std::cout << \" DESTROYED \";")
+                call append(line("$"), "std::cout << *this;")
+                call append(line("$"), "std::cout << std::endl;")
                 call append(line("$"), "  return;")
                 call append(line("$"), "}")
                 call append(line("$"), "")
@@ -167,6 +196,9 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "& " . className . "::operator=( " . className . " const& rhs ) {")
+                call append(line("$"), "std::cout << rhs;")
+                call append(line("$"), "std::cout << \" ASSIGNED TO \" << *this;")
+                call append(line("$"), "std::cout << std::endl;")
                 call append(line("$"), "  if( this == &rhs ) {")
                 call append(line("$"), "    return *this;")
                 call append(line("$"), "  }")
@@ -178,7 +210,7 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "void " . className . "::print( std::ostream& o ) const {")
-                call append(line("$"), "  o << \"" . className . "\";")
+                call append(line("$"), "  o << \"TODO\";")
                 call append(line("$"), "  return;")
                 call append(line("$"), "}")
                 call append(line("$"), "")
@@ -203,7 +235,7 @@ augroup filetype_c
                 call append(line("$"), "#ifndef " . includeGuard)
                 call append(line("$"), "#define " . includeGuard)
                 call append(line("$"), "")
-                call append(line("$"), "#include <iostream>")
+                call append(line("$"), "#include <iosfwd>")
                 call append(line("$"), "#include <string>")
                 call append(line("$"), "")
                 call append(line("$"), "/**")
@@ -215,7 +247,7 @@ augroup filetype_c
                 call append(line("$"), "  " . className . "( void );")
                 call append(line("$"), "  " . className . "( " . className . " const& src );")
                 call append(line("$"), "  virtual ~" . className . "( void );")
-                call append(line("$"), "  " . className . "&  operator=( " . className . " const& rhs );")
+                call append(line("$"), "  " . className . "& operator=( " . className . " const& rhs );")
                 call append(line("$"), "  virtual void print( std::ostream& o ) const;")
                 call append(line("$"), "")
                 call append(line("$"), " private:")
@@ -272,18 +304,13 @@ augroup filetype_c
     au Filetype cpp iabbr <silent><buffer> sstr std::string<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> sstrc std::string const<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> cccin   std::cin >>;<Left>
-    au Filetype cpp iabbr <silent><buffer> cccerr  std::cerr <<;<Left>
-    au Filetype cpp iabbr <silent><buffer> cccout  std::cout <<;<Left>
-    au Filetype cpp iabbr <silent><buffer> eeendl  std::cout << std::endl;<Esc>0fl
+    au Filetype cpp iabbr <silent><buffer> ccin std::cin >>;<Left>
+    au Filetype cpp iabbr <silent><buffer> ccer std::cerr <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> ccou std::cout <<;<Left>
+    au Filetype cpp iabbr <silent><buffer> ccen std::cout << std::endl;<Esc>^
 
-    au Filetype cpp iabbr <silent><buffer> ccin    std::cin
-    au Filetype cpp iabbr <silent><buffer> ccerr   std::cerr
-    au Filetype cpp iabbr <silent><buffer> ccout   std::cout
-    au Filetype cpp iabbr <silent><buffer> eendl   std::endl<C-R>=Eatchar('\s')<CR>
-
-    au Filetype cpp iabbr <silent><buffer> pcerr std::cerr << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> pcout std::cout << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> pcer std::cerr << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> pcou std::cout << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
 
     " <<<
 
@@ -293,7 +320,8 @@ augroup filetype_c
 
     if &background == "dark"
         au FileType c,cpp hi Search ctermbg=NONE ctermfg=105
-        au FileType c,cpp hi mycDebug ctermfg=158
+        au FileType c hi mycDebug ctermfg=158
+        " au FileType cpp hi cCustomClass ctermfg=158
         au FileType c,cpp hi cString ctermfg=102
         au FileType c,cpp hi cTodo ctermfg=84
         au FileType c,cpp hi cComment ctermfg=103
@@ -301,7 +329,8 @@ augroup filetype_c
         au FileType c,cpp hi link cCommentStart cComment
     elseif &background == "light"
         au FileType c,cpp hi Search ctermbg=229 ctermfg=NONE
-        au FileType c,cpp hi mycDebug ctermfg=31
+        au FileType c hi mycDebug ctermfg=31
+        " au FileType cpp hi cCustomClass ctermfg=31
         au FileType c,cpp hi cString ctermfg=245
         au FileType c,cpp hi cTodo ctermfg=205
         au FileType c,cpp hi cComment ctermfg=103
@@ -311,8 +340,7 @@ augroup filetype_c
 
     " .......................... PATTERN
 
-    " au FileType c,cpp syn match mycConstant "\v\w@<!(\u|_+[A-Z0-9])[A-Z0-9_]*\w@!"
-    " au FileType c,cpp hi link mycConstant cConstant
+    " au FileType cpp syn match cCustomClass "\v\w@<!(\u+[a-zA-Z0-9])[a-z0-9]*\w@!" contains=cIncluded,cInclude
     au FileType c,cpp syn match mycDebug "printf\|dprintf" contains=cString,cComment,cCommentL
     au FileType c,cpp syn keyword cTodo DONE
     au FileType c,cpp syn keyword cTodo WHY
@@ -320,15 +348,14 @@ augroup filetype_c
 
     " .......................... OFF
 
-    " au FileType c,cpp hi link cConditional cleared
-    " au FileType c,cpp hi link cRepeat cleared
+    au FileType c,cpp hi link cConditional cleared
+    au FileType c,cpp hi link cRepeat cleared
     " au FileType c,cpp hi link cStatement cleared
     au FileType c,cpp hi link cCharacter cleared
     au FileType c,cpp hi link cConstant cleared
     au FileType c,cpp hi link cDefine cleared
     au FileType c,cpp hi link cInclude cleared
-    au FileType c,cpp hi link cIncluded cleared
-    au FileType c,cpp hi link cIncluded cleared
+    au FileType c,cpp hi! link cIncluded cleared
     au FileType c,cpp hi link cNumber cleared
     au FileType c,cpp hi link cOperator cleared
     au FileType c,cpp hi link cPreCondit cleared
@@ -342,7 +369,8 @@ augroup filetype_c
     au FileType c,cpp hi link cppStatement cleared
     au FileType c,cpp hi link cppStructure cleared
     au FileType c,cpp hi link cppType cleared
+    au FileType c,cpp hi link cppOperator cleared
+    au FileType c,cpp hi link cppModifier cleared
 
     " <<<
-
 augroup END

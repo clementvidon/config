@@ -3,18 +3,18 @@ filetype plugin indent on           "   filetype, plugin, indent auto-detect
 set fillchars+=vert:\  "            "   custom vert window separator
 augroup custom_hi
     autocmd!
-    au ColorScheme * hi LineNr ctermbg=NONE
     au ColorScheme * sy enable maxlines=200 "   'syn on' overrule custom settings
+    au ColorScheme * hi LineNr ctermbg=NONE
     au ColorScheme * hi CursorLine gui=underline cterm=underline ctermbg=NONE
     au ColorScheme * hi Comment term=bold ctermfg=103 " 103 104
 augroup END
 
 if system("uname -s") == "Darwin\n"
-    color seoul256-light | set bg=light
-    " color seoul256 | set bg=light
+    set bg=dark | color nord
+    " set bg=light | color seoul256
 elseif system("uname -s") == "Linux\n"
-    " color seoul256 | set bg=light
-    color seoul256-light | set bg=light
+    set bg=dark | color nord
+    " set bg=light | color seoul256
 endif
 
 " <<<

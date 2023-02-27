@@ -125,8 +125,6 @@ elseif system("uname -s") == "Linux\n"
     nn <Space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
 endif
 "                       TERMINAL
-"   REMOVE CURRENT FILE
-nn glrm :cd %:h<CR>:!rm -f %<CR>:q<CR>
 "   TAGS
 nn glta :S ctags -R<CR>
 "   BC
@@ -193,6 +191,7 @@ no mQ :wall<CR>:qall<CR>
 no mgQ :wall!<CR>:qall!<CR>
 nn md :bn\|bd#<CR>
 nn mgd :bn!\|bd! #<CR>
+no ms :silent write\|source $MYVIMRC\|e<CR>zR
 
 "   QUICK CMDLINE
 no ; :
