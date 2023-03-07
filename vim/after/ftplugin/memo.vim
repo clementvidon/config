@@ -123,25 +123,53 @@ function! MemoArchiveDay()
     delete
     "   Update Today
     call append(line('$'), l:today_sleep)
-
     call append(l:tomorrow_loc + 1, "[-][>>] diary:")
     call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   pullup                   5       xX")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   elastiband               40      x2")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   abWheel                  5       x2")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   pushup                   12      x2")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   abs                      20      x2")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   legflexion (+ gripring)  10x2    x2")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   calfRaises (+ gripRing)  20x2    x2")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout: series")
+
+    " bda
+
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, genmaicha tea")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, bread, coffee, chocolate")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, bread")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack:")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other:")
+    " call append(l:tomorrow_loc + 1, "[-][>>]")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   pullup                   5       xX")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   elastiband               40      x2")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   abWheel                  5       x2")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   pushup                   12      x2")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   abs                      20      x2")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   legflexion (+ gripring)  10x2    x2")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   calfRaises (+ gripRing)  20x2    x2")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout: series")
+
+    " home
+
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, genmaicha tea")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, genmaicha tea")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, anis infusion")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack:")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
     call append(l:tomorrow_loc + 1, "[-][>>]")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   elastiband               50      x2")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   BicycleCrunch            4x10    x2")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   pushup                   20      x2")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   abs                      30      x2")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   legflexion (+ gripring)  15x2    x2")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   calfRaises (+ warmUp)    30x2    x2")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout: series")
+
+
+    call append(l:tomorrow_loc + 1, "[-][>>]")
+    call append(l:tomorrow_loc + 1, "[-][>>] pm_keywords:")
     call append(l:tomorrow_loc + 1, "[-][>>] pm_breaches:")
     call append(l:tomorrow_loc + 1, "[-][>>] pm_feedback: fo X yi X co X")
     call append(l:tomorrow_loc + 1, "[-][>>] pm_end: ph X me X mo X st X")
     call append(l:tomorrow_loc + 1, "[-][>>] pm_beg: ph X me X mo X st X")
     call append(l:tomorrow_loc + 1, "[-][>>]")
+    call append(l:tomorrow_loc + 1, "[-][>>] am_keywords:")
     call append(l:tomorrow_loc + 1, "[-][>>] am_breaches:")
     call append(l:tomorrow_loc + 1, "[-][>>] am_feedback: fo X yi X co X")
     call append(l:tomorrow_loc + 1, "[-][>>] am_end: ph X me X mo X st X")
@@ -155,45 +183,54 @@ function! MemoArchiveDay()
 
     "   bda
 
-    call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up")
-    call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast + update (todo notes)")
-    call append(l:tomorrow_loc + 1, "[(06:45)][0] relax (cc)")
-    call append(l:tomorrow_loc + 1, "")
-    call append(l:tomorrow_loc + 1, "[(09:15)][0] relax (farm)")
-    call append(l:tomorrow_loc + 1, "")
-    call append(l:tomorrow_loc + 1, "[(11:30)][0] workout (home 20min) + listen (civilisation mésopotamienne podcast)")
-    call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare (self) + listen (civilisation mésopotamienne podcast)")
-    call append(l:tomorrow_loc + 1, "[(12:00)][0] lunch (with poumou)")
-    call append(l:tomorrow_loc + 1, "[(12:40)][0] relax (tv, socialnet) + update (todo notes)")
-    call append(l:tomorrow_loc + 1, "[(13:00)][0] relax (tv, socialnet) + @achiever update (tasks)")
-    call append(l:tomorrow_loc + 1, "[(13:40)][0] relax (cc)")
-    call append(l:tomorrow_loc + 1, "")
-    call append(l:tomorrow_loc + 1, "[(16:00)][0] relax (snack)")
-    call append(l:tomorrow_loc + 1, "")
-    call append(l:tomorrow_loc + 1, "[(19:00)][0] dine (with poumou)")
-    call append(l:tomorrow_loc + 1, "[(19:40)][0] relax (tv, socialnet) + update (todo notes)")
-    call append(l:tomorrow_loc + 1, "[(20:00)][0] relax (tv, socialnet)")
-    call append(l:tomorrow_loc + 1, "[(20:40)][0] relax (cc)")
-    call append(l:tomorrow_loc + 1, "[(20:50)][0] fall asleep (plane mode) + podcast (civilisation mésopotamienne)")
+    " call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up + practice thought observation meditation {}")
+    " call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast + @noesis update todo notes")
+    " call append(l:tomorrow_loc + 1, "[(06:55)][0] practice focus meditation {}")
+    " call append(l:tomorrow_loc + 1, "")
+    " call append(l:tomorrow_loc + 1, "[(09:15)][0] pause (water, stretch) {}")
+    " call append(l:tomorrow_loc + 1, "")
+    " call append(l:tomorrow_loc + 1, "[(11:30)][0] practice home workout 20min + listen civilisation mésopotamienne podcast")
+    " call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + cogitate")
+    " call append(l:tomorrow_loc + 1, "[(12:00)][0] lunch with poumou")
+    " call append(l:tomorrow_loc + 1, "[(12:40)][0] watch tv + interact with socialmedia + @noesis import phone notes")
+    " call append(l:tomorrow_loc + 1, "[(12:40)][0] watch tv + interact with socialmedia + @noesis clear X notes")
+    " call append(l:tomorrow_loc + 1, "[(12:40)][0] watch tv + interact with socialmedia + @noesis update todo tasks design")
+    " call append(l:tomorrow_loc + 1, "[(13:40)][0] practice empty mind meditation {}")
+    " call append(l:tomorrow_loc + 1, "")
+    " call append(l:tomorrow_loc + 1, "[(16:00)][0] pause (water, stretch) {}")
+    " call append(l:tomorrow_loc + 1, "")
+    " call append(l:tomorrow_loc + 1, "[(19:00)][0] dine with poumou")
+    " call append(l:tomorrow_loc + 1, "[(19:40)][0] watch tv + interact with socialmedia + @noesis clear X notes")
+    " call append(l:tomorrow_loc + 1, "[(20:00)][0] watch tv + interact with socialmedia + @noesis update todo tasks design")
+    " call append(l:tomorrow_loc + 1, "[(20:40)][0] practice mindfulness meditation {}")
+    " call append(l:tomorrow_loc + 1, "[(20:50)][0] fall asleep (plane mode) + listen civilisation mésopotamienne podcast")
 
     "   paris home
 
-    " call append(l:tomorrow_loc + 1, '[(06:25)][0] get up')
-    " call append(l:tomorrow_loc + 1, '[(06:30)][0] breakfast + book (deep work)')
-    " call append(l:tomorrow_loc + 1, '[(07:10)][0] sport run (30min) + news tech')
-    " call append(l:tomorrow_loc + 1, '[(07:45)][0] prepare + news radio')
-    " call append(l:tomorrow_loc + 1, '[(08:00)][0] cc')
-    " call append(l:tomorrow_loc + 1, '[(08:05)][0] @todo update')
-    " call append(l:tomorrow_loc + 1, '[(10:00)][1] break (harvests, stats)')
-    " call append(l:tomorrow_loc + 1, '[(12:00)][0] lunch + book (deep work)')
-    " call append(l:tomorrow_loc + 1, '[(13:00)][0] misc clear (inboxes, todo)')
-    " call append(l:tomorrow_loc + 1, '[(13:40)][0] cc')
-    " call append(l:tomorrow_loc + 1, '[(16:00)][1] break (harvests, stats)')
-    " call append(l:tomorrow_loc + 1, '[(19:00)][0] cc')
-    " call append(l:tomorrow_loc + 1, '[(19:05)][0] dine + @ic study (youtube)')
-    " call append(l:tomorrow_loc + 1, '[(20:00)][0] @todo update')
-    " call append(l:tomorrow_loc + 1, '[(20:30)][0] bed + book (deep work)')
-    " call append(l:tomorrow_loc + 1, '[(21:30)][0] bed + podcast')
+    call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up + practice thought observation meditation {}")
+    call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast + @noesis update todo notes")
+    call append(l:tomorrow_loc + 1, "[(06:55)][0] practice focus meditation {}")
+    call append(l:tomorrow_loc + 1, "")
+    call append(l:tomorrow_loc + 1, "[(09:15)][0] pause (water, stretch) {}")
+    call append(l:tomorrow_loc + 1, "")
+    call append(l:tomorrow_loc + 1, "[(11:30)][0] practice home workout 10min + listen civilisation mésopotamienne podcast")
+    call append(l:tomorrow_loc + 1, "[(11:40)][0] prepare + cogitate")
+    call append(l:tomorrow_loc + 1, "[(11:50)][0] cook + X")
+    call append(l:tomorrow_loc + 1, "[(12:20)][0] lunch + cogitate {}")
+    call append(l:tomorrow_loc + 1, "[(12:40)][0] interact with socialmedia + @noesis import phone notes")
+    call append(l:tomorrow_loc + 1, "[(12:40)][0] interact with socialmedia + @noesis clear X notes")
+    call append(l:tomorrow_loc + 1, "[(12:40)][0] interact with socialmedia + @noesis update todo tasks design")
+    call append(l:tomorrow_loc + 1, "[(13:40)][0] practice empty mind meditation {}")
+    call append(l:tomorrow_loc + 1, "")
+    call append(l:tomorrow_loc + 1, "[(16:00)][0] pause (water, stretch) {}")
+    call append(l:tomorrow_loc + 1, "")
+    call append(l:tomorrow_loc + 1, "[(18:50)][0] cook + X")
+    call append(l:tomorrow_loc + 1, "[(19:20)][0] dine + cogitate {}")
+    call append(l:tomorrow_loc + 1, "[(19:40)][0] interact with socialmedia + @noesis import phone notes")
+    call append(l:tomorrow_loc + 1, "[(19:40)][0] interact with socialmedia + @noesis clear X notes")
+    call append(l:tomorrow_loc + 1, "[(19:40)][0] interact with socialmedia + @noesis update todo tasks design")
+    call append(l:tomorrow_loc + 1, "[(20:40)][0] practice mindfulness meditation {}")
+    call append(l:tomorrow_loc + 1, "[(20:50)][0] fall asleep (plane mode) + listen civilisation mésopotamienne podcast")
 
     "   42
 
@@ -257,16 +294,16 @@ augroup filetype_memo
     au FileType memo nn <buffer><silent> <LocalLeader> <nop>
 
     "   MemoTimeDiff
-    au FileType memo nn <buffer><silent> <Space>T V:MemoTimeDiff<CR>J$daW0f]P<esc>0
+    au FileType memo nn <buffer><silent> <LocalLeader>D V:MemoTimeDiff<CR>J$daW0f]P<esc>0
 
     "   ArchiveDay
-    au FileType memo nn <buffer><silent> <Space>A :call MemoArchiveDay()<CR>
+    au FileType memo nn <buffer><silent> <LocalLeader>A :call MemoArchiveDay()<CR>
                 \:sil cd $MEMO/<CR>
                 \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
                 \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
     "   MappingInfo
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Space>? :echo "
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <LocalLeader>? :echo "
                 \\n
                 \================[Memo]================\n
                 \                                      \|\n
@@ -288,7 +325,7 @@ augroup filetype_memo
                 \                                      \|\n
                 \"<CR>
 
-    au BufRead,BufNewFile $MEMO/Lists/todo.md nn <silent><buffer> <Space>? :echo "
+    au BufRead,BufNewFile $MEMO/Lists/todo.md nn <silent><buffer> <LocalLeader>? :echo "
                 \\n
                 \================[Todos]================\n
                 \                                      \|\n
@@ -300,7 +337,7 @@ augroup filetype_memo
                 \ TASK_NOW          : Space n          \|\n
                 \ TASK_PAUSE        : Space p          \|\n
                 \ TASK_PAUSE_REPEAT : Space P          \|\n
-                \ TASK_POSTPONE     : Space Up         \|\n
+                \ TASK_POSTPONE     : Space ↑          \|\n
                 \ TASK_CLEAR        : Space c          \|\n
                 \ TASK_FIX          : Space f          \|\n
                 \                                      \|\n
@@ -328,7 +365,7 @@ augroup filetype_memo
     "                       GENERAL :
 
     "   HTML_EXPORT
-    au FileType memo nn <silent><buffer> <Space>X :set term=xterm-256color<CR>:TOhtml<CR>
+    au FileType memo nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
                 \
                 \/--><CR>Oa { color: hotpink; }<Esc>go
                 \:%s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
@@ -351,34 +388,33 @@ augroup filetype_memo
 
 
     "   MemoNavigate
-    au FileType memo nn <silent><buffer> <Space><Tab> :silent write<CR>gogF
-    au FileType memo nn <silent><buffer> <Space><CR> mm:silent write<CR>`m0:call MemoNavigate()<CR>
+    au FileType memo nn <silent><buffer> <LocalLeader>g :silent write<CR>gogF
+    au FileType memo nn <silent><buffer> <LocalLeader>h mm:silent write<CR>`m0:call MemoNavigate()<CR>
 
     "   INDEX_GEN
-    au FileType memo nn <silent><buffer> <Space># :silent
+    au FileType memo nn <silent><buffer> <LocalLeader>I :silent
                 \
                 \ :let @a=""<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
 
     "   INDEX_NAV
-    au FileType memo nn <silent><buffer> <Space>3 :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt
+    au FileType memo nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt
 
     "   MEMO_GREP
     au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
 
     "   MD_LINK
-    au FileType memo nn <silent><buffer> <Space>L 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
+    au FileType memo nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
 
 
     "   GPG ENC
-    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
     "   GPG DEC
-    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <Space>dec :silent %!gpg -d 2>/dev/null<CR>
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>dec :silent %!gpg -d 2>/dev/null<CR>
 
     "                       TODO LIST :
 
-    "   TASK_ADD_TAG
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <space>t O[][1]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <space>de O[][1] deviated to<Esc><<$
+    "   TASK_ADD
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>t O[][1]<Esc><<$A<Space>
 
     "   TASK_CHECK
     au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
@@ -391,7 +427,7 @@ augroup filetype_memo
                 \:let @/ = ""<CR>:write<CR>02f]l
 
     "   TASK_RECHECK
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><silent><buffer> <Space>r mn
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><silent><buffer> <Leader>r mn
                 \
                 \:silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \:sil ec "save current date and time"<CR>
@@ -403,10 +439,10 @@ augroup filetype_memo
                 \:let @/ = ""<CR>:write<CR>`n
 
     "   TASK_NOW
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>n GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>. GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
 
     "   TASK_PAUSE
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>p :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>p :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
@@ -418,7 +454,7 @@ augroup filetype_memo
                 \:let @/ = ""<CR>:write<CR>A<Space><Space><Esc>
 
     "   TASK_PAUSE_REPEAT
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>P :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>P :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
                 \
                 \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
                 \:sil ec "goto next"<CR>
@@ -432,15 +468,15 @@ augroup filetype_memo
                 \:let @/ = ""<CR>:write<CR>jA<Space><Space><Esc>
 
     "   TASK_POSTPONE
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space><Up> kmmj
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <LocalLeader>k <LocalLeader><Up> kmmj
                 \jk
                 \0di[V/\[.*\]<CR>kd?^##  Today$<CR>?[wake<CR>P`m:let @/ = ""<CR>
 
     "   TASK_CLEAR
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>c mm0di[`m
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>c mm0di[`m
 
     "   TASK_FIX
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Space>f mm0
+    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>f mm0
                 \
                 \jf:f:f]f]0
                 \:sil ec "check next line"<CR>
@@ -453,14 +489,11 @@ augroup filetype_memo
     "                       HISTORY
 
     "   ROT
-    au FileType memo nn <buffer><silent> <Space>13 Mmm
+    au FileType memo nn <buffer><silent> <LocalLeader>R Mmm
                 \
                 \:keeppatterns g/\[>>\]/norm g??<CR>
                 \`mzz3<C-O>
 
-    "                       MISC :
-    au FileType memo nn <buffer><silent> gns, mm^i`<Esc>g_a`<Esc>`m
-    au FileType memo nn <buffer><silent> gns` <Space>< mmi`<Esc>g_a`<Esc>
     " <<<
     " --------------------------------- DIGRAPHS >>>
     "

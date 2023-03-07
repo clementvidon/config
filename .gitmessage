@@ -22,6 +22,7 @@
 #       build:      changes to the build
 #       chore:      changes that dont involve production code change (config)
 #
+#       wip:        work in progress
 #       feat:       creation of a new feature
 #       test:       creation of tests
 #       fix:        fix a bug

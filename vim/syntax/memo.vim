@@ -60,7 +60,7 @@ syn match memoTaskStamp contains=@NoSpell "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\
 syn match memoTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 
 " Task Perso
-syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*"
+syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*" contains=memoBoldItalic
 
 " Project (achiever)
 syn match memoProject "\(\s>\|^>\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
@@ -71,6 +71,7 @@ syn match memoEscape "\\."
 " Keywords
 syn keyword memoBoldItalic TODO
 syn keyword memoBoldItalic XXX
+syn keyword memoBoldItalic X
 
 " TaskParent
 " syn match memoTaskParent "\(^\[.\{-}\]\[1\]\)\@<= [a-zA-Z0-9]*\ze\( : \)" TODO
@@ -116,9 +117,9 @@ if &background == "dark"
     " Italic                : pale light yellow
     hi memoItalic ctermfg=230
     " Bold                  : vivid yellow
-    hi memoBold ctermfg=221
-    " BoldItalic            : pale dark orange
-    hi memoBoldItalic ctermfg=209
+    hi memoBold ctermfg=227
+    " BoldItalic            : pale light green yellow
+    hi memoBoldItalic ctermfg=190
 
     " Task Stamp/Tag        : dark grey, pale light brown
     " tag 240

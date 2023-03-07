@@ -4,6 +4,8 @@
 "             '<Tab> '<Space> `<Tab> `<Space>
 "             dc ds dy d! d= d< d> yc yd yo ys y! y= =p =P cd cs co cp
 "             z
+
+let mapleader = " "
 " --------------------------------- NAV (s gs sh sv) >>>
 "                       FILE
 "   FIND
@@ -52,8 +54,8 @@ nn sis :isearch /
 "                       MEMO
 nn sl  <nop>
 nn slt :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
-nn sle :e $MEMO/Lists/english.md<CR>/##  Voca<CR>
-nn slf :e $MEMO/Lists/french.md<CR>/##  Voca<CR>
+nn sle :e $MEMO/Lists/english.md<CR>?##  Voca<CR>
+nn slf :e $MEMO/Lists/french.md<CR>?##  Voca<CR>
 nn slp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
 nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
 " <<<
@@ -197,6 +199,10 @@ no ms :silent write\|source $MYVIMRC\|e<CR>zR
 no ; :
 no : ;
 
+"   PASTE WITHOUT OVERWRITING
+
+vno P pgvy
+
 "   EYES LEVEL CURSOR AND VIEW
 no z, z.15<C-e>
 
@@ -214,8 +220,8 @@ no z, z.15<C-e>
 
 "                       SPACE
 "   SPELL
-nn <Space>s 1z=
-nn <Space>S 2z=
+nn 2s 2z=
+nn 1s 1z=
 
 "   INDENT
 nn <Space>= Mmmgo=G`mzz3<C-O>
