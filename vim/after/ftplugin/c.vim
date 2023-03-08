@@ -57,10 +57,10 @@ augroup filetype_c
                 \:!clear<CR>
                 \:make! run<CR>
 
-    "   run-valgrind
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>v :w<CR>
+    "   run-leaks
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>l :w<CR>
                 \:!clear<CR>
-                \:make! run-valgrind<CR>
+                \:make! run-leaks<CR>
 
     " \:make! re<CR>
     " \:!valgrind -q ./$(ls -t \| head -1)<CR>
@@ -111,8 +111,8 @@ augroup filetype_c
     au Filetype cpp nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cout << "" << <Esc>A << std::endl;<Esc>==2f"
 
     "   Print location
-    au Filetype c nn <silent><buffer> <LocalLeader>l odprintf (1, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
-    au Filetype cpp nn <silent><buffer> <LocalLeader>l ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
+    au Filetype c nn <silent><buffer> <LocalLeader>. odprintf (1, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
+    au Filetype cpp nn <silent><buffer> <LocalLeader>. ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
 
     " ............... NAV
 

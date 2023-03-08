@@ -74,13 +74,26 @@ function! ColorSwitch(clight, cdark)
         exec 'colors ' . a:clight
         exec 'hi Normal ctermbg=NONE'
         exec 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
-    elseif &background ==# "light"
-        exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
+    elseif &background ==# "light" exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
         exec 'silent set bg=dark'
         exec 'colors ' . a:cdark
         exec 'hi Normal ctermbg=NONE'
         exec 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.yml ~/.config/alacritty/colors.yml'
     endif
+endfunction
+"   TOGGLE QUICKFIX NAV
+let s:qfnav=1
+function! QFNav()
+    if s:qfnav
+        echo "QF Nav enabled."
+        nn <Up> :cprev<CR>
+        nn <Down> :cnext<CR>
+    else
+        echo "QF Nav disabled."
+        unm <Up>
+        unm <Down>
+    endif
+    let s:qfnav = !s:qfnav
 endfunction
 " <<<
 " --------------------------------- IMPROVE >>>
@@ -155,14 +168,14 @@ function! Highlighter(n)
     "silent! call matchdelete(mid)
     try
         call matchdelete(mid)
-    catch 'E803'
-        " Construct a literal pattern that has to match at boundaries.
-        let pat = '\V\<' . escape(@z, '\') . '\>'
-        " Actually match the words.
-        call matchadd("Highlighter" . a:n, pat, 1, mid)
-    endtry
-    " Move back to our original location.
-    normal! `z
+        catch 'E803'
+            " Construct a literal pattern that has to match at boundaries.
+            let pat = '\V\<' . escape(@z, '\') . '\>'
+            " Actually match the words.
+            call matchadd("Highlighter" . a:n, pat, 1, mid)
+        endtry
+        " Move back to our original location.
+        normal! `z
 endfunction
 
 "clear all highlighting

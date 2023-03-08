@@ -107,6 +107,8 @@ nn glca :call<Space>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
 "   COPY PATH
 nn glpw :let @+=@%<CR>
+"   QF NAV
+nn glqn :call QFNav()<CR>
 "   RUN CURRENT LINE
 nn glru :exe getline(".")<CR>
 vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
@@ -173,12 +175,6 @@ nn gyf :GitGutterFold<CR>
 "   NAV
 nn ]a :ALENext<CR>
 nn [a :ALEPrevious<CR>
-
-"                       QUICKFIX
-"   NAV
-nn <Space>Q :cw<CR>
-nn ]q :cnext<CR>
-nn [q :cprev<CR>
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE
