@@ -60,7 +60,7 @@ syn match memoTaskStamp contains=@NoSpell "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\
 syn match memoTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
 
 " Task Perso
-syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*" contains=memoBoldItalic
+syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*" contains=memoBoldItalic,memoLink
 
 " Project (achiever)
 syn match memoProject "\(\s>\|^>\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
