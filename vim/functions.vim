@@ -1,4 +1,8 @@
 " --------------------------------- COMMANDS >>>
+"   SEARCH WITHOUT MOVING CURSOR POSITION
+com! -nargs=+ -bar StaticSearch exec ":let @/ = expand('<args>')" | set hls | redraw!
+" com! -nargs=+ -bar StaticSearch exec ":let @/ = '\\<'.expand('<args>').'\\>'" | set hls | redraw!
+
 "   SUDO :WRITE
 com! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
@@ -9,7 +13,7 @@ com! BufOnly execute '%bdelete | edit # | normal `"'
 com! -nargs=+ -bar Fr exec ' r! trans "<args>" -from en -to fr -brief 2> /dev/null'
 com! -nargs=+ -bar En exec ' r! trans "<args>" -from fr -to en -brief 2> /dev/null'
 com! -nargs=+ -bar Enp exec '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null -play'
-"   SYNONYM ('-l fr salut' for french Syn) (APIKEY:K4f8SzzxLdtH1YVpwRON)
+"   SYNONYM ('-l fr salut' for french Syn) (NCVXRL:X4s8FmmkYqgU1LIcjEBA)
 com! -nargs=+ -bar Sy exec '! clear; synonym <args>' | redraw!
 
 "   TMUX SENDKEY
@@ -74,7 +78,8 @@ function! ColorSwitch(clight, cdark)
         exec 'colors ' . a:clight
         exec 'hi Normal ctermbg=NONE'
         exec 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
-    elseif &background ==# "light" exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
+    elseif &background ==# "light"
+        exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
         exec 'silent set bg=dark'
         exec 'colors ' . a:cdark
         exec 'hi Normal ctermbg=NONE'

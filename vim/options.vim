@@ -10,11 +10,11 @@ augroup custom_hi
 augroup END
 
 if system("uname -s") == "Darwin\n"
-    set bg=dark | color nord
-    " set bg=light | color seoul256
+    " color seoul256-light | set bg=light
+    color nord | set bg=dark
 elseif system("uname -s") == "Linux\n"
-    set bg=dark | color nord
-    " set bg=light | color seoul256
+    " color seoul256 | set bg=light
+    color nord | set bg=dark
 endif
 
 " <<<

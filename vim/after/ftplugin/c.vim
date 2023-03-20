@@ -34,33 +34,50 @@ augroup filetype_c
 
     " ............... MAKE
 
-    "   clean
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>c :w<CR>
-                \:!clear<CR>
-                \:make! clean<CR>
-                \:cw<CR>
-
     "   make
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>m :w<CR>
+    au Filetype c,cpp nn <silent><buffer> mm :w<CR>
                 \:!clear<CR>
                 \:make!<CR>
                 \:cw<CR>
 
+    "   clean
+    au Filetype c,cpp nn <silent><buffer> mc :w<CR>
+                \:!clear<CR>
+                \:make! clean<CR>
+                \:cw<CR>
+
+    "   re
+    au Filetype c,cpp nn <silent><buffer> mr :w<CR>
+                \:!clear<CR>
+                \:make! re<CR>
+                \:cw<CR>
+
+    "   sure
+    au Filetype c,cpp nn <silent><buffer> ms :w<CR>
+                \:!clear<CR>
+                \:make! sure<CR>
+                \:cw<CR>
+
     "   asan
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>a :w<CR>
+    au Filetype c,cpp nn <silent><buffer> ma :w<CR>
                 \:!clear<CR>
                 \:make! asan<CR>
                 \:cw<CR>
 
-    "   run
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>r :w<CR>
+    "   leak
+    au Filetype c,cpp nn <silent><buffer> ml :w<CR>
                 \:!clear<CR>
-                \:make! run<CR>
+                \:make! leak<CR>
 
-    "   leaks
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>l :w<CR>
+    "   exec
+    au Filetype c,cpp nn <silent><buffer> me :w<CR>
                 \:!clear<CR>
-                \:make! leaks<CR>
+                \:make! exec<CR>
+
+    "   test
+    au Filetype c,cpp nn <silent><buffer> mt :w<CR>
+                \:!clear<CR>
+                \:make! test<CR>
 
     " \:make! re<CR>
     " \:!valgrind -q ./$(ls -t \| head -1)<CR>
@@ -208,10 +225,8 @@ augroup filetype_c
                     call append(line("$"), "")
                     call append(line("$"), "" . className . "::" . className . "( void ) {")
                     call append(line("$"), "#if defined( DEBUG )")
-                    call append(line("$"), " std::cerr << __FILE__;")
-                    call append(line("$"), " std::cerr << \" CONSTRUCTED \";")
-                    call append(line("$"), " std::cerr << *this;")
-                    call append(line("$"), " std::cerr << std::endl;")
+                    call append(line("$"), "  std::cerr << __FILE__ << \" CONSTRUCTED \" << *this;")
+                    call append(line("$"), "  std::cerr << std::endl;")
                     call append(line("$"), "#endif")
                     call append(line("$"), "  return;")
                     call append(line("$"), "}")
@@ -221,14 +236,10 @@ augroup filetype_c
                     call append(line("$"), " */")
                     call append(line("$"), "")
                     call append(line("$"), "" . className . "::" . className . "( " . className . " const& src ) {")
-                    call append(line("$"), "*this = src;")
+                    call append(line("$"), "  *this = src;")
                     call append(line("$"), "#if defined( DEBUG )")
-                    call append(line("$"), " std::cerr << __FILE__;")
-                    call append(line("$"), " std::cerr << \" COPY CONSTRUCTED \";")
-                    call append(line("$"), " std::cerr << *this;")
-                    call append(line("$"), " std::cerr << \" FROM \";")
-                    call append(line("$"), " std::cerr << src;")
-                    call append(line("$"), " std::cerr << std::endl;")
+                    call append(line("$"), "  std::cerr << __FILE__ << \" COPY CONSTRUCTED \" << *this << \" FROM \" << src;")
+                    call append(line("$"), "  std::cerr << std::endl;")
                     call append(line("$"), "#endif")
                     call append(line("$"), "  return;")
                     call append(line("$"), "}")
@@ -239,10 +250,8 @@ augroup filetype_c
                     call append(line("$"), "")
                     call append(line("$"), "" . className . "::~" . className . "( void ) {")
                     call append(line("$"), "#if defined( DEBUG )")
-                    call append(line("$"), " std::cerr << __FILE__;")
-                    call append(line("$"), " std::cerr << \" DESTRUCTED \";")
-                    call append(line("$"), " std::cerr << *this;")
-                    call append(line("$"), " std::cerr << std::endl;")
+                    call append(line("$"), "  std::cerr << __FILE__ << \" DESTRUCTED \" << *this;")
+                    call append(line("$"), "  std::cerr << std::endl;")
                     call append(line("$"), "#endif")
                     call append(line("$"), "  return;")
                     call append(line("$"), "}")
@@ -253,9 +262,8 @@ augroup filetype_c
                     call append(line("$"), "")
                     call append(line("$"), "" . className . "& " . className . "::operator=( " . className . " const& rhs ) {")
                     call append(line("$"), "#if defined( DEBUG )")
-                    call append(line("$"), " std::cerr << rhs;")
-                    call append(line("$"), " std::cerr << \" ASSIGNED TO \" << *this;")
-                    call append(line("$"), " std::cerr << std::endl;")
+                    call append(line("$"), "  std::cerr << rhs << \" ASSIGNED TO \" << *this;")
+                    call append(line("$"), "  std::cerr << std::endl;")
                     call append(line("$"), "#endif")
                     call append(line("$"), "  if( this == &rhs ) {")
                     call append(line("$"), "    return *this;")
@@ -263,9 +271,7 @@ augroup filetype_c
                     call append(line("$"), "  // TODO")
                     call append(line("$"), "  return *this;")
                     call append(line("$"), "/* #if defined( DEBUG ) */")
-                    call append(line("$"), "/* #if defined( DEBUG ) */")
-                    call append(line("$"), "/*   std::cerr << __FILE__; */")
-                    call append(line("$"), "/*   std::cerr << \" COPY ASSIGNMENT OPERATOR DISABLED\"; */")
+                    call append(line("$"), "/*   std::cerr << __FILE__ << \" COPY ASSIGNMENT OPERATOR DISABLED\"; */")
                     call append(line("$"), "/*   std::cerr << std::endl; */")
                     call append(line("$"), "/* #endif */")
                     call append(line("$"), "/*   (void)rhs; */")

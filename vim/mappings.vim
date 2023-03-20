@@ -53,8 +53,8 @@ nn sis :isearch /
 
 "                       MEMO
 nn sl  <nop>
-nn slt :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
-nn sle :e $MEMO/Lists/english.md<CR>?##  Voca<CR>
+nn slt :e $MEMO/Resources/todo.md<CR>gi<Esc>z.
+nn sle :e $MEMO/Resources/english.md<CR>?##  Voca<CR>
 nn slf :e $MEMO/Lists/french.md<CR>?##  Voca<CR>
 nn slp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
 nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
@@ -115,6 +115,8 @@ vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 "   RESOLVE SYMLINK
 nn <silent> glsy :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
 "   GET SYNTAX
+nn glss :StaticSearch<Space>
+"   GET SYNTAX
 nn glsy :call GetSyntax()<CR>
 "   TIME STAMP
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
@@ -133,7 +135,7 @@ endif
 nn glta :S ctags -R<CR>
 "   BC
 nn glbc V:!bc<CR>
-"   SEND KEY
+"   FRAQ XRL
 nn glsr :noau w<CR>:S0 \!\!<CR>
 "   SEND KEY REPEAT
 nn glsk :noau w<CR>:S0<Space>
@@ -179,17 +181,17 @@ nn [a :ALEPrevious<CR>
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE
 " no mW :noautocmd write<CR>
-no mw :write<CR>
-no mgw :write!<CR>
-no mW :wall<CR>
-no mgW :wall!<CR>
-no mq :quit<CR>
-no mgq :quit!<CR>
-no mQ :wall<CR>:qall<CR>
-no mgQ :wall!<CR>:qall!<CR>
-nn md :bn\|bd#<CR>
-nn mgd :bn!\|bd! #<CR>
-no ms :silent write\|source $MYVIMRC\|e<CR>zR
+no sw :write<CR>
+no sgw :write!<CR>
+no sW :wall<CR>
+no sgW :wall!<CR>
+no sq :quit<CR>
+no sgq :quit!<CR>
+no sQ :wall<CR>:qall<CR>
+no sgQ :wall!<CR>:qall!<CR>
+nn sd :bn\|bd#<CR>
+nn sgd :bn!\|bd! #<CR>
+no sS :silent write\|source $MYVIMRC\|e<CR>zR
 
 "   QUICK CMDLINE
 no ; :
@@ -202,12 +204,17 @@ vno P pgvy
 "   EYES LEVEL CURSOR AND VIEW
 no z, z.15<C-e>
 
+"   STATIC SEARCH
+
+no g8 *N
+no g3 #N
+
 "   PASTE WITHOUT MOVING CURSOR POSITION
 
 no gP P`[
 vn gP P`[
-vn gp p`[
 no gp p`[
+vn gp p`[
 
 no z, z.15<C-e>
 

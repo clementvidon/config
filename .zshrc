@@ -113,11 +113,17 @@ alias gst="git status -s --show-stash --ignore-submodules=untracked"
 alias gsw="git switch"
 
 #       [ Make ]
-alias mal='make all'
-alias mcl='make clean'
-alias mre='make re'
-alias mas='make asan'
-alias mru='make run'
+alias mm='make'
+alias mc='make clean'
+alias mr='make re'
+
+alias mi='make info'
+alias ms='make sure'
+alias ma='make asan'
+alias ml='make leak'
+alias me='make exec'
+alias mt='make test'
+
 
 #------------------------------------------------------------------------------#
 #                  functions                                                   #
