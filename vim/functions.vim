@@ -72,20 +72,30 @@ com! -nargs=+ S exec 'silent !<args>' | redraw!
 " --------------------------------- TOGGLE >>>
 "   TOGGLE COLORS
 function! ColorSwitch(clight, cdark)
-    if &background ==# "dark"
-        exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:clight . ' | set bg=light/g" ~/.config/vim/options.vim'
-        exec 'silent set bg=light'
-        exec 'colors ' . a:clight
-        exec 'hi Normal ctermbg=NONE'
-        exec 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
-    elseif &background ==# "light"
-        exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
-        exec 'silent set bg=dark'
-        exec 'colors ' . a:cdark
-        exec 'hi Normal ctermbg=NONE'
-        exec 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.yml ~/.config/alacritty/colors.yml'
+    if system("uname -s") == "Darwin\n"
+        if &bg == "dark"
+            exec 'color seoul256-light \| set bg=light'
+        else
+            exec 'color nord \| set bg=dark'
+        endif
+        colors
+    elseif system("uname -s") == "Linux\n"
+        if &background ==# "dark"
+            exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:clight . ' | set bg=light/g" ~/.config/vim/options.vim'
+            exec 'silent set bg=light'
+            exec 'colors ' . a:clight
+            exec 'hi Normal ctermbg=NONE'
+            exec 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
+        elseif &background ==# "light"
+            exec 'silent !sed -i --follow-symlinks "s/^    color.*/    color ' . a:cdark . ' | set bg=dark/g" ~/.config/vim/options.vim'
+            exec 'silent set bg=dark'
+            exec 'colors ' . a:cdark
+            exec 'hi Normal ctermbg=NONE'
+            exec 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.yml ~/.config/alacritty/colors.yml'
+        endif
     endif
 endfunction
+
 "   TOGGLE QUICKFIX NAV
 let s:qfnav=1
 function! QFNav()
@@ -101,18 +111,41 @@ function! QFNav()
     let s:qfnav = !s:qfnav
 endfunction
 " <<<
+" --------------------------------- UTILS >>>
+
+function! Header(cmt)
+    let user = trim(system('whoami')) . "@" . trim(system('hostname'))
+    let time = strftime('%y%m%d %H:%M:%S')
+    let seal = time . "  by  " . user
+
+    silent if  (getline(1) =~ '@author' && getline(4) =~ '@filename')
+        call setline(3, a:cmt . " @modified  " . seal)
+    else
+        call append(line("0"), "")
+        call append(line("0"), a:cmt . " @filename  " . expand("%:t"))
+        call append(line("0"), a:cmt . " @modified  " . seal)
+        call append(line("0"), a:cmt . " @created   " . seal)
+        call append(line("0"), a:cmt . " @author    Clément Vidon")
+    endif
+endfunction
+
 " --------------------------------- IMPROVE >>>
 
-"   @brief  Format the whole file according to formatprg.
+"   @brief  Format the current file
 "
-"   @see    ':formatprg'
-"
+"   - does not affect the cursor position
+"   - does not affect the undo tree
 
-function! FormatCurrentFile()
-    let l:view = winsaveview()
-    exec 'normal gggqG'
-    " exec 'undojoin | normal gggqG'
-    call winrestview(l:view)
+function! ClangFormat()
+    let save_cursor = getpos(".")
+    let save_view = winsaveview()
+    set modifiable
+    let buffer_content = getline(1, '$')
+    let formatted_content = system('clang-format', buffer_content)
+    call setline(1, split(formatted_content, "\n"))
+    set nomodified
+    call winrestview(save_view)
+    call setpos('.', save_cursor)
 endfunction
 
 "   @brief  Vim 'gF' extension to make it accept a string pattern as a cursor
@@ -173,14 +206,14 @@ function! Highlighter(n)
     "silent! call matchdelete(mid)
     try
         call matchdelete(mid)
-        catch 'E803'
-            " Construct a literal pattern that has to match at boundaries.
-            let pat = '\V\<' . escape(@z, '\') . '\>'
-            " Actually match the words.
-            call matchadd("Highlighter" . a:n, pat, 1, mid)
-        endtry
-        " Move back to our original location.
-        normal! `z
+    catch 'E803'
+        " Construct a literal pattern that has to match at boundaries.
+        let pat = '\V\<' . escape(@z, '\') . '\>'
+        " Actually match the words.
+        call matchadd("Highlighter" . a:n, pat, 1, mid)
+    endtry
+    " Move back to our original location.
+    normal! `z
 endfunction
 
 "clear all highlighting

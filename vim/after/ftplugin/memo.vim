@@ -128,33 +128,33 @@ function! MemoArchiveDay()
 
     " bda
 
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, X,genmaicha tea")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, bread, X, coffee, chocolate")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack: genmaicha tea, chocolate")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, bread, X, anis infusion")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
-    call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   pullup                   10      x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, X,genmaicha tea")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, bread, X, coffee, chocolate")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack: genmaicha tea, chocolate")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, bread, X, anis infusion")
+    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
+    " call append(l:tomorrow_loc + 1, "[-][>>]")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   pullup                   10      x1")
+    " call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
 
     " home
 
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, X, genmaicha tea")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, X, genmaicha tea")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack: water, genmaicha tea, X")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, X, anis infusion")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
-    " call append(l:tomorrow_loc + 1, "[-][>>]")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   paintCanLift             30      x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   elastiband               50      x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   BicycleCrunch            4x15    x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   pushup                   20      x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   abs                      40      x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   legflexion (+ gripring)  20x2    x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   calfRaises (+ warmUp)    40x2    x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout: series")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, X, genmaicha tea")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, X, genmaicha tea")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack: water, genmaicha tea, X")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, X, anis infusion")
+    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
+    call append(l:tomorrow_loc + 1, "[-][>>]")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   paintCanLift             30      x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   elastiband               50      x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   BicycleCrunch            4x15    x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   pushup                   20      x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   abs                      40      x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   legflexion (+ gripring)  20x2    x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout:   calfRaises (+ warmUp)    40x2    x1")
+    call append(l:tomorrow_loc + 1, "[-][>>] workout: series")
 
 
     call append(l:tomorrow_loc + 1, "[-][>>]")
@@ -178,51 +178,50 @@ function! MemoArchiveDay()
 
     "   bda
 
-    call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up + stretch")
-    call append(l:tomorrow_loc + 1, "[(06:30)][0] prepare breakfast")
-    call append(l:tomorrow_loc + 1, "[(06:45)][0] breakfast + @noesis/todo clear and update")
-    call append(l:tomorrow_loc + 1, "[(06:50)][0] meditate (mindfulness) {}")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(09:15)][0] pause")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(11:30)][0] run (forest) + listen tech news")
-    call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + listen breaking news")
-    call append(l:tomorrow_loc + 1, "[(12:00)][0] lunch with moupou")
-    call append(l:tomorrow_loc + 1, "[(12:40)][0] @noesis/X clear + watch tv")
-    call append(l:tomorrow_loc + 1, "[(13:40)][0] @noesis/todo clear and update")
-    call append(l:tomorrow_loc + 1, "[(13:50)][0] meditate (empty mind) {}")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(16:00)][0] pause")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(19:00)][0] dine with moupou")
-    call append(l:tomorrow_loc + 1, "[(19:40)][0] clear inboxes + watch tv")
-    call append(l:tomorrow_loc + 1, "[(20:00)][0] @india_trip/delhi prepare program + watch tv")
-    call append(l:tomorrow_loc + 1, "[(20:40)][0] @noesis/todo clear and update")
-    call append(l:tomorrow_loc + 1, "[(20:50)][0] meditate (mindfulness)")
-    call append(l:tomorrow_loc + 1, "[(21:00)][0] fall asleep (mesopotamian civilisation)")
+    " call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up (stretch)")
+    " call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast (@noesis/todo update)")
+    " call append(l:tomorrow_loc + 1, "[(06:50)][0] meditate (mindfulness)")
+    " call append(l:tomorrow_loc + 1, "X")
+    " call append(l:tomorrow_loc + 1, "[(09:15)][0] pause")
+    " call append(l:tomorrow_loc + 1, "X")
+    " call append(l:tomorrow_loc + 1, "[(11:30)][0] run (forest) + listen tech news")
+    " call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + listen breaking news")
+    " call append(l:tomorrow_loc + 1, "[(12:00)][0] lunch with moupou")
+    " call append(l:tomorrow_loc + 1, "[(12:40)][0] @noesis/X clear + watch tv")
+    " call append(l:tomorrow_loc + 1, "[(13:40)][0] @noesis/todo clear and update")
+    " call append(l:tomorrow_loc + 1, "[(13:50)][0] meditate (empty mind)")
+    " call append(l:tomorrow_loc + 1, "X")
+    " call append(l:tomorrow_loc + 1, "[(16:00)][0] pause")
+    " call append(l:tomorrow_loc + 1, "X")
+    " call append(l:tomorrow_loc + 1, "[(19:00)][0] dine with moupou")
+    " call append(l:tomorrow_loc + 1, "[(19:40)][0] clear inboxes + watch tv")
+    " call append(l:tomorrow_loc + 1, "[(20:00)][0] @india_trip/delhi prepare program + watch tv")
+    " call append(l:tomorrow_loc + 1, "[(20:40)][0] @noesis/todo clear and update + watch tv")
+    " call append(l:tomorrow_loc + 1, "[(20:50)][0] meditate (mindfulness)")
+    " call append(l:tomorrow_loc + 1, "[(21:00)][0] fall asleep + study mesopotamian civilisation")
 
     "   paris home
 
-    " call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up + stretch")
-    " call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast + @noesis/todo clear and update")
-    " call append(l:tomorrow_loc + 1, "[(06:50)][0] meditate (empty mind) {}")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(09:15)][0] pause (stretch)")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(11:40)][0] workout (home) + listen tech news")
-    " call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + listen breaking news")
-    " call append(l:tomorrow_loc + 1, "[(12:00)][0] cook + study india")
-    " call append(l:tomorrow_loc + 1, "[(12:40)][0] lunch + study india")
-    " call append(l:tomorrow_loc + 1, "[(13:40)][0] @noesis/todo clear and update")
-    " call append(l:tomorrow_loc + 1, "[(13:50)][0] meditate (empty mind) {}")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(16:00)][0] pause (stretch)")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(19:00)][0] cook + clear inboxes")
-    " call append(l:tomorrow_loc + 1, "[(19:40)][0] dine + watch alfred hitchcock presents")
-    " call append(l:tomorrow_loc + 1, "[(20:40)][0] @noesis/todo clear and update")
-    " call append(l:tomorrow_loc + 1, "[(21:10)][0] meditate (gratitude)")
-    " call append(l:tomorrow_loc + 1, "[(21:20)][0] fall asleep + study mesopotamian civilisation")
+    call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up (stretch)")
+    call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast (@noesis/todo update)")
+    call append(l:tomorrow_loc + 1, "[(06:50)][0] meditate (mindfulness)")
+    call append(l:tomorrow_loc + 1, "X")
+    call append(l:tomorrow_loc + 1, "[(09:15)][0] pause")
+    call append(l:tomorrow_loc + 1, "X")
+    call append(l:tomorrow_loc + 1, "[(11:40)][0] workout (home) + listen tech news")
+    call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + listen breaking news")
+    call append(l:tomorrow_loc + 1, "[(12:00)][0] cook + study india")
+    call append(l:tomorrow_loc + 1, "[(12:40)][0] lunch + study india")
+    call append(l:tomorrow_loc + 1, "[(13:40)][0] @noesis/todo clear and update")
+    call append(l:tomorrow_loc + 1, "[(13:50)][0] meditate (empty mind)")
+    call append(l:tomorrow_loc + 1, "X")
+    call append(l:tomorrow_loc + 1, "[(16:00)][0] pause")
+    call append(l:tomorrow_loc + 1, "X")
+    call append(l:tomorrow_loc + 1, "[(19:00)][0] cook (chat with friends)")
+    call append(l:tomorrow_loc + 1, "[(19:40)][0] dine + watch alfred hitchcock presents")
+    call append(l:tomorrow_loc + 1, "[(20:40)][0] @noesis/todo clear and update")
+    call append(l:tomorrow_loc + 1, "[(21:10)][0] meditate (gratitude)")
+    call append(l:tomorrow_loc + 1, "[(21:20)][0] fall asleep + study mesopotamian civilisation")
 
     "   42
 
@@ -236,7 +235,8 @@ endfunction
 augroup filetype_memo
     autocmd!
     " --------------------------------- OPTIONS >>>
-    au BufRead,BufNewFile *.md,*.markdown,*.MD,*.MARKDOWN set filetype=memo
+    " au BufRead,BufNewFile *.md,*.markdown,*.MD,*.MARKDOWN set filetype=memo
+    au FileType markdown set filetype=memo
     au FileType memo
                 \   setl textwidth=80
                 \ | setl suffixesadd+=.md
@@ -255,8 +255,8 @@ augroup filetype_memo
                 \   setl formatoptions+=ro
                 \ | setl comments+=s:[-][>>],m:[-][>>],e:[-][>>]
 
-    au BufRead,BufNewFile $MEMO/Lists/history.gpg.md set textwidth=0 " TODO doesnt work
-    au BufRead,BufNewFile $MEMO/Lists/todo.md set textwidth=0
+    au FileType memo au BufRead,BufNewFile $MEMO/Lists/history.gpg.md set textwidth=0 " TODO doesnt work
+    au FileType memo au BufRead,BufNewFile $MEMO/Lists/todo.md set textwidth=0
 
     " GPG
     au BufReadPre,FileReadPre *.gpg.* setl viminfo=""

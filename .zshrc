@@ -117,7 +117,6 @@ alias mm='make'
 alias mc='make clean'
 alias mr='make re'
 
-alias mi='make info'
 alias ms='make sure'
 alias ma='make asan'
 alias ml='make leak'
@@ -171,3 +170,20 @@ function    gup()
         git status
     fi
 }
+
+# @brief        Change to the next / prev directory in parent folder
+
+function nd()
+{
+    local next_dir=$(ls -1 .. | grep -A 1 "$(basename "$(pwd)")$" | tail -n 1)
+    cd "../${next_dir}"
+    pwd
+}
+
+function pd()
+{
+    local next_dir=$(ls -1 .. | grep -B 1 "$(basename "$(pwd)")$" | head -n 1)
+    cd "../${next_dir}"
+    pwd
+}
+

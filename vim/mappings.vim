@@ -15,17 +15,17 @@ nn sTf :tabf<Space>
 nn shf :sf<Space>
 nn svf :vert sf<Space>
 "   EDIT
-nn se :e *
-nn gse :e! *
-nn sTe :tabe *
-nn she :sp *
-nn sve :vert *
+nn se :e <Space>
+nn gse :e! <Space>
+nn sTe :tabe <Space>
+nn she :sp <Space>
+nn sve :vert <Space>
 "   CD EDIT
-nn s. :cd %:h<CR>:e *
-nn gs. :cd %:h<CR>:e! *
-nn sT. :cd %:h<CR>:tabe *
-nn sh. :cd %:h<CR>:sp *
-nn sv. :cd %:h<CR>:vert *
+nn s. :cd %:h<CR>:e <Space>
+nn gs. :cd %:h<CR>:e! <Space>
+nn sT. :cd %:h<CR>:tabe <Space>
+nn sh. :cd %:h<CR>:sp <Space>
+nn sv. :cd %:h<CR>:vert <Space>
 
 "                       BUFFER
 "   PREV
@@ -53,83 +53,48 @@ nn sis :isearch /
 
 "                       MEMO
 nn sl  <nop>
-nn slt :e $MEMO/Resources/todo.md<CR>gi<Esc>z.
 nn sle :e $MEMO/Resources/english.md<CR>?##  Voca<CR>
-nn slf :e $MEMO/Lists/french.md<CR>?##  Voca<CR>
+nn slf :e $MEMO/Resources/french.md<CR>?##  Voca<CR>
+nn slt :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
 nn slp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
 nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
 " <<<
 " --------------------------------- CMDLINE (gl) >>>
 "                       OPTIONS
-"   CURSORCOLUMN
-nn glcc :set cursorcolumn!<CR>
-"   CD
-nn gllc :lc %:h<CR>
-nn glcd :cd %:h<CR>
-"   CURSORLINE
-nn glcl :set cursorline!<CR>
-"   HLSEARCH
-nn glhl :set hlsearch!<CR>
-"   KEYWORDPRG man/help toggle ( kp= )
-nn glkp :if &keywordprg == ":help" <BAR> set keywordprg=man <BAR>
-            \ else <BAR> set keywordprg=:help <BAR>
-            \ endif <BAR> set keywordprg?<CR>
-"   LIST
-nn glli :set list!<CR>
-"   NUMBERS
-nn glnu :set number!<CR>
-"   PASTE MODE
-nn glpa :set paste!<CR>
-"   REDRAW
-nn glre :redraw!<CR>
-"   RNUMBERS
-nn glrn :set relativenumber!<CR>
-"   SCROLLBIND
-nn glsb :set scrollbind!<CR>
-"   SCROLLOFF
-nn <silent> glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
-"   START OF LINE
-nn glsl :set startofline!<CR>
-"   SOURCE VIMRC
-nn glso :silent write\|source $MYVIMRC\|e<CR>zR
-"   SPELL
-nn <silent> glsp :set spell!<CR>
-"   VIRTUAL EDIT
-nn <silent> glve :if &virtualedit == "" <BAR> set virtualedit=all <BAR>
-            \ else <BAR> set virtualedit= <BAR>
-            \ endif <BAR> set virtualedit?<CR>
-"   WRAPSCAN TODO ???
-nn glws :set wrapscan!<CR>
-"                       TRICKS
-"   FUNC CALL
+
 nn glca :call<Space>
-"   PRINT DATE
+nn glcc :set cursorcolumn!<CR>
+nn glcd :cd %:h<CR>
+nn glcl :set cursorline!<CR>
+nn glco :call ColorSwitch('seoul256-light', 'nord')<CR>
+nn glfr :Fr<Space>
+nn glen :En<Space>
+nn glhe :call Header("")<Left><Left>
+nn glhl :set hlsearch!<CR>
+nn glkp :if &kp == ":help" \| set kp=man \| else \| set kp=:help \| endif \| set kp?<CR>
+nn gllc :lc %:h<CR>
+nn glli :set list!<CR>
+nn glnu :set number!<CR>
+nn glpa :set paste!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
-"   COPY PATH
-nn glpw :let @+=@%<CR>
-"   QF NAV
 nn glqn :call QFNav()<CR>
-"   RUN CURRENT LINE
+nn glre :redraw!<CR>
+nn glrn :set relativenumber!<CR>
+nn glro GVgog?g;g;
 nn glru :exe getline(".")<CR>
-vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
-"   RESOLVE SYMLINK
-nn <silent> glsy :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
-"   GET SYNTAX
+nn glsb :set scrollbind!<CR>
+nn glsc <silent> :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
+nn glsl :set startofline!<CR>
+nn glso :silent write\|source $MYVIMRC\|e<CR>zR
+nn glsp <silent> :set spell!<CR>
 nn glss :StaticSearch<Space>
-"   GET SYNTAX
 nn glsy :call GetSyntax()<CR>
-"   TIME STAMP
+nn glsy <silent> :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
-"   ROT%
-nn gl? GVgog?g;g;
-"   CHANGE COLORS
-if system("uname -s") == "Darwin\n"
-    nn <silent> <Space>C :if &bg == "dark" <BAR> exec 'color seoul256-light \| set bg=light' <BAR>
-                \ else <BAR> exec 'color nord \| set bg=dark' <BAR>
-                \ endif <BAR> colors<CR>
-elseif system("uname -s") == "Linux\n"
-    nn <Space>C :call ColorSwitch('seoul256-light', 'nord')<CR>
-endif
+nn glve <silent> :if &ve == "" \| set ve=all \| else <BAR> set ve= \| endif \| set ve?<CR>
+nn glws :set wrapscan!<CR>
+vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
+
 "                       TERMINAL
 "   TAGS
 nn glta :S ctags -R<CR>
@@ -181,21 +146,21 @@ nn [a :ALEPrevious<CR>
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE
 " no mW :noautocmd write<CR>
-no sw :write<CR>
-no sgw :write!<CR>
-no sW :wall<CR>
-no sgW :wall!<CR>
-no sq :quit<CR>
-no sgq :quit!<CR>
-no sQ :wall<CR>:qall<CR>
+no sw  :write<CR>
+no gsw :write!<CR>
+no sW  :wall<CR>
+no gsW :wall!<CR>
+no sq  :quit<CR>
+no gsq :quit!<CR>
+no sQ  :wall<CR>:qall<CR>
 no sgQ :wall!<CR>:qall!<CR>
-nn sd :bn\|bd#<CR>
+nn sd  :bn\|bd#<CR>
 nn sgd :bn!\|bd! #<CR>
-no sS :silent write\|source $MYVIMRC\|e<CR>zR
 
 "   QUICK CMDLINE
-no ; :
-no : ;
+no x :
+" no ; :
+" no : ;
 
 "   PASTE WITHOUT OVERWRITING
 
@@ -261,7 +226,6 @@ no "+p :r!xclip -o -sel clip<CR>
 no "+P :-1r!xclip -o -sel clip<CR>
 
 "                       GUARD RAIL
-no x :echo "!x"<CR>
 no s :echo "!s"<CR>
 no X :echo "!x"<CR>
 nn S :echo "!s"<CR>
