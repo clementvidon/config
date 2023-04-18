@@ -15,17 +15,20 @@ nn sTf :tabf<Space>
 nn shf :sf<Space>
 nn svf :vert sf<Space>
 "   EDIT
-nn se :e <Space>
-nn gse :e! <Space>
-nn sTe :tabe <Space>
-nn she :sp <Space>
-nn sve :vert <Space>
+nn se :e<Space>
+nn gse :e!<Space>
+nn sTe :tabe<Space>
+nn she :sp<Space>
+nn sve :vert<Space>
 "   CD EDIT
-nn s. :cd %:h<CR>:e <Space>
-nn gs. :cd %:h<CR>:e! <Space>
-nn sT. :cd %:h<CR>:tabe <Space>
-nn sh. :cd %:h<CR>:sp <Space>
-nn sv. :cd %:h<CR>:vert <Space>
+nn s. :lc %:h<CR>:e<Space>
+nn gs. :lc %:h<CR>:e!<Space>
+nn sT. :lc %:h<CR>:tabe<Space>
+nn sh. :lc %:h<CR>:sp<Space>
+nn sv. :lc %:h<CR>:vert<Space>
+"   CD NAV
+nn sne :lc %:h<CR>:sil r! ls -1 \| grep -A 1 "%" \| tail -n 1<CR>v$h"yyu:e <C-r>y<CR>
+nn spe :lc %:h<CR>:sil r! ls -1 \| grep -B 1 "%" \| head -n 1<CR>v$h"yyu:e <C-r>y<CR>
 
 "                       BUFFER
 "   PREV
@@ -34,10 +37,10 @@ nn gss :b!#<CR>
 nn shs :sbu#<CR>
 nn svs :vert sbu#<CR>
 "   NAV
-nn [b :bp<CR>
-nn ]b :bn<CR>
-nn [B :bf<CR>
-nn ]B :bl<CR>
+nn spb :bp<CR>
+nn snb :bn<CR>
+nn sPb :bf<CR>
+nn sNb :bl<CR>
 "   BUFLIST
 nn sb :ls<CR>:b<Space>
 "   MRU
@@ -55,7 +58,7 @@ nn sis :isearch /
 nn sl  <nop>
 nn sle :e $MEMO/Resources/english.md<CR>?##  Voca<CR>
 nn slf :e $MEMO/Resources/french.md<CR>?##  Voca<CR>
-nn slt :e $MEMO/Lists/todo.md<CR>gi<Esc>z.
+nn slt :e $MEMO/Lists/todo.md<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
 nn slp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
 nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
 " <<<
@@ -69,7 +72,7 @@ nn glcl :set cursorline!<CR>
 nn glco :call ColorSwitch('seoul256-light', 'nord')<CR>
 nn glfr :Fr<Space>
 nn glen :En<Space>
-nn glhe :call Header("")<Left><Left>
+nn glhe :call Header("#")<Left><Left>
 nn glhl :set hlsearch!<CR>
 nn glkp :if &kp == ":help" \| set kp=man \| else \| set kp=:help \| endif \| set kp?<CR>
 nn gllc :lc %:h<CR>
@@ -86,10 +89,10 @@ nn glsb :set scrollbind!<CR>
 nn glsc <silent> :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nn glsl :set startofline!<CR>
 nn glso :silent write\|source $MYVIMRC\|e<CR>zR
-nn glsp <silent> :set spell!<CR>
+nn glsp :set spell!<CR>
 nn glss :StaticSearch<Space>
 nn glsy :call GetSyntax()<CR>
-nn glsy <silent> :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
+" nn glsy <silent> :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
 nn glve <silent> :if &ve == "" \| set ve=all \| else <BAR> set ve= \| endif \| set ve?<CR>
 nn glws :set wrapscan!<CR>
@@ -148,14 +151,18 @@ nn [a :ALEPrevious<CR>
 " no mW :noautocmd write<CR>
 no sw  :write<CR>
 no gsw :write!<CR>
+
 no sW  :wall<CR>
 no gsW :wall!<CR>
+
 no sq  :quit<CR>
 no gsq :quit!<CR>
-no sQ  :wall<CR>:qall<CR>
-no sgQ :wall!<CR>:qall!<CR>
+
+no sQ  :quitall<CR>
+no gsQ :quitall!<CR>
+
 nn sd  :bn\|bd#<CR>
-nn sgd :bn!\|bd! #<CR>
+nn gsd :bn!\|bd! #<CR>
 
 "   QUICK CMDLINE
 no x :
@@ -369,3 +376,5 @@ function! SwissKeyboard()
     no `m M
 endfunction
 " <<<
+
+ino jf <esc>

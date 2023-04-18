@@ -41,7 +41,7 @@ set spellfile=$DOTVIM/spell/custom.utf-8.add
 " --------------------------------- INDENTATION >>>
 set autoindent                      "   auto indent
 set expandtab                       "   insert spaces instead tab
-set formatoptions+=j                "   see ':h fo-table'
+set formatoptions+=jnp              "   see ':h fo-table'
 set shiftround                      "   indent to the nearest tab mark
 set shiftwidth=4 tabstop=4          "   shift and tab width in spaces
 set softtabstop=4                   "   simulate tabs for backspaces too

@@ -1,241 +1,183 @@
 " --------------------------------- FUNCTIONS >>>
-"   @brief Print the time difference between two tasks.
-"
-"   @param line1 first task.
-"   @param line2 second task.
 
-function! MemoTimeDiff(line1, line2)
-    " Get line content and extract the time
-    let l:t1List = split(getline(a:line1), " ")
-    let l:t2List = split(getline(a:line1), " ")
-    let l:t1List = split((l:t1List[2]), ":")
-    let l:t2List = split((l:t2List[1]), ":")
-    " Get the diff in minutes between the timestamps.
-    let l:diff = 0
-    let l:time1 = l:t1List[0] * 3600 + l:t1List[1] * 60
-    let l:time2 = l:t2List[0] * 3600 + l:t2List[1] * 60
-    if l:time1 > l:time2
-        let l:diff = l:time1 - l:time2
-    elseif l:time1 < l:time2
-        let l:diff = (24 * 3600) - (l:time2 - l:time1)
+
+"   @brief  Print the time difference between time1 and time2 in minutes.
+"           time1 and time2 should be in the [HH:MM HH:MM] format.
+
+function MemoTimeDiff()
+    let time_str = getline('.')
+    let time1 = strptime('%H:%M', matchstr(time_str, '\[\zs\d\{2}:\d\{2}'))
+    let time2 = strptime('%H:%M', matchstr(time_str,  '\d\{2}:\d\{2}\ze\]'))
+    if time1 > time2
+        let time2 += 24*60*60
     endif
-
-    " hh:mm version
-    " let l:min=trunc(fmod(l:diff,3600) / 60)
-    " let l:hrs=trunc(l:diff / 3600)
-    " " Replace the line with the result.
-    " call append(a:line2, printf("%02.0f:%02.0f", l:hrs,l:min))
-
-    " mm version
-    let l:min=trunc((fmod(l:diff,3600) / 60) + (l:diff / 3600 * 60))
-    call append(a:line2, printf(" %0.0f", l:min))
-
-endfunction
-
-command! -range MemoTimeDiff :call MemoTimeDiff(<line1>,<line2>)
-
-"   @brief Open the link location into the current buffer.
-"          Jump to the first line matching the optionally given '#pattern'
-"          (Like web URLs)
-
-function! MemoNavigate()
-    " One 'path' in the current line
-    if count(getline('.'), "@") == 1
-        " Path extraction
-        let l:path = getline('.')
-        let l:chr = stridx(l:path, "@", 0) + 1
-        let l:path = strpart(l:path, l:chr, strlen(l:path))
-        if count(l:path, " ") >= 1
-            let l:chr = stridx(l:path, " ", 0)
-            let l:path = strpart(l:path, 0, l:chr)
-        endif
-        " If the path comes with a line pattern or not
-        if count(l:path, "#") == 1
-            " Line pattern extraction
-            let l:path = split(l:path, "#")
-            let l:file = l:path[0]
-            let l:line = substitute(l:path[1], '_', '\\ ', "g")
-            " If the line pattern is a number only or a string
-            exec 'silent find +/^\\(.*\ @.*#\\)\\@!.*' . l:line . ' ' . l:file
-            exec 'normal z.'
-        else
-            exec 'silent find ' . l:path
-            exec 'normal z.'
-        endif
-        " TODO
-        " Multiple 'path' in the current line
-        " elseif count(getline('.'), "@") > 1
-        " expand("<cword>")
-    endif
-endfunction
-
-"   @brief Archive 'todo' Today done tasks to 'history' and replace it with
-"          Tomorrow ones.
-
-function! MemoArchiveDay()
-    let l:save = winsaveview()
-    "   Check file
-    if expand('%:t:r') . "." . expand('%:e') != "todo.md"
-        echom ">>> Not in \"todo.md\" <<<"
-        return 1
-    endif
-    "   Check stats TODO check if there is no ? instead the len
-    " if strlen(getline(searchpos("^\\[-\\]\\[pm\\]")[0])) =~ 'X'
-    "     echom ">>> Incomplete \"pm\" stats <<<"
-    "     return 1
-    " endif
-    " if strlen(getline(searchpos("^\\[-\\]\\[am\\]")[0])) =~ 'X'
-    "     echom ">>> Incomplete \"am\" stats <<<"
-    "     return 1
-    " endif
-    "   Check day
-    let l:checkday = 0
-    if strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
-        let l:checkday = 1
-    endif
-    "   Locate today and tomorrow
-    let l:today_loc = searchpos("##  Today")[0]
-    let l:tomorrow_loc = searchpos("##  Tomorrow")[0]
-    "   Insert fancy date
-    if getline(l:today_loc + 1) == ""
-        call setline(l:today_loc + 1, "#[ " . strftime('%a %d %b %Y') . " ]")
-    else
-        call append(l:today_loc, "#[ " . strftime('%a %d %b %Y') . " ]")
-    endif
-    "   Fill the date placeholders
-    execute "silent " . l:today_loc . ",$s/^\\[-/\\[" . strftime('%y%m%d') . "/g"
-    "   Hide the >> section
-    " execute l:today_loc . ",$g/\\[>>\\]/norm g??"
-    "   Copy today
-    let l:today_tasks = getline(l:today_loc + 1, line('$'))
-    "   Copy and reset SLEEP
-    let l:today_sleep = getline(line('$'))
-    let l:today_sleep = substitute(
-                \l:today_sleep, strpart(l:today_sleep, 1, 6), "-", "")
-    "   Archive it
-    write
-    execute "silent edit $MEMO/Lists/history.gpg.md"
-    call append(5, l:today_tasks)
-    write
-    "   Delete today
-    execute "silent edit #"
-    execute "silent " . l:today_loc . ",$delete"
-    delete
-    "   Update Today
-    call append(line('$'), l:today_sleep)
-    call append(l:tomorrow_loc + 1, "[-][>>] diary:")
-    call append(l:tomorrow_loc + 1, "[-][>>]")
-
-    " bda
-
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, X,genmaicha tea")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, bread, X, coffee, chocolate")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack: genmaicha tea, chocolate")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, bread, X, anis infusion")
-    " call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
-    " call append(l:tomorrow_loc + 1, "[-][>>]")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout:   pullup                   10      x1")
-    " call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
-
-    " home
-
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_break: water, X, genmaicha tea")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_lunch: water, X, genmaicha tea")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_snack: water, genmaicha tea, X")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_diner: water, X, anis infusion")
-    call append(l:tomorrow_loc + 1, "[-][>>] ingestion_other: magnesium")
-    call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   paintCanLift             30      x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout: during the day")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   elastiband               50      x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   BicycleCrunch            4x15    x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   pushup                   20      x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   abs                      40      x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   legflexion (+ gripring)  20x2    x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout:   calfRaises (+ warmUp)    40x2    x1")
-    call append(l:tomorrow_loc + 1, "[-][>>] workout: series")
-
-
-    call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm_keywords:")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm_breaches:")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm_feedback: fo X yi X co X")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm_end: ph X me X mo X st X")
-    call append(l:tomorrow_loc + 1, "[-][>>] pm_beg: ph X me X mo X st X")
-    call append(l:tomorrow_loc + 1, "[-][>>]")
-    call append(l:tomorrow_loc + 1, "[-][>>] am_keywords:")
-    call append(l:tomorrow_loc + 1, "[-][>>] am_breaches:")
-    call append(l:tomorrow_loc + 1, "[-][>>] am_feedback: fo X yi X co X")
-    call append(l:tomorrow_loc + 1, "[-][>>] am_end: ph X me X mo X st X")
-    call append(l:tomorrow_loc + 1, "[-][>>] am_beg: ph X me X mo X st X")
-    call append(l:tomorrow_loc + 1, "")
-    call append(l:tomorrow_loc + 1, "##  Today")
-    call append(l:tomorrow_loc + 1, "")
-    if l:checkday == 0
-        call append(line('$') - 2, "[][1] XXX broken history XXX")
-    endif
-
-    "   bda
-
-    " call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up (stretch)")
-    " call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast (@noesis/todo update)")
-    " call append(l:tomorrow_loc + 1, "[(06:50)][0] meditate (mindfulness)")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(09:15)][0] pause")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(11:30)][0] run (forest) + listen tech news")
-    " call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + listen breaking news")
-    " call append(l:tomorrow_loc + 1, "[(12:00)][0] lunch with moupou")
-    " call append(l:tomorrow_loc + 1, "[(12:40)][0] @noesis/X clear + watch tv")
-    " call append(l:tomorrow_loc + 1, "[(13:40)][0] @noesis/todo clear and update")
-    " call append(l:tomorrow_loc + 1, "[(13:50)][0] meditate (empty mind)")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(16:00)][0] pause")
-    " call append(l:tomorrow_loc + 1, "X")
-    " call append(l:tomorrow_loc + 1, "[(19:00)][0] dine with moupou")
-    " call append(l:tomorrow_loc + 1, "[(19:40)][0] clear inboxes + watch tv")
-    " call append(l:tomorrow_loc + 1, "[(20:00)][0] @india_trip/delhi prepare program + watch tv")
-    " call append(l:tomorrow_loc + 1, "[(20:40)][0] @noesis/todo clear and update + watch tv")
-    " call append(l:tomorrow_loc + 1, "[(20:50)][0] meditate (mindfulness)")
-    " call append(l:tomorrow_loc + 1, "[(21:00)][0] fall asleep + study mesopotamian civilisation")
-
-    "   paris home
-
-    call append(l:tomorrow_loc + 1, "[(06:20)][0] wake up (stretch)")
-    call append(l:tomorrow_loc + 1, "[(06:30)][0] breakfast (@noesis/todo update)")
-    call append(l:tomorrow_loc + 1, "[(06:50)][0] meditate (mindfulness)")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(09:15)][0] pause")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(11:40)][0] workout (home) + listen tech news")
-    call append(l:tomorrow_loc + 1, "[(11:50)][0] prepare + listen breaking news")
-    call append(l:tomorrow_loc + 1, "[(12:00)][0] cook + study india")
-    call append(l:tomorrow_loc + 1, "[(12:40)][0] lunch + study india")
-    call append(l:tomorrow_loc + 1, "[(13:40)][0] @noesis/todo clear and update")
-    call append(l:tomorrow_loc + 1, "[(13:50)][0] meditate (empty mind)")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(16:00)][0] pause")
-    call append(l:tomorrow_loc + 1, "X")
-    call append(l:tomorrow_loc + 1, "[(19:00)][0] cook (chat with friends)")
-    call append(l:tomorrow_loc + 1, "[(19:40)][0] dine + watch alfred hitchcock presents")
-    call append(l:tomorrow_loc + 1, "[(20:40)][0] @noesis/todo clear and update")
-    call append(l:tomorrow_loc + 1, "[(21:10)][0] meditate (gratitude)")
-    call append(l:tomorrow_loc + 1, "[(21:20)][0] fall asleep + study mesopotamian civilisation")
-
-    "   42
-
-    write
-    call winrestview(l:save)
+    let mindiff = str2nr(strftime('%s', time2) - strftime('%s', time1)) / 60
+    let new_str = substitute(time_str, '\[\d\{2}:\d\{2} \d\{2}:\d\{2}\]', '[' . mindiff . ']', 'g')
+    call setline('.', new_str)
     return 0
 endfunction
+
+
+"   @brief  Check a task with a timestamp, the task should look like '[] i am a
+"           task' and the timestamp will look like this: [00:00] if called once
+"           and [00:00 00:00] if called twice.
+
+function! MemoTaskCheck()
+    let timestamp = strftime('%H:%M')
+    let cursor_pos = getpos('.')
+    let line = getline('.')
+    if line =~ '^\[\d\d:\d\d \d\d:\d\d\] '
+        call setline('.', line[0:5] . ' ' . timestamp . line[12:])
+    elseif line =~ '^\[\d\d:\d\d\] '
+        call setline('.', line[0:5] . ' ' . timestamp . line[6:])
+    else
+        normal 0
+        call setline('.', '[' . timestamp . ']' . line[2:])
+    endif
+    call setpos('.', cursor_pos)
+endfunction
+
+
+"   @brief  Archive Today into history and set Today with Tomorrow tasks.
+
+function! MemoArchiveDay()
+    if expand('%:t:r') . '.' . expand('%:e') != 'todo.md'
+        return 1
+    endif
+    let cursor_pos = getpos('.')
+    let l:save_view = winsaveview()
+    "   Insert the dates
+    let l:today_loc = searchpos('##  Today')[0]
+    call append(l:today_loc + 1, '#[ ' . strftime('%a %d %b %Y') . ' ]')
+    call append(l:today_loc + 2, '')
+    exec 'silent! ' . l:today_loc . ',$s/^\[/\[' . strftime('%y%m%d') . ' /g'
+    exec 'silent! ' . l:today_loc . ',$s/ \] /\] /g'
+    let l:today_content = getline(l:today_loc + 2, line('$'))
+    let l:check_date = strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
+    "   Archive today
+    write
+    exec 'silent edit ' . expand('%:p:h') . '/history.gpg.md'
+    call append(search('#=====================#', 'n'), '')
+    call append(search('#=====================#', 'n'), l:today_content)
+    write
+    exec 'silent edit #'
+    "   Save Tomorrow content
+    let l:today_loc = searchpos('##  Today')[0]
+    let l:tmrrw_loc = searchpos('##  Tomorrow')[0]
+    let l:tmrrw_content = getline(l:tmrrw_loc + 2, l:today_loc - 2)
+    "   Delete Today and Tomorrow
+    exec 'silent ' . (l:tmrrw_loc + 2) . ',$delete'
+    "   Set Tomorrow
+
+    "   BDA
+    call append(line('$'), '[21:00] fall asleep')
+    call append(line('$'), '[20:50] meditate (mindfulness)')
+    call append(line('$'), '[20:40] @noesis/todo update                 + watch tv')
+    call append(line('$'), '[19:40] @noesis clear                       + watch tv')
+    call append(line('$'), '[19:00] dine with moupou')
+    call append(line('$'), '[14:00] X')
+    call append(line('$'), '[13:50] meditate (empty mind)')
+    call append(line('$'), '[13:40] @noesis/todo update                 + watch tv')
+    call append(line('$'), '[12:40] @noesis clear                       + watch tv')
+    call append(line('$'), '[12:00] lunch with moupou')
+    call append(line('$'), '[11:30] run / prepare')
+    call append(line('$'), '[07:00] X')
+    call append(line('$'), '[06:55] @noesis/todo update')
+    call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath')
+
+    " "  42
+    " call append(line('$'), '[21:10] fall asleep')
+    " call append(line('$'), '[21:00] meditate (mindfulness)')
+    " call append(line('$'), '[20:00] dine / prepare tomorrow')
+    " call append(line('$'), '[19:00] cook')
+    " call append(line('$'), '[18:30] move to home + @noesis/todo update')
+    " call append(line('$'), '[13:00] X')
+    " call append(line('$'), '[12:30] read')
+    " call append(line('$'), '[12:00] lunch')
+    " call append(line('$'), '[07:30] X')
+    " call append(line('$'), '[07:00] move to 42 + @noesis/todo update')
+    " call append(line('$'), '[06:30] workout / prepare')
+    " call append(line('$'), '[05:30] wake up + stretch / breakfast + read / breath')
+
+    " "  PARIS TODO
+    " call append(line('$'), '[21:20] fall asleep')
+    " call append(line('$'), '[21:10] meditate (gratitude)')
+    " call append(line('$'), '[20:40] @noesis/todo clear and update')
+    " call append(line('$'), '[19:40] dine + watch alfred hitchcock presents')
+    " call append(line('$'), '[19:00] cook (chat with friends)')
+    " call append(line('$'), '[16:15] X')
+    " call append(line('$'), '[16:00] pause (move, stretch)')
+    " call append(line('$'), '[14:00] X')
+    " call append(line('$'), '[13:50] meditate (empty mind)')
+    " call append(line('$'), '[13:40] @noesis/todo clear and update')
+    " call append(line('$'), '[12:40] lunch + study icp')
+    " call append(line('$'), '[12:00] cook + study icp')
+    " call append(line('$'), '[11:50] prepare + listen breaking news')
+    " call append(line('$'), '[11:40] workout (home) + listen tech news')
+    " call append(line('$'), '[09:30] X')
+    " call append(line('$'), '[09:15] pause (move, stretch)')
+    " call append(line('$'), '[07:00] X')
+    " call append(line('$'), '[06:50] meditate (mindfulness)')
+    " call append(line('$'), '[06:30] breakfast (@noesis/todo update)')
+    " call append(line('$'), '[06:20] wake up (stretch)')
+
+    "   Set Today
+    call append(line('$'), '')
+    call append(line('$'), '##  Today')
+    call append(line('$'), '')
+    call append(line('$'), 'morning daily review')
+    call append(line('$'), ' - How do I feel about last night?          X')
+    call append(line('$'), ' - Anything else?                           X')
+    call append(line('$'), '')
+    call append(line('$'), 'evening daily review')
+    call append(line('$'), ' - How do I feel about today?               X')
+    call append(line('$'), ' - What made me happy?  How to replicate?   X')
+    call append(line('$'), ' - What made me stressed?  How to prevent?  X')
+    call append(line('$'), ' - Am I on track with my routines?          X')
+    call append(line('$'), ' - Anything else?                           X')
+    call append(line('$'), ' - What did I achieve?                      X')
+    call append(line('$'), ' - Did I achieve my goal?                   X')
+    call append(line('$'), ' - Best actions taken towards my goal?      X')
+    call append(line('$'), ' - Worst actions taken towards my goal?     X')
+    call append(line('$'), ' - External forces against my goal?         X')
+    call append(line('$'), ' - What is my goal for tomorrow?            X')
+    call append(line('$'), '')
+
+    " call append(line('$'), 'home workout')
+    " call append(line('$'), ' calfRaises (+ warmUp)    40x2    x1')
+    " call append(line('$'), ' legflexion (+ gripring)  20x2    x1')
+    " call append(line('$'), ' abs                      40      x1')
+    " call append(line('$'), ' pushup                   20      x1')
+    " call append(line('$'), ' BicycleCrunch            4x15    x1')
+    " call append(line('$'), ' elastiband               50      x1')
+    " call append(line('$'), ' paintCanLift             30      x1')
+    " call append(line('$'), '')
+
+    call append(line('$'), 'allergy tracker')
+    call append(line('$'), ' - other: magnesium')
+    call append(line('$'), ' - diner: X, anise infusion')
+    call append(line('$'), ' - snack: X')
+    call append(line('$'), ' - lunch: X')
+    call append(line('$'), ' - break: X')
+    call append(line('$'), '')
+
+    call append(line('$'), l:tmrrw_content)
+    if l:check_date == 0
+        call append(line('$') - 2, ">> broken history <<")
+    endif
+    call winrestview(l:save_view)
+    call setpos('.', cursor_pos)
+    write
+    return 0
+endfunction
+
 
 " <<<
 
 augroup filetype_memo
     autocmd!
     " --------------------------------- OPTIONS >>>
-    " au BufRead,BufNewFile *.md,*.markdown,*.MD,*.MARKDOWN set filetype=memo
+
     au FileType markdown set filetype=memo
     au FileType memo
                 \   setl textwidth=80
@@ -249,41 +191,41 @@ augroup filetype_memo
                 \ | setl path+=$MEMO/Projects/**
                 \ | setl path+=$MEMO/Resources/**
                 \ | setl expandtab
-                \ | syntax sync fromstart
+                \ | let maplocalleader = "gh"
+    "           \ | syntax sync fromstart
 
     au FileType memo
                 \   setl formatoptions+=ro
-                \ | setl comments+=s:[-][>>],m:[-][>>],e:[-][>>]
+                \ | setl comments+=s:[],m:[],e:[]
 
-    au FileType memo au BufRead,BufNewFile $MEMO/Lists/history.gpg.md set textwidth=0 " TODO doesnt work
-    au FileType memo au BufRead,BufNewFile $MEMO/Lists/todo.md set textwidth=0
-
-    " GPG
     au BufReadPre,FileReadPre *.gpg.* setl viminfo=""
     au BufReadPre,FileReadPre *.gpg.* setl noswapfile noundofile nobackup
     au BufReadPost,FileReadPost *.gpg.* if getline('1') == '-----BEGIN PGP MESSAGE-----' |
                 \ exec 'silent %!gpg --decrypt 2>/dev/null' | setl title titlestring='ENCRYPTED' |
                 \ endif
     au BufWritePre,FileWritePre *.gpg.* let g:view = winsaveview() | keeppatterns %s/\s\+$//e |
-                \exec 'silent %!gpg --default-recipient $GPG_KEY --armor --encrypt 2>/dev/null'
-    au BufWritePost,FileWritePost *.gpg.* exec "normal! u"|
+                \ exec 'silent %!gpg --default-recipient $GPG_KEY --armor --encrypt 2>/dev/null'
+    au BufWritePost,FileWritePost *.gpg.* exec "normal! u" |
                 \ call winrestview(g:view) | setl title!
+
     " <<<
     " --------------------------------- MAPPINGS >>>
 
-    au FileType memo let maplocalleader = "gh"
+
+    "                       SAFETY :
+
     au FileType memo nn <buffer><silent> <LocalLeader> <nop>
+    au FileType memo nn <silent><buffer> <space>= <nop>
+    au FileType memo vn <silent><buffer> <space>= <nop>
+    au FileType memo vn <silent><buffer> = <nop>
+    au FileType memo nn <silent><buffer> = <nop>
+    au FileType memo vn <silent><buffer> gq <nop>
+    au FileType memo nn <silent><buffer> gq <nop>
+    au FileType memo nn <silent><buffer> gwG <nop>
+    au FileType memo nn <silent><buffer> gwgo <nop>
+    au FileType memo nn <silent><buffer> gwgg <nop>
 
-    "   MemoTimeDiff
-    au FileType memo nn <buffer><silent> <LocalLeader>D V:MemoTimeDiff<CR>J$daW0f]P<esc>0
-
-    "   ArchiveDay
-    au FileType memo nn <buffer><silent> <LocalLeader>A :call MemoArchiveDay()<CR>
-                \:sil cd $MEMO/<CR>
-                \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
-                \:sil !git commit -m "Archive"<CR>:redraw!<CR>
-
-    "   MappingInfo
+    "   Mapping Info
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <LocalLeader>? :echo "
                 \\n
                 \================[Memo]================\n
@@ -306,46 +248,10 @@ augroup filetype_memo
                 \                                      \|\n
                 \"<CR>
 
-    au BufRead,BufNewFile $MEMO/Lists/todo.md nn <silent><buffer> <LocalLeader>? :echo "
-                \\n
-                \================[Todos]================\n
-                \                                      \|\n
-                \ TASK_TAG_HELP     : Tab   ?          \|\n
-                \ TASK_ADD_TAG      : Tab   …          \|\n
-                \                                      \|\n
-                \ TASK_CHECK        : Space Space      \|\n
-                \ TASK_RECHECK      : Space r          \|\n
-                \ TASK_NOW          : Space n          \|\n
-                \ TASK_PAUSE        : Space p          \|\n
-                \ TASK_PAUSE_REPEAT : Space P          \|\n
-                \ TASK_POSTPONE     : Space ↑          \|\n
-                \ TASK_CLEAR        : Space c          \|\n
-                \ TASK_FIX          : Space f          \|\n
-                \                                      \|\n
-                \ ARCHIVE_DAY       : Space A          \|\n
-                \ TIME_DIFF         : Space T          \|\n
-                \                                      \|\n
-                \ ROT >>            : Space g13        \|\n
-                \                                      \|\n
-                \"<CR>
-
-
-    "                       SAFETY :
-
-    au FileType memo nn <silent><buffer> <space>= <nop>
-    au FileType memo vn <silent><buffer> <space>= <nop>
-    au FileType memo vn <silent><buffer> = <nop>
-    au FileType memo nn <silent><buffer> = <nop>
-    au FileType memo vn <silent><buffer> gq <nop>
-    au FileType memo nn <silent><buffer> gq <nop>
-    au FileType memo nn <silent><buffer> gwG <nop>
-    au FileType memo nn <silent><buffer> gwgo <nop>
-    au FileType memo nn <silent><buffer> gwgg <nop>
-
 
     "                       GENERAL :
 
-    "   HTML_EXPORT
+    "   Html Export TODO MemoToHtml()
     au FileType memo nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
                 \
                 \/--><CR>Oa { color: hotpink; }<Esc>go
@@ -356,128 +262,82 @@ augroup filetype_memo
                 \go/<span class="memoBlockquote">&gt; </span><CR>cc<span class="memoBlockquote">&gt; </span> cvidon@student.42.fr<Esc>go
                 \:fix}}<Esc>
 
-    "   PULL_MEMO
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> ghpl :cd %:h\|sil !git pull<CR>:redraw!<CR>
+    "   Pull Memo TODO MemoGitPull()
+    " au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> ghpl :cd %:h\|sil !git pull<CR>:redraw!<CR>
+    au FileType memo nn <silent><buffer> <LocalLeader>pl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 
-    "   PUSH_MEMO
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
+    "   Push Memo TODO MemoGitPush()
+    " au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
+    au FileType memo nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
+                \
                 \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
                 \:sil cd $MEMO/<CR>
                 \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
                 \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
                 \:q<CR>:redr!<CR>
 
-
-    "   MemoNavigate
-    au FileType memo nn <silent><buffer> <LocalLeader>g :silent write<CR>gogF
-    au FileType memo nn <silent><buffer> <LocalLeader>h mm:silent write<CR>`m0:call MemoNavigate()<CR>
-
-    "   INDEX_GEN
+    "   Index Gen TODO MemoIndexGen() (regen if exist)
     au FileType memo nn <silent><buffer> <LocalLeader>I :silent
                 \
                 \ :let @a=""<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
 
-    "   INDEX_NAV
-    au FileType memo nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt
-
-    "   MEMO_GREP
-    au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
-
-    "   MD_LINK
-    au FileType memo nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/ = ""<CR>Bi[](<Left><Left>
-
+    "   Index Nav TODO MemoIndexNav()
+    au FileType memo nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
 
     "   GPG ENC
     au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+
     "   GPG DEC
     au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>dec :silent %!gpg -d 2>/dev/null<CR>
 
-    "                       TODO LIST :
+    "   Markdown link
+    au FileType memo nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=""<CR>Bi[](<Left><Left>
 
-    "   TASK_ADD
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>t O[][1]<Esc><<$A<Space>
+    "   Memo Grep
+    " au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
+    au FileType memo nn <silent><buffer> com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
 
-    "   TASK_CHECK
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><silent><buffer> <Space><Space> :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
+    "                       TOD0 :
+
+    "   Archive Day
+    au BufRead,BufNewFile $MEMO/Lists/todo.md nn <buffer><silent> <LocalLeader>A :call MemoArchiveDay()<CR>
+                \:sil cd $MEMO/<CR>
+                \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
+                \:sil !git commit -m "Archive"<CR>:redraw!<CR>
+
+    "   Task New
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>t O[]<Esc><<$A<Space>
+
+    "   Task Check
+    au FileType memo nn <silent><buffer> <Leader><Space> G$
                 \
-                \?^##\s\sToday$<CR>VG<Esc>$?\%V\[\]\\|\%V\[(.*)\]<CR>mm
-                \:sil ec "go to next"<CR>
-                \0di["dPa<Space><C-R>t<Esc>0
-                \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
-                \:sil ec "datestamp check"<CR>
-                \:let @/ = ""<CR>:write<CR>02f]l
+                \?\(\[\]\\|\[\d\d:\d\d\]\) <CR>
+                \:call MemoTaskCheck()<CR>
+                \:let @/=""<CR>:write<CR>02f]l
 
-    "   TASK_RECHECK
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><silent><buffer> <Leader>r mn
+    "   Task Recheck
+    au FileType memo nn <silent><buffer> <Leader>r :call MemoTaskCheck()<CR>
                 \
-                \:silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
-                \:sil ec "save current date and time"<CR>
-                \GV?^##\s\sToday$<CR><Esc>$/\%V\[\d\d\d.*\]\[<CR>mm
-                \:sil ec "goto current"<CR>
-                \0di["dPa<Space><C-R>t<Esc>0
-                \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
-                \:sil ec "datestamp check"<CR>
-                \:let @/ = ""<CR>:write<CR>`n
+                \:let @/=""<CR>:write<CR>02f]l
 
-    "   TASK_NOW
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>. GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>2f]2l:let @/ = ""<CR>
-
-    "   TASK_PAUSE
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>p :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
-                \
-                \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
-                \:sil ec "goto next"<CR>
-                \O[][1] pause<Space><Esc>mm
-                \:sil ec "insert pause"<CR>
-                \0di["dPa<Space><C-R>t<Esc>0
-                \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
-                \:sil ec "datestamp check"<CR>
-                \:let @/ = ""<CR>:write<CR>A<Space><Space><Esc>
-
-    "   TASK_PAUSE_REPEAT
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>P :silent let @d=strftime('%y%m%d') \| let @t=strftime('%H:%M')<CR>
-                \
-                \GV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>
-                \:sil ec "goto next"<CR>
-                \O[][1] pause<Space><Esc>mm
-                \:sil ec "insert [pause]"<CR>
-                \0di["dPa<Space><C-R>t<Esc>0
-                \2j2k/^[<CR>f:t[v0f:3lc<Space><C-R>t]<Esc>'m
-                \:sil ec "datestamp check"<CR>
-                \jYGV?^##\s\sToday$<CR><esc>$/\%V\[\d\d\d.*\]\[<CR>Pdi[$
-                \:sil ec "clone current"<CR>
-                \:let @/ = ""<CR>:write<CR>jA<Space><Space><Esc>
-
-    "   TASK_POSTPONE
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <LocalLeader>k <LocalLeader><Up> kmmj
-                \jk
-                \0di[V/\[.*\]<CR>kd?^##  Today$<CR>?[wake<CR>P`m:let @/ = ""<CR>
-
-    "   TASK_CLEAR
+    "   Task Clear
     au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>c mm0di[`m
 
-    "   TASK_FIX
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>f mm0
-                \
-                \jf:f:f]f]0
-                \:sil ec "check next line"<CR>
-                \l"dyawt]vT<Space>"ty
-                \:sil ec "copy date and end of prev task"<CR>
-                \k0a0<Esc>vaw"dpa<Space><Esc>v/\s\\|\]<CR>h"tp
-                \:sil ec "paste to target task"<CR>
-                \`m:let @/ = ""\|write<CR>
+    "   Task Switch
+    au FileType memo nn <buffer><silent> <LocalLeader>s 0f]lv$hdj0f]lv$hpk$p
+    au FileType memo nn <buffer><silent> <LocalLeader>S 0f]lv$hdk0f]lv$hpj$p
 
     "                       HISTORY
 
-    "   ROT
-    au FileType memo nn <buffer><silent> <LocalLeader>R Mmm
+    "   rot
+    au FileType memo nn <buffer><silent> <LocalLeader>r Mmm
                 \
-                \:keeppatterns g/\[>>\]/norm g??<CR>
+                \:keeppatterns g/^\s/norm g??<CR>
                 \`mzz3<C-O>
 
     " <<<
     " --------------------------------- DIGRAPHS >>>
-    "
+
     au FileType memo cno <C-K>% <Nop>
     au FileType memo ino <C-K>% <Nop>
 
@@ -543,29 +403,6 @@ augroup filetype_memo
     au FileType memo exec "digraphs US " . 0x1D41
     au FileType memo exec "digraphs VS " . 0x2C7D
     au FileType memo exec "digraphs WS " . 0x1D42
+
     " <<<
 augroup END
-
-
-"   task switch
-au FileType memo nn <buffer><silent> <LocalLeader>s 02f]lv$hdj02f]lv$hpk$p
-au FileType memo nn <buffer><silent> <LocalLeader>S 02f]lv$hdk02f]lv$hpj$p
-
-"   task merge (or unite, union, join, aggregate, unify..)
-au FileType memo nn <buffer><silent> <LocalLeader>m  mm
-            \0di[jf]B"yyt]
-            \k0a<C-e><C-e><C-e><C-e><C-e><C-e><Space>
-            \<C-r>y<Space><C-r>y<Esc>
-            \`mk
-
-"   weekly review
-au FileType memo vn <buffer><silent> <LocalLeader>wr go
-            \VG:norm d3f<Space><CR>
-            \gv:norm f]D<CR>
-            \gvk:norm A+<CR>
-            \gvjgJ
-
-
-"   task group
-" au FileType memo nn <buffer><silent> <Space>g mm0jyf]kvf]pk`m
-" au FileType memo nn <buffer><silent> <Space>G mm0kyf]jvf]pk`m

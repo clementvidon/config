@@ -173,17 +173,26 @@ function    gup()
 
 # @brief        Change to the next / prev directory in parent folder
 
-function nd()
+function cdn()
 {
     local next_dir=$(ls -1 .. | grep -A 1 "$(basename "$(pwd)")$" | tail -n 1)
     cd "../${next_dir}"
     pwd
 }
 
-function pd()
+function cdp()
 {
     local next_dir=$(ls -1 .. | grep -B 1 "$(basename "$(pwd)")$" | head -n 1)
     cd "../${next_dir}"
     pwd
 }
 
+function repl()
+{
+    if [[ "$1" == "" ]]; then
+        echo "Replace all 'old' into 'new' for all the files found in the 'path' tree."
+        echo "Usage: repl path old new"
+        return
+    fi
+    find "$1" -type f -exec sed -i "s/$2/$3/g" {} +
+}

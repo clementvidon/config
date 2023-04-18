@@ -135,6 +135,9 @@ endfunction
 "
 "   - does not affect the cursor position
 "   - does not affect the undo tree
+"
+" TODO issue when the formatted content has less lines than the original
+" content, duplicated text my appear at the end of the buffer...
 
 function! ClangFormat()
     let save_cursor = getpos(".")

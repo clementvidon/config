@@ -15,14 +15,22 @@ augroup filetype_c
     au FileType c,cpp let maplocalleader = "gh"
 
     "   Header (copyright  2023 clemedon)
-    autocmd FileType c,cpp,make autocmd BufEnter <buffer> let b:been_modified = 0
-    autocmd FileType c,cpp,make autocmd BufWritePre <buffer> let b:been_modified = 1
-    autocmd FileType c,cpp autocmd BufLeave,VimLeavePre <buffer>
-                \ | if b:been_modified | execute ':call Header("//") | silent write' | endif
-                \ | unlet b:been_modified
-    autocmd FileType make autocmd BufLeave,VimLeavePre <buffer>
-                \ | if b:been_modified | execute ':call Header("#") | silent write' | endif
-                \ | unlet b:been_modified
+
+    au FileType c,cpp,make au BufRead,BufNewFile,BufEnter,VimEnter <buffer> let b:modified = 0
+    au FileType c,cpp,make au BufWritePost <buffer> let b:modified = 1
+    au FileType c,cpp au! BufLeave,VimLeavePre <buffer>
+                \ | if exists('b:modified') && b:modified | execute ':call Header("//") | silent write' | endif
+    au FileType make au BufLeave,VimLeavePre <buffer>
+                \ | if exists('b:modified') && b:modified | execute ':call Header("#") | silent write' | endif
+
+    " autocmd FileType c,cpp,make autocmd BufNewFile,BufRead,BufEnter <buffer> let b:been_modified = 0
+    " autocmd FileType c,cpp,make autocmd BufWritePre <buffer> let b:been_modified = 1
+    " autocmd FileType c,cpp autocmd BufLeave,VimLeavePre <buffer>
+    "             \ | if b:been_modified | execute ':call Header("//") | silent write' | endif
+    "             \ | unlet b:been_modified
+    " autocmd FileType make autocmd BufLeave,VimLeavePre <buffer>
+    "             \ | if b:been_modified | execute ':call Header("#") | silent write' | endif
+    "             \ | unlet b:been_modified
 
     " .......................... PLUGIN
 
@@ -173,7 +181,7 @@ augroup filetype_c
                 \jfT
 
     "   Format
-    au Filetype c,cpp nn <silent><buffer> <LocalLeader>f :call FormatCurrentFile()<CR>:w<CR>
+    au Filetype c,cpp nn <silent><buffer> <LocalLeader>f :call ClangFormat()<CR>:w<CR>
 
     " ............... DEBUG
 
@@ -220,7 +228,8 @@ augroup filetype_c
     au Filetype c,cpp nn <silent><buffer> gzF :keeppatterns g/^\a<CR>
 
     "   Put/update Header
-    au Filetype c,cpp nn <silent><buffer> gzh :call Header("//")<CR>
+    au Filetype cpp nn <silent><buffer> gzh :call Header("//")<CR>
+    au Filetype make nn <silent><buffer> gzh :call Header("#")<CR>
 
     "   New Class
     function ClassInitCpp()

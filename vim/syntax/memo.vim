@@ -4,77 +4,53 @@
 " Maintainer:   Clément Vidon  <cvidon@student.42.fr>
 " Last Change:  2022 Aug
 
-" Print FG colors
-" for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
-" Print BG colors
-" for i in {0..255}; do printf '\e[48;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
-
 if exists("b:current_syntax")
     finish
 endif
+
 " --------------------------------- SYNTAX >>>
 " Headers
-syn region memoH1 start="^##\@!" end="#*\s*$"
-syn region memoH2 start="^###\@!" end="#*\s*$"
-syn region memoH3 start="^####\@!" end="#*\s*$"
-syn region memoH4 start="^#####\@!" end="#*\s*$"
-syn region memoH5 start="^######\@!" end="#*\s*$"
-syn region memoH6 start="^#######\@!" end="#*\s*$"
+syn region memoH1 start="^##\@!"        end="#*\s*$"
+syn region memoH2 start="^###\@!"       end="#*\s*$"
+syn region memoH3 start="^####\@!"      end="#*\s*$"
+syn region memoH4 start="^#####\@!"     end="#*\s*$"
+syn region memoH5 start="^######\@!"    end="#*\s*$"
+syn region memoH6 start="^#######\@!"   end="#*\s*$"
 
-" List
 syn match memoListMarker "^\%(\s\{0,3\}\)[-*+]\%(\s\+\S\)\@="
 syn match memoOrderedListMarker "^\%(\s\{0,3}\)\<\d\+\.\%(\s\+\S\)\@="
 
-" Blockquote
 syn match memoBlockquote "^>\%(\s\|$\)"
-
-" Url
 syn match memoUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
-
-" Link
 syn match memoLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
 if has("conceal")
     set conceallevel=2
     set concealcursor=n
-    " Code Italic Bold BoldItalic
-    syn region memoCode concealends matchgroup=memoDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`"
-    syn region memoItalic concealends matchgroup=memoDelimiter start="\S\@<=\*\|\*\S\@=" end="\S\@<=\*\|\*\S\@=" skip="\\\*"
-    syn region memoBold concealends matchgroup=memoDelimiter start="\S\@<=\*\*\|\*\*\S\@=" end="\S\@<=\*\*\|\*\*\S\@=" skip="\\\*"
+    syn region memoCode       concealends matchgroup=memoDelimiter start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
+    syn region memoItalic     concealends matchgroup=memoDelimiter start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
+    syn region memoBold       concealends matchgroup=memoDelimiter start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
     syn region memoBoldItalic concealends matchgroup=memoDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 else
-    " Code Italic Bold BoldItalic
-    syn region memoCode matchgroup=memoDelimiter start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" skip="\\`"
-    syn region memoItalic matchgroup=memoDelimiter start="\S\@<=\*\|\*\S\@=" end="\S\@<=\*\|\*\S\@=" skip="\\\*"
-    syn region memoBold matchgroup=memoDelimiter start="\S\@<=\*\*\|\*\*\S\@=" end="\S\@<=\*\*\|\*\*\S\@=" skip="\\\*"
-    syn region memoBoldItalic matchgroup=memoDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
+    syn region memoCode                   matchgroup=memoDelimiter start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
+    syn region memoItalic                 matchgroup=memoDelimiter start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
+    syn region memoBold                   matchgroup=memoDelimiter start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
+    syn region memoBoldItalic             matchgroup=memoDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
-
-" Code
 syn match memoCodeLine "^\s\{4}.*$"
 syn match memoCodeMarker "^```.*$"
 syn region memoCodeBlock matchgroup=memoCodeMarker start="^```" end="^```" skip="\\``"
 
-" Task Stamp/Tag
-syn match memoTaskStamp contains=@NoSpell "\(^\[.\{-}\]\)\(\[.\{-}\(\]\|\]$\)\)\@="
-syn match memoTaskTag "\(^\[.\{-}\]\)\@<=\[.\{-}\(\]\|\]$\)"
+syn match memoTaskCheck /^\[\]/
+syn match memoTaskCheck /^\[\d\d:\d\d\]/
+syntax match memoTaskChecked /^\[\d\{2}:\d\{2} \d\{2}:\d\{2}\]/
+syntax match memoTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]/
+syntax match memoTaskChecked /^\[\d\{6} \d\{2}:\d\{2}\]/
+syntax match memoTaskChecked /^\[\d\{6}\]/
 
-" Task Perso
-syn match memoTaskPerso "\(\]\[\(0\|>>\)\]\)\@<=.*" contains=memoBoldItalic,memoLink
-
-" Project (achiever)
-syn match memoProject "\(\s>\|^>\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
-
-" Escape
-syn match memoEscape "\\."
-
-" Keywords
 syn keyword memoBoldItalic TODO
 syn keyword memoBoldItalic XXX
 syn keyword memoBoldItalic X
-
-" TaskParent
-" syn match memoTaskParent "\(^\[.\{-}\]\[1\]\)\@<= [a-zA-Z0-9]*\ze\( : \)" TODO
 
 " <<<
 " --------------------------------- COLORS >>>
@@ -84,108 +60,64 @@ syn keyword memoBoldItalic X
 " light: 8:black  9:red 10:green 11:yellow 12:blue 13:magenta 14:cyan 15:white
 
 if &background == "dark"
-    " Headers               : vivid light green
-    hi memoH1 ctermfg=85
-    hi link memoH2 memoH1
-    hi link memoH3 memoH1
-    hi link memoH4 memoH1
-    hi link memoH5 memoH1
-    hi link memoH6 memoH1
 
-    " List                  : vivid light green
-    hi link memoListMarker memoH1
-    hi link memoOrderedListMarker memoH1
+    hi memoH1                       ctermfg=85
+    hi memoH2                       ctermfg=85
+    hi memoH3                       ctermfg=85
+    hi memoH4                       ctermfg=85
+    hi memoH5                       ctermfg=85
+    hi memoH6                       ctermfg=85
 
-    " Blockquote            : light violet
-    hi memoBlockquote ctermfg=147
+    hi memoListMarker               ctermfg=85
+    hi memoOrderedListMarker        ctermfg=85
 
-    " Url                   : dark pale purple
-    hi memoUrl cterm=underline ctermfg=103
-    " Link                  : vivid pink, dark purple
-    hi memoLink ctermfg=104
-    " Project               :
-    hi memoProject ctermfg=157
+    hi memoBlockquote               ctermfg=147
+    hi memoUrl cterm=underline      ctermfg=103
+    hi memoLink                     ctermfg=104
 
-    " Code                  : pale light green
-    hi memoCode ctermfg=151
-    hi link memoCodeLine memoCode
-    hi link memoCodeBlock memoCode
+    hi memoCode                     ctermfg=151
+    hi memoCodeLine                 ctermfg=151
+    hi memoCodeBlock                ctermfg=151
 
-    " Code Marker
-    hi memoCodeMarker ctermfg=154
+    hi memoCodeMarker               ctermfg=154
+    hi memoItalic                   ctermfg=230
+    hi memoBold                     ctermfg=228
+    hi memoBoldItalic               ctermfg=220
 
-    " Italic                : pale light yellow
-    hi memoItalic ctermfg=230
-    " Bold                  : vivid yellow
-    hi memoBold ctermfg=227
-    " BoldItalic            : pale light green yellow
-    hi memoBoldItalic ctermfg=190
+    hi memoTaskCheck                ctermfg=189
+    hi memoTaskChecked              ctermfg=59
 
-    " Task Stamp/Tag        : dark grey, pale light brown
-    " tag 240
-    " perso 8
-    hi memoTaskStamp ctermfg=59
-    hi memoTaskTag ctermfg=248
-    " Task Perso            : pale dark blue
-    hi memoTaskPerso ctermfg=60
-
-    " Delimiter             : dark grey
-    hi memoDelimiter ctermfg=238
-    " Escape                : dark grey
-    hi memoEscape ctermfg=105
-
-    " hi memoTaskParent ctermfg=192 TODO
+    hi memoDelimiter                ctermfg=238
 
 elseif &background == "light"
-    " Headers                   : vivid blue
-    hi memoH1 ctermfg=27
-    hi link memoH2 memoH1
-    hi link memoH3 memoH1
-    hi link memoH4 memoH1
-    hi link memoH5 memoH1
-    hi link memoH6 memoH1
 
-    " List                      : vivid blue
-    hi link memoListMarker memoH1
-    hi link memoOrderedListMarker memoH1
+    hi memoH1                       ctermfg=27
+    hi memoH2                       ctermfg=27
+    hi memoH3                       ctermfg=27
+    hi memoH4                       ctermfg=27
+    hi memoH5                       ctermfg=27
+    hi memoH6                       ctermfg=27
 
-    " Blockquote                : vivid purple
-    hi memoBlockquote ctermfg=93
+    hi memoListMarker               ctermfg=27
+    hi memoOrderedListMarker        ctermfg=27
 
-    " Urls                      : pale light purple
-    hi memoUrl cterm=underline ctermfg=147
-    " Link                      : vivid pink, light purple
-    hi memoLink ctermfg=105
-    " Project                   :
-    hi link memoProject memoBold
+    hi memoBlockquote               ctermfg=93
+    hi memoUrl cterm=underline      ctermfg=147
+    hi memoLink                     ctermfg=105
 
-    " Code                      : pale dark green
-    hi memoCode ctermfg=101
-    hi link memoCodeLine memoCode
-    hi link memoCodeBlock memoCode
+    hi memoCode                     ctermfg=101
+    hi memoCodeLine                 ctermfg=101
+    hi memoCodeBlock                ctermfg=101
+    hi memoCodeMarker               ctermfg=178
 
-    " Code Marker
-    hi memoCodeMarker ctermfg=178
+    hi memoItalic                   ctermbg=230
+    hi memoBold                     ctermbg=229
+    hi memoBoldItalic               ctermbg=195
 
-    " Italic                    : pale light yellow
-    hi memoItalic ctermbg=230
-    " Bold                      : light yellow
-    hi memoBold ctermbg=229
-    " Bolditalic                : light blue
-    hi memoBoldItalic ctermbg=195
+    hi memoTaskCheck                ctermfg=250
+    hi memoTaskChecked              ctermfg=101
 
-    " Task Stamp/Tag            : light grey, dark gray
-    hi memoTaskStamp ctermfg=250
-    hi memoTaskTag ctermfg=101
-    " Task Perso                : light
-    hi memoTaskPerso ctermfg=7
-
-    " Delimiter                 : light grey
-    hi memoDelimiter ctermfg=255
-    " Escape                    : dark grey
-    hi memoEscape ctermfg=213
-
-    " hi memoTaskParent ctermfg=197 TODO
+    hi memoDelimiter                ctermfg=255
 
 endif
 " <<<
