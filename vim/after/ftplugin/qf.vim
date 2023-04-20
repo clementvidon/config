@@ -8,6 +8,6 @@ augroup filetype_qf
     " --------------------------------- PLUGINS >>>
     " <<<
     " --------------------------------- MAPPINGS >>>
-    au FileType qf wincmd J
+    " au FileType qf wincmd J
     " <<<
 augroup END

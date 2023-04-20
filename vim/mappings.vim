@@ -86,7 +86,7 @@ nn glrn :set relativenumber!<CR>
 nn glro GVgog?g;g;
 nn glru :exe getline(".")<CR>
 nn glsb :set scrollbind!<CR>
-nn glsc <silent> :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
+nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nn glsl :set startofline!<CR>
 nn glso :silent write\|source $MYVIMRC\|e<CR>zR
 nn glsp :set spell!<CR>

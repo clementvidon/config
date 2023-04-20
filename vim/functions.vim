@@ -57,6 +57,7 @@ function! StripTrailingSpaces()
     if !&binary && &filetype != 'diff'
         let l:view = winsaveview()
         keeppatterns %s/\s\+$//e
+        " keeppatterns v/\_s*\S/d
         call winrestview(l:view)
     endif
 endfunction
@@ -118,9 +119,10 @@ function! Header(cmt)
     let time = strftime('%y%m%d %H:%M:%S')
     let seal = time . "  by  " . user
 
-    silent if  (getline(1) =~ '@author' && getline(4) =~ '@filename')
+    if  (getline(1) =~ '@author' && getline(4) =~ '@filename')
         call setline(3, a:cmt . " @modified  " . seal)
-    else
+    elseif (getline(1) =~ 'hello')
+        delete 1
         call append(line("0"), "")
         call append(line("0"), a:cmt . " @filename  " . expand("%:t"))
         call append(line("0"), a:cmt . " @modified  " . seal)
@@ -135,9 +137,6 @@ endfunction
 "
 "   - does not affect the cursor position
 "   - does not affect the undo tree
-"
-" TODO issue when the formatted content has less lines than the original
-" content, duplicated text my appear at the end of the buffer...
 
 function! ClangFormat()
     let save_cursor = getpos(".")
@@ -145,11 +144,20 @@ function! ClangFormat()
     set modifiable
     let buffer_content = getline(1, '$')
     let formatted_content = system('clang-format', buffer_content)
-    call setline(1, split(formatted_content, "\n"))
+    let formatted_lines = split(formatted_content, "\n")
+    let num_extra_lines = line('$') - len(formatted_lines)
+    if num_extra_lines > 0
+        let extra_lines = repeat([''], num_extra_lines)
+        let formatted_lines += extra_lines
+    endif
+    call setline(1, formatted_lines)
+    keeppatterns %s/\s\+$//e " trailing spaces
+    keeppatterns v/\_s*\S/d  " trailing lines
     set nomodified
     call winrestview(save_view)
     call setpos('.', save_cursor)
 endfunction
+
 
 "   @brief  Vim 'gF' extension to make it accept a string pattern as a cursor
 "           position in the target file.

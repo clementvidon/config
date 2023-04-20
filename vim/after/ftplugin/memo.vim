@@ -1,5 +1,15 @@
 " --------------------------------- FUNCTIONS >>>
 
+"   @brief  Return a HH:MM timestamp with the minutes rounded to the closest
+"           multiple of 5.
+
+function! RoundedTime()
+    let time = strftime('%H:%M')
+    let minutes = str2nr(split(time, ':')[1])
+    let rounded_minutes = (minutes + 2) / 5 * 5
+    let rounded_time = printf('%02d:%02d', str2nr(split(time, ':')[0]), rounded_minutes)
+    return rounded_time
+endfunction
 
 "   @brief  Print the time difference between time1 and time2 in minutes.
 "           time1 and time2 should be in the [HH:MM HH:MM] format.
@@ -23,16 +33,36 @@ endfunction
 "           and [00:00 00:00] if called twice.
 
 function! MemoTaskCheck()
-    let timestamp = strftime('%H:%M')
+    let timestamp = RoundedTime()
     let cursor_pos = getpos('.')
     let line = getline('.')
+
     if line =~ '^\[\d\d:\d\d \d\d:\d\d\] '
         call setline('.', line[0:5] . ' ' . timestamp . line[12:])
     elseif line =~ '^\[\d\d:\d\d\] '
         call setline('.', line[0:5] . ' ' . timestamp . line[6:])
-    else
+    elseif line =~ '^\[\] '
         normal 0
         call setline('.', '[' . timestamp . ']' . line[2:])
+    elseif line =~ '^- '
+        call setline('.', '+ ' . line[2:])
+    endif
+    call setpos('.', cursor_pos)
+endfunction
+
+"   @brief  Recheck an already checked task:
+"           00:00       -> 11:11
+"           00:00 00:00 -> 00:00 11:11
+
+function! MemoTaskReCheck()
+    let timestamp = RoundedTime()
+    let cursor_pos = getpos('.')
+    let line = getline('.')
+
+    if line =~ '^\[\d\d:\d\d\] '
+        call setline('.', '[' . timestamp . line[6:])
+    elseif line =~ '^\[\d\d:\d\d \d\d:\d\d\] '
+        call setline('.', line[0:6] . timestamp . line[12:])
     endif
     call setpos('.', cursor_pos)
 endfunction
@@ -71,33 +101,32 @@ function! MemoArchiveDay()
 
     "   BDA
     call append(line('$'), '[21:00] fall asleep')
-    call append(line('$'), '[20:50] meditate (mindfulness)')
-    call append(line('$'), '[20:40] @noesis/todo update                 + watch tv')
-    call append(line('$'), '[19:40] @noesis clear                       + watch tv')
+    call append(line('$'), '[20:50] breath (5min)')
+    call append(line('$'), '[20:40] @noesis/todo update')
+    call append(line('$'), '***[19:40] 1h free***')
     call append(line('$'), '[19:00] dine with moupou')
-    call append(line('$'), '[14:00] X')
-    call append(line('$'), '[13:50] meditate (empty mind)')
-    call append(line('$'), '[13:40] @noesis/todo update                 + watch tv')
-    call append(line('$'), '[12:40] @noesis clear                       + watch tv')
-    call append(line('$'), '[12:00] lunch with moupou')
-    call append(line('$'), '[11:30] run / prepare')
-    call append(line('$'), '[07:00] X')
+    call append(line('$'), '***[14:00] 5h goal***')
+    call append(line('$'), '[13:50] breath (5min)')
+    call append(line('$'), '[13:40] @noesis/todo update')
+    call append(line('$'), '***[12:40] 1h free***')
+    call append(line('$'), '[11:20] run (20min) / prepare / lunch with moupou')
+    call append(line('$'), '***[07:00] 4h goal***')
     call append(line('$'), '[06:55] @noesis/todo update')
-    call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath')
+    call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath (5min)')
 
     " "  42
     " call append(line('$'), '[21:10] fall asleep')
-    " call append(line('$'), '[21:00] meditate (mindfulness)')
+    " call append(line('$'), '[21:00] breath (5min)')
     " call append(line('$'), '[20:00] dine / prepare tomorrow')
     " call append(line('$'), '[19:00] cook')
     " call append(line('$'), '[18:30] move to home + @noesis/todo update')
-    " call append(line('$'), '[13:00] X')
+    " call append(line('$'), '***[13:00] goal***')
     " call append(line('$'), '[12:30] read')
     " call append(line('$'), '[12:00] lunch')
-    " call append(line('$'), '[07:30] X')
+    " call append(line('$'), '***[07:30] goal***')
     " call append(line('$'), '[07:00] move to 42 + @noesis/todo update')
     " call append(line('$'), '[06:30] workout / prepare')
-    " call append(line('$'), '[05:30] wake up + stretch / breakfast + read / breath')
+    " call append(line('$'), '[05:30] wake up + stretch / breakfast + read / breath (5min)')
 
     " "  PARIS TODO
     " call append(line('$'), '[21:20] fall asleep')
@@ -125,11 +154,11 @@ function! MemoArchiveDay()
     call append(line('$'), '')
     call append(line('$'), '##  Today')
     call append(line('$'), '')
-    call append(line('$'), 'morning daily review')
+    call append(line('$'), 'Morning daily review')
     call append(line('$'), ' - How do I feel about last night?          X')
     call append(line('$'), ' - Anything else?                           X')
     call append(line('$'), '')
-    call append(line('$'), 'evening daily review')
+    call append(line('$'), 'Evening daily review')
     call append(line('$'), ' - How do I feel about today?               X')
     call append(line('$'), ' - What made me happy?  How to replicate?   X')
     call append(line('$'), ' - What made me stressed?  How to prevent?  X')
@@ -143,7 +172,7 @@ function! MemoArchiveDay()
     call append(line('$'), ' - What is my goal for tomorrow?            X')
     call append(line('$'), '')
 
-    " call append(line('$'), 'home workout')
+    " call append(line('$'), 'Home workout')
     " call append(line('$'), ' calfRaises (+ warmUp)    40x2    x1')
     " call append(line('$'), ' legflexion (+ gripring)  20x2    x1')
     " call append(line('$'), ' abs                      40      x1')
@@ -153,12 +182,12 @@ function! MemoArchiveDay()
     " call append(line('$'), ' paintCanLift             30      x1')
     " call append(line('$'), '')
 
-    call append(line('$'), 'allergy tracker')
+    call append(line('$'), 'Allergy tracker')
     call append(line('$'), ' - other: magnesium')
-    call append(line('$'), ' - diner: X, anise infusion')
-    call append(line('$'), ' - snack: X')
-    call append(line('$'), ' - lunch: X')
-    call append(line('$'), ' - break: X')
+    call append(line('$'), ' - diner: bread, X, anise infusion')
+    call append(line('$'), ' - snack: X, genmaicha tea')
+    call append(line('$'), ' - lunch: bread, X, coffee, chocolat')
+    call append(line('$'), ' - break: X, genmaicha tea')
     call append(line('$'), '')
 
     call append(line('$'), l:tmrrw_content)
@@ -194,9 +223,9 @@ augroup filetype_memo
                 \ | let maplocalleader = "gh"
     "           \ | syntax sync fromstart
 
-    au FileType memo
-                \   setl formatoptions+=ro
-                \ | setl comments+=s:[],m:[],e:[]
+    " au FileType memo
+    "             \   setl formatoptions+=ro
+    "             \ | setl comments+=s:[],m:[],e:[]
 
     au BufReadPre,FileReadPre *.gpg.* setl viminfo=""
     au BufReadPre,FileReadPre *.gpg.* setl noswapfile noundofile nobackup
@@ -307,17 +336,24 @@ augroup filetype_memo
 
     "   Task New
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>t O[]<Esc><<$A<Space>
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>T O-<Space>
 
     "   Task Check
-    au FileType memo nn <silent><buffer> <Leader><Space> G$
+    au FileType memo nn <silent><buffer> <Leader>k :call MemoTaskCheck()<CR>
                 \
-                \?\(\[\]\\|\[\d\d:\d\d\]\) <CR>
-                \:call MemoTaskCheck()<CR>
                 \:let @/=""<CR>:write<CR>02f]l
 
     "   Task Recheck
-    au FileType memo nn <silent><buffer> <Leader>r :call MemoTaskCheck()<CR>
+    au FileType memo nn <silent><buffer> <Leader>r :call MemoTaskReCheck()<CR>
                 \
+                \:let @/=""<CR>:write<CR>02f]l
+
+    "   Task Check Next
+    au FileType memo nn <silent><buffer> <Leader><Space> G$
+                \
+                \/^##  Today$<CR>VG<Esc>
+                \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
+                \:call MemoTaskCheck()<CR>
                 \:let @/=""<CR>:write<CR>02f]l
 
     "   Task Clear

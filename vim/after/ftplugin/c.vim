@@ -18,9 +18,9 @@ augroup filetype_c
 
     au FileType c,cpp,make au BufRead,BufNewFile,BufEnter,VimEnter <buffer> let b:modified = 0
     au FileType c,cpp,make au BufWritePost <buffer> let b:modified = 1
-    au FileType c,cpp au! BufLeave,VimLeavePre <buffer>
+    au FileType c,cpp au! VimLeavePre <buffer>
                 \ | if exists('b:modified') && b:modified | execute ':call Header("//") | silent write' | endif
-    au FileType make au BufLeave,VimLeavePre <buffer>
+    au FileType make au VimLeavePre <buffer>
                 \ | if exists('b:modified') && b:modified | execute ':call Header("#") | silent write' | endif
 
     " autocmd FileType c,cpp,make autocmd BufNewFile,BufRead,BufEnter <buffer> let b:been_modified = 0
@@ -40,7 +40,6 @@ augroup filetype_c
     " <<<
 
     " --------------------------------- MAPPINGS >>>
-    "
 
     au Filetype c,cpp nn <silent><buffer> <Space>= <nop>
     au Filetype c,cpp nn <silent><buffer> sh :fin *hpp
@@ -129,7 +128,7 @@ augroup filetype_c
                 \ -Wall -Wextra -Werror
                 \ -Wconversion -Wsign-conversion -pedantic
                 \ -fsanitize=address,undefined,integer,nullability,vptr
-                \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEBUG
+                \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEV
                 \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cw<CR>
                 \:!clear; ./a.out<CR>
 
@@ -140,7 +139,7 @@ augroup filetype_c
                 \ -Wall -Wextra -Werror -std=c++98
                 \ -Wconversion -Wsign-conversion -pedantic
                 \ -fsanitize=address,undefined,integer,nullability,vptr
-                \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEBUG
+                \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEV
                 \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cw<CR>
                 \:!clear; ./a.out<CR>
 
@@ -151,7 +150,7 @@ augroup filetype_c
                     \:silent !clear; rm -f a.out /tmp/_err<CR>
                     \:silent !c++
                     \ -Wall -Wextra -Werror -std=c++98
-                    \ -fno-omit-frame-pointer -Og -D DEBUG
+                    \ -fno-omit-frame-pointer -Og -D DEV
                     \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cw<CR>
                     \:!clear; leaks -q -atExit -- ./a.out<CR>
 
@@ -161,7 +160,7 @@ augroup filetype_c
                     \:silent !clear; rm -f a.out /tmp/_err<CR>
                     \:silent !c++
                     \ -Wall -Wextra -Werror -std=c++98
-                    \ -fno-omit-frame-pointer -Og -D DEBUG
+                    \ -fno-omit-frame-pointer -Og -D DEV
                     \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cw<CR>
                     \:silent cfile /tmp/_err<CR>:silent 5cw<CR>
                     \:!clear; valgrind -q ./a.out<CR>
@@ -183,7 +182,7 @@ augroup filetype_c
     "   Format
     au Filetype c,cpp nn <silent><buffer> <LocalLeader>f :call ClangFormat()<CR>:w<CR>
 
-    " ............... DEBUG
+    " ............... DEV
 
     "   Print
     au Filetype c nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==f"a
@@ -250,7 +249,7 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "::" . className . "( void ) {")
-                call append(line("$"), "#if defined( DEBUG )")
+                call append(line("$"), "#if defined( DEV )")
                 call append(line("$"), "  std::cerr << __FILE__ << \" CONSTRUCTED \" << *this;")
                 call append(line("$"), "  std::cerr << std::endl;")
                 call append(line("$"), "#endif")
@@ -263,7 +262,7 @@ augroup filetype_c
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "::" . className . "( " . className . " const& src ) {")
                 call append(line("$"), "  *this = src;")
-                call append(line("$"), "#if defined( DEBUG )")
+                call append(line("$"), "#if defined( DEV )")
                 call append(line("$"), "  std::cerr << __FILE__ << \" COPY CONSTRUCTED \" << *this << \" FROM \" << src;")
                 call append(line("$"), "  std::cerr << std::endl;")
                 call append(line("$"), "#endif")
@@ -275,7 +274,7 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "::~" . className . "( void ) {")
-                call append(line("$"), "#if defined( DEBUG )")
+                call append(line("$"), "#if defined( DEV )")
                 call append(line("$"), "  std::cerr << __FILE__ << \" DESTRUCTED \" << *this;")
                 call append(line("$"), "  std::cerr << std::endl;")
                 call append(line("$"), "#endif")
@@ -287,7 +286,7 @@ augroup filetype_c
                 call append(line("$"), " */")
                 call append(line("$"), "")
                 call append(line("$"), "" . className . "& " . className . "::operator=( " . className . " const& rhs ) {")
-                call append(line("$"), "#if defined( DEBUG )")
+                call append(line("$"), "#if defined( DEV )")
                 call append(line("$"), "  std::cerr << rhs << \" ASSIGNED TO \" << *this;")
                 call append(line("$"), "  std::cerr << std::endl;")
                 call append(line("$"), "#endif")
@@ -296,7 +295,7 @@ augroup filetype_c
                 call append(line("$"), "  }")
                 call append(line("$"), "  // TODO")
                 call append(line("$"), "  return *this;")
-                call append(line("$"), "/* #if defined( DEBUG ) */")
+                call append(line("$"), "/* #if defined( DEV ) */")
                 call append(line("$"), "/*   std::cerr << __FILE__ << \" COPY ASSIGNMENT OPERATOR DISABLED\"; */")
                 call append(line("$"), "/*   std::cerr << std::endl; */")
                 call append(line("$"), "/* #endif */")
@@ -374,13 +373,13 @@ augroup filetype_c
     " .......................... TEXT OBJECTS
 
     "   Functions
-    au Filetype c,cpp xn <silent><buffer> if /^}$<CR>on%j0ok$
-    au Filetype c,cpp xn <silent><buffer> af /^}$<CR>on%?^$<CR>j
+    au Filetype c,cpp xn <silent><buffer> if <Esc>k/^}$<CR>V%j0ok$
+    au Filetype c,cpp xn <silent><buffer> af <Esc>k/^}$<CR>V%?^$<CR>j
     au Filetype c,cpp ono <silent><buffer> if :normal Vif<CR>
     au Filetype c,cpp ono <silent><buffer> af :normal Vaf<CR>
 
     "   Functions + docstring
-    au Filetype c,cpp xn <silent><buffer> aF /^}$<CR>on%?^$<CR>njoj
+    au Filetype c,cpp xn <silent><buffer> aF <Esc>k/^}$<CR>V%?/\*<CR>oj
     au Filetype c,cpp ono <silent><buffer> aF :normal VaF<CR>
 
     " .......................... ABBREVIATIONS
@@ -400,8 +399,8 @@ augroup filetype_c
     au Filetype cpp iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 
-    au Filetype cpp iabbr <silent><buffer> sstr std::string<C-R>=Eatchar('\s')<CR>
-    au Filetype cpp iabbr <silent><buffer> sstrc std::string const<C-R>=Eatchar('\s')<CR>
+    au Filetype cpp iabbr <silent><buffer> sstr std::string<CR>
+    au Filetype cpp iabbr <silent><buffer> sstrc std::string const& <C-R>=Eatchar('\s')<CR>
 
     au Filetype cpp iabbr <silent><buffer> cin std::cin
     au Filetype cpp iabbr <silent><buffer> cer std::cerr
