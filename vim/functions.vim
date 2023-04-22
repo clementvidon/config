@@ -121,7 +121,6 @@ function! Header(cmt)
     if  (getline(1) =~ '@author' && getline(4) =~ '@filename')
         call setline(3, a:cmt . " @modified  " . seal)
     else
-        silent! call deletebufline('%', 1)
         silent! call append(line("0"), "")
         silent! call append(line("0"), a:cmt . " @filename  " . expand("%:t"))
         silent! call append(line("0"), a:cmt . " @modified  " . seal)
