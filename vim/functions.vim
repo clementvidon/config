@@ -118,18 +118,18 @@ function! Header(cmt)
     let user = trim(system('whoami')) . "@" . trim(system('hostname'))
     let time = strftime('%y%m%d %H:%M:%S')
     let seal = time . "  by  " . user
-
     if  (getline(1) =~ '@author' && getline(4) =~ '@filename')
         call setline(3, a:cmt . " @modified  " . seal)
-    elseif (getline(1) =~ 'hello')
-        delete 1
-        call append(line("0"), "")
-        call append(line("0"), a:cmt . " @filename  " . expand("%:t"))
-        call append(line("0"), a:cmt . " @modified  " . seal)
-        call append(line("0"), a:cmt . " @created   " . seal)
-        call append(line("0"), a:cmt . " @author    Clément Vidon")
+    else
+        silent! call deletebufline('%', 1)
+        silent! call append(line("0"), "")
+        silent! call append(line("0"), a:cmt . " @filename  " . expand("%:t"))
+        silent! call append(line("0"), a:cmt . " @modified  " . seal)
+        silent! call append(line("0"), a:cmt . " @created   " . seal)
+        silent! call append(line("0"), a:cmt . " @author    Clément Vidon")
     endif
 endfunction
+
 
 " --------------------------------- IMPROVE >>>
 
@@ -145,11 +145,13 @@ function! ClangFormat()
     let buffer_content = getline(1, '$')
     let formatted_content = system('clang-format', buffer_content)
     let formatted_lines = split(formatted_content, "\n")
+
     let num_extra_lines = line('$') - len(formatted_lines)
     if num_extra_lines > 0
         let extra_lines = repeat([''], num_extra_lines)
         let formatted_lines += extra_lines
     endif
+
     call setline(1, formatted_lines)
     keeppatterns %s/\s\+$//e " trailing spaces
     keeppatterns v/\_s*\S/d  " trailing lines

@@ -12,25 +12,20 @@ augroup filetype_c
     au FileType c,cpp setl formatprg=clang-format\ --style=file
     au FileType c,cpp,make setl path+=$PWD/inc/,$PWD/incs/,$PWD/include/,$PWD/includes/,$PWD/src/**,$PWD/srcs/**,$PWD/source/**,$PWD/sources/**
     au FileType c,cpp let maplocalleader = "gh"
-    au FileType c,cpp let maplocalleader = "gh"
 
-    "   Header (copyright  2023 clemedon)
-
-    au FileType c,cpp,make au BufRead,BufNewFile,BufEnter,VimEnter <buffer> let b:modified = 0
-    au FileType c,cpp,make au BufWritePost <buffer> let b:modified = 1
-    au FileType c,cpp au! VimLeavePre <buffer>
-                \ | if exists('b:modified') && b:modified | execute ':call Header("//") | silent write' | endif
-    au FileType make au VimLeavePre <buffer>
-                \ | if exists('b:modified') && b:modified | execute ':call Header("#") | silent write' | endif
-
-    " autocmd FileType c,cpp,make autocmd BufNewFile,BufRead,BufEnter <buffer> let b:been_modified = 0
-    " autocmd FileType c,cpp,make autocmd BufWritePre <buffer> let b:been_modified = 1
-    " autocmd FileType c,cpp autocmd BufLeave,VimLeavePre <buffer>
-    "             \ | if b:been_modified | execute ':call Header("//") | silent write' | endif
-    "             \ | unlet b:been_modified
-    " autocmd FileType make autocmd BufLeave,VimLeavePre <buffer>
-    "             \ | if b:been_modified | execute ':call Header("#") | silent write' | endif
-    "             \ | unlet b:been_modified
+    " function FileUID()
+    "     return 'b:' . substitute(expand('%:p') , '\W', '', 'g')
+    " endfunction
+    " au FileType c,cpp,make au BufRead,BufNewFile,BufEnter,VimEnter
+    "             \ execute 'let ' . FileUID() . ' = 0'
+    " au FileType c,cpp,make au BufWritePost
+    "             \ execute 'let ' . FileUID() . ' = 1'
+    " au FileType c,cpp au BufDelete
+    "             \ exec 'let b:verif = exists("' . FileUID() . '") && (' . FileUID() . ')' |
+    "             \ if b:verif |
+    "             \   execute ':call Header("//") | silent write' |
+    "             \   let b:verif = 0 |
+    "             \ endif
 
     " .......................... PLUGIN
 
