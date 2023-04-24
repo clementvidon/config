@@ -320,8 +320,7 @@ augroup filetype_memo
     au FileType memo nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=""<CR>Bi[](<Left><Left>
 
     "   Memo Grep
-    " au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
-    au FileType memo nn <silent><buffer> com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
+    au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
 
     "                       TOD0 :
 
