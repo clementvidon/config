@@ -23,7 +23,7 @@ set ignorecase smartcase            "   ignore case except if uppercase used
 set listchars=tab:>\ ,trail:-       "   strings to use for :list command
 set nowrap                          "   disable screen line wrapping
 set ofu=syntaxcomplete#Complete     "   func to be used in C-X C-O completion
-set relativenumber                  "   number column
+set norelativenumber                  "   number column
 set ruler                           "   cursor pos%[y:x] in statusline
 set sessionoptions-=curdir          "   mksession cd to the session file dir
 set sessionoptions+=sesdir          "   mksession cd to the session file dir

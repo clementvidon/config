@@ -421,6 +421,7 @@ augroup filetype_c
         au FileType c hi mycDebug ctermfg=158
         " au FileType cpp hi cCustomClass ctermfg=158
         au FileType c,cpp hi cString ctermfg=102
+        au FileType c,cpp hi cppString ctermfg=102
         au FileType c,cpp hi cTodo ctermfg=84
         au FileType c,cpp hi cComment ctermfg=103
         au FileType c,cpp hi link cCommentL cComment
