@@ -20,6 +20,11 @@ nn gse :e!<Space>
 nn sTe :tabe<Space>
 nn she :sp<Space>
 nn sve :vert<Space>
+"   PREV
+nn ss :e #<CR>
+nn gss :e! #<CR>
+nn shs :sp #<CR>
+nn svs :vert #<CR>
 "   CD EDIT
 nn s. :lc %:h<CR>:e<Space>
 nn gs. :lc %:h<CR>:e!<Space>
@@ -31,11 +36,6 @@ nn sne :lc %:h<CR>:sil r! ls -1 \| grep -A 1 "%" \| tail -n 1<CR>v$h"yyu:e <C-r>
 nn spe :lc %:h<CR>:sil r! ls -1 \| grep -B 1 "%" \| head -n 1<CR>v$h"yyu:e <C-r>y<CR>
 
 "                       BUFFER
-"   PREV
-nn ss :b#<CR>
-nn gss :b!#<CR>
-nn shs :sbu#<CR>
-nn svs :vert sbu#<CR>
 "   NAV
 nn spb :bp<CR>
 nn snb :bn<CR>
