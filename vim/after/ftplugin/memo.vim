@@ -114,16 +114,16 @@ function! MemoArchiveDay()
     " call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath (5min)')
 
     "  42
-    call append(line('$'), '[21:00] meditate (5min) / fall asleep')
-    call append(line('$'), '[20:30] @noesis/todo update')
-    call append(line('$'), '[19:00] cook / prepare tomorrow / dine')
-    call append(line('$'), '[18:30] move to home + @noesis/todo clear')
-    call append(line('$'), '***[13:30] 5h main***')
-    call append(line('$'), '[12:30] lunch / read')
-    call append(line('$'), '***[07:30] 5h main***')
-    call append(line('$'), '[07:00] move to 42 + @noesis/todo update')
-    call append(line('$'), '[06:30] workout / prepare')
-    call append(line('$'), '[05:30] wake up + stretch / breakfast + read / breath (5min)')
+    call append(line('$'), '[] (21:00 21:10) meditate / fall asleep')
+    call append(line('$'), '[] (20:30 21:00) @noesis/todo update')
+    call append(line('$'), '[] (19:00 20:30) cook / prepare tomorrow / dine')
+    call append(line('$'), '[] (18:30 19:00) move to home + @noesis/todo clear')
+    call append(line('$'), '')
+    call append(line('$'), '[] (12:30 13:30) lunch / read')
+    call append(line('$'), '')
+    call append(line('$'), '[] (07:00 07:30) move to 42 + @noesis/todo update')
+    call append(line('$'), '[] (05:30 07:00) workout / prepare')
+    call append(line('$'), '[] (05:30 06:30) wake up + stretch / breakfast + read / breath')
 
     " "  PARIS TODO
     " call append(line('$'), '[21:20] fall asleep')
@@ -151,26 +151,22 @@ function! MemoArchiveDay()
     call append(line('$'), '')
     call append(line('$'), '##  Today')
     call append(line('$'), '')
-    call append(line('$'), 'Morning daily review')
-    call append(line('$'), ' - How do I feel about last night?          X')
-    call append(line('$'), ' - Anything else?                           X')
+    call append(line('$'), 'Morning daily review TODO')
+    call append(line('$'), ' - How do I feel this morning?')
+    call append(line('$'), ' - Anything else?')
     call append(line('$'), '')
-    call append(line('$'), 'Evening daily review')
-    call append(line('$'), ' - How do I feel about today?               X')
-    call append(line('$'), ' - What made me happy?  How to replicate?   X')
-    call append(line('$'), ' - What made me stressed?  How to prevent?  X')
-    call append(line('$'), ' - Am I on track with my routines?          X')
-    call append(line('$'), ' - Anything else?                           X')
-    call append(line('$'), ' - What did I achieve?                      X')
-    call append(line('$'), ' - Did I achieve my goal?                   X')
-    call append(line('$'), ' - Best actions taken towards my goal?      X')
-    call append(line('$'), ' - Worst actions taken towards my goal?     X')
-    call append(line('$'), ' - External forces against my goal?         X')
-    call append(line('$'), ' - What is my goal for tomorrow?            X')
+    call append(line('$'), 'Evening daily review TODO')
+    call append(line('$'), ' - How do I feel about today?')
+    call append(line('$'), ' - Am I on track with my routines?')
+    call append(line('$'), ' - Did I achieve my goal?')
+    call append(line('$'), ' - Good actions taken towards my goal?')
+    call append(line('$'), ' - Bad actions taken towards my goal?')
+    call append(line('$'), ' - External forces against my goal?')
+    call append(line('$'), ' - What is my goal for tomorrow?')
+    call append(line('$'), ' - Anything else?')
     call append(line('$'), '')
-
-    call append(line('$'), 'Home workout')
-    call append(line('$'), ' calfRaises (+ warmUp)    30x2    x2')
+    call append(line('$'), 'Home workout TODO')
+    call append(line('$'), ' calfRaises (+ warmUp)    60      x1')
     call append(line('$'), ' legflexion (+ gripring)  15x2    x2')
     call append(line('$'), ' abs                      30      x2')
     call append(line('$'), ' pushup                   15      x2')
@@ -179,12 +175,12 @@ function! MemoArchiveDay()
     call append(line('$'), ' paintCanLift             20      x2')
     call append(line('$'), '')
 
-    call append(line('$'), 'Allergy tracker')
+    call append(line('$'), 'Allergy tracker TODO')
     call append(line('$'), ' - other: magnesium')
-    call append(line('$'), ' - diner: X, anise infusion')
-    call append(line('$'), ' - snack: X')
-    call append(line('$'), ' - lunch: X')
-    call append(line('$'), ' - break: X, genmaicha tea')
+    call append(line('$'), ' - diner: anise infusion')
+    call append(line('$'), ' - snack:')
+    call append(line('$'), ' - lunch:')
+    call append(line('$'), ' - break: genmaicha tea')
     call append(line('$'), '')
 
     call append(line('$'), l:tmrrw_content)
@@ -347,10 +343,16 @@ augroup filetype_memo
     "   Task Check Next
     au FileType memo nn <silent><buffer> <Leader><Space> G$
                 \
-                \/^##  Today$<CR>VG<Esc>
+                \/^##  Today$<CR>VG$<Esc>
                 \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
                 \:call MemoTaskCheck()<CR>
-                \:let @/=""<CR>:write<CR>02f]l
+                \:let @/=""<CR>zz:write<CR>02f]l
+
+    "   Task Now
+    au FileType memo nn <silent><buffer> <Leader>. G$
+                \
+                \/^##  Today$<CR>VG$<Esc>
+                \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
 
     "   Task Clear
     au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>c mm0di[`m
