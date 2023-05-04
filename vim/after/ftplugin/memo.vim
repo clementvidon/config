@@ -122,7 +122,7 @@ function! MemoArchiveDay()
     call append(line('$'), '[] (12:30 13:30) lunch / read')
     call append(line('$'), '')
     call append(line('$'), '[] (07:00 07:30) move to 42 + @noesis/todo update')
-    call append(line('$'), '[] (05:30 07:00) workout / prepare')
+    call append(line('$'), '[] (06:30 07:00) workout / prepare')
     call append(line('$'), '[] (05:30 06:30) wake up + stretch / breakfast + read / breath')
 
     " "  PARIS TODO
