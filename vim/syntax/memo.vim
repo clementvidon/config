@@ -84,8 +84,8 @@ if &background == "dark"
     hi memoBold                     ctermfg=228
     hi memoBoldItalic               ctermfg=220
 
-    hi memoTaskCheck                ctermfg=189
-    hi memoTaskChecked              ctermfg=59
+    hi memoTaskCheck                ctermfg=102
+    hi memoTaskChecked              ctermfg=102
 
     hi memoDelimiter                ctermfg=238
 

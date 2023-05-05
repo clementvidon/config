@@ -114,16 +114,16 @@ function! MemoArchiveDay()
     " call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath (5min)')
 
     "  42
-    call append(line('$'), '[] (21:00 21:10) meditate / fall asleep')
-    call append(line('$'), '[] (20:30 21:00) @noesis/todo update')
-    call append(line('$'), '[] (19:00 20:30) cook / prepare tomorrow / dine')
-    call append(line('$'), '[] (18:30 19:00) move to home + @noesis/todo clear')
+    call append(line('$'), '(21:00) meditate / fall asleep')
+    call append(line('$'), '(20:00 21:00) cook / prepare tomorrow / dine')
+    call append(line('$'), '(18:00 20:00) @motoko_bootcamp/01 study')
+    call append(line('$'), '(17:30 18:00) move to home + @noesis/todo clear')
     call append(line('$'), '')
-    call append(line('$'), '[] (12:30 13:30) lunch / read')
+    call append(line('$'), '(12:30 13:30) lunch / read')
     call append(line('$'), '')
-    call append(line('$'), '[] (07:00 07:30) move to 42 + @noesis/todo update')
-    call append(line('$'), '[] (06:30 07:00) workout / prepare')
-    call append(line('$'), '[] (05:30 06:30) wake up + stretch / breakfast + read / breath')
+    call append(line('$'), '(08:00 08:30) move to 42 + @noesis/todo update')
+    call append(line('$'), '(07:30 08:00) workout / prepare')
+    call append(line('$'), '(06:30 07:30) wake up + stretch / breakfast + read / breath')
 
     " "  PARIS TODO
     " call append(line('$'), '[21:20] fall asleep')
@@ -166,12 +166,12 @@ function! MemoArchiveDay()
     call append(line('$'), ' - Anything else?')
     call append(line('$'), '')
     call append(line('$'), 'Home workout TODO')
-    call append(line('$'), ' calfRaises (+ warmUp)    60      x1')
+    call append(line('$'), ' calfRaises (+ warmUp)    60      x2')
     call append(line('$'), ' legflexion (+ gripring)  15x2    x2')
     call append(line('$'), ' abs                      30      x2')
     call append(line('$'), ' pushup                   15      x2')
-    call append(line('$'), ' BicycleCrunch            4x15    x2')
     call append(line('$'), ' elastiband               40      x2')
+    call append(line('$'), ' BicycleCrunch            4x15    x2')
     call append(line('$'), ' paintCanLift             20      x2')
     call append(line('$'), '')
 
@@ -341,17 +341,15 @@ augroup filetype_memo
                 \:let @/=""<CR>:write<CR>02f]l
 
     "   Task Check Next
-    au FileType memo nn <silent><buffer> <Leader><Space> G$
+    au FileType memo nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
                 \
-                \/^##  Today$<CR>VG$<Esc>
                 \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
                 \:call MemoTaskCheck()<CR>
-                \:let @/=""<CR>zz:write<CR>02f]l
+                \:let @/=""<CR>:write<CR>02f]l
 
     "   Task Now
-    au FileType memo nn <silent><buffer> <Leader>. G$
+    au FileType memo nn <silent><buffer> <Leader>. /^##  Today$<CR>VG$<Esc>
                 \
-                \/^##  Today$<CR>VG$<Esc>
                 \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
 
     "   Task Clear
