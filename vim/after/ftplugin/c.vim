@@ -327,13 +327,17 @@ augroup filetype_c
     au Filetype c,cpp ono <silent><buffer> aF :normal VaF<CR>
 
     " .......................... ABBREVIATIONS
-    "
+
     au Filetype cpp iabbr <silent><buffer> mmain int main () {<CR>return 0;<CR>}<Esc>kO<C-R>=Eatchar('\s')<CR>
 
     au Filetype cpp iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
+    " }}
+
     au Filetype cpp iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=Eatchar('\s')<CR>
 
     au Filetype cpp iabbr <silent><buffer> (( ()<Left><C-R>=Eatchar('\s')<CR>
+    " ))
+
     au Filetype cpp iabbr <silent><buffer> "" ""<Left><C-R>=Eatchar('\s')<CR>
     au Filetype cpp iabbr <silent><buffer> '' ''<Left><C-R>=Eatchar('\s')<CR>
 

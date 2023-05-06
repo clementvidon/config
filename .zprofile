@@ -54,3 +54,8 @@ export PATH=$PATH:"$HOME/processing"
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin
+
+## ic
+#####
+
+export PATH=$PATH:"$(dfx cache show)"

@@ -37,7 +37,7 @@ else
     syn region memoBold                   matchgroup=memoDelimiter start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
     syn region memoBoldItalic             matchgroup=memoDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
-syn match memoCodeLine "^\s\{4}.*$"
+syn match memoCodeLine contains=@NoSpell "^\s\{4}.*$"
 syn match memoCodeMarker "^```.*$"
 syn region memoCodeBlock matchgroup=memoCodeMarker start="^```" end="^```" skip="\\``"
 
