@@ -10,7 +10,7 @@ augroup filetype_motoko
     au FileType motoko setl softtabstop=2 autoindent cindent
     au FileType motoko setl ls=2
     au FileType motoko let &makeprg = "make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
-    au FileType motoko setl formatprg=clang-format\ --style=file
+    au FileType motoko setl formatprg=mo-fmt\ %
     au FileType motoko let maplocalleader = "gh"
 
     " .......................... PLUGIN
@@ -36,7 +36,7 @@ augroup filetype_motoko
     " ............... CLEAN CODE
 
     "   Format
-    au Filetype motoko nn <silent><buffer> <LocalLeader>f :call ClangFormat()<CR>:w<CR>
+    au Filetype motoko nn <silent><buffer> <LocalLeader>f :w<CR>:!mo-fmt %<CR>
 
     " <<<
 augroup END
