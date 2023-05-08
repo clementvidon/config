@@ -34,16 +34,23 @@ endfunction
 
 function! MemoTaskCheck()
     let timestamp = RoundedTime()
+    let datestamp = strftime('%y%m%d')
     let cursor_pos = getpos('.')
     let line = getline('.')
 
-    if line =~ '^\[\d\d:\d\d \d\d:\d\d\] '
-        call setline('.', line[0:5] . ' ' . timestamp . line[12:])
-    elseif line =~ '^\[\d\d:\d\d\] '
-        call setline('.', line[0:5] . ' ' . timestamp . line[6:])
+    " [000000 11:11 22:22]
+    if line =~ '^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}] '
+        call setline('.', line[0:12] . ' ' . timestamp . line[19:])
+        " [000000 11:11]
+    elseif line =~ '^\[\d\{6} \d\{2}:\d\{2}] '
+        call setline('.', line[0:12] . ' ' . timestamp . line[13:])
+        " []
     elseif line =~ '^\[\] '
         normal 0
-        call setline('.', '[' . timestamp . ']' . line[2:])
+        call setline('.', '[' . datestamp . ' ' . timestamp . ']' . line[2:])
+        " [Whatever 007]
+    elseif line =~ '^\[.*\]\ze .'
+        call setline('.', '[' . datestamp . ' ' . timestamp . ']' . substitute(line, '\[.*\]', '', ''))
     elseif line =~ '^- '
         call setline('.', '+ ' . line[2:])
     endif
@@ -56,13 +63,14 @@ endfunction
 
 function! MemoTaskReCheck()
     let timestamp = RoundedTime()
+    let datestamp = strftime('%y%m%d')
     let cursor_pos = getpos('.')
     let line = getline('.')
 
-    if line =~ '^\[\d\d:\d\d\] '
-        call setline('.', '[' . timestamp . line[6:])
-    elseif line =~ '^\[\d\d:\d\d \d\d:\d\d\] '
-        call setline('.', line[0:6] . timestamp . line[12:])
+    if line =~ '^\[\d\{6} \d\{2}:\d\{2}] '
+        call setline('.', line[0:7] . timestamp . line[13:])
+    elseif line =~ '^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}] '
+        call setline('.', line[0:13] . timestamp . line[19:])
     endif
     call setpos('.', cursor_pos)
 endfunction
@@ -80,10 +88,9 @@ function! MemoArchiveDay()
     let l:today_loc = searchpos('##  Today')[0]
     call append(l:today_loc + 1, '#[ ' . strftime('%a %d %b %Y') . ' ]')
     call append(l:today_loc + 2, '')
-    exec 'silent! ' . l:today_loc . ',$s/^\[/\[' . strftime('%y%m%d') . ' /g'
-    exec 'silent! ' . l:today_loc . ',$s/ \] /\] /g'
+    " exec 'silent! ' . l:today_loc . ',$s/^\[/\[' . strftime('%y%m%d') . ' /g'
+    " exec 'silent! ' . l:today_loc . ',$s/ \] /\] /g'
     let l:today_content = getline(l:today_loc + 2, line('$'))
-    let l:check_date = strpart(getline(line('$') - 1), 1, 6) == strftime('%y%m%d')
     "   Archive today
     write
     exec 'silent edit ' . expand('%:p:h') . '/history.gpg.md'
@@ -184,9 +191,6 @@ function! MemoArchiveDay()
     call append(line('$'), '')
 
     call append(line('$'), l:tmrrw_content)
-    if l:check_date == 0
-        call append(line('$') - 2, ">> broken history <<")
-    endif
     call winrestview(l:save_view)
     call setpos('.', cursor_pos)
     write
@@ -343,9 +347,11 @@ augroup filetype_memo
     "   Task Check Next
     au FileType memo nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
                 \
-                \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
+                \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
                 \:call MemoTaskCheck()<CR>
                 \:let @/=""<CR>:write<CR>02f]l
+    " \?\%V\(^-\\|^\[\]\\|^\[\d\{6} \d\{2}:\d\{2}]\) <CR>
+
 
     "   Task Now
     au FileType memo nn <silent><buffer> <Leader>. /^##  Today$<CR>VG$<Esc>

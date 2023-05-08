@@ -41,12 +41,10 @@ syn match memoCodeLine contains=@NoSpell "^\s\{4}.*$"
 syn match memoCodeMarker "^```.*$"
 syn region memoCodeBlock matchgroup=memoCodeMarker start="^```" end="^```" skip="\\``"
 
-syn match memoTaskCheck /^\[\]/
-syn match memoTaskCheck /^\[\d\d:\d\d\]/
-syntax match memoTaskChecked /^\[\d\{2}:\d\{2} \d\{2}:\d\{2}\]/
-syntax match memoTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]/
-syntax match memoTaskChecked /^\[\d\{6} \d\{2}:\d\{2}\]/
-syntax match memoTaskChecked /^\[\d\{6}\]/
+syn match memoTaskCheck /^\[\]\ze ./
+syn match memoTaskCheck /^\[.*\]\ze ./
+syn match memoTaskChecked /^\[\d\{6} \d\{2}:\d\{2}\]\ze ./
+syn match memoTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]\ze ./
 
 syn keyword memoBoldItalic TODO
 syn keyword memoBoldItalic XXX
@@ -84,7 +82,7 @@ if &background == "dark"
     hi memoBold                     ctermfg=228
     hi memoBoldItalic               ctermfg=220
 
-    hi memoTaskCheck                ctermfg=102
+    hi memoTaskCheck                ctermfg=140
     hi memoTaskChecked              ctermfg=102
 
     hi memoDelimiter                ctermfg=238
