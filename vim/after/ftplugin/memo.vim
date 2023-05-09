@@ -106,7 +106,7 @@ function! MemoArchiveDay()
     exec 'silent ' . (l:tmrrw_loc + 2) . ',$delete'
     "   Set Tomorrow
 
-    " "   BDA
+    " BDA
     " call append(line('$'), '[21:00] meditate (5min) / fall asleep')
     " call append(line('$'), '[20:40] @noesis/todo update')
     " call append(line('$'), '***[19:40] 1h free***')
@@ -120,20 +120,7 @@ function! MemoArchiveDay()
     " call append(line('$'), '[06:55] @noesis/todo update')
     " call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath (5min)')
 
-    call append(line('$'), '')
-    call append(line('$'), '##  Today')
-    call append(line('$'), '')
-    call append(line('$'), '')
-    call append(line('$'), '')
-
     "  42
-    call append(line('$'), 'Allergy tracker')
-    call append(line('$'), ' - other: magnesium')
-    call append(line('$'), ' - diner: anise infusion')
-    call append(line('$'), ' - snack:')
-    call append(line('$'), ' - lunch:')
-    call append(line('$'), ' - break:')
-    call append(line('$'), '')
     call append(line('$'), '[21:20] meditate / fall asleep')
     call append(line('$'), '[20:10] cook / prepare tomorrow / dine')
     call append(line('$'), '[20:00] @noesis/todo daily review')
@@ -158,7 +145,7 @@ function! MemoArchiveDay()
     call append(line('$'), ' - Anything else?')
     call append(line('$'), '[06:30] wake up + stretch / breakfast + read / breath')
 
-    " "  PARIS TODO
+    "  PARIS TODO
     " call append(line('$'), '[21:20] fall asleep')
     " call append(line('$'), '[21:10] meditate (gratitude)')
     " call append(line('$'), '[20:40] @noesis/todo clear and update')
@@ -179,6 +166,18 @@ function! MemoArchiveDay()
     " call append(line('$'), '[06:50] meditate (mindfulness)')
     " call append(line('$'), '[06:30] breakfast (@noesis/todo update)')
     " call append(line('$'), '[06:20] wake up (stretch)')
+
+    "   Set Today
+    call append(line('$'), '')
+    call append(line('$'), '##  Today')
+    call append(line('$'), '')
+    call append(line('$'), 'Allergy tracker')
+    call append(line('$'), ' - other: magnesium')
+    call append(line('$'), ' - diner: anise infusion')
+    call append(line('$'), ' - snack:')
+    call append(line('$'), ' - lunch:')
+    call append(line('$'), ' - break:')
+    call append(line('$'), '')
 
     call append(line('$'), l:tmrrw_content)
     call winrestview(l:save_view)
@@ -349,7 +348,7 @@ augroup filetype_memo
                 \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
 
     "   Task Clear
-    au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> <Leader>c mm0di[`m
+    au FileType memo nn <silent><buffer> <Leader>c mm0di[`m
 
     "   Task Switch
     au FileType memo nn <buffer><silent> <LocalLeader>s 0f]lv$hdj0f]lv$hpk$p
