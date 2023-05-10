@@ -5,7 +5,7 @@
 
 if command -v zsh &> /dev/null; then
     ln -fsv $HOME/git/config/.zshrc                     $HOME/.zshrc
-    ln -fsv $HOME/git/config/.zprofile                  $HOME/.zprofile
+    ln -fsv $HOME/git/config/.zshenv                    $HOME/.zshenv
 fi
 
 if command -v bash &> /dev/null; then
@@ -66,5 +66,5 @@ echo ">>> Config is installed!"
 echo ">>> Do not forget to run:"
 echo "zsh"
 echo "source ~/.zshrc"
-echo "source ~/.zprofile"
+echo "source ~/.zshenv"
 echo "vim -c ':PlugInstall'"

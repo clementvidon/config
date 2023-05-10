@@ -1,5 +1,5 @@
-# @file     .zprofile
-# @brief    Zsh profile.
+# @file     .zshenv
+# @brief    Zsh environment variables.
 # @author   clemedon (Clément Vidon)
 
 ## General
