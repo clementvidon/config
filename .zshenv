@@ -58,4 +58,6 @@ export PATH=$PATH:$GOROOT/bin
 ## ic
 #####
 
-export PATH=$PATH:"$(dfx cache show)"
+if (( $+commands[dfx] )); then
+    export PATH=$PATH:"$(dfx cache show)"
+fi

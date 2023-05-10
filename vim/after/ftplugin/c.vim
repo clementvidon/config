@@ -36,7 +36,6 @@ augroup filetype_c
 
     " --------------------------------- MAPPINGS >>>
 
-    au Filetype c,cpp nn <silent><buffer> <Space>= <nop>
     au Filetype c,cpp nn <silent><buffer> sh :fin *hpp
     au Filetype c,cpp nn <silent><buffer> sc :fin *cpp
 
