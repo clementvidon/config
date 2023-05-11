@@ -41,14 +41,14 @@ function! MemoTaskCheck()
     " [000000 11:11 22:22]
     if line =~ '^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}] '
         call setline('.', line[0:12] . ' ' . timestamp . line[19:])
-        " [000000 11:11]
+    " [000000 11:11]
     elseif line =~ '^\[\d\{6} \d\{2}:\d\{2}] '
         call setline('.', line[0:12] . ' ' . timestamp . line[13:])
-        " []
+    " []
     elseif line =~ '^\[\] '
         normal 0
         call setline('.', '[' . datestamp . ' ' . timestamp . ']' . line[2:])
-        " [Whatever 007]
+    " [Whatever 007]
     elseif line =~ '^\[.*\]\ze .'
         call setline('.', '[' . datestamp . ' ' . timestamp . ']' . substitute(line, '\[.*\]', '', ''))
     elseif line =~ '^- '
@@ -121,29 +121,30 @@ function! MemoArchiveDay()
     " call append(line('$'), '[06:00] wake up + stretch / breakfast + read / breath (5min)')
 
     "  42
-    call append(line('$'), '[21:20] meditate / fall asleep')
-    call append(line('$'), '[20:10] cook / prepare tomorrow / dine')
-    call append(line('$'), '[20:00] @noesis/todo daily review')
-    call append(line('$'), ' - How do I feel about today?')
-    call append(line('$'), ' - Anything else?')
-    call append(line('$'), '[18:00] @motoko_bootcamp/ study')
+
+    call append(line('$'), '[21:00] meditate / read / fall asleep')
+    call append(line('$'), '[20:45] @noesis/todo update journal / prepare tomorrow')
+    call append(line('$'), '[18:00] @motoko_bootcamp TODO + cook + dine')
     call append(line('$'), '[17:30] move to home')
-    call append(line('$'), '[13:30] @42/')
-    call append(line('$'), '[12:20] lunch / read')
-    call append(line('$'), '[08:30] @42/')
+    call append(line('$'), '[13:30] @42 TODO')
+    call append(line('$'), '[12:30] lunch / read')
+    call append(line('$'), '[08:30] @42 TODO')
     call append(line('$'), '[08:00] move to 42')
-    call append(line('$'), '[07:40] workout / prepare')
-    call append(line('$'), ' calfRaises (+ warmUp)    50      x2')
-    call append(line('$'), ' legflexion (+ gripring)  15x2    x2')
-    call append(line('$'), ' abs                      30      x2')
-    call append(line('$'), ' pushup                   20      x2')
-    call append(line('$'), ' elastiband               40      x2')
-    call append(line('$'), ' BicycleCrunch            4x15    x2')
-    call append(line('$'), ' paintCanLift             25      x2')
-    call append(line('$'), '[07:30] @noesis/todo morning daily review')
-    call append(line('$'), ' - How do I feel this morning?')
-    call append(line('$'), ' - Anything else?')
-    call append(line('$'), '[06:30] wake up + stretch / breakfast + read / breath')
+    call append(line('$'), '[07:30] workout / prepare')
+    call append(line('$'), '[07:00] wake up + stretch / breath / @noesis/todo update journal')
+
+    " call append(line('$'), '21:30] meditate / fall asleep')
+    " call append(line('$'), '20:10] cook / prepare tomorrow / dine')
+    " call append(line('$'), '20:00] @noesis/todo update journal')
+    " call append(line('$'), '18:00] @motoko_bootcamp    TODO')
+    " call append(line('$'), '17:30] move to home')
+    " call append(line('$'), '13:30] @42                 TODO')
+    " call append(line('$'), '12:30] lunch / read')
+    " call append(line('$'), '08:30] @42                 TODO')
+    " call append(line('$'), '08:00] move to 42')
+    " call append(line('$'), '07:30] workout / prepare')
+    " call append(line('$'), '06:30] read + drink tea / @noesis/todo update journal')
+    " call append(line('$'), '06:15] wake up + stretch / breath')
 
     "  PARIS TODO
     " call append(line('$'), '[21:20] fall asleep')
@@ -171,12 +172,43 @@ function! MemoArchiveDay()
     call append(line('$'), '')
     call append(line('$'), '##  Today')
     call append(line('$'), '')
-    call append(line('$'), 'Allergy tracker')
+    call append(line('$'), '    tracking')
+    call append(line('$'), '')
+    call append(line('$'), 'allergy')
     call append(line('$'), ' - other: magnesium')
-    call append(line('$'), ' - diner: anise infusion')
+    call append(line('$'), ' - diner: anise masala infusion')
     call append(line('$'), ' - snack:')
     call append(line('$'), ' - lunch:')
     call append(line('$'), ' - break:')
+    call append(line('$'), '')
+    call append(line('$'), 'workout')
+    call append(line('$'), ' - warming up               10x8    x1 beg')
+    call append(line('$'), ' - calfraises + elastiband  50      x2')
+    call append(line('$'), ' - legflexion + gripring    15x2    x2')
+    call append(line('$'), ' - abs                      30      x2')
+    call append(line('$'), ' - pushup                   20      x2')
+    call append(line('$'), ' - elastiband               40      x2')
+    call append(line('$'), ' - bicyclecrunch            4x15    x2')
+    call append(line('$'), ' - paintcanlift             25      x2')
+    call append(line('$'), ' - stretches                15sx5   x1 end')
+    call append(line('$'), '')
+    call append(line('$'), '    journal')
+    call append(line('$'), '')
+    call append(line('$'), 'morning')
+    call append(line('$'), '- psyc:')
+    call append(line('$'), '- soma:')
+    call append(line('$'), '- life:')
+    call append(line('$'), '- work:')
+    call append(line('$'), '- also:')
+    call append(line('$'), '')
+    call append(line('$'), 'evening')
+    call append(line('$'), '- psyc:')
+    call append(line('$'), '- soma:')
+    call append(line('$'), '- life:')
+    call append(line('$'), '- work:')
+    call append(line('$'), '- also:')
+    call append(line('$'), '')
+    call append(line('$'), '    diary')
     call append(line('$'), '')
 
     call append(line('$'), l:tmrrw_content)
@@ -258,8 +290,8 @@ augroup filetype_memo
                 \                                      \|\n
                 \ MD_LINK           : Space L          \|\n
                 \                                      \|\n
-                \ GPG_ENC           : Space E          \|\n
-                \ GPG_DEC           : Space C          \|\n
+                \ GPG_ENC           : ghe              \|\n
+                \ GPG_DEC           : ghd              \|\n
                 \                                      \|\n
                 \"<CR>
 
@@ -311,6 +343,11 @@ augroup filetype_memo
     "   Memo Grep
     au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
 
+    "   Gpg enc/dec
+    au FileType memo vn <silent><buffer> <LocalLeader>e :!gpg -ae<CR>dd
+    au FileType memo vn <silent><buffer> <LocalLeader>d :!gpg -qd<CR>
+
+
     "                       TOD0 :
 
     "   Archive Day
@@ -321,7 +358,7 @@ augroup filetype_memo
 
     "   Task New
     au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>t O[]<Esc><<$A<Space>
-    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>T O-<Space>
+    au BufRead,BufNewFile $MEMO/Lists/* nn <silent><buffer> <Leader>T o[] tmp<Esc><<:call MemoTaskCheck()<CR>ftC
 
     "   Task Check
     au FileType memo nn <silent><buffer> <Leader>k :call MemoTaskCheck()<CR>

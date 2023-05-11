@@ -56,6 +56,7 @@ nn sis :isearch /
 
 "                       MEMO
 nn sl  <nop>
+nn sln :e $MEMO/INDEX.md<CR>/Lists<CR>
 nn sle :e $MEMO/Resources/english.md<CR>?##  Voca<CR>
 nn slf :e $MEMO/Resources/french.md<CR>?##  Voca<CR>
 nn slt :e $MEMO/Lists/todo.md<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
