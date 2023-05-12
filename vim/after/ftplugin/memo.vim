@@ -331,21 +331,22 @@ augroup filetype_memo
     "   Index Nav TODO MemoIndexNav()
     au FileType memo nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
 
-    "   GPG ENC
-    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
-
-    "   GPG DEC
-    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>dec :silent %!gpg -d 2>/dev/null<CR>
-
     "   Markdown link
     au FileType memo nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=""<CR>Bi[](<Left><Left>
 
     "   Memo Grep
     au BufRead,BufNewFile $MEMO/* com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
 
+
+    "   GPG ENC
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+    "   GPG DEC
+    au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>dec :silent %!gpg -d 2>/dev/null<CR>
+
     "   Gpg enc/dec
-    au FileType memo vn <silent><buffer> <LocalLeader>e :!gpg -ae<CR>dd
-    au FileType memo vn <silent><buffer> <LocalLeader>d :!gpg -qd<CR>
+    au FileType memo vn <silent><buffer> <LocalLeader>ga :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
+    au FileType memo vn <silent><buffer> <LocalLeader>gs :!gpg -ae<CR>dd:echo "gpg -ae # --"
+    au FileType memo vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
 
 
     "                       TOD0 :

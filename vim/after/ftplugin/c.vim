@@ -391,7 +391,7 @@ augroup filetype_c
 
     " .......................... PATTERN
 
-    " au FileType cpp syn match cCustomClass "\v\w@<!(\u+[a-zA-Z0-9])[a-z0-9]*\w@!" contains=cIncluded,cInclude
+    au FileType cpp syn match cCustomClass "\v\w@<!(\u+[a-zA-Z0-9])[a-z0-9]*\w@!" contains=cIncluded,cInclude
     au FileType c,cpp syn match mycDebug "printf\|dprintf" contains=cString,cComment,cCommentL
     au FileType c,cpp syn keyword cTodo DONE
     au FileType c,cpp syn keyword cTodo WHY
