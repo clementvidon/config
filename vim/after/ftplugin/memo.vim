@@ -123,8 +123,8 @@ function! MemoArchiveDay()
     "  42
 
     call append(line('$'), '[21:00] meditate / read / fall asleep')
-    call append(line('$'), '[20:45] @noesis/todo update journal / prepare tomorrow')
-    call append(line('$'), '[18:00] @motoko_bootcamp TODO + cook + dine')
+    call append(line('$'), '[20:30] @noesis/todo update journal / prepare tomorrow')
+    call append(line('$'), '[18:00] @motoko_bootcamp study + cook + dine')
     call append(line('$'), '[17:30] move to home')
     call append(line('$'), '[13:30] @42 TODO')
     call append(line('$'), '[12:30] lunch / read')
@@ -176,8 +176,8 @@ function! MemoArchiveDay()
     call append(line('$'), '')
     call append(line('$'), 'allergy')
     call append(line('$'), ' - other: magnesium')
-    call append(line('$'), ' - diner: anise masala infusion')
     call append(line('$'), ' - snack:')
+    call append(line('$'), ' - diner: anise masala infusion')
     call append(line('$'), ' - lunch:')
     call append(line('$'), ' - break:')
     call append(line('$'), '')
@@ -372,11 +372,16 @@ augroup filetype_memo
                 \:let @/=""<CR>:write<CR>02f]l
 
     "   Task Check Next
-    au FileType memo nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
+    au FileType memo nn <silent><buffer> <Leader><Space> G$
                 \
                 \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
                 \:call MemoTaskCheck()<CR>
                 \:let @/=""<CR>:write<CR>02f]l
+    " au FileType memo nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
+    "             \
+    "             \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
+    "             \:call MemoTaskCheck()<CR>
+    "             \:let @/=""<CR>:write<CR>02f]l
     " \?\%V\(^-\\|^\[\]\\|^\[\d\{6} \d\{2}:\d\{2}]\) <CR>
 
 
