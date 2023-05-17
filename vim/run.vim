@@ -1,5 +1,6 @@
 set nocp
 let &runtimepath.=',$DOTVIM'
+let &packpath = &runtimepath
 
 "           VIMRC
 
@@ -32,7 +33,6 @@ source $DOTVIM/after/ftplugin/todo.vim
 "           PLUGINS
 
 source $DOTVIM/autoload/plugin/redact_pass.vim
-" source /home/clem/.config/vim/autoload/plugin/stdheader.vim
 
 "           STARTUP
 

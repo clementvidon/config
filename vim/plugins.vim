@@ -1,12 +1,4 @@
 " --------------------------------- PLUGINS OPTIONS >>>
-"   ALE
-let g:ale_enabled = 1
-let g:ale_echo_msg_format = '%s [%linter% %severity%]'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_linters_explicit = 1
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
-let g:ale_keep_list_window_open = 1
 
 "   COLORSCHEME
 let g:dracula_italic = 0
@@ -72,11 +64,10 @@ Plug 'tpope/vim-commentary'             "   COMMENT OUT
 Plug 'airblade/vim-gitgutter'           "   GIT GUTTER
 Plug 'AndrewRadev/linediff.vim'         "   DIFF BUFFER CHUNK
 Plug 'ludovicchabant/vim-gutentags'     "   TAGS MANAGER
-"lug 'dense-analysis/ale'               "   ASYNC LINT ENGINE
 "   SVELTE
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'evanleck/vim-svelte', {'branch': 'main'}
+" Plug 'othree/html5.vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'evanleck/vim-svelte', {'branch': 'main'}
 "   HTML CSS
 "lug 'andrewradev/tagalong.vim'         "   AU-REN CLOSING TAG
 "lug 'gregsexton/matchtag'              "   HI MATCHING HTML TAG
@@ -89,13 +80,12 @@ Plug 'evanleck/vim-svelte', {'branch': 'main'}
 "lug 'pangloss/vim-javascript'          "   BETTER SYNTAX
 "   SWEET
 "lug 'ap/vim-css-color'                 "   COLOR PREVIEW
-Plug 'junegunn/goyo.vim'                "   DISTRACTION FREE
-Plug 'junegunn/limelight.vim'           "   HYPERFOCUS
+" Plug 'junegunn/goyo.vim'                "   DISTRACTION FREE
+" Plug 'junegunn/limelight.vim'           "   HYPERFOCUS
 Plug 'arcticicestudio/nord-vim'         "   COLORSCHEME
 Plug 'junegunn/seoul256.vim'            "   COLORSCHEME
 "lug 'dracula/vim'                      "   COLORSCHEME
 "   TRY
-"lug 'alexandregv/norminette-vim'       "   42 C NORM
 "lug 'tpope/vim-dispatch'               "   MAKE WRAPPER
 "lug 'tpope/vim-fugitive'               "   GIT WRAPPER
 "lug 'jaxbot/semantic-highlight.vim'    "   SEMANTIC HIGHLIGHT

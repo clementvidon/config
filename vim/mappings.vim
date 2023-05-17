@@ -95,7 +95,7 @@ nn glss :StaticSearch<Space>
 nn glsy :call GetSyntax()<CR>
 " nn glsy <silent> :exec 'file ' . fnameescape(resolve(expand('%:p')))<CR>:lc %:h<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
-nn glve <silent> :if &ve == "" \| set ve=all \| else <BAR> set ve= \| endif \| set ve?<CR>
+nn glve :if &ve == "" \| set ve=all \| else <BAR> set ve= \| endif \| set ve?<CR>
 nn glws :set wrapscan!<CR>
 vn glru :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 
@@ -142,10 +142,6 @@ xm ah <Plug>(GitGutterTextObjectOuterVisual)
 "   FOLD : zr to unfold 3 context lines
 nn gyf :GitGutterFold<CR>
 
-"                       ALE
-"   NAV
-nn ]a :ALENext<CR>
-nn [a :ALEPrevious<CR>
 " <<<
 " --------------------------------- IMPROVEMENTS >>>
 "   QUICK WRITE

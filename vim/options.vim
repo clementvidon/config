@@ -1,6 +1,6 @@
 " --------------------------------- UI >>>
 filetype plugin indent on           "   filetype, plugin, indent auto-detect
-set fillchars+=vert:\  "            "   custom vert window separator
+set fillchars=vert:\ ,fold:-,eob:~
 augroup custom_hi
     autocmd!
     au ColorScheme * sy enable maxlines=200 "   'syn on' overrule custom settings
@@ -16,6 +16,7 @@ elseif system("uname -s") == "Linux\n"
     " color seoul256 | set bg=light
     color nord | set bg=dark
 endif
+set guicursor=n-v-c-i:block
 
 " <<<
 " --------------------------------- ERGONOMIC >>>
@@ -54,7 +55,7 @@ set wig=.git                        "   wildmenu results to hide
 set lazyredraw                      "   increase macro fluidity
 set maxmempattern=100000            "   pattern matching memory in kB (max 2kk)
 set ttimeoutlen=0                   "   mapping and keycode delays (fix esc)
-set updatetime=100                  "   gitgutter update faster
+" set updatetime=100                  "   gitgutter update faster TODO autocommand when gg is enabled
 " <<<
 " --------------------------------- SECURITY >>>
 set belloff=all                     "   no more ring the bell
@@ -72,8 +73,12 @@ if empty(glob($DOTVIM . "/.undo"))
     exec 'silent !mkdir $DOTVIM/.undo'
 endif
 set undodir=$DOTVIM/.undo//,/tmp//       "   undo files directory
-set undofile                        "   enable undofiles
-set viminfo+='100,<50,s10,h,n$DOTVIM/.viminfo " viminfo location
+set undofile                             "   enable undofiles
+set undolevels=1000
+set undoreload=10000
+
+set viminfo+='100,<50,s10,h,n$DOTVIM/.viminfo  "  nviminfo location
+
 " <<<
 " --------------------------------- EXTERNAL PRG >>>
 "   GREP

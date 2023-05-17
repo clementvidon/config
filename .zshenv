@@ -39,6 +39,7 @@ then
     export PATH="/sgoinfre/goinfre/Perso/cvidon/.poetry/bin:$PATH"
     export PATH=$HOME/.npm/bin:$PATH
     export PATH=$PATH:"$HOME/node_modules/.bin"
+    export PATH=$PATH:"$HOME/nvim-linux64/bin"
 fi
 
 ## i3
