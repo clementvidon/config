@@ -131,7 +131,8 @@ function! MemoArchiveDay()
     call append(line('$'), '[08:30] @42 TODO')
     call append(line('$'), '[08:00] move to 42')
     call append(line('$'), '[07:30] workout / prepare')
-    call append(line('$'), '[07:00] wake up + stretch / breath / @noesis/todo update journal')
+    call append(line('$'), '[07:15] @noesis/todo update journal')
+    call append(line('$'), '[07:00] wake up + stretch / breath')
 
     " call append(line('$'), '21:30] meditate / fall asleep')
     " call append(line('$'), '20:10] cook / prepare tomorrow / dine')
@@ -177,12 +178,12 @@ function! MemoArchiveDay()
     call append(line('$'), 'allergy')
     call append(line('$'), ' - other: magnesium')
     call append(line('$'), ' - snack:')
-    call append(line('$'), ' - diner: anise masala infusion')
+    call append(line('$'), ' - diner: anise infusion')
     call append(line('$'), ' - lunch:')
     call append(line('$'), ' - break:')
     call append(line('$'), '')
     call append(line('$'), 'workout')
-    call append(line('$'), ' - warming up               10x8    x1 beg')
+    call append(line('$'), ' - warming up               10x9    x1 beg')
     call append(line('$'), ' - calfraises + elastiband  50      x2')
     call append(line('$'), ' - legflexion + gripring    15x2    x2')
     call append(line('$'), ' - abs                      30      x2')
@@ -342,8 +343,8 @@ augroup filetype_memo
     au BufRead,BufNewFile *.gpg.md nn <buffer><silent> <LocalLeader>dec :silent %!gpg -d 2>/dev/null<CR>
 
     "   Gpg enc/dec
-    au FileType memo vn <silent><buffer> <LocalLeader>ga :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
-    au FileType memo vn <silent><buffer> <LocalLeader>gs :!gpg -ae<CR>dd:echo "gpg -ae # --"
+    au FileType memo vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
+    au FileType memo vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"
     au FileType memo vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
 
 
