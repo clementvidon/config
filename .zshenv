@@ -9,8 +9,6 @@ export PATH=$PATH:"$HOME/bin"
 export PATH=$PATH:"$HOME/.local/bin"
 export PATH=$PATH:"$HOME/.local/script"
 
-export MEMO=$HOME/git/Memo
-export DOTVIM=$HOME/.config/vim
 
 [ -r "$HOME/.zoffline" ] && source $HOME/.zoffline
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc

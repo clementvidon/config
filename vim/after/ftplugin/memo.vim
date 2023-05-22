@@ -364,6 +364,9 @@ augroup filetype_memo
     au FileType memo nn <silent><buffer> <Leader>k :call MemoTaskCheck()<CR>
                 \
                 \:let @/=""<CR>:write<CR>02f]l
+    au FileType memo nn <silent><buffer> <Leader>K :call setline('.', '[' . strftime('%y%m%d') . ' ' . getline('.')[1:])<CR>
+                \:write<CR>
+
 
     "   Task Recheck
     au FileType memo nn <silent><buffer> <Leader>r :call MemoTaskReCheck()<CR>
