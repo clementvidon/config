@@ -1,15 +1,16 @@
-" Vim syntax file
-" Language: Memo
-" URL: https://github.com/clemedon/memo.vim
-" Maintainer:   Clément Vidon  <cvidon@student.42.fr>
-" Last Change:  2022 Aug
+" syntax/memo
+" Created: 230524 19:53:30 by clem9nt@imac
+" Updated: 230524 19:53:30 by clem9nt@imac
+" Maintainer: Clément Vidon
 
 if exists("b:current_syntax")
     finish
 endif
 
-" --------------------------------- SYNTAX >>>
-" Headers
+
+"   syntax
+
+
 syn region memoH1 start="^##\@!"        end="#*\s*$"
 syn region memoH2 start="^###\@!"       end="#*\s*$"
 syn region memoH3 start="^####\@!"      end="#*\s*$"
@@ -50,8 +51,10 @@ syn keyword memoBoldItalic TODO
 syn keyword memoBoldItalic XXX
 syn keyword memoBoldItalic X
 
-" <<<
-" --------------------------------- COLORS >>>
+
+"   highlight
+
+
 " FG: for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
 " BG: for i in {0..255}; do printf '\e[48;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
 " dark:  0:black  1:red  2:green  3:yellow  4:blue  5:magenta  6:cyan  7:white
@@ -118,6 +121,5 @@ elseif &background == "light"
     hi memoDelimiter                ctermfg=255
 
 endif
-" <<<
 
-let b:current_syntax = "memo"
+let b:current_syntax = "syntaxmemo"

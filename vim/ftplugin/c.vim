@@ -117,7 +117,7 @@ nn <silent><buffer> <LocalLeader>d mdj
             \jfT
 
 "   format
-nn <silent><buffer> <LocalLeader>f :call general#ClangFormat()<CR>:w<CR>
+nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
 "   print
 nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==f"a
@@ -162,45 +162,3 @@ iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
 iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
 iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-
-
-"   colors
-
-
-if &background == "dark"
-    highlight Search ctermbg=NONE ctermfg=105
-    highlight mycDebug ctermfg=158
-    highlight cString ctermfg=102
-    highlight cTodo ctermfg=84
-    highlight cComment ctermfg=103
-    highlight link cCommentL cComment
-    highlight link cCommentStart cComment
-elseif &background == "light"
-    highlight Search ctermbg=229 ctermfg=NONE
-    highlight mycDebug ctermfg=31
-    highlight cString ctermfg=245
-    highlight cTodo ctermfg=205
-    highlight cComment ctermfg=103
-    highlight link cCommentL cComment
-    highlight link cCommentStart cComment
-endif
-
-highlight link cConditional cleared
-highlight link cRepeat cleared
-" highlight link cStatement cleared
-highlight link cCharacter cleared
-highlight link cConstant cleared
-highlight link cDefine cleared
-highlight link cInclude cleared
-highlight! link cIncluded cleared
-highlight link cNumber cleared
-highlight link cOperator cleared
-highlight link cPreCondit cleared
-highlight link cSpecial cleared
-highlight link cStorageClass cleared
-highlight link cStructure cleared
-highlight link cType cleared
-highlight link cTypedef cleared
-
-syntax match mycDebug "printf\|dprintf" contains=cString,cComment,cCommentL
-

@@ -4,17 +4,16 @@
 " --------------------------------- OPTIONS >>>
 
 
-setl textwidth=80
-setl suffixesadd+=.md
-setl suffixesadd+=.gpg.md
-
-setl path+=$DOTVIM/pack/vendor/start/memo/**
-setl path+=$MEMO
-setl path+=$MEMO/Lists/**
-setl path+=$MEMO/Areas/**
-setl path+=$MEMO/Projects/**
-setl path+=$MEMO/Resources/**
-setl expandtab
+setlocal textwidth=80
+setlocal suffixesadd+=.md
+setlocal suffixesadd+=.gpg.md
+setlocal path+=$DOTVIM/pack/vendor/start/memo/**,
+            \$MEMO,
+            \$MEMO/Lists/**,
+            \$MEMO/Areas/**,
+            \$MEMO/Projects/**,
+            \$MEMO/Resources/**
+setlocal expandtab
 let maplocalleader = "gh"
 " syntax sync fromstart
 " setl formatoptions+=ro
@@ -142,7 +141,7 @@ nn <silent><buffer> <Leader><Space> G$
             \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
             \:call memo#MemoTaskCheck()<CR>
             \:let @/=""<CR>:write<CR>02f]l
- " nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
+" nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
 "             \
 "             \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
 "             \:call memo#MemoTaskCheck()<CR>
@@ -239,5 +238,5 @@ exec "digraphs US " . 0x1D41
 exec "digraphs VS " . 0x2C7D
 exec "digraphs WS " . 0x1D42
 
-" <<<
+   " <<<
 augroup END

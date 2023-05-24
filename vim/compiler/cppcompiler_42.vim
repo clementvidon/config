@@ -1,7 +1,7 @@
-" @filename  cppcompiler.vim
-" @created   230523 16:31:09  by  cvidon@e3r2p17.clusters.42paris.fr
-" @updated   230523 16:31:09  by  cvidon@e3r2p17.clusters.42paris.fr
-" @author    Clément Vidon
+" compiler/cppcompiler_42
+" Created: 230524 19:44:36 by clem9nt@imac
+" Updated: 230524 19:44:36 by clem9nt@imac
+" Maintainer: Clément Vidon
 
 " TODO to use cppcompiler_42 for all c++ files
 " enter ':compiler cppcompiler_42' to set
@@ -17,8 +17,8 @@ if exists(":compiler")
 endif
 
 setlocal errorformat=%f:%l:\ %m
-setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
-" setlocal makeprg="c++"
-"             \ . " -Wall -Wextra -Werror -std=c++98"
-"             \ . " -Wconversion -Wsign-conversion -pedantic"
-"             \ . " %"
+" setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
+setlocal makeprg="c++"
+            \ . " -Wall -Wextra -Werror -std=c++98"
+            \ . " -Wconversion -Wsign-conversion -pedantic"
+            \ . " %"

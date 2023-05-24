@@ -1,18 +1,7 @@
-" @filename  mappings.vim
-" @created   230522 18:01:57  by  clem9nt@imac
-" @updated   230522 20:53:47  by  clem9nt@imac
-" @author    Clément Vidon
-
-
-" <Space> \ <Bs> <CR> <C-k> <C-j> gn gs gy gz gc z
-" mq mw me mr mt ma ms md mf mg mz mx mc mv mb
-" m, m. m' m; m/ m<CR> m<Space> m<BS> m<Tab> m= m[ m]
-" '<Tab> '<Space> `<Tab> `<Space>
-" dc ds dy d! d= d< d>
-" yc yd yo ys y! y=
-" cd cs co cp
-" =p =P
-
+" plugin/mappings
+" Created: 230524 19:49:28 by clem9nt@imac
+" Updated: 230524 19:49:28 by clem9nt@imac
+" Maintainer: Clément Vidon
 
 let mapleader=" "
 
@@ -27,6 +16,18 @@ nn sh <nop>
 nn sv <nop>
 nn sn <nop>
 nn sp <nop>
+
+"   write / quit
+no sw  :write<CR>
+no gsw :write!<CR>
+no sW  :wall<CR>
+no gsW :wall!<CR>
+no sq  :quit<CR>
+no gsq :quit!<CR>
+no sQ  :quitall<CR>
+no gsQ :quitall!<CR>
+nn sd  :bn\|bd#<CR>
+nn gsd :bn!\|bd! #<CR>
 
 "   find
 nn sf  :fin<Space>
@@ -69,12 +70,12 @@ nn sb :ls<CR>:b<Space>
 
 "   tag
 nn sk :tag /
-nn sij :ijump /
-nn sil :ilist /
-nn sis :isearch /
+    nn sij :ijump /
+    nn sil :ilist /
+    nn sis :isearch /
 
-"   grep
-nn sg :grep -r<Space>
+    "   grep
+    nn sg :grep -r<Space>
 
 "   memo
 nn sl  <nop>
@@ -95,44 +96,29 @@ nn glbc V:!bc<CR>
 nn glcc :set cursorcolumn!<CR>
 nn glcd :cd %:h<CR>
 nn glcl :set cursorline!<CR>
-nn glco :call general#ColorSwitch('seoul256-light', 'nord')<CR>
+nn glco :call colorswitch#('seoul256-light', 'nord')<CR>
 nn glen :En<Space>
 nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
-nn glhe :call general#Header()<CR>
 nn glhl :set hlsearch!<CR>
 nn gllc :lc %:h<CR>
 nn glnu :set number!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
-nn glqn :call general#QFNav()<CR>
+nn glqn :call qfnav#()<CR>
 nn glrn :set relativenumber!<CR>
 nn glsb :set scrollbind!<CR>
 nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
-nn glsk :noau w<CR>:S0<Space>
-nn glso :silent write\|source $MYVIMRC\|e<CR>zR
+nn glso :silent write\|source $DOTVIM/init.vim\|e<CR>zR
 nn glsp :set spell!<CR>
-nn glsr :noau w<cr>:s0 \!\!<CR>
 nn glss :StaticSearch<Space>
 nn glst :set startofline!<CR>
-nn glsy :call general#GetSyntax()<CR>
+nn glsy :call getsyntax#()<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
-nn glve :if &ve == "" \| set ve=all \| else <BAR> set ve= \| endif \| set ve?<CR>
+
 
 
 "   improvements
 
-
-"   write / quit
-no mw  :write<CR>
-no gmw :write!<CR>
-no mW  :wall<CR>
-no gmW :wall!<CR>
-no mq  :quit<CR>
-no gmq :quit!<CR>
-no mQ  :quitall<CR>
-no gmQ :quitall!<CR>
-nn md  :bn\|bd#<CR>
-nn gmd :bn!\|bd! #<CR>
 
 "   windows
 no <Leader>w <C-W>
@@ -153,8 +139,8 @@ tno <S-Down> <C-W>-
 "   cmdline
 no x :
 
-"   eye level cursor
-no z, z.15<C-e>
+    "   eye level cursor
+    no z, z.15<C-e>
 
 "   enlarge current split
 no <Leader>we :exec 'vertical resize '. string(&columns * 0.66)<CR>
@@ -172,7 +158,7 @@ nn 2s 2z=
 nn 1s 1z=
 
 "   indent
-nn <Space>= Mmmgo=G`mzz3<C-O>
+nn <Leader>= Mmmgo=G`mzz3<C-O>
 
 "   clipboard
 nn <silent> <Leader>y :call system("xclip -sel clip", getreg("\""))<CR>
@@ -183,3 +169,6 @@ no "+P :-1r!xclip -o -sel clip<CR>
 
 "   guard rails
 nn Q :echo "!Q"<CR>
+
+"   header
+nn <Leader>e :call header#()<CR>

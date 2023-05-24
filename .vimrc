@@ -1,1 +1,1 @@
-source /mnt/nfs/homes/cvidon/git/config/vim/init/init.vim
+source $HOME/git/config/vim/init.vim

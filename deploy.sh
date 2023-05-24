@@ -48,17 +48,8 @@ if command -v clang-format &> /dev/null; then
     ln -fsv $HOME/git/config/.clang-format              $HOME
 fi
 
-if command -v vim &> /dev/null; then
-    mkdir -pv $HOME/.config/vim/autoload
-    mkdir -pv $HOME/.config/vim/autoload/plugin
-    mkdir -pv $HOME/.config/vim/after/ftplugin
-    mkdir -pv $HOME/.config/vim/syntax
-    ln -fsv $HOME/git/config/.vimrc                     $HOME/.vimrc
-    ln -fsv $HOME/git/config/vim/*.vim                  $HOME/.config/vim/
-    ln -fsv $HOME/git/config/vim/autoload/plug.vim      $HOME/.config/vim/autoload/plug.vim
-    ln -fsv $HOME/git/config/vim/autoload/plugin/*.vim  $HOME/.config/vim/autoload/plugin/
-    ln -fsv $HOME/git/config/vim/after/ftplugin/*.vim   $HOME/.config/vim/after/ftplugin/
-    ln -fsv $HOME/git/config/vim/syntax/*.vim           $HOME/.config/vim/syntax/
+if command -v vim &> /dev/null || command -v nvim &> /dev/null; then
+    bash vim/vimrc.sh
 fi
 
 echo ""

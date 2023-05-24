@@ -138,7 +138,7 @@ nn <silent><buffer> <LocalLeader>d mdj
             \jfT
 
 "   format
-nn <silent><buffer> <LocalLeader>f :call general#ClangFormat()<CR>:w<CR>
+nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
 "   print
 nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==f"a
@@ -150,7 +150,7 @@ nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cout << <Esc>A << st
 nn <silent><buffer> <LocalLeader>. ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
 
 "   toggle .hpp/.cpp
-nn <silent><buffer> <LocalLeader>s :call cpp#SwitchHppCpp()<CR>
+nn <silent><buffer> <LocalLeader>s :call cpp_defswap#()<CR>
 
 "   class nav TODO
 nn <silent><buffer> gzc  mm:r !ls -1 inc*<CR>V`[J
@@ -166,7 +166,7 @@ nn <silent><buffer> gzf /^\a<CR>
 nn <silent><buffer> gzF :keeppatterns g/^\a<CR>
 
 "   coplien class template
-nn <silent><buffer> gzi :call cpp#ClassInitCpp()<CR>
+nn <silent><buffer> gzi :call cpp_classinit#()<CR>
 
 
 "   text objects
@@ -210,53 +210,3 @@ iabbr <silent><buffer> ccou std::cout <<;<Left>
 iabbr <silent><buffer> ccen std::cout << std::endl;<Esc>^
 iabbr <silent><buffer> pcer std::cerr << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
 iabbr <silent><buffer> pcou std::cout << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
-
-
-"   colors
-
-
-if &background == "dark"
-    highlight Search ctermbg=NONE ctermfg=105
-    " highlight cCustomClass ctermfg=158
-    highlight cString ctermfg=102
-    highlight cppString ctermfg=102
-    highlight cTodo ctermfg=84
-    highlight cComment ctermfg=103
-    highlight link cCommentL cComment
-    highlight link cCommentStart cComment
-elseif &background == "light"
-    highlight Search ctermbg=229 ctermfg=NONE
-    " highlight cCustomClass ctermfg=31
-    highlight cString ctermfg=245
-    highlight cTodo ctermfg=205
-    highlight cComment ctermfg=103
-    highlight link cCommentL cComment
-    highlight link cCommentStart cComment
-endif
-
-highlight link cConditional cleared
-highlight link cRepeat cleared
-" highlight link cStatement cleared
-highlight link cCharacter cleared
-highlight link cConstant cleared
-highlight link cDefine cleared
-highlight link cInclude cleared
-highlight! link cIncluded cleared
-highlight link cNumber cleared
-highlight link cOperator cleared
-highlight link cPreCondit cleared
-highlight link cSpecial cleared
-highlight link cStorageClass cleared
-highlight link cStructure cleared
-highlight link cType cleared
-highlight link cTypedef cleared
-highlight link cppBoolean cleared
-highlight link cppNumber cleared
-highlight link cppStatement cleared
-highlight link cppStructure cleared
-highlight link cppType cleared
-highlight link cppOperator cleared
-highlight link cppModifier cleared
-highlight link cppExceptions cleared
-
-syntax match cCustomClass "\v\w@<!(\u+[a-zA-Z0-9])[a-z0-9]*\w@!" contains=cIncluded,cInclude

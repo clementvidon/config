@@ -1,16 +1,9 @@
-"   toggle .hpp/.cpp
-function cpp#SwitchHppCpp()
-    if  (expand('%:t:r') =~# "[A-Z]")
-        if match(expand('%:e'), 'cpp')
-            execute 'find ' . expand("%:t:r") . '.cpp'
-        elseif match(expand('%:e'), 'hpp')
-            execute 'find ' . expand("%:t:r") . '.hpp'
-        endif
-    endif
-endfunction
+" autoload/cpp_classinit
+" Created: 230524 19:34:35 by clem9nt@imac
+" Updated: 230524 19:34:35 by clem9nt@imac
+" Maintainer: Clément Vidon
 
-"   coplien class template
-function cpp#ClassInitCpp()
+function cpp_classinit#()
     if  (expand("%:e") == "cpp")
         if  (expand(line('$')) == 1 && getline(1) =~ '^$')
             "   Class.cpp

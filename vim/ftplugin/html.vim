@@ -24,9 +24,3 @@ nn <silent><buffer> <LocalLeader>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
 
 "   format
 nn <silent><buffer> <LocalLeader>f mmGgqgo`m
-
-
-"   colors
-
-
-highlight MatchParen ctermbg=darkgrey guibg=darkgrey
