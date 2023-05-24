@@ -49,7 +49,7 @@ if command -v clang-format &> /dev/null; then
 fi
 
 if command -v vim &> /dev/null || command -v nvim &> /dev/null; then
-    bash vim/vimrc.sh
+    bash vim/vimrc_gen.sh
 fi
 
 echo ""
