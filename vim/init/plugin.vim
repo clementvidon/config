@@ -55,10 +55,13 @@ let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = [
             \'*.svelte',
             \'*.h',
+            \'*.md',
+            \'*.noe',
+            \'*.gpg.*',
             \'doc/**',
             \'test/**',
+            \'Noesis/**',
             \'Makefile'
-            \'*.md'
             \]
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_add_default_project_roots = 0

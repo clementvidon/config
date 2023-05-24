@@ -3,7 +3,7 @@
 "   @brief  Return a HH:MM timestamp with the minutes rounded to the closest
 "           multiple of 5.
 
-function! memo#RoundedTime()
+function! noesis#RoundedTime()
     let time = strftime('%H:%M')
     let minutes = str2nr(split(time, ':')[1])
     let rounded_minutes = (minutes + 2) / 5 * 5
@@ -14,7 +14,7 @@ endfunction
 "   @brief  Print the time difference between time1 and time2 in minutes.
 "           time1 and time2 should be in the [HH:MM HH:MM] format.
 
-function memo#MemoTimeDiff()
+function noesis#NoesisTimeDiff()
     let time_str = getline('.')
     let time1 = strptime('%H:%M', matchstr(time_str, '\[\zs\d\{2}:\d\{2}'))
     let time2 = strptime('%H:%M', matchstr(time_str,  '\d\{2}:\d\{2}\ze\]'))
@@ -32,8 +32,8 @@ endfunction
 "           task' and the timestamp will look like this: [00:00] if called once
 "           and [00:00 00:00] if called twice.
 
-function! memo#MemoTaskCheck()
-    let timestamp = memo#RoundedTime()
+function! noesis#NoesisTaskCheck()
+    let timestamp = noesis#RoundedTime()
     let datestamp = strftime('%y%m%d')
     let cursor_pos = getpos('.')
     let line = getline('.')
@@ -61,8 +61,8 @@ endfunction
 "           00:00       -> 11:11
 "           00:00 00:00 -> 00:00 11:11
 
-function! memo#MemoTaskReCheck()
-    let timestamp = memo#RoundedTime()
+function! noesis#NoesisTaskReCheck()
+    let timestamp = noesis#RoundedTime()
     let datestamp = strftime('%y%m%d')
     let cursor_pos = getpos('.')
     let line = getline('.')
@@ -78,8 +78,8 @@ endfunction
 
 "   @brief  Archive Today into history and set Today with Tomorrow tasks.
 
-function! memo#MemoArchiveDay()
-    if expand('%:t:r') . '.' . expand('%:e') != 'todo.md'
+function! noesis#NoesisArchiveDay()
+    if expand('%:t:r') . '.' . expand('%:e') != 'todo.noe'
         return 1
     endif
     let cursor_pos = getpos('.')
@@ -93,7 +93,7 @@ function! memo#MemoArchiveDay()
     let l:today_content = getline(l:today_loc + 2, line('$'))
     "   Archive today
     write
-    exec 'silent edit ' . expand('%:p:h') . '/history.gpg.md'
+    exec 'silent edit ' . expand('%:p:h') . '/history.gpg.noe'
     call append(search('#=====================#', 'n'), '')
     call append(search('#=====================#', 'n'), l:today_content)
     write

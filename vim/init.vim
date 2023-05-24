@@ -3,6 +3,7 @@
 " Updated: 230524 19:57:11 by clem9nt@imac
 " Maintainer: Clément Vidon
 
+let $NOESIS=$HOME . "/git/Noesis"
 let $DOTVIM=$HOME . "/git/config/vim"
 set runtimepath^=$DOTVIM
 set packpath+=$DOTVIM

@@ -79,13 +79,13 @@ nn sk :tag /
 
 "   memo
 nn sl  <nop>
-nn sli :e $MEMO/INDEX.md<CR>/Lists<CR>
-nn sle :e $MEMO/Resources/english.md<CR>?##  Voca<CR>
-nn slf :e $MEMO/Resources/french.md<CR>?##  Voca<CR>
-nn slt :e $MEMO/Lists/todo.md<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
-nn slh :e $MEMO/Lists/history.gpg.md<CR>
-nn slp :e $MEMO/Lists/post-it.md<CR>gi<Esc>
-nn sla :e $MEMO/Archives/Archives.md<CR>gi<Esc>
+nn sli :e $NOESIS/INDEX.noe<CR>/Lists<CR>
+nn sle :e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>
+nn slf :e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>
+nn slt :e $NOESIS/Lists/todo.noe<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
+nn slh :e $NOESIS/Lists/history.gpg.noe<CR>
+nn slp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
+nn sla :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
 
 
 "   cmdline (gl)

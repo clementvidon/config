@@ -1,3 +1,8 @@
+" ftplugin/noesis
+" Created: 230524 20:45:19 by clem9nt@imac
+" Updated: 230524 20:45:19 by clem9nt@imac
+" Maintainer: Clément Vidon
+
 
 " <<<
 
@@ -5,14 +10,14 @@
 
 
 setlocal textwidth=80
-setlocal suffixesadd+=.md
-setlocal suffixesadd+=.gpg.md
-setlocal path+=$DOTVIM/pack/vendor/start/memo/**,
-            \$MEMO,
-            \$MEMO/Lists/**,
-            \$MEMO/Areas/**,
-            \$MEMO/Projects/**,
-            \$MEMO/Resources/**
+setlocal suffixesadd+=.noe
+setlocal suffixesadd+=.gpg.noe
+setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
+            \$NOESIS,
+            \$NOESIS/Lists/**,
+            \$NOESIS/Areas/**,
+            \$NOESIS/Projects/**,
+            \$NOESIS/Resources/**
 setlocal expandtab
 let maplocalleader = "gh"
 " syntax sync fromstart
@@ -40,18 +45,18 @@ nn <silent><buffer> gwgg <nop>
 "   Mapping Info
 nn <silent><buffer> <LocalLeader>? :echo "
             \\n
-            \================[Memo]================\n
+            \================[Noesis]================\n
             \                                      \|\n
             \ HTML_EXPORT       : Space X          \|\n
             \                                      \|\n
-            \ PUSH_MEMO         : ghps             \|\n
-            \ PULL_MEMO         : ghpl             \|\n
+            \ PUSH_NOESIS         : ghps             \|\n
+            \ PULL_NOESIS         : ghpl             \|\n
             \                                      \|\n
-            \ MEMO_NAV FOR      : Space CR         \|\n
-            \ MEMO_NAV BAC      : Space Tab        \|\n
+            \ NOESIS_NAV FOR      : Space CR         \|\n
+            \ NOESIS_NAV BAC      : Space Tab        \|\n
             \ INDEX_GEN         : Space #          \|\n
             \ INDEX_NAV         : Space 3          \|\n
-            \ MEMO_GREP         : :Grep            \|\n
+            \ NOESIS_GREP         : :Grep            \|\n
             \                                      \|\n
             \ MD_LINK           : Space L          \|\n
             \                                      \|\n
@@ -63,43 +68,43 @@ nn <silent><buffer> <LocalLeader>? :echo "
 
 "                       GENERAL :
 
-"   Html Export TODO MemoToHtml()
+"   Html Export TODO NoesisToHtml()
 nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
             \
             \/--><CR>Oa { color: hotpink; }<Esc>go
             \:%s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
             \:%s/\* { font-size: 1em; }$/\* { font-size: 1.1em; }/g<CR>
-            \:%s/\.memoH1 { color: #5fffaf; }$/.memoH1 { color: #5fffaf; font-size: 120%; }/g<CR>
-            \:%s/\.memoUrl { color: #ff5faf; text-decoration: underline; }$/.memoUrl { color: #ff5faf; text-decoration: underline; font-size: 90%; }/g<CR>
-            \go/<span class="memoBlockquote">&gt; </span><CR>cc<span class="memoBlockquote">&gt; </span> cvidon@student.42.fr<Esc>go
+            \:%s/\.noesisH1 { color: #5fffaf; }$/.noesisH1 { color: #5fffaf; font-size: 120%; }/g<CR>
+            \:%s/\.noesisUrl { color: #ff5faf; text-decoration: underline; }$/.noesisUrl { color: #ff5faf; text-decoration: underline; font-size: 90%; }/g<CR>
+            \go/<span class="noesisBlockquote">&gt; </span><CR>cc<span class="noesisBlockquote">&gt; </span> cvidon@student.42.fr<Esc>go
             \:fix}}<Esc>
 
 
 nn <silent><buffer> <LocalLeader>pl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 
-"   Push Memo TODO MemoGitPush()
-" au BufRead,BufNewFile $MEMO/Lists/*.md nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
+"   Push Noesis TODO NoesisGitPush()
+" au BufRead,BufNewFile $NOESIS/Lists/*.noe nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
 nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
             \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
-            \:sil cd $MEMO/<CR>
-            \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
+            \:sil cd $NOESIS/<CR>
+            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
             \:q<CR>:redr!<CR>
 
-"   Index Gen TODO MemoIndexGen() (regen if exist)
+"   Index Gen TODO NoesisIndexGen() (regen if exist)
 nn <silent><buffer> <LocalLeader>I :silent
             \
             \ :let @a=""<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
 
-"   Index Nav TODO MemoIndexNav()
+"   Index Nav TODO NoesisIndexNav()
 nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
 
 "   Markdown link
 nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=""<CR>Bi[](<Left><Left>
 
-"   Memo Grep
-com! -nargs=+ Grep exec 'grep! -i <args> $MEMO/**/*.md' | cw
+"   Noesis Grep
+com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
 
 
 "   GPG ENC
@@ -116,22 +121,22 @@ vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
 "                       TOD0 :
 
 "   Archive Day
-nn <buffer><silent> <LocalLeader>A :call memo#MemoArchiveDay()<CR>
-            \:sil cd $MEMO/<CR>
-            \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
+nn <buffer><silent> <LocalLeader>A :call noesis#NoesisArchiveDay()<CR>
+            \:sil cd $NOESIS/<CR>
+            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
 "   Task New
 nn <silent><buffer> <Leader>t O[]<Esc><<$A<Space>
-nn <silent><buffer> <Leader>T o[] tmp<Esc><<:call memo#MemoTaskCheck()<CR>ftC
+nn <silent><buffer> <Leader>T o[] tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
 
 "   Task Check
-nn <silent><buffer> <Leader>k :call memo#MemoTaskCheck()<CR>
+nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
             \
             \:let @/=""<CR>:write<CR>02f]l
 
 "   Task Recheck
-nn <silent><buffer> <Leader>r :call memo#MemoTaskReCheck()<CR>
+nn <silent><buffer> <Leader>r :call noesis#NoesisTaskReCheck()<CR>
             \
             \:let @/=""<CR>:write<CR>02f]l
 
@@ -139,12 +144,12 @@ nn <silent><buffer> <Leader>r :call memo#MemoTaskReCheck()<CR>
 nn <silent><buffer> <Leader><Space> G$
             \
             \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
-            \:call memo#MemoTaskCheck()<CR>
+            \:call noesis#NoesisTaskCheck()<CR>
             \:let @/=""<CR>:write<CR>02f]l
 " nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
 "             \
 "             \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
-"             \:call memo#MemoTaskCheck()<CR>
+"             \:call noesis#NoesisTaskCheck()<CR>
 "             \:let @/=""<CR>:write<CR>02f]l
 " \?\%V\(^-\\|^\[\]\\|^\[\d\{6} \d\{2}:\d\{2}]\) <CR>
 

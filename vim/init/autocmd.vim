@@ -5,9 +5,8 @@
 
 augroup vim_startup
     autocmd!
-    let $MEMO=$HOME . "/git/Memo"
-    autocmd VimEnter * if @% == '' | setlocal path+=$DOTVIM/**,$MEMO/*/** | endif
-    autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $MEMO/Lists/todo.md<CR>GMz. | endif
+    autocmd VimEnter * if @% == '' | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
+    autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOESIS/Lists/todo.noe<CR>GMz. | endif
 augroup END
 
 augroup custom_highlight
