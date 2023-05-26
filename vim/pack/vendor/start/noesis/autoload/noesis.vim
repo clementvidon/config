@@ -196,16 +196,16 @@ function! noesis#NoesisArchiveDay()
     call append(line('$'), '    journal')
     call append(line('$'), '')
     call append(line('$'), 'morning')
-    call append(line('$'), '- psyc:')
-    call append(line('$'), '- soma:')
     call append(line('$'), '- life:')
     call append(line('$'), '- work:')
+    call append(line('$'), '- psyc:')
+    call append(line('$'), '- soma:')
     call append(line('$'), '')
     call append(line('$'), 'evening')
-    call append(line('$'), '- psyc:')
-    call append(line('$'), '- soma:')
     call append(line('$'), '- life:')
     call append(line('$'), '- work:')
+    call append(line('$'), '- psyc:')
+    call append(line('$'), '- soma:')
     call append(line('$'), '')
     call append(line('$'), '    diary')
     call append(line('$'), '')
@@ -216,5 +216,3 @@ function! noesis#NoesisArchiveDay()
     write
     return 0
 endfunction
-
-
