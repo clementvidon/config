@@ -1,6 +1,6 @@
 " ftplugin/noesis
 " Created: 230524 20:45:19 by clem9nt@imac
-" Updated: 230524 20:45:19 by clem9nt@imac
+" Updated: 230526 18:44:45 by clem@spectre
 " Maintainer: Clément Vidon
 
 
@@ -133,7 +133,11 @@ nn <silent><buffer> <Leader>T o[] tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ft
 "   Task Check
 nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
             \
-            \:let @/=""<CR>:write<CR>02f]l
+            \:write<CR>0
+
+nn <silent><buffer> <Leader>K :call setline('.', substitute(getline('.'), '^[', '[' . strftime('%y%m%d') . ' ', 'g'))<CR>
+            \
+            \:write<CR>0
 
 "   Task Recheck
 nn <silent><buffer> <Leader>r :call noesis#NoesisTaskReCheck()<CR>

@@ -27,7 +27,7 @@ Plug 'junegunn/seoul256.vim'                    " colorscheme
 " Plug 'sophacles/vim-processing'                 " processing filetype
 call plug#end()
 
-color nord | set bg=dark
+color seoul256-light | set bg=light
 
 imap <Left> <Plug>(copilot-dismiss)
 imap <Down> <Plug>(copilot-next)

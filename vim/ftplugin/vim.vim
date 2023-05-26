@@ -8,12 +8,7 @@
 
 setlocal textwidth=80
 setlocal path+=$DOTVIM/autoload/**,
-            \$DOTVIM/compiler/**,
-            \$DOTVIM/ftdetect/**,
-            \$DOTVIM/ftplugin/**,
-            \$DOTVIM/init/**,
-            \$DOTVIM/plugin/**,
-            \$DOTVIM/syntax/**
+            \$DOTVIM/**,
 
 let maplocalleader="gh"
 
