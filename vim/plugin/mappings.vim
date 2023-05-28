@@ -1,6 +1,6 @@
 " plugin/mappings
 " Created: 230524 19:49:28 by clem9nt@imac
-" Updated: 230524 19:49:28 by clem9nt@imac
+" Updated: 230528 21:46:51 by clem@spectre
 " Maintainer: Clément Vidon
 
 let mapleader=" "
@@ -70,23 +70,28 @@ nn sb :ls<CR>:b<Space>
 
 "   tag
 nn sk :tag /
-    nn sij :ijump /
-    nn sil :ilist /
-    nn sis :isearch /
+nn sij :ijump /
+nn sil :ilist /
+nn sis :isearch /
 
-    "   grep
-    nn sg :grep -r<Space>
+"   grep
+nn sg :grep -r<Space>
 
-"   memo
-nn sl  <nop>
-nn sli :e $NOESIS/INDEX.noe<CR>/Lists<CR>
-nn sle :e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>
-nn slf :e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>
-nn slt :e $NOESIS/Lists/todo.noe<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
-nn slh :e $NOESIS/Lists/history.gpg.noe<CR>
-nn slp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
-nn sla :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
-
+"   noesis
+nn sn  <nop>
+nn sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
+nn sne :e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>
+nn snf :e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>
+nn snt :e $NOESIS/Lists/todo.noe<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
+nn snh :e $NOESIS/Lists/history.gpg.noe<CR>
+nn snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
+nn sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+nn sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+"   config
+nn scv :e $HOME/.vimrc<CR>
+nn scz :e $HOME/.zshrc<CR>
+nn sce :e $HOME/.zshenv<CR>
+nn sct :e $HOME/.tmux.conf<CR>
 
 "   cmdline (gl)
 
@@ -139,8 +144,8 @@ tno <S-Down> <C-W>-
 "   cmdline
 no x :
 
-    "   eye level cursor
-    no z, z.15<C-e>
+"   eye level cursor
+no z, z.15<C-e>
 
 "   enlarge current split
 no <Leader>we :exec 'vertical resize '. string(&columns * 0.66)<CR>
@@ -158,7 +163,7 @@ nn 2s 2z=
 nn 1s 1z=
 
 "   indent
-nn <Leader>= Mmmgo=G`mzz3<C-O>
+nn <silent> <Leader>= Mmmgo=G`mzz3<C-O>
 
 "   clipboard
 nn <silent> <Leader>y :call system("xclip -sel clip", getreg("\""))<CR>
@@ -172,3 +177,6 @@ nn Q :echo "!Q"<CR>
 
 "   header
 nn <Leader>e :call header#()<CR>
+
+ino jf <Esc>
+ino fj <Esc>

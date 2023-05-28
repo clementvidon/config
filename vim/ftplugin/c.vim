@@ -28,6 +28,7 @@ setlocal path+=
 
 let maplocalleader="gh"
 
+let g:gutentags_enabled = 1
 let b:surround_45='("\r");'
 
 
@@ -119,8 +120,8 @@ nn <silent><buffer> <LocalLeader>d mdj
 "   format
 nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
-"   print
-nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==f"a
+"   print TODO cpp load this one...
+" nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==f"a
 
 "   print wrap
 nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(1, "> %%\n", <Esc>A);<Esc>==f%
@@ -151,14 +152,14 @@ ono <silent><buffer> aF :normal VaF<CR>
 
 "   abbreviations
 
-iabbr <silent><buffer> mmain int main( void ) {<CR>return 0;<CR>}<Esc>kO<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> (( ()<Left><C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> "" ""<Left><C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> '' ''<Left><C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> iif if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+iabbr <silent><buffer> mmain int main( void ) {<CR>return 0;<CR>}<Esc>kO<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> (( ()<Left><C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> "" ""<Left><C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> '' ''<Left><C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> iif if () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>

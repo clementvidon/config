@@ -3,11 +3,6 @@
 " Updated: 230524 19:51:01 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-if exists("b:current_syntax")
-    finish
-endif
-
-
 "   syntax
 
 
@@ -60,5 +55,3 @@ hi link cppType cleared
 hi link cppOperator cleared
 hi link cppModifier cleared
 hi link cppExceptions cleared
-
-let b:current_syntax = "syntaxcpp"

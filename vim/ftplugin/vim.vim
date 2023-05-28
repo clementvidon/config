@@ -19,7 +19,7 @@ let maplocalleader="gh"
 nn <silent><buffer> <LocalLeader> <nop>
 
 "   clear
-nn <silent><buffer> <LocalLeader> Mmmgo=G`mzz3<C-O>
+nn <silent><buffer> <LocalLeader>= Mmmgo=G`mzz3<C-O>
 
 "   docstring skeletong
 nn <silent><buffer> <LocalLeader>D mdj

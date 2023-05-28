@@ -43,7 +43,7 @@ syn match noesisCodeMarker "^```.*$"
 syn region noesisCodeBlock matchgroup=noesisCodeMarker start="^```" end="^```" skip="\\``"
 
 syn match noesisTaskCheck /^\[\]\ze ./
-syn match noesisTaskCheck /^\[[0-9: ]*\]\ze ./
+syn match noesisTaskCheck /^\[[0-9a-zA-Z: ]*\]\ze ./
 syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2}\]\ze ./
 syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]\ze ./
 

@@ -27,6 +27,7 @@ setlocal path+=
 
 let maplocalleader="gh"
 
+let g:gutentags_enabled = 1
 let b:surround_45='("\r");'
 
 
@@ -140,7 +141,7 @@ nn <silent><buffer> <LocalLeader>d mdj
 "   format
 nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
-"   print
+"   print TODO cf. c.vim
 nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==f"a
 
 "   print wrap
@@ -186,20 +187,20 @@ ono <silent><buffer> aF :normal VaF<CR>
 "   abbreviations
 
 
-iabbr <silent><buffer> mmain int main( void ) {<CR>return 0;<CR>}<Esc>kO<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> (( ()<Left><C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> "" ""<Left><C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> '' ''<Left><C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> iif if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=Eatchar('\s')<CR>
+iabbr <silent><buffer> mmain int main( void ) {<CR>return 0;<CR>}<Esc>kO<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> (( ()<Left><C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> "" ""<Left><C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> '' ''<Left><C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> iif if () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
 
 iabbr <silent><buffer> sstr std::string
-iabbr <silent><buffer> sstrc std::string const& <C-R>=Eatchar('\s')<CR>
+iabbr <silent><buffer> sstrc std::string const& <C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> cin std::cin
 iabbr <silent><buffer> cer std::cerr
 iabbr <silent><buffer> cou std::cout
@@ -208,5 +209,5 @@ iabbr <silent><buffer> ccin std::cin >>;<Left>
 iabbr <silent><buffer> ccer std::cerr <<;<Left>
 iabbr <silent><buffer> ccou std::cout <<;<Left>
 iabbr <silent><buffer> ccen std::cout << std::endl;<Esc>^
-iabbr <silent><buffer> pcer std::cerr << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
-iabbr <silent><buffer> pcou std::cout << "" << std::endl;<Esc>14hi<C-R>=Eatchar('\s')<CR>
+iabbr <silent><buffer> pcer std::cerr << "" << std::endl;<Esc>14hi<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> pcou std::cout << "" << std::endl;<Esc>14hi<C-R>=eatchar#('\s')<CR>

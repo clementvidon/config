@@ -3,11 +3,6 @@
 " Updated: 230524 19:50:22 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-if exists("b:current_syntax")
-    finish
-endif
-
-
 "   syntax
 
 
@@ -51,5 +46,3 @@ hi link cStorageClass cleared
 hi link cStructure cleared
 hi link cType cleared
 hi link cTypedef cleared
-
-let b:current_syntax = "syntaxc"
