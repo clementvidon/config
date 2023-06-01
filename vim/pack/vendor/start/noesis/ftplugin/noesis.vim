@@ -1,6 +1,6 @@
 " ftplugin/noesis
 " Created: 230524 20:45:19 by clem9nt@imac
-" Updated: 230526 18:44:45 by clem@spectre
+" Updated: 230601 14:58:07 by cvidon@e2r3p15.clusters.42paris.fr
 " Maintainer: Clément Vidon
 
 
@@ -95,13 +95,13 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
 "   Index Gen TODO NoesisIndexGen() (regen if exist)
 nn <silent><buffer> <LocalLeader>I :silent
             \
-            \ :let @a=""<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
+            \ :let @a=''<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
 
 "   Index Nav TODO NoesisIndexNav()
 nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
 
 "   Markdown link
-nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=""<CR>Bi[](<Left><Left>
+nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=''<CR>Bi[](<Left><Left>
 
 "   Noesis Grep
 com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
@@ -133,17 +133,38 @@ nn <silent><buffer> <Leader>t o- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
 nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
             \
             \:write<CR>0
-nn <silent><buffer> <Leader>K :call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze.', ' ' . strftime('%y%m%d') . ' ', ''))<CR>
+
+nn <silent><buffer> <Leader>K <Esc>
             \
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \zs( \ze.', '', 'e'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze.', ' ' . strftime('%y%m%d') . ' ', ''))<CR>
             \:write<CR>0
 
+"   Task Fix
+nn <silent><buffer> <Leader>F :call noesis#NoesisTaskFix("up")<CR>
+            " \
+            " \:write<CR>0
+nn <silent><buffer> <Leader>f :call noesis#NoesisTaskFix("down")<CR>
+            " \
+            " \:write<CR>0
+
 "   Task Now
+"   TODO update
 nn <silent><buffer> <Leader>. /^##  Today$<CR>VG$<Esc>
             \
             \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
 
 "   Task Clear
-nn <silent><buffer> <Leader>c 021lv?\d\d:\d\d<CR><Esc>4lv0/\d<CR>hd
+" nn <silent><buffer> <Leader>c 021lv?\d\d:\d\d<CR><Esc>4lv0/\d<CR>hd:let @/=''<CR>
+nn <silent><buffer> <Leader>c <Esc>
+            \
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d:\d\d\ze', '', 'g'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d:\d\d\ze', '', 'e'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d\ze.', '', 'e'))<CR>
+            \:write<CR>0
 
 "                       HISTORY
 

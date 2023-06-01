@@ -61,6 +61,20 @@ function! noesis#NoesisTaskCheck()
     call setpos('.', cursor_pos)
 endfunction
 
+
+function! noesis#NoesisTaskFix(option)
+    let cursor_line = getline('.')
+    if a:option == "down"
+        let down_line = getline(search('.') + 1)
+        let down_time = substitute(down_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
+        let down_time = substitute(down_time, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
+        echo down_time
+        " new line = substitute...
+        " setline
+    endif
+endfunction
+
+
 "   @brief  Archive Today into history and set Today with Tomorrow tasks.
 
 function! noesis#NoesisArchiveDay()
@@ -91,57 +105,57 @@ function! noesis#NoesisArchiveDay()
 
     " bda
 
-    " call append(line('$'), '- 21:00 read book / listen podcast / sleep')
-    " call append(line('$'), '- 20:50 21:00 meditate')
-    " call append(line('$'), '- 20:40 20:50 @noesis/todo evening report')
-    " call append(line('$'), '- 19:40 20:40 misc')
+    " call append(line('$'), '- ( 21:00 ) read book / listen podcast / sleep')
+    " call append(line('$'), '- ( 20:50 21:00 ) meditate')
+    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
+    " call append(line('$'), '- ( 19:40 20:40 ) misc')
     " call append(line('$'), ' - TODO')
-    " call append(line('$'), '- 19:00 19:40 dine with moupou')
-    " call append(line('$'), '- 14:00 19:00 @42/ft_irc TODO')
-    " call append(line('$'), '- 13:50 14:00 meditate')
-    " call append(line('$'), '- 12:40 13:50 misc')
+    " call append(line('$'), '- ( 19:00 19:40 ) dine with moupou')
+    " call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
+    " call append(line('$'), '- ( 13:50 14:00 ) meditate')
+    " call append(line('$'), '- ( 12:40 13:50 ) misc')
     " call append(line('$'), ' - TODO')
-    " call append(line('$'), '- 12:00 12:40 lunch with moupou')
-    " call append(line('$'), '- 11:20 12:00 warmup / run { TODO } / stretch / prepare')
-    " call append(line('$'), '- 07:00 11:20 @42/ft_irc TODO')
-    " call append(line('$'), '- 06:50 07:00 @noesis/todo fill morning report')
-    " call append(line('$'), '- 06:40 06:50 meditate')
-    " call append(line('$'), '- 06:00 06:40 get up / breakfast + read book')
+    " call append(line('$'), '- ( 12:00 12:40 ) lunch with moupou')
+    " call append(line('$'), '- ( 11:20 12:00 ) warmup / run { TODO } / stretch / prepare')
+    " call append(line('$'), '- ( 07:00 11:20 ) @42/ft_irc TODO')
+    " call append(line('$'), '- ( 06:50 07:00 ) @noesis/todo fill morning report')
+    " call append(line('$'), '- ( 06:40 06:50 ) meditate')
+    " call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read book')
 
     " home
 
-    call append(line('$'), '- 21:00 read magazine / listen podcast / sleep')
-    call append(line('$'), '- 20:50 21:00 meditate')
-    call append(line('$'), '- 20:40 20:50 @noesis/todo evening report')
-    call append(line('$'), '- 19:00 20:40 cook / dine / misc')
+    call append(line('$'), '- ( 21:00 ) read magazine / listen podcast / sleep')
+    call append(line('$'), '- ( 20:50 21:00 ) meditate')
+    call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
+    call append(line('$'), '- ( 19:00 20:40 ) cook / dine / misc')
     call append(line('$'), ' - TODO')
-    call append(line('$'), '- 14:00 19:00 @42/ft_irc TODO')
-    call append(line('$'), '- 13:50 14:00 meditate')
-    call append(line('$'), '- 12:00 13:50 cook / lunch / misc')
+    call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
+    call append(line('$'), '- ( 13:50 14:00 ) meditate')
+    call append(line('$'), '- ( 12:00 13:50 ) cook / lunch / misc')
     call append(line('$'), ' - TODO')
-    call append(line('$'), '- 08:00 12:00 @42/ft_irc TODO')
-    call append(line('$'), '- 07:50 08:00 @noesis/todo fill morning report')
-    call append(line('$'), '- 07:40 07:50 meditate')
-    call append(line('$'), '- 06:40 07:40 warmup / run { TODO } / stretch / prepare')
-    call append(line('$'), '- 06:00 07:40 get up / breakfast + read book')
+    call append(line('$'), '- ( 08:00 12:00 ) @42/ft_irc TODO')
+    call append(line('$'), '- ( 07:50 08:00 ) @noesis/todo fill morning report')
+    call append(line('$'), '- ( 07:40 07:50 ) meditate')
+    call append(line('$'), '- ( 06:40 07:40 ) warmup / run { TODO } / stretch / prepare')
+    call append(line('$'), '- ( 06:00 07:40 ) get up / breakfast + read book')
 
     "  42
 
-    " call append(line('$'), '- 21:00 listen podcast / sleep')
-    " call append(line('$'), '- 20:50 21:00 meditate')
-    " call append(line('$'), '- 20:40 20:50 @noesis/todo evening report')
-    " call append(line('$'), '- 18:30 20:40 cook / dine / misc')
+    " call append(line('$'), '- ( 21:00 ) listen podcast / sleep')
+    " call append(line('$'), '- ( 20:50 21:00 ) meditate')
+    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
+    " call append(line('$'), '- ( 18:30 20:40 ) cook / dine / misc')
     " call append(line('$'), ' - TODO')
-    " call append(line('$'), '- 17:45 18:30 move to home')
-    " call append(line('$'), '- 13:45 17:45 @42/ft_irc TODO')
-    " call append(line('$'), '- 13:10 13:45 move to 42')
-    " call append(line('$'), '- 13:00 13:10 meditate')
-    " call append(line('$'), '- 12:00 13:00 cook / lunch / read book')
-    " call append(line('$'), '- 08:00 12:00 @42/ft_irc TODO')
-    " call append(line('$'), '- 07:50 08:00 @noesis/todo fill morning report')
-    " call append(line('$'), '- 07:40 07:50 meditate')
-    " call append(line('$'), '- 06:40 07:40 warmup / run { TODO } / stretch / prepare')
-    " call append(line('$'), '- 06:00 06:40 get up / breakfast + read book')
+    " call append(line('$'), '- ( 17:45 18:30 ) move to home')
+    " call append(line('$'), '- ( 13:45 17:45 ) @42/ft_irc TODO')
+    " call append(line('$'), '- ( 13:10 13:45 ) move to 42')
+    " call append(line('$'), '- ( 13:00 13:10 ) meditate')
+    " call append(line('$'), '- ( 12:00 13:00 ) cook / lunch / read book')
+    " call append(line('$'), '- ( 08:00 12:00 ) @42/ft_irc TODO')
+    " call append(line('$'), '- ( 07:50 08:00 ) @noesis/todo fill morning report')
+    " call append(line('$'), '- ( 07:40 07:50 ) meditate')
+    " call append(line('$'), '- ( 06:40 07:40 ) warmup / run { TODO } / stretch / prepare')
+    " call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read book')
 
     "   Set Today
     call append(line('$'), '')

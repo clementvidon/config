@@ -9,7 +9,6 @@
 setlocal cindent
 setlocal expandtab
 setlocal formatprg="black --quiet - 2>/tmp/vim_format_errors"
-setlocal path+=$DOTVIM/ftplugin/
 setlocal showmatch
 setlocal tw=80
 

@@ -31,27 +31,28 @@ elseif &background == "light"
     hi link cCommentStart cComment
 endif
 
-hi link cConditional cleared
-hi link cRepeat cleared
-" hi link cStatement cleared
 hi link cCharacter cleared
+hi link cConditional cleared
 hi link cConstant cleared
 hi link cDefine cleared
 hi link cInclude cleared
-hi! link cIncluded cleared
+hi link cLabel cleared
 hi link cNumber cleared
 hi link cOperator cleared
 hi link cPreCondit cleared
+hi link cRepeat cleared
 hi link cSpecial cleared
+hi link cStatement cleared
 hi link cStorageClass cleared
 hi link cStructure cleared
 hi link cType cleared
 hi link cTypedef cleared
 hi link cppBoolean cleared
+hi link cppExceptions cleared
+hi link cppModifier cleared
 hi link cppNumber cleared
+hi link cppOperator cleared
 hi link cppStatement cleared
 hi link cppStructure cleared
 hi link cppType cleared
-hi link cppOperator cleared
-hi link cppModifier cleared
-hi link cppExceptions cleared
+hi! link cIncluded cleared

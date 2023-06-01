@@ -18,7 +18,7 @@ syn region noesisH4 start="^#####\@!"     end="#*\s*$"
 syn region noesisH5 start="^######\@!"    end="#*\s*$"
 syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 
-syn match noesisListMarker "^\%(\s\{0,3\}\)[-*+~]\%(\s\+\S\)\@="
+syn match noesisListMarker "^\%(\s\{0,3\}\)[-*+]\%(\s\+\S\)\@="
 syn match noesisOrderedListMarker "^\%(\s\{0,3}\)\<\d\+\.\%(\s\+\S\)\@="
 
 syn match noesisBlockquote "^>\%(\s\|$\)"
@@ -49,10 +49,11 @@ syn region noesisCodeBlock matchgroup=noesisCodeMarker start="^```" end="^```" s
 " syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]\ze ./
 
 
-syn match noesisTaskDash /^\s\{0,1}\(-\|\~\)./ contained
-syn match noesisTaskTime /^\s\{0,1}\(-\|\~\)\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash
-syn match noesisTaskTime /^\s\{0,1}\(-\|\~\) (.*)\ze ./ contains=noesisTaskDash
-syn match noesisTaskDone /^\s\{0,1}\(-\|\~\) \d\d\d\d\d\d\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash
+syn match noesisTaskDash /^\s\{0,1}-./
+syn match noesisTaskTild /^\s\{0,1}\~./
+syn match noesisTaskTime /^\s\{0,1}\(-\|\~\)\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash,noesisTaskTild
+syn match noesisTaskTime /^\s\{0,1}\(-\|\~\) (.*)\ze ./ contains=noesisTaskDash,noesisTaskTild
+syn match noesisTaskDone /^\s\{0,1}\(-\|\~\) \d\d\d\d\d\d\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash,noesisTaskTild
 
 syn keyword noesisBoldItalic TODO
 syn keyword noesisBoldItalic XXX
@@ -93,6 +94,7 @@ if &background == "dark"
     hi noesisBoldItalic               ctermfg=220
 
     hi noesisTaskDash                ctermfg=85
+    hi noesisTaskTild                ctermfg=3
     hi noesisTaskTime                ctermfg=140
     hi noesisTaskDone                ctermfg=102
 
@@ -130,5 +132,6 @@ elseif &background == "light"
     hi noesisDelimiter                ctermfg=255
 
 endif
+
 
 let b:current_syntax = "syntaxnoesis"
