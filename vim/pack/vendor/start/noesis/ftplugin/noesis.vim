@@ -127,36 +127,15 @@ nn <buffer><silent> <LocalLeader>A :call noesis#NoesisArchiveDay()<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
 "   Task New
-nn <silent><buffer> <Leader>t O[]<Esc><<$A<Space>
-nn <silent><buffer> <Leader>T o[] tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
+nn <silent><buffer> <Leader>t o- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
 
 "   Task Check
 nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
             \
             \:write<CR>0
-
-nn <silent><buffer> <Leader>K :call setline('.', substitute(getline('.'), '^[', '[' . strftime('%y%m%d') . ' ', 'g'))<CR>
+nn <silent><buffer> <Leader>K :call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze.', ' ' . strftime('%y%m%d') . ' ', ''))<CR>
             \
             \:write<CR>0
-
-"   Task Recheck
-nn <silent><buffer> <Leader>r :call noesis#NoesisTaskReCheck()<CR>
-            \
-            \:let @/=""<CR>:write<CR>02f]l
-
-"   Task Check Next
-nn <silent><buffer> <Leader><Space> G$
-            \
-            \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
-            \:call noesis#NoesisTaskCheck()<CR>
-            \:let @/=""<CR>:write<CR>02f]l
-" nn <silent><buffer> <Leader><Space> /^##  Today$<CR>VG$<Esc>
-"             \
-"             \?\(^\[.*] .*\)\&\(^\[\d\d\d\d\d\d \d\d:\d\d \d\d:\d\d] .*\)\@!<CR>
-"             \:call noesis#NoesisTaskCheck()<CR>
-"             \:let @/=""<CR>:write<CR>02f]l
-" \?\%V\(^-\\|^\[\]\\|^\[\d\{6} \d\{2}:\d\{2}]\) <CR>
-
 
 "   Task Now
 nn <silent><buffer> <Leader>. /^##  Today$<CR>VG$<Esc>
@@ -164,11 +143,7 @@ nn <silent><buffer> <Leader>. /^##  Today$<CR>VG$<Esc>
             \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
 
 "   Task Clear
-nn <silent><buffer> <Leader>c mm0di[`m
-
-"   Task Switch
-nn <buffer><silent> <LocalLeader>s 0f]lv$hdj0f]lv$hpk$p
-nn <buffer><silent> <LocalLeader>S 0f]lv$hdk0f]lv$hpj$p
+nn <silent><buffer> <Leader>c 021lv?\d\d:\d\d<CR><Esc>4lv0/\d<CR>hd
 
 "                       HISTORY
 
@@ -177,6 +152,17 @@ nn <buffer><silent> <LocalLeader>r Mmm
             \
             \:keeppatterns g/^\s/norm g??<CR>
             \`mzz3<C-O>
+
+
+"   En
+nn <buffer><silent> <LocalLeader>en v$y:En <C-R>"<CR>
+vn <buffer><silent> <LocalLeader>en y:En <C-R>"<CR>
+"   Fr
+nn <buffer><silent> <LocalLeader>fr v$y:Fr <C-R>"<CR>
+vn <buffer><silent> <LocalLeader>fr y:Fr <C-R>"<CR>
+
+"   Sy
+vn <buffer><silent> <LocalLeader>sy y:Sy <C-R>"<CR>
 
 " <<<
 " --------------------------------- DIGRAPHS >>>
@@ -247,5 +233,5 @@ exec "digraphs US " . 0x1D41
 exec "digraphs VS " . 0x2C7D
 exec "digraphs WS " . 0x1D42
 
-   " <<<
+" <<<
 augroup END

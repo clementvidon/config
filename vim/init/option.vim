@@ -21,7 +21,7 @@ else
     set ruler                                       " cursor pos [y:x] n% in statusline (vim)
 endif
 
-set runtimepath^=$DOTVIM
+set runtimepath+=$DOTVIM
 set packpath+=$DOTVIM
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:·,diff:- " split separator decoration
 set guicursor=n-v-c-i:block                         " cursor style
@@ -34,7 +34,7 @@ set showmatch                                       " set showmatch
 set spellfile=$DOTVIM/.spell/custom.utf-8.add       " dictionary location
 set autoindent                                      " auto indent
 set expandtab                                       " insert spaces instead tab
-set formatoptions=tcqjnp                            " see ':h fo-table'
+set formatoptions=tcrqjnp                           " see ':h fo-table'
 set shiftround                                      " indent to the nearest tab mark
 set shiftwidth=4 tabstop=4                          " shift and tab width in spaces
 set softtabstop=4                                   " simulate tabs for backspaces too
@@ -47,5 +47,5 @@ set wildignore=.git                                 " wildmenu results to hide
 
 if executable('ag')                                 " faster grep
     set grepformat^=%f:%l:%c:%m
-    set grepprg=ag\ --vimgrep\ $*
+    set grepprg="ag --vimgrep $*"
 endif

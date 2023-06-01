@@ -85,9 +85,14 @@ alias ag='grep -r --color=auto'
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
 alias grep='grep --color=auto'
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
-alias vi='vim'
-alias nv='nvim'
-alias iv="vim -c 'call Private()'"
+
+if (( $+commands[nvim] )); then
+    alias vi='nvim'
+    alias iv="nvim -c 'call Private()'"
+else
+    alias vi='vim'
+    alias iv="vim -c 'call Private()'"
+fi
 
 #       [ git ]
 alias gad="git add"

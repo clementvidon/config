@@ -11,7 +11,7 @@ let mapleader=" "
 
 nn s  <nop>
 nn gs <nop>
-nn st <nop>
+nn sT <nop>
 nn sh <nop>
 nn sv <nop>
 nn sn <nop>
@@ -32,28 +32,28 @@ nn gsd :bn!\|bd! #<CR>
 "   find
 nn sf  :fin<Space>
 nn gsf :fin!<Space>
-nn stf :tabf<Space>
+nn sTf :tabf<Space>
 nn shf :sf<Space>
 nn svf :vert sf<Space>
 
 "   edit
 nn se  :e<Space>
 nn gse :e!<Space>
-nn ste :tabe<Space>
+nn sTe :tabe<Space>
 nn she :sp<Space>
 nn sve :vert<Space>
 
 "   prev
 nn ss  :e #<CR>
 nn gss :e! #<CR>
-nn sts :tabe #<CR>
+nn sTs :tabe #<CR>
 nn shs :sp #<CR>
 nn svs :vert #<CR>
 
 "   cwd edit
 nn s.  :lc %:h<CR>:e<Space>
 nn gs. :lc %:h<CR>:e!<Space>
-nn st. :lc %:h<CR>:tabe<Space>
+nn sT. :lc %:h<CR>:tabe<Space>
 nn sh. :lc %:h<CR>:sp<Space>
 nn sv. :lc %:h<CR>:vert<Space>
 
@@ -69,7 +69,7 @@ nn snb :bn<CR>
 nn sb :ls<CR>:b<Space>
 
 "   tag
-nn sk :tag /
+nn st :tag /
 nn sij :ijump /
 nn sil :ilist /
 nn sis :isearch /

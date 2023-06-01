@@ -18,7 +18,7 @@ syn region noesisH4 start="^#####\@!"     end="#*\s*$"
 syn region noesisH5 start="^######\@!"    end="#*\s*$"
 syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 
-syn match noesisListMarker "^\%(\s\{0,3\}\)[-*+]\%(\s\+\S\)\@="
+syn match noesisListMarker "^\%(\s\{0,3\}\)[-*+~]\%(\s\+\S\)\@="
 syn match noesisOrderedListMarker "^\%(\s\{0,3}\)\<\d\+\.\%(\s\+\S\)\@="
 
 syn match noesisBlockquote "^>\%(\s\|$\)"
@@ -42,10 +42,17 @@ syn match noesisCodeLine contains=@NoSpell "^\s\{4}.*$"
 syn match noesisCodeMarker "^```.*$"
 syn region noesisCodeBlock matchgroup=noesisCodeMarker start="^```" end="^```" skip="\\``"
 
-syn match noesisTaskCheck /^\[\]\ze ./
-syn match noesisTaskCheck /^\[[0-9a-zA-Z: ]*\]\ze ./
-syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2}\]\ze ./
-syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]\ze ./
+" OLD TASKS
+" syn match noesisTaskCheck /^\[\]\ze ./
+" syn match noesisTaskCheck /^\[[0-9a-zA-Z: ]*\]\ze ./
+" syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2}\]\ze ./
+" syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]\ze ./
+
+
+syn match noesisTaskDash /^\s\{0,1}\(-\|\~\)./ contained
+syn match noesisTaskTime /^\s\{0,1}\(-\|\~\)\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash
+syn match noesisTaskTime /^\s\{0,1}\(-\|\~\) (.*)\ze ./ contains=noesisTaskDash
+syn match noesisTaskDone /^\s\{0,1}\(-\|\~\) \d\d\d\d\d\d\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash
 
 syn keyword noesisBoldItalic TODO
 syn keyword noesisBoldItalic XXX
@@ -85,8 +92,9 @@ if &background == "dark"
     hi noesisBold                     ctermfg=228
     hi noesisBoldItalic               ctermfg=220
 
-    hi noesisTaskCheck                ctermfg=140
-    hi noesisTaskChecked              ctermfg=102
+    hi noesisTaskDash                ctermfg=85
+    hi noesisTaskTime                ctermfg=140
+    hi noesisTaskDone                ctermfg=102
 
     hi noesisDelimiter                ctermfg=238
 
@@ -115,8 +123,9 @@ elseif &background == "light"
     hi noesisBold                     ctermbg=229
     hi noesisBoldItalic               ctermbg=195
 
-    hi noesisTaskCheck                ctermfg=250
-    hi noesisTaskChecked              ctermfg=101
+    hi noesisTaskDash                ctermfg=27
+    hi noesisTaskTime                ctermfg=250
+    hi noesisTaskDone                ctermfg=101
 
     hi noesisDelimiter                ctermfg=255
 

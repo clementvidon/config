@@ -11,7 +11,7 @@ augroup END
 
 augroup custom_highlight
     autocmd!
-    autocmd ColorScheme * syntax enable maxlines=400
+    " autocmd ColorScheme * syntax enable maxlines=400
     autocmd ColorScheme * highlight LineNr ctermbg=NONE
     autocmd ColorScheme * highlight CursorLine gui=underline cterm=underline ctermbg=NONE
     autocmd ColorScheme * highlight Comment term=bold ctermfg=103

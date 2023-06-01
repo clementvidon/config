@@ -15,6 +15,8 @@ Plug 'tpope/vim-commentary'                     " comment out
 Plug 'ludovicchabant/vim-gutentags'             " tags manager
 Plug 'arcticicestudio/nord-vim'                 " colorscheme
 Plug 'junegunn/seoul256.vim'                    " colorscheme
+Plug 'nvim-treesitter/nvim-treesitter',         "
+            \ {'do': ':TSUpdate'}
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
 " Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
@@ -27,17 +29,40 @@ Plug 'junegunn/seoul256.vim'                    " colorscheme
 " Plug 'sophacles/vim-processing'                 " processing filetype
 call plug#end()
 
-color nord | set bg=dark
+try
+    color nord | set bg=dark
+catch /^Vim\%((\a\+)\)\=:E185/
+    echo "Colorscheme not installed."
+endtry
+
+" https://github.com/neovim/nvim-lspconfig
+" https://github.com/nvim-lua/completion-nvim
 
 imap <Left> <Plug>(copilot-dismiss)
+imap <Right> <Plug>(copilot-suggest)
 imap <Down> <Plug>(copilot-next)
 imap <Up> <Plug>(copilot-previous)
-imap <Right> <Plug>(copilot-suggest)
 let g:copilot_filetypes = {
-            \ 'gitcommit': v:true,
+            \ '*': v:false,
+            \ 'javascript': v:true,
             \ 'markdown': v:true,
-            \ 'yaml': v:true
+            \ 'python': v:true,
+            \ 'html': v:true,
+            \ 'css': v:true,
+            \ 'make': v:true,
+            \ 'bash': v:true,
+            \ 'zsh': v:true,
+            \ 'vim': v:true,
+            \ 'cpp': v:true,
+            \ 'lua': v:true,
+            \ 'c': v:true
             \ }
+
+autocmd BufReadPre *
+            \ let f=getfsize(expand("<afile>"))
+            \ | if f > 100000 || f == -2
+            \ | let b:copilot_enabled = v:false
+            \ | endif
 
 " let g:seoul256_background = 256
 

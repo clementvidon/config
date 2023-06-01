@@ -9,6 +9,7 @@
 setlocal autoindent
 setlocal cindent
 setlocal expandtab
+setlocal formatoptions=tcrqjnp
 setlocal formatprg="clang-format --style=file"
 setlocal laststatus=2
 setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
@@ -121,13 +122,13 @@ nn <silent><buffer> <LocalLeader>d mdj
 nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
 "   print TODO cpp load this one...
-" nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==f"a
+" nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==0f"a
 
 "   print wrap
-nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(1, "> %%\n", <Esc>A);<Esc>==f%
+nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(1, "> %%\n", <Esc>A);<Esc>==0f%
 
 "   print location
-nn <silent><buffer> <LocalLeader>. odprintf (1, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==f(
+nn <silent><buffer> <LocalLeader>. odprintf (1, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==0f(
 
 "   functions nav
 nn <silent><buffer> gzf /^\a<CR>

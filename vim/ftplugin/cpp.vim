@@ -9,6 +9,7 @@
 setlocal autoindent
 setlocal cindent
 setlocal expandtab
+setlocal formatoptions=tcrqjnp
 setlocal formatprg="clang-format --style=file"
 setlocal laststatus=2
 setlocal shiftwidth=2
@@ -142,13 +143,13 @@ nn <silent><buffer> <LocalLeader>d mdj
 nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
 "   print TODO cf. c.vim
-nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==f"a
+nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==0f"a
 
 "   print wrap
 nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cout << <Esc>A << std::endl;<Esc>==EEW
 
 "   print location
-nn <silent><buffer> <LocalLeader>. ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==f(
+nn <silent><buffer> <LocalLeader>. ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==0f(
 
 "   toggle .hpp/.cpp
 nn <silent><buffer> <LocalLeader>s :call cpp_defswap#()<CR>
