@@ -64,14 +64,27 @@ endfunction
 
 function! noesis#NoesisTaskFix(option)
     let cursor_line = getline('.')
-    if a:option == "down"
+    let cursor_pos = getpos('.')
+    if a:option == "down" && getline(search('.') + 1) =~ '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
+        normal h
         let down_line = getline(search('.') + 1)
         let down_time = substitute(down_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
         let down_time = substitute(down_time, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
-        echo down_time
-        " new line = substitute...
-        " setline
+        let new_line = substitute(cursor_line, '\s\{0,1}[-~] \d\d\d\d\d\d \zs\d\d:\d\d\ze.', down_time, 'e')
+        call setline('.', new_line)
+    elseif a:option == "up" && getline(search('.') - 1) =~ '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
+        normal h
+        let up_line = getline(search('.') - 1)
+        let up_time = substitute(up_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d\zs.*', '', 'e')
+        let up_time = substitute(up_time, '\s\{0,1}[-~] \d\d\d\d\d\d \ze\d\d:\d\d', '', 'e')
+        let new_line = substitute(cursor_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \zs\d\d:\d\d\ze.', up_time, 'e')
+        call setline('.', new_line)
+    else
+        return 1
     endif
+    call setpos('.', cursor_pos)
+    echo "Timestamp fixed"
+    return 0
 endfunction
 
 
@@ -108,13 +121,11 @@ function! noesis#NoesisArchiveDay()
     " call append(line('$'), '- ( 21:00 ) read book / listen podcast / sleep')
     " call append(line('$'), '- ( 20:50 21:00 ) meditate')
     " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
-    " call append(line('$'), '- ( 19:40 20:40 ) misc')
-    " call append(line('$'), ' - TODO')
+    " call append(line('$'), '- ( 19:40 20:40 ) TODO')
     " call append(line('$'), '- ( 19:00 19:40 ) dine with moupou')
     " call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
     " call append(line('$'), '- ( 13:50 14:00 ) meditate')
-    " call append(line('$'), '- ( 12:40 13:50 ) misc')
-    " call append(line('$'), ' - TODO')
+    " call append(line('$'), '- ( 12:40 13:50 ) TODO')
     " call append(line('$'), '- ( 12:00 12:40 ) lunch with moupou')
     " call append(line('$'), '- ( 11:20 12:00 ) warmup / run { TODO } / stretch / prepare')
     " call append(line('$'), '- ( 07:00 11:20 ) @42/ft_irc TODO')
@@ -127,12 +138,12 @@ function! noesis#NoesisArchiveDay()
     call append(line('$'), '- ( 21:00 ) read magazine / listen podcast / sleep')
     call append(line('$'), '- ( 20:50 21:00 ) meditate')
     call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
-    call append(line('$'), '- ( 19:00 20:40 ) cook / dine / misc')
-    call append(line('$'), ' - TODO')
+    call append(line('$'), '- ( 20:00 20:40 ) TODO')
+    call append(line('$'), '- ( 19:00 20:00 ) cook / dine + read')
     call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
     call append(line('$'), '- ( 13:50 14:00 ) meditate')
-    call append(line('$'), '- ( 12:00 13:50 ) cook / lunch / misc')
-    call append(line('$'), ' - TODO')
+    call append(line('$'), '- ( 13:00 13:50 ) TODO')
+    call append(line('$'), '- ( 12:00 13:00 ) cook / lunch + read')
     call append(line('$'), '- ( 08:00 12:00 ) @42/ft_irc TODO')
     call append(line('$'), '- ( 07:50 08:00 ) @noesis/todo fill morning report')
     call append(line('$'), '- ( 07:40 07:50 ) meditate')
@@ -144,8 +155,8 @@ function! noesis#NoesisArchiveDay()
     " call append(line('$'), '- ( 21:00 ) listen podcast / sleep')
     " call append(line('$'), '- ( 20:50 21:00 ) meditate')
     " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
-    " call append(line('$'), '- ( 18:30 20:40 ) cook / dine / misc')
-    " call append(line('$'), ' - TODO')
+    " call append(line('$'), '- ( 19:40 20:40 ) TODO')
+    " call append(line('$'), '- ( 18:30 19:40 ) cook / dine')
     " call append(line('$'), '- ( 17:45 18:30 ) move to home')
     " call append(line('$'), '- ( 13:45 17:45 ) @42/ft_irc TODO')
     " call append(line('$'), '- ( 13:10 13:45 ) move to 42')
@@ -168,16 +179,16 @@ function! noesis#NoesisArchiveDay()
     call append(line('$'), '- evening:')
     call append(line('$'), '')
     call append(line('$'), 'morning report')
+    call append(line('$'), '- soma:')
+    call append(line('$'), '- psyc:')
     call append(line('$'), '- life:')
     call append(line('$'), '- work:')
-    call append(line('$'), '- psyc:')
-    call append(line('$'), '- soma:')
     call append(line('$'), '')
     call append(line('$'), 'evening report')
+    call append(line('$'), '- soma:')
+    call append(line('$'), '- psyc:')
     call append(line('$'), '- life:')
     call append(line('$'), '- work:')
-    call append(line('$'), '- psyc:')
-    call append(line('$'), '- soma:')
     call append(line('$'), '')
 
     call append(line('$'), l:tmrrw_content)

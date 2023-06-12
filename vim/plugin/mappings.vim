@@ -1,6 +1,6 @@
 " plugin/mappings
 " Created: 230524 19:49:28 by clem9nt@imac
-" Updated: 230528 21:46:51 by clem@spectre
+" Updated: 230604 22:31:45 by clem9nt@imac
 " Maintainer: Clément Vidon
 
 let mapleader=" "
@@ -82,7 +82,7 @@ nn sn  <nop>
 nn sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 nn sne :e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>
 nn snf :e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>
-nn snt :e $NOESIS/Lists/todo.noe<CR>G$?\(\[\]\\|\[\d\d:\d\d\]\) <CR>z.:let @/=""<CR>
+nn snt :e $NOESIS/Lists/todo.noe<CR>G$:silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
 nn snh :e $NOESIS/Lists/history.gpg.noe<CR>
 nn snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
 nn sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
@@ -105,7 +105,6 @@ nn glco :call colorswitch#('seoul256-light', 'nord')<CR>
 nn glen :En<Space>
 nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
-nn glhl :set hlsearch!<CR>
 nn gllc :lc %:h<CR>
 nn glnu :set number!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
@@ -180,3 +179,6 @@ nn <Leader>e :call header#()<CR>
 
 ino jf <Esc>
 ino fj <Esc>
+
+"   learning
+nn glhl :echo "<C-l> to clear the search highlight until next search"<CR>

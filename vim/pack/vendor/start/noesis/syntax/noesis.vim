@@ -49,11 +49,11 @@ syn region noesisCodeBlock matchgroup=noesisCodeMarker start="^```" end="^```" s
 " syn match noesisTaskChecked /^\[\d\{6} \d\{2}:\d\{2} \d\{2}:\d\{2}\]\ze ./
 
 
-syn match noesisTaskDash /^\s\{0,1}-./
-syn match noesisTaskTild /^\s\{0,1}\~./
-syn match noesisTaskTime /^\s\{0,1}\(-\|\~\)\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash,noesisTaskTild
-syn match noesisTaskTime /^\s\{0,1}\(-\|\~\) (.*)\ze ./ contains=noesisTaskDash,noesisTaskTild
-syn match noesisTaskDone /^\s\{0,1}\(-\|\~\) \d\d\d\d\d\d\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash,noesisTaskTild
+syn match noesisTaskDash /^\s\{0,1}-\ze ./
+syn match noesisTaskTild /^\s\{0,1}\~\ze ./
+syn match noesisTaskTime /^\s\{0,1}\(-\|\~\|\*\)\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash,noesisTaskTild
+syn match noesisTaskTime /^\s\{0,1}\(-\|\~\|\*\) (.*)\ze ./ contains=noesisTaskDash,noesisTaskTild
+syn match noesisTaskDone /^\s\{0,1}\(-\|\~\|\*\) \d\d\d\d\d\d\( \d\d:\d\d\)\{1,2}\ze ./ contains=noesisTaskDash,noesisTaskTild
 
 syn keyword noesisBoldItalic TODO
 syn keyword noesisBoldItalic XXX

@@ -127,7 +127,7 @@ nn <buffer><silent> <LocalLeader>A :call noesis#NoesisArchiveDay()<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
 "   Task New
-nn <silent><buffer> <Leader>t o- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
+nn <silent><buffer> <Leader>t O- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
 
 "   Task Check
 nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
@@ -137,23 +137,18 @@ nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
 nn <silent><buffer> <Leader>K <Esc>
             \
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \zs( \ze.', '', 'e'))<CR>
+            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze.', ' ' . strftime('%y%m%d') . ' ', ''))<CR>
             \:write<CR>0
 
 "   Task Fix
 nn <silent><buffer> <Leader>F :call noesis#NoesisTaskFix("up")<CR>
-            " \
-            " \:write<CR>0
 nn <silent><buffer> <Leader>f :call noesis#NoesisTaskFix("down")<CR>
-            " \
-            " \:write<CR>0
 
 "   Task Now
 "   TODO update
-nn <silent><buffer> <Leader>. /^##  Today$<CR>VG$<Esc>
-            \
-            \?\%V\(^-\\|^\[\]\\|^\[\d\d:\d\d\]\) <CR>
+nn <silent><buffer> <Leader>. :silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
 
 "   Task Clear
 " nn <silent><buffer> <Leader>c 021lv?\d\d:\d\d<CR><Esc>4lv0/\d<CR>hd:let @/=''<CR>
