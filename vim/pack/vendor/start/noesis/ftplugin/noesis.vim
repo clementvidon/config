@@ -127,14 +127,15 @@ nn <buffer><silent> <LocalLeader>A :call noesis#NoesisArchiveDay()<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
 "   Task New
-nn <silent><buffer> <Leader>t O- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
+nn <silent><buffer> <LocalLeader>t O- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
 
 "   Task Check
-nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
+nn <silent><buffer> <LocalLeader>k :call noesis#NoesisTaskCheck()<CR>
             \
             \:write<CR>0
 
-nn <silent><buffer> <Leader>K <Esc>
+"   Task un-parenthesis
+nn <silent><buffer> <LocalLeader>K <Esc>
             \
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \zs( \ze.', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
@@ -143,16 +144,15 @@ nn <silent><buffer> <Leader>K <Esc>
             \:write<CR>0
 
 "   Task Fix
-nn <silent><buffer> <Leader>F :call noesis#NoesisTaskFix("up")<CR>
-nn <silent><buffer> <Leader>f :call noesis#NoesisTaskFix("down")<CR>
+nn <silent><buffer> <LocalLeader>F :call noesis#NoesisTaskFix("up")<CR>
+nn <silent><buffer> <LocalLeader>f :call noesis#NoesisTaskFix("down")<CR>
 
 "   Task Now
 "   TODO update
-nn <silent><buffer> <Leader>. :silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
+nn <silent><buffer> <LocalLeader>. :silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
 
 "   Task Clear
-" nn <silent><buffer> <Leader>c 021lv?\d\d:\d\d<CR><Esc>4lv0/\d<CR>hd:let @/=''<CR>
-nn <silent><buffer> <Leader>c <Esc>
+nn <silent><buffer> <LocalLeader>c <Esc>
             \
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
@@ -171,11 +171,11 @@ nn <buffer><silent> <LocalLeader>r Mmm
 
 
 "   En
-nn <buffer><silent> <LocalLeader>en v$y:En <C-R>"<CR>
-vn <buffer><silent> <LocalLeader>en y:En <C-R>"<CR>
+nn <buffer><silent> <LocalLeader>len v$y:En <C-R>"<CR>
+vn <buffer><silent> <LocalLeader>len y:En <C-R>"<CR>
 "   Fr
-nn <buffer><silent> <LocalLeader>fr v$y:Fr <C-R>"<CR>
-vn <buffer><silent> <LocalLeader>fr y:Fr <C-R>"<CR>
+nn <buffer><silent> <LocalLeader>lfr v$y:Fr <C-R>"<CR>
+vn <buffer><silent> <LocalLeader>lfr y:Fr <C-R>"<CR>
 
 "   Sy
 vn <buffer><silent> <LocalLeader>sy y:Sy <C-R>"<CR>

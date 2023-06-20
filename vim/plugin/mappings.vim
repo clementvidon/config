@@ -105,6 +105,7 @@ nn glco :call colorswitch#('seoul256-light', 'nord')<CR>
 nn glen :En<Space>
 nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
+nn glhl :set hls!<CR>
 nn gllc :lc %:h<CR>
 nn glnu :set number!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
@@ -179,6 +180,3 @@ nn <Leader>e :call header#()<CR>
 
 ino jf <Esc>
 ino fj <Esc>
-
-"   learning
-nn glhl :echo "<C-l> to clear the search highlight until next search"<CR>

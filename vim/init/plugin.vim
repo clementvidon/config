@@ -29,6 +29,7 @@ Plug 'nvim-treesitter/nvim-treesitter',         "
 " Plug 'sophacles/vim-processing'                 " processing filetype
 call plug#end()
 
+let g:seoul256_background = 256
 try
     color nord | set bg=dark
 catch /^Vim\%((\a\+)\)\=:E185/
@@ -63,8 +64,6 @@ autocmd BufReadPre *
             \ | if f > 100000 || f == -2
             \ | let b:copilot_enabled = v:false
             \ | endif
-
-" let g:seoul256_background = 256
 
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','
