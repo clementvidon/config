@@ -42,22 +42,24 @@ function! noesis#NoesisTaskCheck()
     let cursor_pos = getpos('.')
     let line = getline('.')
 
-    " - 000000 11:11 22:22  => - 000000 11:11 33:33
-    if line =~ '\s\{0,1}[-~] \d\{6} \d\d:\d\d \d\d:\d\d .'
-        call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze .', timestamp, ''))
-        " - 11:11           => - 000000 11:11 22:22
-    elseif line =~ '^\s\{0,1}[-~] \d\d:\d\d .'
-        call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', ''))
-        call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze\d\d:\d\d .', ' ' . datestamp . ' ', ''))
-        " - (Whatever)      => - 11:11
-    elseif line =~ '^\s\{0,1}[-~] (.*) .'
-        call setline('.', substitute(line, '^\s\{0,1}[-~] \zs(.*)\ze .', timestamp, ''))
-        " -                 => - 11:11
-    elseif line =~ '^\s\{0,1}[-~] .'
-        normal 0
-        call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze.', ' ' . timestamp . ' ', ''))
-    endif
+    if line =~ '^[-~] \d\{6} \d\d:\d\d \d\d:\d\d .' " - 000000 11:11 22:22 task  => - 000000 11:11 33:33 task
+        call setline('.', substitute(getline('.'), '^[-~] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze .', timestamp, ''))
+        echom "1"
 
+    elseif line =~ '^[-~] \d\{6} \d\d:\d\d .' "      - 000000 11:11 task        => - 000000 11:11 22:22 task
+        call setline('.', substitute(getline('.'), '^[-~] \d\{6} \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', ''))
+        echom "2"
+
+    elseif line =~ '^[-~] (.*) .' "                  - ( WHATEVER ) task        => - 000000 11:11 task
+        call setline('.', substitute(line, '^[-~] \zs(.*)\ze .', datestamp . ' ' . timestamp, ''))
+        echom "3"
+
+    elseif line =~ '^[-~] .' "                       - task                     => - 000000 11:11 task
+        normal 0
+        call setline('.', substitute(getline('.'), '^[-~]\zs \ze.', ' ' . datestamp . ' ' . timestamp . ' ', ''))
+        echom "4"
+
+    endif
     call setpos('.', cursor_pos)
 endfunction
 
@@ -65,19 +67,19 @@ endfunction
 function! noesis#NoesisTaskFix(option)
     let cursor_line = getline('.')
     let cursor_pos = getpos('.')
-    if a:option == "down" && getline(search('.') + 1) =~ '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
+    if a:option == "down" && getline(search('.') + 1) =~ '^[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
         normal h
         let down_line = getline(search('.') + 1)
-        let down_time = substitute(down_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
-        let down_time = substitute(down_time, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
-        let new_line = substitute(cursor_line, '\s\{0,1}[-~] \d\d\d\d\d\d \zs\d\d:\d\d\ze.', down_time, 'e')
+        let down_time = substitute(down_line, '^[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
+        let down_time = substitute(down_time, '^[-~] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
+        let new_line = substitute(cursor_line, '^[-~] \d\d\d\d\d\d \zs\d\d:\d\d\ze.', down_time, 'e')
         call setline('.', new_line)
-    elseif a:option == "up" && getline(search('.') - 1) =~ '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
+    elseif a:option == "up" && getline(search('.') - 1) =~ '^[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
         normal h
         let up_line = getline(search('.') - 1)
-        let up_time = substitute(up_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d\zs.*', '', 'e')
-        let up_time = substitute(up_time, '\s\{0,1}[-~] \d\d\d\d\d\d \ze\d\d:\d\d', '', 'e')
-        let new_line = substitute(cursor_line, '\s\{0,1}[-~] \d\d\d\d\d\d \d\d:\d\d \zs\d\d:\d\d\ze.', up_time, 'e')
+        let up_time = substitute(up_line, '^[-~] \d\d\d\d\d\d \d\d:\d\d\zs.*', '', 'e')
+        let up_time = substitute(up_time, '^[-~] \d\d\d\d\d\d \ze\d\d:\d\d', '', 'e')
+        let new_line = substitute(cursor_line, '^[-~] \d\d\d\d\d\d \d\d:\d\d \zs\d\d:\d\d\ze.', up_time, 'e')
         call setline('.', new_line)
     else
         return 1
@@ -118,55 +120,61 @@ function! noesis#NoesisArchiveDay()
 
     " bda
 
-    " call append(line('$'), '- ( 21:00 ) read book / listen podcast / sleep')
+    " call append(line('$'), '- ( 21:00 ) read / listen podcast / sleep')
     " call append(line('$'), '- ( 20:50 21:00 ) meditate')
-    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
+    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo update')
     " call append(line('$'), '- ( 19:40 20:40 ) TODO')
     " call append(line('$'), '- ( 19:00 19:40 ) dine with moupou')
     " call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
     " call append(line('$'), '- ( 13:50 14:00 ) meditate')
     " call append(line('$'), '- ( 12:40 13:50 ) TODO')
     " call append(line('$'), '- ( 12:00 12:40 ) lunch with moupou')
-    " call append(line('$'), '- ( 11:20 12:00 ) warmup / run { TODO } / stretch / prepare')
+    " call append(line('$'), '- ( 11:20 12:00 ) warm up / run { TODO } / stretch / prepare')
     " call append(line('$'), '- ( 07:00 11:20 ) @42/ft_irc TODO')
-    " call append(line('$'), '- ( 06:50 07:00 ) @noesis/todo fill morning report')
+    " call append(line('$'), '- ( 06:50 07:00 ) @noesis/todo update')
     " call append(line('$'), '- ( 06:40 06:50 ) meditate')
-    " call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read book')
+    " call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read')
 
     " home
 
-    call append(line('$'), '- ( 21:00 ) read magazine / listen podcast / sleep')
-    call append(line('$'), '- ( 20:50 21:00 ) meditate')
-    call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
-    call append(line('$'), '- ( 20:00 20:40 ) TODO')
-    call append(line('$'), '- ( 19:00 20:00 ) cook / dine + read')
-    call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
-    call append(line('$'), '- ( 13:50 14:00 ) meditate')
-    call append(line('$'), '- ( 13:00 13:50 ) TODO')
-    call append(line('$'), '- ( 12:00 13:00 ) cook / lunch + read')
-    call append(line('$'), '- ( 08:00 12:00 ) @42/ft_irc TODO')
-    call append(line('$'), '- ( 07:50 08:00 ) @noesis/todo fill morning report')
-    call append(line('$'), '- ( 07:40 07:50 ) meditate')
-    call append(line('$'), '- ( 06:40 07:40 ) warmup / run { TODO } / stretch / prepare')
-    call append(line('$'), '- ( 06:00 07:40 ) get up / breakfast + read book')
+    " call append(line('$'), '- ( 21:00 ) listen podcast / sleep')
+    " call append(line('$'), '- ( 20:50 21:00 ) meditate')
+    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo update')
+    " call append(line('$'), '- ( 20:00 20:40 ) TODO')
+    " call append(line('$'), '- ( 19:00 20:00 ) cook / dine + read')
+    " call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
+    " call append(line('$'), '- ( 13:50 14:00 ) meditate')
+    " call append(line('$'), '- ( 13:00 13:50 ) TODO')
+    " call append(line('$'), '- ( 12:00 13:00 ) cook / lunch + read')
+    " call append(line('$'), '- ( 08:30 12:00 ) @42/ft_irc TODO')
+    " call append(line('$'), '- ( 08:20 08:30 ) @noesis/todo update')
+    " call append(line('$'), '- ( 08:10 08:20 ) meditate')
+    " call append(line('$'), '- ( 06:40 08:10 ) workout / stretch / prepare')
+    " call append(line('$'), '    * walk + read { 20min }')
+    " call append(line('$'), '    * swim        { 30min }')
+    " call append(line('$'), '    * walk + read { 20min }')
+    " call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read')
 
     "  42
 
-    " call append(line('$'), '- ( 21:00 ) listen podcast / sleep')
-    " call append(line('$'), '- ( 20:50 21:00 ) meditate')
-    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo evening report')
-    " call append(line('$'), '- ( 19:40 20:40 ) TODO')
-    " call append(line('$'), '- ( 18:30 19:40 ) cook / dine')
-    " call append(line('$'), '- ( 17:45 18:30 ) move to home')
-    " call append(line('$'), '- ( 13:45 17:45 ) @42/ft_irc TODO')
-    " call append(line('$'), '- ( 13:10 13:45 ) move to 42')
-    " call append(line('$'), '- ( 13:00 13:10 ) meditate')
-    " call append(line('$'), '- ( 12:00 13:00 ) cook / lunch / read book')
-    " call append(line('$'), '- ( 08:00 12:00 ) @42/ft_irc TODO')
-    " call append(line('$'), '- ( 07:50 08:00 ) @noesis/todo fill morning report')
-    " call append(line('$'), '- ( 07:40 07:50 ) meditate')
-    " call append(line('$'), '- ( 06:40 07:40 ) warmup / run { TODO } / stretch / prepare')
-    " call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read book')
+    call append(line('$'), '- ( 21:00 ) listen podcast / sleep')
+    call append(line('$'), '- ( 20:50 21:00 ) meditate')
+    call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo update')
+    call append(line('$'), '- ( 19:40 20:40 ) TODO')
+    call append(line('$'), '- ( 18:30 19:40 ) cook / dine')
+    call append(line('$'), '- ( 17:45 18:30 ) move to home + read')
+    call append(line('$'), '- ( 13:45 17:45 ) @42/ft_irc TODO')
+    call append(line('$'), '- ( 13:10 13:45 ) move to 42 + read')
+    call append(line('$'), '- ( 13:00 13:10 ) meditate')
+    call append(line('$'), '- ( 12:00 13:00 ) cook / lunch / read')
+    call append(line('$'), '- ( 08:30 12:00 ) @42/ft_irc TODO')
+    call append(line('$'), '- ( 08:20 08:30 ) @noesis/todo update')
+    call append(line('$'), '- ( 08:10 08:20 ) meditate')
+    call append(line('$'), '- ( 06:40 08:10 ) workout / stretch / prepare')
+    call append(line('$'), '    * walk + read { 20min }')
+    call append(line('$'), '    * swim        { 30min }')
+    call append(line('$'), '    * walk + read { 20min }')
+    call append(line('$'), '- ( 06:00 06:40 ) get up / breakfast + read')
 
     "   Set Today
     call append(line('$'), '')
@@ -178,13 +186,13 @@ function! noesis#NoesisArchiveDay()
     call append(line('$'), '- daytime:')
     call append(line('$'), '- evening:')
     call append(line('$'), '')
-    call append(line('$'), 'morning report')
+    call append(line('$'), 'opening report')
     call append(line('$'), '- soma:')
     call append(line('$'), '- psyc:')
     call append(line('$'), '- life:')
     call append(line('$'), '- work:')
     call append(line('$'), '')
-    call append(line('$'), 'evening report')
+    call append(line('$'), 'closing report')
     call append(line('$'), '- soma:')
     call append(line('$'), '- psyc:')
     call append(line('$'), '- life:')

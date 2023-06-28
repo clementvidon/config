@@ -108,9 +108,9 @@ com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
 
 
 "   GPG ENC
-nn <buffer><silent> <LocalLeader>enc :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+nn <buffer><silent> <LocalLeader>en :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
 "   GPG DEC
-nn <buffer><silent> <LocalLeader>dec :silent %!gpg -d 2>/dev/null<CR>
+nn <buffer><silent> <LocalLeader>de :silent %!gpg -d 2>/dev/null<CR>
 
 "   Gpg enc/dec
 vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
@@ -121,21 +121,21 @@ vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
 "                       TOD0 :
 
 "   Archive Day
-nn <buffer><silent> <LocalLeader>A :call noesis#NoesisArchiveDay()<CR>
+nn <buffer><silent> <Leader>A :call noesis#NoesisArchiveDay()<CR>
             \:sil cd $NOESIS/<CR>
             \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
 "   Task New
-nn <silent><buffer> <LocalLeader>t O- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
+nn <silent><buffer> <Leader>t O- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
 
 "   Task Check
-nn <silent><buffer> <LocalLeader>k :call noesis#NoesisTaskCheck()<CR>
+nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
             \
             \:write<CR>0
 
 "   Task un-parenthesis
-nn <silent><buffer> <LocalLeader>K <Esc>
+nn <silent><buffer> <Leader>K <Esc>
             \
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \zs( \ze.', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
@@ -144,15 +144,15 @@ nn <silent><buffer> <LocalLeader>K <Esc>
             \:write<CR>0
 
 "   Task Fix
-nn <silent><buffer> <LocalLeader>F :call noesis#NoesisTaskFix("up")<CR>
-nn <silent><buffer> <LocalLeader>f :call noesis#NoesisTaskFix("down")<CR>
+nn <silent><buffer> <Leader>F :call noesis#NoesisTaskFix("up")<CR>
+nn <silent><buffer> <Leader>f :call noesis#NoesisTaskFix("down")<CR>
 
 "   Task Now
 "   TODO update
-nn <silent><buffer> <LocalLeader>. :silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
+nn <silent><buffer> <Leader>. :silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
 
 "   Task Clear
-nn <silent><buffer> <LocalLeader>c <Esc>
+nn <silent><buffer> <Leader>c <Esc>
             \
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
