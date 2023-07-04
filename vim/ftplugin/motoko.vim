@@ -8,16 +8,7 @@
 
 " TODO ftdetect?-> au FileType motoko,mo,gdmo set filetype=motoko
 set syntax=go
-setlocal autoindent
-setlocal cindent
-setlocal expandtab
-setlocal formatprg="mo-fmt %"
 setlocal laststatus=2
-setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
-setlocal shiftwidth=2
-setlocal softtabstop=2
-setlocal tabstop=2
-setlocal textwidth=80
 
 let maplocalleader = "gh"
 

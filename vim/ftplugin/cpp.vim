@@ -6,16 +6,7 @@
 "   options
 
 
-setlocal autoindent
-setlocal cindent
-setlocal expandtab
-setlocal formatoptions=tcrqjnp
-setlocal formatprg="clang-format --style=file"
 setlocal laststatus=2
-setlocal shiftwidth=2
-setlocal softtabstop=2
-setlocal tabstop=2
-setlocal textwidth=80
 setlocal path+=
             \$PWD/inc/**,
             \$PWD/incs/**,
@@ -92,7 +83,7 @@ nn <silent><buffer> <LocalLeader>xx :w\|lcd %:h<CR>
             \:silent !clear; rm -f a.out /tmp/_err<CR>
             \:silent !c++ -Wall -Wextra -Werror -Wno-unused -std=c++98 % 2>/tmp/_err<CR>
             \:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
-            \:!clear; ./a.out<CR>
+            \:silent !clear<CR>:!./a.out<CR>
 
 "   dev compile run
 nn <silent><buffer> <LocalLeader>xd :w\|lcd %:h<CR>
@@ -104,7 +95,7 @@ nn <silent><buffer> <LocalLeader>xd :w\|lcd %:h<CR>
             \ -fsanitize=address,undefined,integer,nullability,vptr
             \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEV
             \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
-            \:!clear; ./a.out<CR>
+            \:silent !clear; ./a.out<CR>
 
 "   prod compile run + leaks
 if system("uname -s") == "Darwin\n"
@@ -115,7 +106,7 @@ if system("uname -s") == "Darwin\n"
                 \ -Wall -Wextra -Werror -std=c++98
                 \ -fno-omit-frame-pointer -Og -D DEV
                 \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
-                \:!clear; leaks -q -atExit -- ./a.out<CR>
+                \:silent !clear; leaks -q -atExit -- ./a.out<CR>
 elseif system("uname -s") == "Linux\n"
     nn <silent><buffer> <LocalLeader>xl :w\|lcd %:h<CR>
                 \
@@ -125,7 +116,7 @@ elseif system("uname -s") == "Linux\n"
                 \ -fno-omit-frame-pointer -Og -D DEV
                 \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
                 \:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
-                \:!clear; valgrind -q ./a.out<CR>
+                \:silent !clear; valgrind -q ./a.out<CR>
 endif
 
 "   docstring skeleton

@@ -13,12 +13,12 @@ command! W :execute ':silent w !sudo tee %>/dev/null' | :edit!
 command! BufOnly execute '%bdelete | edit # | normal `"'
 
 "   translate
-command! -nargs=+ -bar Fr execute ' read! trans "<args>" -from en -to fr -brief 2> /dev/null'
-command! -nargs=+ -bar En execute ' read! trans "<args>" -from fr -to en -brief 2> /dev/null'
-command! -nargs=+ -bar Au execute '! clear; trans "<args>" -from fr -to en -brief 2> /dev/null -play'
+command! -nargs=+ -bar Fr execute 'silent read !trans "<args>" -from en -to fr -brief 2> /dev/null'
+command! -nargs=+ -bar En execute 'silent read !trans "<args>" -from fr -to en -brief 2> /dev/null'
+command! -nargs=+ -bar Au execute 'silent !clear; trans "<args>" -from fr -to en -brief 2> /dev/null -play'
 
 "   synonym (X4s8FmmkYqgU1LIcjEBA)
-command! -nargs=+ -bar Sy execute '! clear; synonym "<args>"'
+command! -nargs=+ -bar Sy execute 'silent !clear' | execute '!synonym "<args>"'
 
 "   tmux sendkey
-command! -nargs=+ -bar S0 execute 'silent ! tmux send-keys -t 0 "<args>" Enter' | redraw!
+command! -nargs=+ -bar S0 execute 'silent !tmux send-keys -t 0 "<args>" Enter' | redraw!

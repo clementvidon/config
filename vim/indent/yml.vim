@@ -6,4 +6,4 @@
 "   options
 
 
-setlocal path+=$DOTVIM/ftplugin/
+setlocal formatprg="prettier --stdin-filepath %"

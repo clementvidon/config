@@ -7,7 +7,6 @@
 
 
 setlocal foldmethod=syntax
-setlocal formatprg="~/vendor/bin/phpcbf --standard=PSR12 -"
 setlocal pa+=$DOTVIM/ftplugin/
 setlocal path+=**
 setlocal suffixesadd+=.php

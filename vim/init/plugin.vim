@@ -15,7 +15,7 @@ Plug 'tpope/vim-commentary'                     " comment out
 Plug 'ludovicchabant/vim-gutentags'             " tags manager
 Plug 'arcticicestudio/nord-vim'                 " colorscheme
 Plug 'junegunn/seoul256.vim'                    " colorscheme
-Plug 'nvim-treesitter/nvim-treesitter',         "
+Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
             \ {'do': ':TSUpdate'}
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
 " Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)

@@ -6,10 +6,6 @@
 "   options
 
 
-setlocal cindent
-setlocal expandtab
-setlocal formatprg="black --quiet - 2>/tmp/vim_format_errors"
-setlocal showmatch
 setlocal tw=80
 
 let maplocalleader="gh"

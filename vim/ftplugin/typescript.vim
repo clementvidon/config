@@ -6,20 +6,13 @@
 "   options
 
 
-setlocal autoindent
-setlocal expandtab
-setlocal formatprg="prettier --stdin-filepath %"
-setlocal shiftwidth=2
-setlocal softtabstop=2
-setlocal tabstop=2
-setlocal textwidth=80
-
 let maplocalleader="gh"
 
 
 "   mappings
 
 
+"   leader
 nn <silent><buffer> <LocalLeader> <nop>
 
 "   execute
@@ -50,4 +43,3 @@ nn <silent><buffer> <LocalLeader>e :lcd %:h<CR>
             \:undojoin \| r!node % 2>/dev/null<CR>`[V`]<C-V>0I//> <Esc>
             \:silent echo "Delete line"<CR>
             \kddkJ
-

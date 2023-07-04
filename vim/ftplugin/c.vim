@@ -6,17 +6,7 @@
 "   options
 
 
-setlocal autoindent
-setlocal cindent
-setlocal expandtab
-setlocal formatoptions=tcrqjnp
-setlocal formatprg="clang-format --style=file"
 setlocal laststatus=2
-setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
-setlocal shiftwidth=2
-setlocal softtabstop=2
-setlocal tabstop=2
-setlocal textwidth=80
 setlocal path+=
             \$PWD/inc/**,
             \$PWD/incs/**,

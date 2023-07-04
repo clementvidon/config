@@ -6,7 +6,6 @@
 "   options
 
 
-setlocal textwidth=80
 setlocal path+=$DOTVIM/autoload/**,
             \$DOTVIM/**,
 

@@ -6,9 +6,6 @@
 "   options
 
 
-setlocal shiftwidth=2
-setlocal tabstop=2
-setlocal formatprg="tidy -q -w -i --show-warnings 0 --show-errors 0 --tidy-mark no"
 setlocal path+=$DOTVIM/ftplugin/
 
 let maplocalleader="gh"

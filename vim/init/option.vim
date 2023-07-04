@@ -21,7 +21,8 @@ else
     set ruler                                       " cursor pos [y:x] n% in statusline (vim)
 endif
 
-set runtimepath+=$DOTVIM
+set runtimepath^=$DOTVIM
+set runtimepath+=$DOTVIM/after
 set packpath+=$DOTVIM
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:·,diff:- " split separator decoration
 set guicursor=n-v-c-i:block                         " cursor style

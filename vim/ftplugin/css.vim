@@ -6,7 +6,6 @@
 "   options
 
 
-setlocal formatprg="prettier --stdin-filepath %"
 setlocal path+=$DOTVIM/ftplugin/
 
 let maplocalleader="gh"

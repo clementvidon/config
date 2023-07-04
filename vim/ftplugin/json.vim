@@ -6,14 +6,6 @@
 "   options
 
 
-setlocal autoindent
-setlocal expandtab
-setlocal formatprg="prettier --stdin-filepath %"
-setlocal path+=$DOTVIM/ftplugin/
-setlocal shiftwidth=2
-setlocal softtabstop=2
-setlocal tabstop=2
-
 let maplocalleader="gh"
 
 
