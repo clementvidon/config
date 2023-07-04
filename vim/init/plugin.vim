@@ -17,6 +17,7 @@ Plug 'arcticicestudio/nord-vim'                 " colorscheme
 Plug 'junegunn/seoul256.vim'                    " colorscheme
 Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
             \ {'do': ':TSUpdate'}
+Plug 'w0rp/ale'                                 " lsp config
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
 " Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
@@ -38,6 +39,23 @@ endtry
 
 " https://github.com/neovim/nvim-lspconfig
 " https://github.com/nvim-lua/completion-nvim
+
+let g:ale_emit_conflict_warnings = 0
+let g:ale_linters = {
+            \'javascript': ['eslint'],
+            \'typescript': ['eslint', 'tsserver', 'prettier'],
+            \}
+let g:ale_sign_column_always = 1
+let g:ale_completion_enabled = 0
+let g:ale_lint_delay = 0
+let g:ale_fixers = {
+            \'javascript': ['eslint'],
+            \'json': ['prettier'],
+            \'typescript': ['eslint', 'prettier'],
+            \'markdown': ['prettier'],
+            \}
+
+set omnifunc=ale#completion#OmniFunc
 
 imap <Left> <Plug>(copilot-dismiss)
 imap <Right> <Plug>(copilot-suggest)
@@ -62,8 +80,8 @@ let g:copilot_filetypes = {
 autocmd BufReadPre *
             \ let f=getfsize(expand("<afile>"))
             \ | if f > 100000 || f == -2
-            \ | let b:copilot_enabled = v:false
-            \ | endif
+                \ | let b:copilot_enabled = v:false
+                \ | endif
 
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','

@@ -7,6 +7,7 @@
 
 
 let maplocalleader="gh"
+setlocal path=$PWD/src/**,
 
 
 "   mappings
@@ -15,6 +16,10 @@ let maplocalleader="gh"
 "   leader
 nn <silent><buffer> <LocalLeader> <nop>
 
+"   overwrite sf
+nn <buffer> sf :fin *
+
+
 "   execute
 nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!clear; node %<CR>
 
@@ -22,7 +27,13 @@ nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!clear; node %<CR>
 nn <silent><buffer> <LocalLeader>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
 
 "   format
-nn <silent><buffer> <LocalLeader>f mmGgqgo`m
+" nn <silent><buffer> <LocalLeader>f mmGgqgo`m
+nn <silent><buffer> <LocalLeader>f :w<CR>:! prettier --write %<CR>:e<CR>
+nn <silent><buffer> <LocalLeader>F :w<CR>:! npm run format<CR>:e<CR>
+
+"   lint
+nn <silent><buffer> <LocalLeader>l :w<CR>:! eslint % --fix<CR>:e<CR>
+nn <silent><buffer> <LocalLeader>L :w<CR>:! npm run lint<CR>:e<CR>
 
 "   print
 nn <silent><buffer> <LocalLeader>p oconsole.log()<Esc>==f)i
