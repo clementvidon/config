@@ -18,6 +18,7 @@ Plug 'junegunn/seoul256.vim'                    " colorscheme
 Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
             \ {'do': ':TSUpdate'}
 Plug 'w0rp/ale'                                 " lsp config
+Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
 " Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
@@ -40,22 +41,31 @@ endtry
 " https://github.com/neovim/nvim-lspconfig
 " https://github.com/nvim-lua/completion-nvim
 
+set omnifunc=ale#completion#OmniFunc
+let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude'
+" let g:ale_linters_explicit = 1
+let g:ale_sign_column_always = 0
+let g:ale_set_signs = 0
+let g:ale_completion_enabled = 0
+let g:ale_lint_delay = 0
+
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_enter = 0
+
 let g:ale_emit_conflict_warnings = 0
+highlight link ALEVirtualTextError Error
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['eslint', 'tsserver', 'prettier'],
+            \'cpp': ['clang'],
             \}
-let g:ale_sign_column_always = 1
-let g:ale_completion_enabled = 0
-let g:ale_lint_delay = 0
 let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'json': ['prettier'],
             \'typescript': ['eslint', 'prettier'],
             \'markdown': ['prettier'],
+            \'cpp': ['clang-format'],
             \}
-
-set omnifunc=ale#completion#OmniFunc
 
 imap <Left> <Plug>(copilot-dismiss)
 imap <Right> <Plug>(copilot-suggest)

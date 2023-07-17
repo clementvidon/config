@@ -6,6 +6,7 @@
 "   options
 
 
+setlocal norelativenumber
 setlocal laststatus=2
 setlocal path+=
             \$PWD/inc/**,

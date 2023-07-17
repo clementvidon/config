@@ -78,7 +78,7 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias ls="ls --color=auto"
     alias la="ls --color=auto -la"
     alias latr="ls --color=auto -latr"
-    alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect C"
+    alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect iPhone"
 fi
 
 alias ag='grep -r --color=auto'
