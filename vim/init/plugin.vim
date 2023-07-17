@@ -53,7 +53,7 @@ let g:ale_lint_delay = 0
 " let g:ale_lint_on_enter = 0
 
 let g:ale_emit_conflict_warnings = 0
-highlight link ALEVirtualTextError Error
+hi ALEVirtualTextError ctermfg=1
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['eslint', 'tsserver', 'prettier'],
