@@ -3,13 +3,9 @@
 " Updated: 230601 14:58:07 by cvidon@e2r3p15.clusters.42paris.fr
 " Maintainer: Clément Vidon
 
-
-" <<<
-
-" --------------------------------- OPTIONS >>>
+"   options
 
 
-setlocal textwidth=80
 setlocal suffixesadd+=.noe
 setlocal suffixesadd+=.gpg.noe
 setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
@@ -19,17 +15,13 @@ setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
             \$NOESIS/Projects/**,
             \$NOESIS/Resources/**
 setlocal expandtab
+set foldmethod=marker
+set foldmarker=->>>,<<<-
 let maplocalleader = "gh"
-" syntax sync fromstart
-" setl formatoptions+=ro
-" setl comments+=s:[],m:[],e:[]
 
 
-" <<<
-" --------------------------------- MAPPINGS >>>
+"   mappings
 
-
-"                       SAFETY :
 
 nn <buffer><silent> <LocalLeader> <nop>
 nn <silent><buffer> <space>= <nop>
@@ -42,48 +34,25 @@ nn <silent><buffer> gwG <nop>
 nn <silent><buffer> gwgo <nop>
 nn <silent><buffer> gwgg <nop>
 
-"   Mapping Info
+
+"   info
 nn <silent><buffer> <LocalLeader>? :echo "
             \\n
             \================[Noesis]================\n
             \                                      \|\n
             \ HTML_EXPORT       : Space X          \|\n
             \                                      \|\n
-            \ PUSH_NOESIS         : ghps             \|\n
-            \ PULL_NOESIS         : ghpl             \|\n
-            \                                      \|\n
-            \ NOESIS_NAV FOR      : Space CR         \|\n
-            \ NOESIS_NAV BAC      : Space Tab        \|\n
-            \ INDEX_GEN         : Space #          \|\n
-            \ INDEX_NAV         : Space 3          \|\n
-            \ NOESIS_GREP         : :Grep            \|\n
-            \                                      \|\n
-            \ MD_LINK           : Space L          \|\n
-            \                                      \|\n
-            \ GPG_ENC           : ghe              \|\n
-            \ GPG_DEC           : ghd              \|\n
-            \                                      \|\n
             \"<CR>
 
 
-"                       GENERAL :
-
-"   Html Export TODO NoesisToHtml()
-nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
-            \
-            \/--><CR>Oa { color: hotpink; }<Esc>go
-            \:%s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
-            \:%s/\* { font-size: 1em; }$/\* { font-size: 1.1em; }/g<CR>
-            \:%s/\.noesisH1 { color: #5fffaf; }$/.noesisH1 { color: #5fffaf; font-size: 120%; }/g<CR>
-            \:%s/\.noesisUrl { color: #ff5faf; text-decoration: underline; }$/.noesisUrl { color: #ff5faf; text-decoration: underline; font-size: 90%; }/g<CR>
-            \go/<span class="noesisBlockquote">&gt; </span><CR>cc<span class="noesisBlockquote">&gt; </span> cvidon@student.42.fr<Esc>go
-            \:fix}}<Esc>
+"   noesis grep TODO neovim support
+com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
 
 
+"   git pull
 nn <silent><buffer> <LocalLeader>pl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 
-"   Push Noesis TODO NoesisGitPush()
-" au BufRead,BufNewFile $NOESIS/Lists/*.noe nn <silent><buffer> ghps :echo "Push"<CR>:w\|lc %:h<CR>
+"   git add commit push TODO
 nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
             \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
@@ -92,96 +61,28 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
             \:q<CR>:redr!<CR>
 
-"   Index Gen TODO NoesisIndexGen() (regen if exist)
-nn <silent><buffer> <LocalLeader>I :silent
-            \
-            \ :let @a=''<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
 
-"   Index Nav TODO NoesisIndexNav()
-nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
-
-"   Markdown link
-nn <silent><buffer> <LocalLeader>l 0/ttp.*\/\/\\|ww\..*\.<CR>Ea)<Esc>:let @/=''<CR>Bi[](<Left><Left>
-
-"   Noesis Grep
-com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
-
-
-"   GPG ENC
+"   gpg enc / dec
 nn <buffer><silent> <LocalLeader>en :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
-"   GPG DEC
 nn <buffer><silent> <LocalLeader>de :silent %!gpg -d 2>/dev/null<CR>
 
-"   Gpg enc/dec
+"   more gpg enc / dec
 vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
 vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"
 vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
 
 
-"                       TOD0 :
-
-"   Archive Day
-nn <buffer><silent> <Leader>A :call noesis#NoesisArchiveDay()<CR>
-            \:sil cd $NOESIS/<CR>
-            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
-            \:sil !git commit -m "Archive"<CR>:redraw!<CR>
-
-"   Task New
-nn <silent><buffer> <Leader>t O- tmp<Esc><<:call noesis#NoesisTaskCheck()<CR>ftC
-
-"   Task Check
-nn <silent><buffer> <Leader>k :call noesis#NoesisTaskCheck()<CR>
-            \
-            \:write<CR>0
-
-"   Task un-parenthesis
-nn <silent><buffer> <Leader>K <Esc>
-            \
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \zs( \ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~] \d\d:\d\d \d\d:\d\d\zs )\ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \ze.', ' ' . strftime('%y%m%d') . ' ', ''))<CR>
-            \:write<CR>0
-
-"   Task Fix
-nn <silent><buffer> <Leader>F :call noesis#NoesisTaskFix("up")<CR>
-nn <silent><buffer> <Leader>f :call noesis#NoesisTaskFix("down")<CR>
-
-"   Task Now
-"   TODO update
-nn <silent><buffer> <Leader>. :silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
-
-"   Task Clear
-nn <silent><buffer> <Leader>c <Esc>
-            \
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d:\d\d\ze', '', 'g'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d:\d\d\ze', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~]\zs \d\d\d\d\d\d\ze.', '', 'e'))<CR>
-            \:write<CR>0
-
-"                       HISTORY
-
-"   rot
-nn <buffer><silent> <LocalLeader>r Mmm
-            \
-            \:keeppatterns g/^\s/norm g??<CR>
-            \`mzz3<C-O>
-
-
-"   En
+"   french to english
 nn <buffer><silent> <LocalLeader>len v$y:En <C-R>"<CR>
 vn <buffer><silent> <LocalLeader>len y:En <C-R>"<CR>
-"   Fr
+
+"   english to french
 nn <buffer><silent> <LocalLeader>lfr v$y:Fr <C-R>"<CR>
 vn <buffer><silent> <LocalLeader>lfr y:Fr <C-R>"<CR>
 
-"   Sy
+"   english synonym
 vn <buffer><silent> <LocalLeader>sy y:Sy <C-R>"<CR>
 
-" <<<
-" --------------------------------- DIGRAPHS >>>
 
 no <C-K>% <Nop>
 no <C-K>% <Nop>
@@ -248,6 +149,3 @@ exec "digraphs TS " . 0x1D40
 exec "digraphs US " . 0x1D41
 exec "digraphs VS " . 0x2C7D
 exec "digraphs WS " . 0x1D42
-
-" <<<
-augroup END

@@ -42,17 +42,18 @@ endtry
 " https://github.com/nvim-lua/completion-nvim
 
 set omnifunc=ale#completion#OmniFunc
-let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude'
+let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs'
 " let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 0
 let g:ale_set_signs = 0
-let g:ale_completion_enabled = 0
-let g:ale_lint_delay = 0
-
+let g:ale_completion_enabled = 1
+let g:ale_virtualtext_prefix = ""
 " let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_enter = 0
+" let b:ale_exclude_highlights = ['line too long', '*is declared*']
+let g:ale_lint_on_enter = 0
 
 let g:ale_emit_conflict_warnings = 0
+let g:ale_lint_delay = 0
 hi ALEVirtualTextError ctermfg=1
 let g:ale_linters = {
             \'javascript': ['eslint'],
@@ -62,10 +63,13 @@ let g:ale_linters = {
 let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'json': ['prettier'],
-            \'typescript': ['eslint', 'prettier'],
+            \'typescript': [],
             \'markdown': ['prettier'],
             \'cpp': ['clang-format'],
+            \'bash': ['shfmt'],
             \}
+
+" \'typescript': ['eslint', 'prettier'],
 
 imap <Left> <Plug>(copilot-dismiss)
 imap <Right> <Plug>(copilot-suggest)

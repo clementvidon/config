@@ -54,3 +54,16 @@ nn <silent><buffer> <LocalLeader>e :lcd %:h<CR>
             \:undojoin \| r!node % 2>/dev/null<CR>`[V`]<C-V>0I//> <Esc>
             \:silent echo "Delete line"<CR>
             \kddkJ
+
+
+"   plugins
+
+
+"   ale hover
+nn <LocalLeader>h :ALEHover<CR>
+
+"   ale code action
+nn <LocalLeader>a :ALECodeAction<CR>
+
+"   ale detail
+nn <LocalLeader>d :ALEDetail<CR>
