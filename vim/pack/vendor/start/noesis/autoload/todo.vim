@@ -1,12 +1,26 @@
 "   @brief  Return a HH:MM timestamp with the minutes rounded to the closest
 "           multiple of 5.
 
-function! todo#RoundedTime()
+function! todo#RoundTime()
     let time = strftime('%H:%M')
+    let hour = str2nr(split(time, ':')[0])
     let minutes = str2nr(split(time, ':')[1])
     let rounded_minutes = (minutes + 2) / 5 * 5
-    let rounded_time = printf('%02d:%02d', str2nr(split(time, ':')[0]), rounded_minutes)
+    let rounded_hour = hour
+    if rounded_minutes >= 60
+        let rounded_hour += 1
+        let rounded_minutes = 0
+    endif
+    if rounded_hour == 24
+        let rounded_hour = 0
+    endif
+    let rounded_time = printf('%02d:%02d', rounded_hour, rounded_minutes)
     return rounded_time
+    "     let time = strftime('%H:%M')
+    "     let minutes = str2nr(split(time, ':')[1])
+    "     let rounded_minutes = (minutes + 2) / 5 * 5
+    "     let rounded_time = printf('%02d:%02d', str2nr(split(time, ':')[0]), rounded_minutes)
+    "     return rounded_time
 endfunction
 
 "   @brief  Print the time difference between time1 and time2 in minutes.
@@ -38,7 +52,7 @@ endfunction
 "           and [00:00 00:00] if called twice.
 
 function! todo#TaskCheck()
-    let timestamp = todo#RoundedTime()
+    let timestamp = todo#RoundTime()
     let datestamp = strftime('%y%m%d')
     let cursor_pos = getpos('.')
     let line = getline('.')
@@ -122,30 +136,30 @@ function! todo#ArchiveDay()
     " bda
 
     call append(line('$'), '- ( 20:30 ) stretch / read / listen podcast / sleep')
-    call append(line('$'), '- ( 20:00 20:30 ) @noesis import phone notes')
-    call append(line('$'), '- ( 19:40 20:00 ) @noesis/todo update')
+    call append(line('$'), '- ( 20:00 20:30 ) clear phone notes')
+    call append(line('$'), '- ( 19:40 20:00 ) update journal')
     call append(line('$'), '- ( 19:00 19:40 ) dine')
     call append(line('$'), '- ( 14:00 19:00 ) @42/ft_transcendence TODO')
-    call append(line('$'), '- ( 13:00 14:00 ) @42/inception TODO')
-    call append(line('$'), '- ( 12:50 13:00 ) @noesis/todo update')
+    call append(line('$'), '- ( 13:50 14:00 ) meditate')
+    call append(line('$'), '- ( 13:00 13:50 ) @42/inception TODO')
+    call append(line('$'), '- ( 12:50 13:00 ) update journal')
     call append(line('$'), '- ( 12:40 12:50 ) misc')
     call append(line('$'), '- ( 12:00 12:40 ) lunch')
     call append(line('$'), '- ( 11:20 12:00 ) workout / prepare')
-    call append(line('$'), '    * warm up     (  5min )')
-    call append(line('$'), '    * run         ( 20min )')
-    call append(line('$'), '    * stretch     (  5min )')
-    call append(line('$'), '    * prepare     ( 10min )')
+    call append(line('$'), '    - warm up     (  5min )')
+    call append(line('$'), '    - run         ( 20min )')
+    call append(line('$'), '    - stretch     (  5min )')
+    call append(line('$'), '    - prepare     ( 10min )')
     call append(line('$'), '- ( 06:40 11:20 ) @42/ft_irc TODO')
-    call append(line('$'), '- ( 06:30 06:40 ) @noesis/todo update')
-    call append(line('$'), '- ( 06:10 06:35 ) read')
-    call append(line('$'), '- ( 06:00 06:10 ) meditate')
+    call append(line('$'), '- ( 06:30 06:40 ) meditate')
+    call append(line('$'), '- ( 06:00 06:30 ) read')
     call append(line('$'), '- ( 05:50 06:00 ) get up + stretch')
 
     " home
 
     " call append(line('$'), '- ( 21:00 ) listen podcast / sleep')
     " call append(line('$'), '- ( 20:50 21:00 ) meditate')
-    " call append(line('$'), '- ( 20:40 20:50 ) @noesis/todo update')
+    " call append(line('$'), '- ( 20:40 20:50 ) update journal')
     " call append(line('$'), '- ( 20:00 20:40 ) TODO')
     " call append(line('$'), '- ( 19:00 20:00 ) cook / dine + read')
     " call append(line('$'), '- ( 14:00 19:00 ) @42/ft_irc TODO')
@@ -155,11 +169,11 @@ function! todo#ArchiveDay()
     " call append(line('$'), '- ( 08:30 12:00 ) @42/ft_irc TODO')
     " call append(line('$'), '- ( 08:20 08:30 ) meditate')
     " call append(line('$'), '- ( 06:40 08:20 ) workout / prepare')
-    " call append(line('$'), '    * walk + read ( 20min )')
-    " call append(line('$'), '    * swim        ( 30min )')
-    " call append(line('$'), '    * walk + read ( 20min )')
-    " call append(line('$'), '    * stretch     ( 10min )')
-    " call append(line('$'), '- ( 06:30 06:40 ) @noesis/todo update')
+    " call append(line('$'), '    - walk + read ( 20min )')
+    " call append(line('$'), '    - swim        ( 30min )')
+    " call append(line('$'), '    - walk + read ( 20min )')
+    " call append(line('$'), '    - stretch     ( 10min )')
+    " call append(line('$'), '- ( 06:30 06:40 ) update journal')
     " call append(line('$'), '- ( 05:50 06:30 ) get up / breakfast + read')
 
     "  42
@@ -168,20 +182,20 @@ function! todo#ArchiveDay()
     " call append(line('$'), '- ( 20:00 21:00 ) cook / dine')
     " call append(line('$'), '- ( 19:50 20:00 ) meditate')
     " call append(line('$'), '- ( 19:00 19:50 ) move to home + read')
-    " call append(line('$'), '- ( 18:45 19:00 ) @noesis/todo update')
+    " call append(line('$'), '- ( 18:45 19:00 ) @update journal)
     " call append(line('$'), '- ( 14:45 18:45 ) @42/ TODO')
     " call append(line('$'), '- ( 13:45 14:45 ) @42/ TODO')
     " call append(line('$'), '- ( 13:00 13:45 ) move to 42 + read')
     " call append(line('$'), '- ( 12:10 13:00 ) cook / lunch + read')
-    " call append(line('$'), '- ( 12:00 12:10 ) @noesis/todo update')
+    " call append(line('$'), '- ( 12:00 12:10 ) @update journal)
     " call append(line('$'), '- ( 08:00 12:00 ) @42/ TODO')
     " call append(line('$'), '- ( 06:40 08:00 ) workout / prepare')
-    " call append(line('$'), '    * walk + read ( 20min )')
-    " call append(line('$'), '    * swim        ( 20min )')
-    " call append(line('$'), '    * walk + read ( 20min )')
-    " call append(line('$'), '    * snack + tea ( whole-grain toast, egg, greek yogurt )')
+    " call append(line('$'), '    - walk + read ( 20min )')
+    " call append(line('$'), '    - swim        ( 20min )')
+    " call append(line('$'), '    - walk + read ( 20min )')
+    " call append(line('$'), '    - snack + tea ( whole-grain toast, egg, greek yogurt )')
     " call append(line('$'), '- ( 06:10 06:40 ) read')
-    " call append(line('$'), '    * snack + tea ( banana, peanut butter )')
+    " call append(line('$'), '    - snack + tea ( banana, peanut butter )')
     " call append(line('$'), '- ( 06:00 06:10 ) meditate')
     " call append(line('$'), '- ( 05:50 06:00 ) get up + stretch')
 

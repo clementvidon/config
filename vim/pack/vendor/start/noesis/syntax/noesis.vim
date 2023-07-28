@@ -1,6 +1,6 @@
 " syntax/noesis
 " Created: 230524 20:46:36 by clem9nt@imac
-" Updated: 230524 20:46:36 by clem9nt@imac
+" Updated: 230728 12:55:51 by clem@spectre
 " Maintainer: Clément Vidon
 
 if exists("b:current_syntax")
@@ -24,22 +24,18 @@ syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|
 if has("conceal")
     set conceallevel=2
     set concealcursor=n
-    syn region noesisCode       concealends matchgroup=noesisDelimiter start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
-    syn region noesisItalic     concealends matchgroup=noesisDelimiter start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
-    syn region noesisBold       concealends matchgroup=noesisDelimiter start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
-    syn region noesisBoldItalic concealends matchgroup=noesisDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
-    syn region noesisStrike     concealends matchgroup=noesisDelimiter start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
+    syn region noesisCode       concealends matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
+    syn region noesisItalic     concealends matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
+    syn region noesisBold       concealends matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
+    syn region noesisBoldItalic concealends matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
+    syn region noesisStrike     concealends matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 else
-    syn region noesisCode                   matchgroup=noesisDelimiter start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
-    syn region noesisItalic                 matchgroup=noesisDelimiter start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
-    syn region noesisBold                   matchgroup=noesisDelimiter start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
-    syn region noesisBoldItalic             matchgroup=noesisDelimiter start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
-    syn region noesisStrike                 matchgroup=noesisDelimiter start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
+    syn region noesisCode                   matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
+    syn region noesisItalic                 matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
+    syn region noesisBold                   matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
+    syn region noesisBoldItalic             matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
+    syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
-
-syn keyword noesisBoldItalic TODO
-syn keyword noesisBoldItalic XXX
-syn keyword noesisBoldItalic X
 
 
 "   highlight
@@ -54,7 +50,8 @@ if &background == "dark"
     hi noesisH5                       ctermfg=85
     hi noesisH6                       ctermfg=85
 
-    hi noesisUrl cterm=underline      ctermfg=103
+    " hi noesisUrl cterm=underline      ctermfg=103
+    hi noesisUrl                      ctermfg=250
     hi noesisLink                     ctermfg=104
 
     hi noesisCode                     ctermfg=117
@@ -62,10 +59,6 @@ if &background == "dark"
     hi noesisBold                     ctermfg=214
     hi noesisBoldItalic               ctermfg=209
     hi noesisStrike                   ctermfg=174
-
-    hi noesisTaskTime                 ctermfg=140
-    hi noesisTaskDone                 ctermfg=102
-    hi noesisDelimiter                ctermfg=238
 
 elseif &background == "light"
 
@@ -84,10 +77,6 @@ elseif &background == "light"
     hi noesisBold                     ctermbg=229
     hi noesisBoldItalic               ctermbg=195
     hi noesisStrike                   ctermfg=174
-
-    hi noesisTaskTime                 ctermfg=250
-    hi noesisTaskDone                 ctermfg=101
-    hi noesisDelimiter                ctermfg=255
 
 endif
 

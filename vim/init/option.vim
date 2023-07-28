@@ -3,6 +3,7 @@
 " Updated: 230524 19:45:03 by clem9nt@imac
 " Maintainer: Clément Vidon
 
+syntax enable
 filetype plugin indent on
 
 if has('nvim')

@@ -8,7 +8,7 @@
 " packadd justify                                 " justify selection
 
 call plug#begin('$DOTVIM/.plugged')
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 Plug 'tpope/vim-repeat'                         " repeat extension
 Plug 'tpope/vim-surround'                       " surround operator
 Plug 'tpope/vim-commentary'                     " comment out
@@ -70,7 +70,6 @@ let g:ale_fixers = {
             \}
 
 " \'typescript': ['eslint', 'prettier'],
-
 imap <Left> <Plug>(copilot-dismiss)
 imap <Right> <Plug>(copilot-suggest)
 imap <Down> <Plug>(copilot-next)
@@ -78,6 +77,7 @@ imap <Up> <Plug>(copilot-previous)
 let g:copilot_filetypes = {
             \ '*': v:false,
             \ 'javascript': v:true,
+            \ 'typescript': v:true,
             \ 'markdown': v:true,
             \ 'python': v:true,
             \ 'html': v:true,

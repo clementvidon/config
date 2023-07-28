@@ -1,6 +1,6 @@
 " syntax/todo
 " Created: 230727 22:10:11 by clem@spectre
-" Updated: 230727 22:10:11 by clem@spectre
+" Updated: 230728 13:26:22 by clem@spectre
 " Maintainer: Clément Vidon
 
 " TODO does suck
@@ -13,9 +13,13 @@
 "   syntax
 
 
-syn match todoTaskTime /^\(-\|\~\|\*\)\( \d\d:\d\d\)\{1,2}\ze ./
-syn match todoTaskTime /^\(-\|\~\|\*\)\zs (.*)\ze ./
-syn match todoTaskDone /^\(-\|\~\|\*\)\zs \d\d\d\d\d\d\( \d\d:\d\d\)\{1,2}\ze ./
+syn match todoTaskTime              /^\(-\|\~\|\*\)\zs\s(\s.*\s)\ze\s./
+syn match todoTaskDone              /^\(-\|\~\|\*\)\zs\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s./
+
+
+syn match todoTaskDetails           /^\s\{4}\zs.*$/
+syn match todoTaskFeedback          /\s{\s.*\s}$/
+syn match todoTaskUnplanned         /^\~\s/ contains=todoTaskDone
 
 
 "   highlight
@@ -31,10 +35,17 @@ if &background == "dark"
     hi todoTaskTime                 ctermfg=140
     hi todoTaskDone                 ctermfg=102
 
+    hi todoTaskDetails              ctermfg=250
+    hi todoTaskFeedback             ctermfg=250
+    hi todoTaskUnplanned            ctermfg=138
+
 elseif &background == "light"
 
     hi todoTaskTime                ctermfg=250
     hi todoTaskDone                ctermfg=101
+
+    hi todoTaskDetails             ctermfg=grey
+    hi todoTaskFeedback            ctermfg=grey
 
 endif
 

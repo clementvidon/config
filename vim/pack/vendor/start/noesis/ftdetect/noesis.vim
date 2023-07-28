@@ -7,4 +7,4 @@ au BufRead,BufNewFile *.noe set filetype=noesis.note
 au BufRead,BufNewFile *.md set filetype=noesis.note
 
 au BufRead,BufNewFile todo.noe set filetype=noesis.todo
-au BufRead,BufNewFile history.noe set filetype=noesis.todo
+au BufRead,BufNewFile history.gpg.noe set filetype=noesis.todo

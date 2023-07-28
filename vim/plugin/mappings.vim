@@ -28,6 +28,7 @@ no sQ  :quitall<CR>
 no gsQ :quitall!<CR>
 nn sd  :bn\|bd#<CR>
 nn gsd :bn!\|bd! #<CR>
+no so  :silent write\|source $DOTVIM/init.vim\|e<CR>zR
 
 "   find
 nn sf  :fin<Space>
@@ -113,7 +114,6 @@ nn glqn :call qfnav#()<CR>
 nn glrn :set relativenumber!<CR>
 nn glsb :set scrollbind!<CR>
 nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
-nn glso :silent write\|source $DOTVIM/init.vim\|e<CR>zR
 nn glsp :set spell!<CR>
 nn glss :StaticSearch<Space>
 nn glst :set startofline!<CR>
