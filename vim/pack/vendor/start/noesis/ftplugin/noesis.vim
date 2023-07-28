@@ -6,8 +6,8 @@
 "   options
 
 
-setlocal suffixesadd+=.noe
-setlocal suffixesadd+=.gpg.noe
+setlocal suffixesadd+=.md
+setlocal suffixesadd+=.gpg.md
 setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
             \$NOESIS,
             \$NOESIS/Lists/**,
@@ -46,7 +46,7 @@ nn <silent><buffer> <LocalLeader>? :echo "
 
 
 "   noesis grep TODO neovim support
-com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
+com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.md' | cw
 
 
 "   git pull
@@ -57,7 +57,7 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
             \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
             \:sil cd $NOESIS/<CR>
-            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
+            \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
             \:q<CR>:redr!<CR>
 

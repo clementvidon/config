@@ -9,7 +9,7 @@ nn <buffer><silent> <Leader>m :call todo#TimeDiff()<CR>
 "   archive day
 nn <buffer><silent> <Leader>A :call todo#ArchiveDay()<CR>
             \:sil cd $NOESIS/<CR>
-            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
+            \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
 
 "   task new

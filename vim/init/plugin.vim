@@ -112,7 +112,6 @@ let g:gutentags_ctags_exclude = [
             \'*.svelte',
             \'*.h',
             \'*.md',
-            \'*.noe',
             \'*.gpg.*',
             \'doc/**',
             \'test/**',

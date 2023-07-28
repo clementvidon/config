@@ -6,8 +6,8 @@
 augroup vim_startup
     autocmd!
     autocmd VimEnter * if @% == '' | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
-    autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOESIS/Lists/todo.noe<CR>g; | endif
-    " autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOESIS/Lists/todo.noe<CR>:silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR> | endif
+    autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOESIS/Lists/todo.md<CR>G | endif
+    " autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOESIS/Lists/todo.md<CR>:silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR> | endif
 augroup END
 
 augroup custom_highlight

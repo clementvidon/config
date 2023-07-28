@@ -80,14 +80,13 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn sn  <nop>
-nn sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
-nn sne :e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>
-nn snf :e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>
-nn snt :e $NOESIS/Lists/todo.noe<CR>G$:silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
-nn snh :e $NOESIS/Lists/history.gpg.noe<CR>
-nn snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
-nn sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
-nn sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+nn sni :e $NOESIS/INDEX.md<CR>/Lists<CR>
+nn sne :e $NOESIS/Resources/english.md<CR>?##  Voca<CR>
+nn snf :e $NOESIS/Resources/french.md<CR>?##  Voca<CR>
+nn snt :e $NOESIS/Lists/todo.md<CR>G$:silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
+nn snh :e $NOESIS/Lists/history.gpg.md<CR>
+nn snp :e $NOESIS/Lists/post-it.md<CR>gi<Esc>
+nn sna :e $NOESIS/Archives/Archives.md<CR>gi<Esc>
 "   config
 nn scv :e $HOME/.vimrc<CR>
 nn scz :e $HOME/.zshrc<CR>
