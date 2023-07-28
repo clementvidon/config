@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+TOUCHPAD_ID="12"
+TOUCHPAD_STATE=$(xinput list-props "$TOUCHPAD_ID" | grep "Device Enabled" | grep -o "[01]$")
+TOGGLE_STATE=$((1 - TOUCHPAD_STATE))
+xinput set-prop "$TOUCHPAD_ID" "Device Enabled" "$TOGGLE_STATE"
+
+if [ $TOGGLE_STATE -eq 0 ]; then
+  unclutter -idle 0.1 -root &
+else
+  killall unclutter
+fi
