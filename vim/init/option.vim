@@ -3,9 +3,6 @@
 " Updated: 230524 19:45:03 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-syntax enable
-filetype plugin indent on
-
 if has('nvim')
     set shada='100,<50,s10,h,n$DOTVIM/.shada        " shared data
     set undodir=$DOTVIM/.undo/nvim//,/tmp//         " undo files location

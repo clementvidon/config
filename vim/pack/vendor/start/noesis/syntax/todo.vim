@@ -3,8 +3,6 @@
 " Updated: 230728 13:26:22 by clem@spectre
 " Maintainer: Clément Vidon
 
-" TODO does suck
-" quit when a syntax file was already loaded
 " if exists("b:current_syntax_addon")
 "     finish
 " endif
@@ -35,8 +33,8 @@ if &background == "dark"
     hi todoTaskTime                 ctermfg=140
     hi todoTaskDone                 ctermfg=102
 
-    hi todoTaskDetails              ctermfg=250
-    hi todoTaskFeedback             ctermfg=250
+    hi todoTaskDetails              ctermfg=103
+    hi todoTaskFeedback             ctermfg=103
     hi todoTaskUnplanned            ctermfg=138
 
 elseif &background == "light"

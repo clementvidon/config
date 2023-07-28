@@ -3,7 +3,7 @@
 " Updated: 230524 19:57:11 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-let $NOESIS=$HOME . "/git/Noesis"
+let $NOESIS=$HOME . "/git/noesis"
 let $DOTVIM=$HOME . "/git/config/vim"
 
 if empty(glob($DOTVIM . "/.undo/vim"))  | exec 'silent !mkdir -p $DOTVIM/.undo/vim'  | endif

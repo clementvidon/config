@@ -3,6 +3,8 @@
 " Updated: 230524 19:51:01 by clem9nt@imac
 " Maintainer: Clément Vidon
 
+if &filetype ==# 'cpp'
+
 "   syntax
 
 
@@ -56,3 +58,6 @@ hi link cppStatement cleared
 hi link cppStructure cleared
 hi link cppType cleared
 hi! link cIncluded cleared
+
+
+endif " prevent vim from loading this config for related filetypes

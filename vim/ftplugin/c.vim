@@ -3,6 +3,8 @@
 " @updated   230522 18:02:48  by  clem9nt@imac
 " @author    Clément Vidon
 
+if &filetype ==# 'c'
+
 "   options
 
 
@@ -102,6 +104,13 @@ nn <silent><buffer> <LocalLeader>d mdj
             \
             \:keeppatterns ?^\a<CR>
             \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
+            \<BS>/<Esc>=ip
+            \jfT
+
+nn <silent><buffer> <LocalLeader>D mdj
+            \
+            \:keeppatterns ?^\a<CR>
+            \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
             \@param[out]  TODO<CR>
             \@param[in]   TODO<CR>
             \@return      TODO<CR>
@@ -111,8 +120,7 @@ nn <silent><buffer> <LocalLeader>d mdj
 "   format
 nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
-"   print TODO cpp load this one...
-" nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==0f"a
+nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==0f"a
 
 "   print wrap
 nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(1, "> %%\n", <Esc>A);<Esc>==0f%
@@ -154,3 +162,6 @@ iabbr <silent><buffer> eelse else {<CR>}<C-O>O<C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> eelseif else if () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> wwhile while () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> ffor for () {<CR>}<Esc>kf)i<C-R>=eatchar#('\s')<CR>
+
+
+endif " prevent vim from loading this config for related filetypes

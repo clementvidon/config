@@ -3,6 +3,8 @@
 " @updated   230522 18:02:58  by  clem9nt@imac
 " @author    Clément Vidon
 
+if &filetype ==# 'cpp'
+
 "   options
 
 
@@ -125,6 +127,13 @@ nn <silent><buffer> <LocalLeader>d mdj
             \
             \:keeppatterns ?^\a<CR>
             \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
+            \<BS>/<Esc>=ip
+            \jfT
+
+nn <silent><buffer> <LocalLeader>D mdj
+            \
+            \:keeppatterns ?^\a<CR>
+            \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
             \@param[out]  TODO<CR>
             \@param[in]   TODO<CR>
             \@return      TODO<CR>
@@ -134,7 +143,7 @@ nn <silent><buffer> <LocalLeader>d mdj
 "   format
 nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
 
-"   print TODO cf. c.vim
+"   print
 nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==0f"a
 
 "   print wrap
@@ -204,3 +213,6 @@ iabbr <silent><buffer> ccou std::cout <<;<Left>
 iabbr <silent><buffer> ccen std::cout << std::endl;<Esc>^
 iabbr <silent><buffer> pcer std::cerr << "" << std::endl;<Esc>14hi<C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> pcou std::cout << "" << std::endl;<Esc>14hi<C-R>=eatchar#('\s')<CR>
+
+
+endif " prevent vim from loading this config for related filetypes

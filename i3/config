@@ -262,3 +262,5 @@ bindsym $mod+Ctrl+Shift+f exec --no-startup-id maim --select | xclip -selection 
 # bindsym $mod+Alt+4 exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 # bindsym $mod+Alt+5 exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 
+# Toggle Touchpad
+bindsym $mod+Shift+t exec --no-startup-id ~/.local/script/i3/toggle_touchpad

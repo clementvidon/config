@@ -3,7 +3,12 @@
 " Updated: 230524 20:44:12 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-au BufRead,BufNewFile *.md set filetype=noesis.note
+function! SetNoesisFiletype()
+    if expand('%:t') =~# '^(history|todo)\.md$'
+        setlocal filetype=noesis.note
+    else
+        setlocal filetype=noesis.todo
+    endif
+endfunction
 
-au BufRead,BufNewFile todo.md set filetype=noesis.todo
-au BufRead,BufNewFile history.gpg.md set filetype=noesis.todo
+autocmd BufRead,BufNewFile *.md call SetNoesisFiletype()

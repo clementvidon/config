@@ -59,20 +59,16 @@ function! todo#TaskCheck()
 
     if line =~ '^[-~] \d\{6} \d\d:\d\d \d\d:\d\d .' " - 000000 11:11 22:22 task  => - 000000 11:11 33:33 task
         call setline('.', substitute(getline('.'), '^[-~] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze .', timestamp, ''))
-        echom "1"
 
     elseif line =~ '^[-~] \d\{6} \d\d:\d\d .' "      - 000000 11:11 task        => - 000000 11:11 22:22 task
         call setline('.', substitute(getline('.'), '^[-~] \d\{6} \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', ''))
-        echom "2"
 
     elseif line =~ '^[-~] (.*) .' "                  - ( WHATEVER ) task        => - 000000 11:11 task
         call setline('.', substitute(line, '^[-~] \zs(.*)\ze .', datestamp . ' ' . timestamp, ''))
-        echom "3"
 
     elseif line =~ '^[-~] .' "                       - task                     => - 000000 11:11 task
         normal 0
         call setline('.', substitute(getline('.'), '^[-~]\zs \ze.', ' ' . datestamp . ' ' . timestamp . ' ', ''))
-        echom "4"
 
     endif
     call setpos('.', cursor_pos)
@@ -146,10 +142,10 @@ function! todo#ArchiveDay()
     call append(line('$'), '- ( 12:40 12:50 ) misc')
     call append(line('$'), '- ( 12:00 12:40 ) lunch')
     call append(line('$'), '- ( 11:20 12:00 ) workout / prepare')
-    call append(line('$'), '    - warm up     (  5min )')
-    call append(line('$'), '    - run         ( 20min )')
-    call append(line('$'), '    - stretch     (  5min )')
-    call append(line('$'), '    - prepare     ( 10min )')
+    call append(line('$'), '  * warm up     (  5min )')
+    call append(line('$'), '  * run         ( 20min )')
+    call append(line('$'), '  * stretch     (  5min )')
+    call append(line('$'), '  * prepare     ( 10min )')
     call append(line('$'), '- ( 06:40 11:20 ) @42/ft_irc TODO')
     call append(line('$'), '- ( 06:30 06:40 ) meditate')
     call append(line('$'), '- ( 06:00 06:30 ) read')
@@ -169,10 +165,10 @@ function! todo#ArchiveDay()
     " call append(line('$'), '- ( 08:30 12:00 ) @42/ft_irc TODO')
     " call append(line('$'), '- ( 08:20 08:30 ) meditate')
     " call append(line('$'), '- ( 06:40 08:20 ) workout / prepare')
-    " call append(line('$'), '    - walk + read ( 20min )')
-    " call append(line('$'), '    - swim        ( 30min )')
-    " call append(line('$'), '    - walk + read ( 20min )')
-    " call append(line('$'), '    - stretch     ( 10min )')
+    " call append(line('$'), '  * walk + read ( 20min )')
+    " call append(line('$'), '  * swim        ( 30min )')
+    " call append(line('$'), '  * walk + read ( 20min )')
+    " call append(line('$'), '  * stretch     ( 10min )')
     " call append(line('$'), '- ( 06:30 06:40 ) update journal')
     " call append(line('$'), '- ( 05:50 06:30 ) get up / breakfast + read')
 
@@ -190,12 +186,12 @@ function! todo#ArchiveDay()
     " call append(line('$'), '- ( 12:00 12:10 ) @update journal)
     " call append(line('$'), '- ( 08:00 12:00 ) @42/ TODO')
     " call append(line('$'), '- ( 06:40 08:00 ) workout / prepare')
-    " call append(line('$'), '    - walk + read ( 20min )')
-    " call append(line('$'), '    - swim        ( 20min )')
-    " call append(line('$'), '    - walk + read ( 20min )')
-    " call append(line('$'), '    - snack + tea ( whole-grain toast, egg, greek yogurt )')
+    " call append(line('$'), '  * walk + read ( 20min )')
+    " call append(line('$'), '  * swim        ( 20min )')
+    " call append(line('$'), '  * walk + read ( 20min )')
+    " call append(line('$'), '  * snack + tea ( whole-grain toast, egg, greek yogurt )')
     " call append(line('$'), '- ( 06:10 06:40 ) read')
-    " call append(line('$'), '    - snack + tea ( banana, peanut butter )')
+    " call append(line('$'), '  * snack + tea ( banana, peanut butter )')
     " call append(line('$'), '- ( 06:00 06:10 ) meditate')
     " call append(line('$'), '- ( 05:50 06:00 ) get up + stretch')
 

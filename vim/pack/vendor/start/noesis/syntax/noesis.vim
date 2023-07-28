@@ -21,6 +21,9 @@ syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
+syn match noesisCodeblock "^\s\{4,8}\S.*$"
+syn match noesisBlockquote "^\(\s\+\|\)>\(\s\|\).*$"
+
 if has("conceal")
     set conceallevel=2
     set concealcursor=n
@@ -50,15 +53,17 @@ if &background == "dark"
     hi noesisH5                       ctermfg=85
     hi noesisH6                       ctermfg=85
 
-    " hi noesisUrl cterm=underline      ctermfg=103
-    hi noesisUrl                      ctermfg=250
+    hi noesisUrl                      ctermfg=103
     hi noesisLink                     ctermfg=104
 
-    hi noesisCode                     ctermfg=117
-    hi noesisItalic                   ctermfg=3
-    hi noesisBold                     ctermfg=214
-    hi noesisBoldItalic               ctermfg=209
-    hi noesisStrike                   ctermfg=174
+    hi noesisBlockquote               ctermfg=250
+    hi noesisCodeblock                ctermfg=115
+
+    hi noesisCode                     ctermfg=115
+    hi noesisItalic                   ctermfg=117
+    hi noesisBold                     ctermfg=3
+    hi noesisBoldItalic               ctermfg=214
+    hi noesisStrike                   ctermfg=209
 
 elseif &background == "light"
 

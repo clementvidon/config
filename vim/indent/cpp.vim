@@ -3,6 +3,8 @@
 " @updated   230522 18:02:58  by  clem9nt@imac
 " @author    Clément Vidon
 
+if &filetype ==# 'cpp'
+
 "   options
 
 
@@ -15,3 +17,6 @@ setlocal shiftwidth=2
 setlocal softtabstop=2
 setlocal tabstop=2
 setlocal textwidth=80
+
+
+endif " prevent vim from loading this config for related filetypes

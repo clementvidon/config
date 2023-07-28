@@ -115,7 +115,7 @@ let g:gutentags_ctags_exclude = [
             \'*.gpg.*',
             \'doc/**',
             \'test/**',
-            \'Noesis/**',
+            \'noesis/**',
             \'Makefile'
             \]
 let g:gutentags_ctags_exclude_wildignore = 1
