@@ -11,6 +11,8 @@ endif
 "   syntax
 
 
+syn sync fromstart
+
 syn region noesisH1 start="^##\@!"        end="#*\s*$"
 syn region noesisH2 start="^###\@!"       end="#*\s*$"
 syn region noesisH3 start="^####\@!"      end="#*\s*$"
@@ -18,11 +20,15 @@ syn region noesisH4 start="^#####\@!"     end="#*\s*$"
 syn region noesisH5 start="^######\@!"    end="#*\s*$"
 syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 
+syn match noesisHeader "^.*\n^-\{3,}$"
+syn match noesisHeader "^.*\n^=\{3,}$"
+syn match noesisHeader "^\s\{72}\[\d\{6}]$"
+
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
 syn match noesisCodeblock "^\s\{4,8}\S.*$"
-syn match noesisBlockquote "^\(\s\+\|\)>\(\s\|\).*$"
+syn match noesisBlockquote "^\s\{0,3}>\{1,2}\s"
 
 if has("conceal")
     set conceallevel=2
@@ -53,17 +59,19 @@ if &background == "dark"
     hi noesisH5                       ctermfg=85
     hi noesisH6                       ctermfg=85
 
-    hi noesisUrl                      ctermfg=103
-    hi noesisLink                     ctermfg=104
+    hi noesisHeader                   ctermfg=231
 
-    hi noesisBlockquote               ctermfg=250
+    hi noesisUrl                      ctermfg=103
+    hi noesisLink                     ctermfg=105
+
+    hi noesisBlockquote               ctermfg=103
     hi noesisCodeblock                ctermfg=115
 
     hi noesisCode                     ctermfg=115
-    hi noesisItalic                   ctermfg=117
+    hi noesisItalic                   ctermfg=111
     hi noesisBold                     ctermfg=3
     hi noesisBoldItalic               ctermfg=214
-    hi noesisStrike                   ctermfg=209
+    hi noesisStrike                   ctermfg=168
 
 elseif &background == "light"
 

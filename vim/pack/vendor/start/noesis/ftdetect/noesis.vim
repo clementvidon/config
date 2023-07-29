@@ -4,11 +4,11 @@
 " Maintainer: Clément Vidon
 
 function! SetNoesisFiletype()
-    if expand('%:t') =~# '^(history|todo)\.md$'
-        setlocal filetype=noesis.note
-    else
+    if expand('%:t') =~# '^\(history\.gpg\|todo\)\.noe$'
         setlocal filetype=noesis.todo
+    else
+        setlocal filetype=noesis.note
     endif
 endfunction
 
-autocmd BufRead,BufNewFile *.md call SetNoesisFiletype()
+autocmd BufRead,BufNewFile *.noe call SetNoesisFiletype()

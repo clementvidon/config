@@ -38,6 +38,7 @@ catch /^Vim\%((\a\+)\)\=:E185/
     echo "Colorscheme not installed."
 endtry
 
+" https://github.com/bryley/neoai.nvim
 " https://github.com/neovim/nvim-lspconfig
 " https://github.com/nvim-lua/completion-nvim
 
@@ -112,6 +113,7 @@ let g:gutentags_ctags_exclude = [
             \'*.svelte',
             \'*.h',
             \'*.md',
+            \'*.noe',
             \'*.gpg.*',
             \'doc/**',
             \'test/**',

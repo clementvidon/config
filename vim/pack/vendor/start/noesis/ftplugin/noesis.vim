@@ -6,8 +6,8 @@
 "   options
 
 
-setlocal suffixesadd+=.md
-setlocal suffixesadd+=.gpg.md
+setlocal suffixesadd+=.noe
+setlocal suffixesadd+=.gpg.noe
 setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
             \$NOESIS,
             \$NOESIS/Lists/**,
@@ -15,8 +15,8 @@ setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
             \$NOESIS/Projects/**,
             \$NOESIS/Resources/**
 setlocal expandtab
-set foldmethod=marker
-set foldmarker=->>>,<<<-
+setlocal foldmethod=marker
+setlocal foldmarker=->>>,<<<-
 let maplocalleader = "gh"
 
 
@@ -46,7 +46,7 @@ nn <silent><buffer> <LocalLeader>? :echo "
 
 
 "   noesis grep TODO neovim support
-com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.md' | cw
+com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
 
 
 "   git pull
@@ -57,7 +57,7 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
             \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
             \:sil cd $NOESIS/<CR>
-            \:sil !git add -f INDEX.md Lists Areas Projects Resources Archives<CR>
+            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
             \:q<CR>:redr!<CR>
 
@@ -83,6 +83,18 @@ vn <buffer><silent> <LocalLeader>lfr y:Fr <C-R>"<CR>
 "   english synonym
 vn <buffer><silent> <LocalLeader>sy y:Sy <C-R>"<CR>
 
+"   string to H1
+
+nn <buffer><silent> <LocalLeader>h1 VUo<C-O>80i=<Esc>:put=strftime('%y%m%d')<CR>
+            \73i<Space><Esc>r[A]<Esc>2k0
+
+"   string to H2
+
+nn <buffer><silent> <LocalLeader>h2 :s/\v<(.)(\w*)/\u\1\L\2/g<CR>o<C-O>40i-<Esc>k0
+
+"   update title time
+
+nn <buffer><silent> <LocalLeader>ht mm:let @t=strftime('%y%m%d')<CR>?\[\zs\d\{6}\]<CR>c6l<C-R>t<Esc>`m
 
 no <C-K>% <Nop>
 no <C-K>% <Nop>

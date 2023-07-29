@@ -1,3 +1,8 @@
+" autoload/todo
+" Created: 230729 09:22:26 by clem@spectre
+" Updated: 230729 09:22:26 by clem@spectre
+" Maintainer: Clément Vidon
+
 "   @brief  Return a HH:MM timestamp with the minutes rounded to the closest
 "           multiple of 5.
 
@@ -110,30 +115,31 @@ function! todo#ArchiveDay()
     let cursor_pos = getpos('.')
     let l:save_view = winsaveview()
     "   Insert the dates
-    let l:today_loc = searchpos('##  Today')[0]
-    call append(l:today_loc + 1, '#[ ' . strftime('%a %d %b %Y') . ' ]')
-    call append(l:today_loc + 2, '')
+    let l:today_loc = searchpos('^TODAY$')[0]
+    call append(l:today_loc + 1, strftime('%a %d %b %Y'))
+    call append(l:today_loc + 2, '================================================================================')
     let l:today_content = getline(l:today_loc + 2, line('$'))
     "   Archive today
     write
     exec 'silent edit ' . expand('%:p:h') . '/history.gpg.noe'
-    call append(search('#=====================#', 'n'), '')
-    call append(search('#=====================#', 'n'), l:today_content)
+    call append(search('^#       HISTORY$', 'n'), l:today_content)
+    call append(search('^#       HISTORY$', 'n'), '')
     write
     exec 'silent edit #'
     "   Save Tomorrow content
-    let l:today_loc = searchpos('##  Today')[0]
-    let l:tmrrw_loc = searchpos('##  Tomorrow')[0]
-    let l:tmrrw_content = getline(l:tmrrw_loc + 2, l:today_loc - 2)
+    let l:today_loc = searchpos('^TODAY$')[0]
+    let l:tmrrw_loc = searchpos('^TOMORROW$')[0]
+    let l:tmrrw_content = getline(l:tmrrw_loc + 2, l:today_loc - 3)
     "   Delete Today and Tomorrow
     exec 'silent ' . (l:tmrrw_loc + 2) . ',$delete'
     "   Set Tomorrow
 
     " bda
 
+    call append(line('$'), '')
     call append(line('$'), '- ( 20:30 ) stretch / read / listen podcast / sleep')
-    call append(line('$'), '- ( 20:00 20:30 ) clear phone notes')
-    call append(line('$'), '- ( 19:40 20:00 ) update journal')
+    call append(line('$'), '- ( 20:15 20:30 ) update journal')
+    call append(line('$'), '- ( 19:40 20:15 ) clear phone notes')
     call append(line('$'), '- ( 19:00 19:40 ) dine')
     call append(line('$'), '- ( 14:00 19:00 ) @42/ft_transcendence TODO')
     call append(line('$'), '- ( 13:50 14:00 ) meditate')
@@ -198,9 +204,10 @@ function! todo#ArchiveDay()
 
     "   Set Today
     call append(line('$'), '')
-    call append(line('$'), '##  Today')
     call append(line('$'), '')
-    call append(line('$'), '->>>')
+    call append(line('$'), 'TODAY')
+    call append(line('$'), '================================================================================')
+    call append(line('$'), '                                                                            ->>>')
     call append(line('$'), 'SLEEP QUALITY')
     call append(line('$'), '  Sleep Started At              Time:')
     call append(line('$'), '  Sleep Duration                Time:')
@@ -231,12 +238,17 @@ function! todo#ArchiveDay()
     call append(line('$'), '  Mindfulness or Meditation     Time:')
     call append(line('$'), '  Gratitude                     List:')
     call append(line('$'), '')
-    call append(line('$'), 'PRODUCTIVITY:')
+    call append(line('$'), 'MAIN PROJECTS PRODUCTIVITY')
     call append(line('$'), '  Focus Quality                 Rate:')
     call append(line('$'), '  Engagement Level              Rate:')
-    call append(line('$'), '  Goals                         List:')
-    call append(line('$'), '  Goals Development             Time:')
-    call append(line('$'), '  Goals Ecosystem Development   Time:')
+    call append(line('$'), '  Main Projects                 List:')
+    call append(line('$'), '  Main Projects Development     Time:')
+    call append(line('$'), '')
+    call append(line('$'), 'SIDE PROJECTS PRODUCTIVITY')
+    call append(line('$'), '  Focus Quality                 Rate:')
+    call append(line('$'), '  Engagement Level              Rate:')
+    call append(line('$'), '  Side Projects                 List:')
+    call append(line('$'), '  Side Projects Development     Time:')
     call append(line('$'), '')
     call append(line('$'), 'PERSONAL DEVELOPMENT')
     call append(line('$'), '  New Skills Development        List:')
@@ -249,9 +261,10 @@ function! todo#ArchiveDay()
     call append(line('$'), '  Environment Development       Time:')
     call append(line('$'), '  Living Space Cleanliness      Rate:')
     call append(line('$'), '  Work Env Conduciveness        Rate:')
-    call append(line('$'), '<<<-')
     call append(line('$'), '')
     call append(line('$'), 'REPORT')
+    call append(line('$'), '')
+    call append(line('$'), '<<<-')
     call append(line('$'), l:tmrrw_content)
     call winrestview(l:save_view)
     call setpos('.', cursor_pos)
