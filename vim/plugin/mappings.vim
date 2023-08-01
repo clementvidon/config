@@ -129,8 +129,8 @@ tno <Leader>w <C-W>
 tno <Leader>wM <C-W>_\|<C-W><BAR>
 tno <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 "   grow split size
-no <Leader>we :resize <C-R>=&lines * 0.66<CR><CR>
-no <Leader>wE :vertical resize <C-R>=&columns * 0.66<CR><CR>
+no <Leader>wE :resize <C-R>=&lines * 0.66<CR><CR>
+no <Leader>we :vertical resize <C-R>=&columns * 0.66<CR><CR>
 nn <S-Left> <C-W>5<
 nn <S-Up> <C-W>5+
 nn <S-Right> <C-W>5>
