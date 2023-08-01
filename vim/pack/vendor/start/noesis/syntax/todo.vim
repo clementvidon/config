@@ -15,7 +15,8 @@ syn match todoTaskTime /^\(-\|\~\)\zs\s(\s[a-zA-Z0-9: ]*\s)\ze\s./
 syn match todoTaskDone /^\(-\|\~\)\zs\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s./
 
 
-syn match todoTaskFeedback /\s{\s[a-zA-Z0-9]*\s}$/
+syn match todoTaskDetail /\s\zs(\s[a-zA-Z0-9 ,-]*\s)\ze\(\s\|$\)/
+syn match todoTaskFeedback /\s\zs{\s[a-zA-Z0-9]*\s}$/
 syn match todoTaskUnplanned /^\~\s/ contains=todoTaskDone
 
 
@@ -32,7 +33,8 @@ if &background == "dark"
     hi todoTaskTime                 ctermfg=103
     hi todoTaskDone                 ctermfg=60
 
-    hi todoTaskFeedback             ctermfg=103
+    hi todoTaskDetail               ctermfg=103
+    hi todoTaskFeedback             ctermfg=194
     hi todoTaskUnplanned            ctermfg=138
 
 

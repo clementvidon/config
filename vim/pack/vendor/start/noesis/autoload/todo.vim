@@ -1,6 +1,6 @@
 " autoload/todo
 " Created: 230729 09:22:26 by clem@spectre
-" Updated: 230729 09:22:26 by clem@spectre
+" Updated: 230801 23:44:31 by clem9nt@imac
 " Maintainer: Clément Vidon
 
 "   @brief  Return a HH:MM timestamp with the minutes rounded to the closest
@@ -21,19 +21,10 @@ function! todo#RoundTime()
     endif
     let rounded_time = printf('%02d:%02d', rounded_hour, rounded_minutes)
     return rounded_time
-    "     let time = strftime('%H:%M')
-    "     let minutes = str2nr(split(time, ':')[1])
-    "     let rounded_minutes = (minutes + 2) / 5 * 5
-    "     let rounded_time = printf('%02d:%02d', str2nr(split(time, ':')[0]), rounded_minutes)
-    "     return rounded_time
 endfunction
 
 "   @brief  Print the time difference between time1 and time2 in minutes.
 "           time1 and time2 should be in the [HH:MM HH:MM] format.
-"
-" TODO update for the new task style:
-" - 02:00 10:00 task
-" - 02:00 10:00 (=08:00) task
 
 function todo#TimeDiff()
     let line = getline('.')
@@ -131,69 +122,47 @@ function! todo#ArchiveDay()
     let l:tmrrw_loc = searchpos('^TOMORROW$')[0]
     let l:tmrrw_content = getline(l:tmrrw_loc + 2, l:today_loc - 3)
     "   Delete Today and Tomorrow
-    exec 'silent ' . (l:tmrrw_loc + 2) . ',$delete'
+    exec 'silent ' . (l:tmrrw_loc + 1) . ',$delete'
     "   Set Tomorrow
 
     " bda
 
     " call append(line('$'), '')
-    " call append(line('$'), '- ( 20:30 ) read / listen podcast / sleep')
+    " call append(line('$'), '- ( 20:30 ) study psycho / sleep')
     " call append(line('$'), '- ( 20:50 21:00 ) exercise ( 10min stretch )')
     " call append(line('$'), '- ( 20:30 20:50 ) update journal')
-    " call append(line('$'), '- ( 19:40 20:30 ) misc X')
+    " call append(line('$'), '- ( 19:40 20:30 ) X')
     " call append(line('$'), '- ( 19:00 19:40 ) dine')
-    " call append(line('$'), '- ( 14:00 19:00 ) @42/ft_transcendence X')
-    " call append(line('$'), '- ( 13:50 14:00 ) meditate ( 10min void )')
-    " call append(line('$'), '- ( 13:00 13:50 ) @42/inception X')
-    " call append(line('$'), '- ( 12:50 13:00 ) update journal')
-    " call append(line('$'), '- ( 12:40 12:50 ) misc X')
+    " call append(line('$'), '- ( 14:40 19:00 ) @42/ft_transcendence X')
+    " call append(line('$'), '- ( 14:30 14:40 ) meditate ( 10min void )')
+    " call append(line('$'), '- ( 12:50 14:30 ) X')
+    " call append(line('$'), '- ( 12:40 12:50 ) update journal')
     " call append(line('$'), '- ( 12:00 12:40 ) lunch')
-    " call append(line('$'), '- ( 11:50 12:00 ) prepare')
+    " call append(line('$'), '- ( 11:50 12:00 ) prepare + listen to the news')
     " call append(line('$'), '- ( 11:20 11:50 ) exercise ( 5min warm-up, 20min run, 5min stretch )')
-    " call append(line('$'), '- ( 06:40 11:20 ) @42/ft_irc X')
-    " call append(line('$'), '- ( 06:30 06:40 ) meditate ( 10min mindfulness )')
-    " call append(line('$'), '- ( 06:00 06:30 ) read')
-    " call append(line('$'), '- ( 05:50 06:00 ) get up + exercise ( 10min warm-up )')
+    " call append(line('$'), '- ( 07:00 11:20 ) @42/inception X')
+    " call append(line('$'), '- ( 06:50 07:00 ) meditate ( 10min mindfulness )')
+    " call append(line('$'), '- ( 06:10 06:50 ) study psycho')
+    " call append(line('$'), '- ( 05:50 06:10 ) wake-up / exercise ( 10min warm-up )')
 
     " home
 
-    " call append(line('$'), '- ( 21:00 ) read / listen podcast / sleep')
-    " call append(line('$'), '- ( 20:50 21:00 ) exercise ( 10min stretch )')
-    " call append(line('$'), '- ( 19:20 20:50 ) cook / dine + read')
-    " call append(line('$'), '- ( 19:00 19:20 ) update journal')
-    " call append(line('$'), '- ( 15:00 19:00 ) @42 X')
-    " call append(line('$'), '- ( 14:50 15:00 ) meditate ( 10min void )')
-    " call append(line('$'), '- ( 13:00 14:50 ) X')
-    " call append(line('$'), '- ( 12:00 13:00 ) cook / lunch + read')
-    " call append(line('$'), '- ( 08:00 12:00 ) @42 X')
-    " call append(line('$'), '- ( 07:50 08:00 ) meditate ( 10min void )')
-    " call append(line('$'), '- ( 07:40 07:50 ) prepare')
-    " call append(line('$'), '- ( 06:40 07:40 ) exercise ( 20min walk, 20min swim, 20min walk ) + read')
-    " call append(line('$'), '  * after: tea, whole-grain toast, egg, greek yogurt, fruit and vegetables')
-    " call append(line('$'), '  * before: tea, banana, peanut butter, greek yogurt')
-    " call append(line('$'), '- ( 06:00 06:40 ) read')
-    " call append(line('$'), '- ( 05:50 06:00 ) get up + exercise ( 10min warm-up )')
-
-    "  42
-
-    call append(line('$'), '- ( 21:30 ) read / listen podcast / sleep')
+    call append(line('$'), '- ( 21:30 ) study psycho / sleep')
     call append(line('$'), '- ( 21:20 21:30 ) exercise ( 10min stretch )')
-    call append(line('$'), '- ( 20:00 21:20 ) cook / dine + read')
-    call append(line('$'), '- ( 19:50 20:00 ) meditate ( 10min mindfulness )')
-    call append(line('$'), '- ( 19:00 19:50 ) move to home + read')
-    call append(line('$'), '- ( 18:45 19:00 ) update journal')
-    call append(line('$'), '- ( 14:45 18:45 ) @42 X')
-    call append(line('$'), '- ( 13:45 14:45 ) @42 X')
-    call append(line('$'), '- ( 13:00 13:45 ) move to 42 + read')
-    call append(line('$'), '- ( 12:00 13:00 ) cook / lunch + read')
-    call append(line('$'), '- ( 08:00 12:00 ) @42 X')
-    call append(line('$'), '- ( 07:50 08:00 ) meditate ( 10min void )')
-    call append(line('$'), '- ( 07:40 07:50 ) prepare')
-    call append(line('$'), '- ( 06:40 07:40 ) exercise ( 20min walk, 20min swim, 20min walk ) + read')
-    call append(line('$'), '  * after: tea, whole-grain toast, egg, greek yogurt, fruit and vegetables')
-    call append(line('$'), '  * before: tea, banana, peanut butter, greek yogurt')
-    call append(line('$'), '- ( 06:00 06:40 ) read')
-    call append(line('$'), '- ( 05:50 06:00 ) get up + exercise ( 10min warm-up )')
+    call append(line('$'), '- ( 21:00 21:20 ) update journal')
+    call append(line('$'), '- ( 20:30 21:00 ) dine + study psycho')
+    call append(line('$'), '- ( 20:10 20:30 ) cook + study psycho')
+    call append(line('$'), '- ( 20:00 20:10 ) meditate ( 10min mindfulness )')
+    call append(line('$'), '- ( 14:00 20:00 ) @42 X')
+    call append(line('$'), '- ( 13:50 14:00 ) meditate ( 10min void )')
+    call append(line('$'), '- ( 13:00 13:50 ) lunch + study psycho')
+    call append(line('$'), '- ( 12:30 13:00 ) cook  + study psycho')
+    call append(line('$'), '- ( 12:20 12:30 ) prepare + study breaking news')
+    call append(line('$'), '- ( 11:20 12:20 ) exercise ( 20min walk, 20min swim, 20min walk )')
+    call append(line('$'), '- ( 07:00 11:20 ) @42 X')
+    call append(line('$'), '- ( 06:50 07:00 ) meditate ( 10min mindfulness )')
+    call append(line('$'), '- ( 06:10 06:50 ) study psycho')
+    call append(line('$'), '- ( 05:50 06:10 ) wake up / exercise ( 10min warm-up )')
 
     "   Set Today
     call append(line('$'), '')
