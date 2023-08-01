@@ -3,9 +3,9 @@
 " Updated: 230727 22:10:11 by clem@spectre
 " Maintainer: Clément Vidon
 
-if exists("b:current_syntax")
-    finish
-endif
+" if exists("b:current_syntax")
+"     finish
+" endif
 
 
 "   syntax
@@ -26,4 +26,4 @@ elseif &background == "light"
 endif
 
 
-let b:current_syntax = "note"
+" let b:current_syntax = "note"

@@ -11,4 +11,4 @@ function! SetNoesisFiletype()
     endif
 endfunction
 
-autocmd BufRead,BufNewFile *.noe call SetNoesisFiletype()
+autocmd BufRead,BufNewFile *.md,*.noe call SetNoesisFiletype()

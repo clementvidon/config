@@ -20,8 +20,8 @@ syn region noesisH4 start="^#####\@!"     end="#*\s*$"
 syn region noesisH5 start="^######\@!"    end="#*\s*$"
 syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 
-syn match noesisHeader "^.*\n^-\{3,}$"
-syn match noesisHeader "^.*\n^=\{3,}$"
+syn match noesisHeader "^[a-zA-Z0-9( ):,.-]*\n^-\{3,}$"
+syn match noesisHeader "^[A-Z0-9( ):,.-]*\n^=\{3,}$"
 syn match noesisHeader "^\s\{72}\[\d\{6}]$"
 
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
@@ -45,6 +45,12 @@ else
     syn region noesisBoldItalic             matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
     syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
+
+syn match todoKeywordPos "\W\zs?\{2,3}\ze\(\W\|\)"
+syn match todoKeywordPos "\<TODO\>"
+syn match todoKeywordNeg "\W\zs!\{2,3}\ze\(\W\|\)"
+syn match todoKeywordNeg "\<X\>"
+syn match todoKeywordNeg "\<XXX\>"
 
 
 "   highlight
@@ -72,6 +78,9 @@ if &background == "dark"
     hi noesisBold                     ctermfg=3
     hi noesisBoldItalic               ctermfg=214
     hi noesisStrike                   ctermfg=168
+
+    hi todoKeywordPos                 ctermfg=49
+    hi todoKeywordNeg                 ctermfg=207
 
 elseif &background == "light"
 

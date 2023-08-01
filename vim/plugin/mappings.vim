@@ -10,6 +10,7 @@ let mapleader=" "
 
 
 nn s  <nop>
+nn ss  <nop>
 nn gs <nop>
 nn sT <nop>
 nn sh <nop>
@@ -45,11 +46,11 @@ nn she :sp<Space>
 nn sve :vert<Space>
 
 "   prev
-nn ss  :e #<CR>
-nn gss :e! #<CR>
-nn sTs :tabe #<CR>
-nn shs :sp #<CR>
-nn svs :vert #<CR>
+nn sp  :e #<CR>
+nn gsp :e! #<CR>
+nn sTp :tabe #<CR>
+nn shp :sp #<CR>
+nn svp :vert #<CR>
 
 "   cwd edit
 nn s.  :lc %:h<CR>:e<Space>
@@ -57,14 +58,6 @@ nn gs. :lc %:h<CR>:e!<Space>
 nn sT. :lc %:h<CR>:tabe<Space>
 nn sh. :lc %:h<CR>:sp<Space>
 nn sv. :lc %:h<CR>:vert<Space>
-
-"   cwd nav
-nn sne :lc %:h<CR>:sil r! ls -1 \| grep -A 1 "%" \| tail -n 1<CR>v$h"yyu:e <C-r>y<CR>
-nn spe :lc %:h<CR>:sil r! ls -1 \| grep -B 1 "%" \| head -n 1<CR>v$h"yyu:e <C-r>y<CR>
-
-"   buffer nav
-nn spb :bp<CR>
-nn snb :bn<CR>
 
 "   buffer list
 nn sb :ls<CR>:b<Space>
@@ -99,6 +92,7 @@ nn sct :e $HOME/.tmux.conf<CR>
 
 nn gl <nop>
 nn glbc V:!bc<CR>
+nn glbn :call toggle_nav#(":bnext", ":bprev")<CR>
 nn glcc :set cursorcolumn!<CR>
 nn glcd :cd %:h<CR>
 nn glcl :set cursorline!<CR>
@@ -108,9 +102,10 @@ nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
 nn glhl :set hls!<CR>
 nn gllc :lc %:h<CR>
+nn glln :call toggle_nav#(":lprev", ":lnext")<CR>
 nn glnu :set number!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
-nn glqn :call qfnav#()<CR>
+nn glqn :call toggle_nav#(":cprev", ":cnext")<CR>
 nn glrn :set relativenumber!<CR>
 nn glsb :set scrollbind!<CR>
 nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
@@ -125,13 +120,17 @@ nn glts :put=strftime('%y%m%d%H%M%S')<CR>
 "   improvements
 
 
-"   windows
+"   windows ( CTRL-W aemABCDE G I MNO Q UVWXYZ)
+
 no <Leader>w <C-W>
 no <Leader>wM <C-W>_\|<C-W><BAR>
 no <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 tno <Leader>w <C-W>
 tno <Leader>wM <C-W>_\|<C-W><BAR>
 tno <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
+"   grow split size
+no <Leader>we :resize <C-R>=&lines * 0.66<CR><CR>
+no <Leader>wE :vertical resize <C-R>=&columns * 0.66<CR><CR>
 nn <S-Left> <C-W>5<
 nn <S-Up> <C-W>5+
 nn <S-Right> <C-W>5>
@@ -141,15 +140,12 @@ tno <S-Up> <C-W>+
 tno <S-Right> <C-W>>
 tno <S-Down> <C-W>-
 
+
 "   cmdline
 no x :
 
 "   eye level cursor
 no z, z.15<C-e>
-
-"   enlarge current split
-noremap <Leader>wev :vertical resize <C-R>=&columns * 0.66<CR><CR>
-noremap <Leader>wes :resize <C-R>=&lines * 0.66<CR><CR>
 
 "   static search
 no g8 *N
@@ -163,7 +159,8 @@ nn 2s 2z=
 nn 1s 1z=
 
 "   indent
-nn <silent> <Leader>= Mmmgo=G`mzz3<C-O>
+nn <silent> <Leader>= Mmmgo=G`mzz
+"3<C->
 
 "   clipboard
 nn <silent> <Leader>y :call system("xclip -sel clip", getreg("\""))<CR>

@@ -103,7 +103,7 @@ nn <silent><buffer> <LocalLeader>xd :w\|lcd %:h<CR>
 nn <silent><buffer> <LocalLeader>d mdj
             \
             \:keeppatterns ?^\a<CR>
-            \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
+            \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR>
             \<BS>/<Esc>=ip
             \jfT
 

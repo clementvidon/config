@@ -19,6 +19,8 @@ else
     set ruler                                       " cursor pos [y:x] n% in statusline (vim)
 endif
 
+filetype plugin indent on
+
 set runtimepath^=$DOTVIM
 set runtimepath+=$DOTVIM/after
 set packpath+=$DOTVIM

@@ -22,3 +22,4 @@ command! -nargs=+ -bar Sy execute 'silent !clear' | execute '!synonym "<args>"'
 
 "   tmux sendkey
 command! -nargs=+ -bar S0 execute 'silent !tmux send-keys -t 0 "<args>" Enter' | redraw!
+command! -nargs=+ -bar S1 execute 'silent !tmux send-keys -t 1 "<args>" Enter' | redraw!
