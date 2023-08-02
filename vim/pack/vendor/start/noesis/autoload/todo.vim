@@ -1,6 +1,6 @@
 " autoload/todo
 " Created: 230729 09:22:26 by clem@spectre
-" Updated: 230801 23:44:31 by clem9nt@imac
+" Updated: 230802 15:24:00 by cvidon@paul-f5Br5s5.clusters.42paris.fr
 " Maintainer: Clément Vidon
 
 "   @brief  Return a HH:MM timestamp with the minutes rounded to the closest
@@ -21,26 +21,6 @@ function! todo#RoundTime()
     endif
     let rounded_time = printf('%02d:%02d', rounded_hour, rounded_minutes)
     return rounded_time
-endfunction
-
-"   @brief  Print the time difference between time1 and time2 in minutes.
-"           time1 and time2 should be in the [HH:MM HH:MM] format.
-
-function todo#TimeDiff()
-    let line = getline('.')
-    let time1 = strptime('%H:%M', matchstr(line, '\v\zs\d{2}:\d{2}\ze\s\d{2}:\d{2}'))
-    let time2 = strptime('%H:%M', matchstr(line,  '\v\d{2}:\d{2}\s\zs\d{2}:\d{2}\ze\s'))
-    if empty(time1) || empty(time2)
-        echo "Time pattern not found. ( HH:MM HH:MM )"
-        return
-    endif
-    if time1 > time2
-        let time2 += 24*60*60
-    endif
-    let diff = str2nr(strftime('%s', time2) - strftime('%s', time1)) / 60
-    let output = line[:20] . '( ' . diff . ' ) ' . line[21:]
-    call setline('.', output)
-    return 0
 endfunction
 
 "   @brief  Check a task with a timestamp, the task should look like '[] i am a

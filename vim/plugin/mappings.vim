@@ -1,5 +1,4 @@
-" plugin/mappings
-" Created: 230524 19:49:28 by clem9nt@imac
+" plugin/mappings Created: 230524 19:49:28 by clem9nt@imac
 " Updated: 230604 22:31:45 by clem9nt@imac
 " Maintainer: Clément Vidon
 
@@ -10,7 +9,7 @@ let mapleader=" "
 
 
 nn s  <nop>
-nn ss  <nop>
+nn ss <nop>
 nn gs <nop>
 nn sT <nop>
 nn sh <nop>
@@ -159,8 +158,7 @@ nn 2s 2z=
 nn 1s 1z=
 
 "   indent
-nn <silent> <Leader>= Mmmgo=G`mzz
-"3<C->
+nn <silent> <Leader>= :let view = winsaveview() \| execute 'normal! gg=G' \| call winrestview(view)<CR>
 
 "   clipboard
 nn <silent> <Leader>y :call system("xclip -sel clip", getreg("\""))<CR>
