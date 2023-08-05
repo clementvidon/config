@@ -80,6 +80,7 @@ let g:copilot_filetypes = {
             \ 'javascript': v:true,
             \ 'typescript': v:true,
             \ 'markdown': v:true,
+            \ 'noesis': v:true,
             \ 'python': v:true,
             \ 'html': v:true,
             \ 'css': v:true,
