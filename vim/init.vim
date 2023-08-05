@@ -19,55 +19,6 @@ source $DOTVIM/init/plugin.vim
 " TODO DELETE
 
 
-" function! todo#RoundTime()
-"     let time = strftime('%H:%M')
-"     let hour = str2nr(split(time, ':')[0])
-"     let minutes = str2nr(split(time, ':')[1])
-"     let rounded_minutes = (minutes + 2) / 5 * 5
-"     let rounded_hour = hour
-"     if rounded_minutes >= 60
-"         let rounded_hour += 1
-"         let rounded_minutes = 0
-"     endif
-"     if rounded_hour == 24
-"         let rounded_hour = 0
-"     endif
-"     let rounded_time = printf('%02d:%02d', rounded_hour, rounded_minutes)
-"     return rounded_time
-"     "     let time = strftime('%H:%M')
-"     "     let minutes = str2nr(split(time, ':')[1])
-"     "     let rounded_minutes = (minutes + 2) / 5 * 5
-"     "     let rounded_time = printf('%02d:%02d', str2nr(split(time, ':')[0]), rounded_minutes)
-"     "     return rounded_time
-" endfunction
-
-" function! TimeDiff()
-" endfunction
-
-
-
-
-
-
-" function todo#TimeDiff()
-"     let line = getline('.')
-"     let time1 = strptime('%H:%M', matchstr(line, '\v\zs\d{2}:\d{2}\ze\s\d{2}:\d{2}'))
-"     let time2 = strptime('%H:%M', matchstr(line,  '\v\d{2}:\d{2}\s\zs\d{2}:\d{2}\ze\s'))
-"     if empty(time1) || empty(time2)
-"         echo "Time pattern not found. ( HH:MM HH:MM )"
-"         return
-"     endif
-"     if time1 > time2
-"         let time2 += 24*60*60
-"     endif
-"     let diff = str2nr(strftime('%s', time2) - strftime('%s', time1)) / 60
-"     let output = line[:20] . '( ' . diff . ' ) ' . line[21:]
-"     call setline('.', output)
-"     return 0
-" endfunction
-
-
-
 "   @brief  format a number of seconds to HH:MM string time format.
 
 function! FormatSeconds(seconds) abort
@@ -87,7 +38,8 @@ function! ExtractTimeRangeFromLine(line)
     let time_pair = matchstr(a:line, '\d\d:\d\d\s\d\d:\d\d')
     if (empty(time_pair))
         if g:total_difference_seconds != 0
-            let choice = input("No time range found.\nReset total difference? y/n ")
+            echo "g:total_difference_seconds = " . FormatSeconds(g:total_difference_seconds)
+            let choice = input("No time range found. Reset total difference? y/n ")
             if tolower(choice) == 'y'
                 let g:total_difference_seconds = 0
             endif

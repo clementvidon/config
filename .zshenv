@@ -40,11 +40,17 @@ then
     export PATH=$PATH:"$HOME/nvim-linux64/bin"
 fi
 
+## Alacritty
+#####
+
+export PATH=$PATH:"$HOME/.cargo/bin"
+
 ## i3
 #####
 
 if [[ "$OSTYPE" == "linux"* ]] && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]
 then
+    export GDK_SCALE=2
     startx
 fi
 

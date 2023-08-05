@@ -27,7 +27,7 @@ syn match noesisHeader "^\s\{72}\[\d\{6}]$"
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
-syn match noesisCodeblock "^\s\{4,32}\S.*$"
+syn match noesisCodeblock "^\s\{4,32}\S.*$" contains=todoKeywordPos,todoKeywordNeg,noesisUrl
 syn match noesisBlockquote "^\s\{0,3}>\{1,2}\s"
 
 if has("conceal")
@@ -52,6 +52,11 @@ syn match todoKeywordNeg "\W\zs!\{2,3}\ze\(\W\|\)"
 syn match todoKeywordNeg "\<X\>"
 syn match todoKeywordNeg "\<XXX\>"
 
+
+" FG: for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
+" BG: for i in {0..255}; do printf '\e[48;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
+" dark:  0:black  1:red  2:green  3:yellow  4:blue  5:magenta  6:cyan  7:white
+" light: 8:black  9:red 10:green 11:yellow 12:blue 13:magenta 14:cyan 15:white
 
 "   highlight
 
@@ -79,7 +84,7 @@ if &background == "dark"
     hi noesisBoldItalic               ctermfg=214
     hi noesisStrike                   ctermfg=168
 
-    hi todoKeywordPos                 ctermfg=49
+    hi todoKeywordPos                 ctermfg=190
     hi todoKeywordNeg                 ctermfg=207
 
 elseif &background == "light"
