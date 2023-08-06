@@ -43,7 +43,7 @@ set nomodeline                                      " disables modelines
 set secure                                          " disables shell access
 set undofile                                        " enable undo
 set directory=$DOTVIM/.swap//,/tmp//                " undo files directory
-set path=.,,$DOTVIM/init/                           " :find path
+set path=.,,$DOTVIM/init/,$DOTVIM/plugin/           " :find path
 set wildignore=.git                                 " wildmenu results to hide
 
 if executable('ag')                                 " faster grep

@@ -34,6 +34,7 @@ nn <silent><buffer> gwG <nop>
 nn <silent><buffer> gwgo <nop>
 nn <silent><buffer> gwgg <nop>
 nn <buffer><silent> <Leader>e <nop>
+nn <silent><buffer> K <nop>
 
 
 "   info

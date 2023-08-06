@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 TOUCHPAD_ID="12"
 TOUCHPAD_STATE=$(xinput list-props "$TOUCHPAD_ID" | grep "Device Enabled" | grep -o "[01]$")
 TOGGLE_STATE=$((1 - TOUCHPAD_STATE))

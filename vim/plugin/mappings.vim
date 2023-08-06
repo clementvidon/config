@@ -159,13 +159,14 @@ nn 1s 1z=
 
 "   indent
 nn <silent> <Leader>= :let view = winsaveview() \| execute 'normal! gg=G' \| call winrestview(view)<CR>
+nn <silent> <Leader>H :let view = winsaveview() \| execute 'normal! ggg?G' \| call winrestview(view)<CR>
 
 "   clipboard
-nn <silent> <Leader>y :call system("xclip -sel clip", getreg("\""))<CR>
-no "+Y V:!xclip -f -sel clip<CR>
-vn "+y :!xclip -f -sel clip<CR>
-no "+p :r!xclip -o -sel clip<CR>
-no "+P :-1r!xclip -o -sel clip<CR>
+nn <silent> <Leader>y :call system("xclip -sel clip &>/dev/null", getreg('"'))<CR>
+no "+Y V:!  xclip -f -sel clip &>/dev/null<CR>
+vn "+y :!   xclip -f -sel clip &>/dev/null<CR>
+no "+p :r!  xclip -o -sel clip &>/dev/null<CR>
+no "+P :-1r!xclip -o -sel clip &>/dev/null<CR>
 
 "   guard rails
 nn Q :echo "!Q"<CR>

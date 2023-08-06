@@ -152,7 +152,7 @@ function    copy()
     if [[ "$OSTYPE" == "darwin"* ]]; then
         pbcopy < $file
     elif [[ "$OSTYPE" == "linux"* ]]; then
-        cat $file | xclip -sel clip
+        cat $file | xclip -selection clipboard &>/dev/null
     fi
 }
 

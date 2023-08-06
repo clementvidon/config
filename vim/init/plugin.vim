@@ -71,33 +71,33 @@ let g:ale_fixers = {
             \}
 
 " \'typescript': ['eslint', 'prettier'],
-imap <Left> <Plug>(copilot-dismiss)
-imap <Right> <Plug>(copilot-suggest)
-imap <Down> <Plug>(copilot-next)
-imap <Up> <Plug>(copilot-previous)
-let g:copilot_filetypes = {
-            \ '*': v:false,
-            \ 'javascript': v:true,
-            \ 'typescript': v:true,
-            \ 'markdown': v:true,
-            \ 'noesis': v:true,
-            \ 'python': v:true,
-            \ 'html': v:true,
-            \ 'css': v:true,
-            \ 'make': v:true,
-            \ 'bash': v:true,
-            \ 'zsh': v:true,
-            \ 'vim': v:true,
-            \ 'cpp': v:true,
-            \ 'lua': v:true,
-            \ 'c': v:true
-            \ }
+" imap <Left> <Plug>(copilot-dismiss)
+" imap <Right> <Plug>(copilot-suggest)
+" imap <Down> <Plug>(copilot-next)
+" imap <Up> <Plug>(copilot-previous)
+" let g:copilot_filetypes = {
+"             \ '*': v:false,
+"             \ 'javascript': v:true,
+"             \ 'typescript': v:true,
+"             \ 'markdown': v:true,
+"             \ 'noesis': v:true,
+"             \ 'python': v:true,
+"             \ 'html': v:true,
+"             \ 'css': v:true,
+"             \ 'make': v:true,
+"             \ 'bash': v:true,
+"             \ 'zsh': v:true,
+"             \ 'vim': v:true,
+"             \ 'cpp': v:true,
+"             \ 'lua': v:true,
+"             \ 'c': v:true
+"             \ }
 
-autocmd BufReadPre *
-            \ let f=getfsize(expand("<afile>"))
-            \ | if f > 100000 || f == -2
-                \ | let b:copilot_enabled = v:false
-                \ | endif
+" autocmd BufReadPre *
+"             \ let f=getfsize(expand("<afile>"))
+"             \ | if f > 100000 || f == -2
+"                 \ | let b:copilot_enabled = v:false
+"                 \ | endif
 
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','
@@ -118,7 +118,7 @@ let g:gutentags_ctags_exclude = [
             \'*.gpg.*',
             \'doc/**',
             \'test/**',
-            \'noesis/**',
+            \'git/noesis/**',
             \'Makefile'
             \]
 let g:gutentags_ctags_exclude_wildignore = 1
