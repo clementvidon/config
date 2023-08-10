@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# @brief        Send a command to a tmux pane.
-# @param[in]    message a message that suffixes "Update…"
-
-pane=$1
-command=$2
-tmux send-keys -t $pane "$command" Enter
