@@ -19,6 +19,7 @@ nn sp <nop>
 
 "   write / quit
 no sw  :write<CR>
+no SW  :write !sudo tee %<CR>
 no gsw :write!<CR>
 no sW  :wall<CR>
 no gsW :wall!<CR>
@@ -121,15 +122,15 @@ nn glts :put=strftime('%y%m%d%H%M%S')<CR>
 
 "   windows ( CTRL-W aemABCDE G I MNO Q UVWXYZ)
 
-no <Leader>w <C-W>
-no <Leader>wM <C-W>_\|<C-W><BAR>
-no <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
+nn <Leader>w <C-W>
+nn <Leader>wM <C-W>_\|<C-W><BAR>
+nn <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 tno <Leader>w <C-W>
 tno <Leader>wM <C-W>_\|<C-W><BAR>
 tno <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 "   grow split size
-no <Leader>wE :resize <C-R>=&lines * 0.66<CR><CR>
-no <Leader>we :vertical resize <C-R>=&columns * 0.66<CR><CR>
+nn <Leader>wE :resize <C-R>=&lines * 0.66<CR><CR>
+nn <Leader>we :vertical resize <C-R>=&columns * 0.66<CR><CR>
 nn <S-Left> <C-W>5<
 nn <S-Up> <C-W>5+
 nn <S-Right> <C-W>5>
@@ -162,11 +163,11 @@ nn <silent> <Leader>= :let view = winsaveview() \| execute 'normal! gg=G' \| cal
 nn <silent> <Leader>H :let view = winsaveview() \| execute 'normal! ggg?G' \| call winrestview(view)<CR>
 
 "   clipboard
-nn <silent> <Leader>y :call system("xclip -sel clip &>/dev/null", getreg('"'))<CR>
-no "+Y V:!  xclip -f -sel clip &>/dev/null<CR>
-vn "+y :!   xclip -f -sel clip &>/dev/null<CR>
-no "+p :r!  xclip -o -sel clip &>/dev/null<CR>
-no "+P :-1r!xclip -o -sel clip &>/dev/null<CR>
+nn <silent> <Leader>y :call system("xclip -sel clip", getreg('"'))<CR>
+no "+Y V:!  xclip -f -sel clip<CR>
+vn "+y :!   xclip -f -sel clip<CR>
+no "+p :r!  xclip -o -sel clip<CR>
+no "+P :-1r!xclip -o -sel clip<CR>
 
 "   guard rails
 nn Q :echo "!Q"<CR>

@@ -65,14 +65,14 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
 
 
 "   gpg enc / dec
-nn <buffer><silent> <LocalLeader>en :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
-nn <buffer><silent> <LocalLeader>de :silent %!gpg -d 2>/dev/null<CR>
-
-"   more gpg enc / dec
+nn <buffer><silent> <LocalLeader>ge :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+nn <buffer><silent> <LocalLeader>gd :silent %!gpg -d 2>/dev/null<CR>
+"   restart
+nn <buffer><silent> <LocalLeader>gr :!gpgconf --kill gpg-agent<CR>
+"   gpg enc / dec selection
 vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
 vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"
 vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
-
 
 "   french to english
 nn <buffer><silent> <LocalLeader>len v$y:En <C-R>"<CR>

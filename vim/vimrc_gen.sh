@@ -17,7 +17,7 @@ cat $HOME/.vimrc
 
 # nvim
 if [ -f $HOME/.config/nvim/init.vim ]; then
-	rm -i $HOME/.vimrc
+	rm -i $HOME/.config/nvim/init.vim
 fi
 mkdir -p $HOME/.config/nvim
 echo "source \$HOME/$vimpath/init.vim" > $HOME/.config/nvim/init.vim

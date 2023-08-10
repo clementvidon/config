@@ -20,8 +20,8 @@ syn region noesisH4 start="^#####\@!"     end="#*\s*$"
 syn region noesisH5 start="^######\@!"    end="#*\s*$"
 syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 
-syn match noesisHeader "^[a-zA-Z0-9( ):,.-]*\n^-\{3,}$"
-syn match noesisHeader "^[A-Z0-9( ):,.-]*\n^=\{3,}$"
+syn match noesisHeader "^[a-zA-Z0-9( ):,.\-\&]*\n^-\{3,}$"
+syn match noesisHeader "^[A-Z0-9( ):,.\-\&]*\n^=\{3,}$"
 syn match noesisHeader "^\s\{72}\[\d\{6}]$"
 
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
@@ -29,6 +29,7 @@ syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|
 
 syn match noesisCodeblock "^\s\{4,32}\S.*$" contains=todoKeywordPos,todoKeywordNeg,noesisUrl
 syn match noesisBlockquote "^\s\{0,3}>\{1,2}\s"
+syn match noesisBlockquote "^\s\{0,3}>$"
 
 if has("conceal")
     set conceallevel=2
@@ -78,6 +79,7 @@ if &background == "dark"
     hi noesisBlockquote               ctermfg=103
     hi noesisCodeblock                ctermfg=115
 
+    " TODO check 218 182 146 110 74
     hi noesisCode                     ctermfg=115
     hi noesisItalic                   ctermfg=111
     hi noesisBold                     ctermfg=3
