@@ -11,7 +11,6 @@ augroup vim_startup
                 \ | nnoremap <buffer> <silent> <CR> :e $NOESIS/Lists/todo.noe<CR>G | endif
 augroup END
 
-
 augroup custom_highlight
     autocmd!
     " autocmd ColorScheme * syntax enable maxlines=400

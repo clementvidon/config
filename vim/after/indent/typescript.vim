@@ -6,4 +6,4 @@
 "   options
 
 
-setlocal formatexpr=
+setlocal formatexpr=GetTypescriptIndent()

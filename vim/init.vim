@@ -11,7 +11,11 @@ if empty(glob($DOTVIM . "/.undo/nvim")) | exec 'silent !mkdir -p $DOTVIM/.undo/n
 if empty(glob($DOTVIM . "/.spell")) | exec 'silent !mkdir $DOTVIM/.spell' | endif
 if empty(glob($DOTVIM . "/.swap"))  | exec 'silent !mkdir $DOTVIM/.swap'  | endif
 
-source $DOTVIM/init/option.vim
+set runtimepath^=$DOTVIM
+set runtimepath+=$DOTVIM/after
+set packpath+=$DOTVIM
+
 source $DOTVIM/init/autocmd.vim
-source $DOTVIM/init/command.vim
 source $DOTVIM/init/plugin.vim
+source $DOTVIM/init/option.vim
+source $DOTVIM/init/command.vim

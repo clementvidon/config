@@ -6,7 +6,8 @@
 "   options
 
 
-setlocal cindent
+setlocal indentexpr=GetTypescriptIndent()
+setlocal indentkeys=0{,0},0),0],0\,,!^F,o,O,e
 setlocal autoindent
 setlocal expandtab
 setlocal formatprg=prettier\ --stdin-filepath\ %

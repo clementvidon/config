@@ -16,6 +16,8 @@ nn sh <nop>
 nn sv <nop>
 nn sn <nop>
 nn sp <nop>
+nn gk <nop>
+
 
 "   write / quit
 no sw  :write<CR>
