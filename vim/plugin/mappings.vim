@@ -19,7 +19,7 @@ nn sp <nop>
 
 "   write / quit
 no sw  :write<CR>
-no SW  :write !sudo tee %<CR>
+nn SW  :write !sudo tee %<CR>
 no gsw :write!<CR>
 no sW  :wall<CR>
 no gsW :wall!<CR>
@@ -27,8 +27,8 @@ no sq  :quit<CR>
 no gsq :quit!<CR>
 no sQ  :quitall<CR>
 no gsQ :quitall!<CR>
-nn sd  :bn\|bd#<CR>
-nn gsd :bn!\|bd! #<CR>
+no sd  :bn\|bd#<CR>
+no gsd :bn!\|bd! #<CR>
 no so  :silent write\|source $DOTVIM/init.vim\|e<CR>zR
 
 "   find
@@ -102,10 +102,10 @@ nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
 nn glhl :set hls!<CR>
 nn gllc :lc %:h<CR>
-nn glln :call toggle_nav#(":lprev", ":lnext")<CR>
+nn glln :call toggle_nav#(":lnext", ":lprev")<CR>
 nn glnu :set number!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
-nn glqn :call toggle_nav#(":cprev", ":cnext")<CR>
+nn glqn :call toggle_nav#(":cnext", ":cprev")<CR>
 nn glrn :set relativenumber!<CR>
 nn glsb :set scrollbind!<CR>
 nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>

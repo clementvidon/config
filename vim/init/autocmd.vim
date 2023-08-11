@@ -5,9 +5,12 @@
 
 augroup vim_startup
     autocmd!
-    autocmd VimEnter * if @% == '' | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
-    autocmd VimEnter * if @% == '' | nn <buffer><silent> <CR> :e $NOESIS/Lists/todo.noe<CR>G | endif
+    autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
+                \ | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
+    autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
+                \ | nnoremap <buffer> <silent> <CR> :e $NOESIS/Lists/todo.noe<CR>G | endif
 augroup END
+
 
 augroup custom_highlight
     autocmd!

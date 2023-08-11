@@ -8,8 +8,7 @@ if &filetype ==# 'html'
 "   options
 
 
-setlocal path+=$DOTVIM/ftplugin/
-
+setlocal path=$PWD,$PWD/src/**,
 let maplocalleader="gh"
 
 

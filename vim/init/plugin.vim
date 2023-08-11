@@ -8,7 +8,7 @@
 " packadd justify                                 " justify selection
 
 call plug#begin('$DOTVIM/.plugged')
-" Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 Plug 'tpope/vim-repeat'                         " repeat extension
 Plug 'tpope/vim-surround'                       " surround operator
 Plug 'tpope/vim-commentary'                     " comment out
@@ -43,7 +43,7 @@ endtry
 " https://github.com/nvim-lua/completion-nvim
 
 set omnifunc=ale#completion#OmniFunc
-let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs'
+let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
 " let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 0
 let g:ale_set_signs = 0
@@ -71,27 +71,28 @@ let g:ale_fixers = {
             \}
 
 " \'typescript': ['eslint', 'prettier'],
-" imap <Left> <Plug>(copilot-dismiss)
-" imap <Right> <Plug>(copilot-suggest)
-" imap <Down> <Plug>(copilot-next)
-" imap <Up> <Plug>(copilot-previous)
-" let g:copilot_filetypes = {
-"             \ '*': v:false,
-"             \ 'javascript': v:true,
-"             \ 'typescript': v:true,
-"             \ 'markdown': v:true,
-"             \ 'noesis': v:true,
-"             \ 'python': v:true,
-"             \ 'html': v:true,
-"             \ 'css': v:true,
-"             \ 'make': v:true,
-"             \ 'bash': v:true,
-"             \ 'zsh': v:true,
-"             \ 'vim': v:true,
-"             \ 'cpp': v:true,
-"             \ 'lua': v:true,
-"             \ 'c': v:true
-"             \ }
+
+imap <Left> <Plug>(copilot-dismiss)
+imap <Right> <Plug>(copilot-suggest)
+imap <Down> <Plug>(copilot-next)
+imap <Up> <Plug>(copilot-previous)
+let g:copilot_filetypes = {
+            \ '*': v:false,
+            \ 'javascript': v:true,
+            \ 'typescript': v:true,
+            \ 'typescriptreact': v:true,
+            \ 'markdown': v:true,
+            \ 'html': v:true,
+            \ 'css': v:true,
+            \ 'python': v:true,
+            \ 'make': v:true,
+            \ 'bash': v:true,
+            \ 'zsh': v:true,
+            \ 'vim': v:true,
+            \ 'cpp': v:true,
+            \ 'lua': v:true,
+            \ 'c': v:true
+            \ }
 
 " autocmd BufReadPre *
 "             \ let f=getfsize(expand("<afile>"))

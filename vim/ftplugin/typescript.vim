@@ -6,14 +6,13 @@
 "   options
 
 
+setlocal path=$PWD,$PWD/src/**,
 let maplocalleader="gh"
-setlocal path=$PWD/src/**,
 
 
 "   mappings
 
 
-"   leader
 nn <silent><buffer> <LocalLeader> <nop>
 
 "   overwrite sf
@@ -27,7 +26,6 @@ nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!clear; node %<CR>
 nn <silent><buffer> <LocalLeader>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
 
 "   format
-" nn <silent><buffer> <LocalLeader>f mmGgqgo`m
 nn <silent><buffer> <LocalLeader>f :w<CR>:! prettier --write %<CR>:e<CR>
 nn <silent><buffer> <LocalLeader>F :w<CR>:! npm run format<CR>:e<CR>
 

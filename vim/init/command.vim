@@ -1,6 +1,6 @@
 " init/command
 " Created: 230524 19:45:01 by clem9nt@imac
-" Updated: 230524 19:45:01 by clem9nt@imac
+" Updated: 230811 11:00:44 by clem@ghost
 " Maintainer: Clément Vidon
 
 "   search without moving cursor position

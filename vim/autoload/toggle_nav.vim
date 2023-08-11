@@ -32,10 +32,10 @@ function! toggle_nav#(cmd_next, cmd_prev) abort
     if HasCustomMapping(s:navleader_next) || HasCustomMapping(s:navleader_prev)
         execute 'silent! nunmap' s:navleader_next
         execute 'silent! nunmap' s:navleader_prev
-        echo "Custom nav ON"
+        echo "Custom nav ( " a:cmd_next a:cmd_prev " ) OFF"
     else
         execute 'nnoremap' s:navleader_next a:cmd_next '<CR>'
         execute 'nnoremap' s:navleader_prev a:cmd_prev '<CR>'
-        echo "Custom nav ( " a:cmd_next a:cmd_prev " ) OFF"
+        echo "Custom nav ( gn / gp ) ON"
     endif
 endfunction
