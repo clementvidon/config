@@ -87,7 +87,7 @@ let g:ale_emit_conflict_warnings = 0
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['eslint', 'tsserver', 'prettier'],
-            \'cpp': ['clang'],
+            \'cpp': ['clang', 'clangd'],
             \}
 let g:ale_fixers = {
             \'javascript': ['eslint'],
@@ -152,7 +152,7 @@ let g:gutentags_ctags_exclude = [
             \]
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_add_default_project_roots = 0
-let g:gutentags_project_root = ['.project_root', 'Makefile', '.git']
+let g:gutentags_project_root = ['.tags_root', 'Makefile', '.git']
 if $LOGNAME == "cvidon"
     let g:gutentags_ctags_executable = '/usr/bin/ctags'
 endif

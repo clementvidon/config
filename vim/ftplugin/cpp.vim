@@ -80,8 +80,25 @@ nn <silent><buffer> mh :w<CR>
             \:!clear<CR>
             \:make! each<CR>
 
+"   compile run all + fsanitize
+nn <silent><buffer> <LocalLeader>ia :w\|lcd %:h<CR>
+            \:! c++ -Wall -Wextra -Werror --std=c++98 -Wconversion -Wsign-conversion -pedantic
+            \ -fsanitize=address
+            \ *.cpp
+            \ && ./a.out
+            \ && rm -f a.out
+            \ <CR>
+
+"   compile run all + valgrind
+nn <silent><buffer> <LocalLeader>il :w\|lcd %:h<CR>
+            \:! c++ -Wall -Wextra -Werror --std=c++98 -Wconversion -Wsign-conversion -pedantic
+            \ *.cpp
+            \ && valgrind -q --leak-check=yes --show-leak-kinds=all ./a.out
+            \ && rm -f a.out
+            \ <CR>
+
 "   prod compile run
-nn <silent><buffer> <LocalLeader>xx :w\|lcd %:h<CR>
+nn <silent><buffer> <LocalLeader>ee :w\|lcd %:h<CR>
             \
             \:silent !clear; rm -f a.out /tmp/_err<CR>
             \:silent !c++ -Wall -Wextra -Werror -Wno-unused -std=c++98 % 2>/tmp/_err<CR>
@@ -89,7 +106,7 @@ nn <silent><buffer> <LocalLeader>xx :w\|lcd %:h<CR>
             \:silent !clear<CR>:!./a.out<CR>
 
 "   dev compile run
-nn <silent><buffer> <LocalLeader>xd :w\|lcd %:h<CR>
+nn <silent><buffer> <LocalLeader>ed :w\|lcd %:h<CR>
             \
             \:silent !clear; rm -f a.out /tmp/_err<CR>
             \:silent !c++
@@ -102,7 +119,7 @@ nn <silent><buffer> <LocalLeader>xd :w\|lcd %:h<CR>
 
 "   prod compile run + leaks
 if system("uname -s") == "Darwin\n"
-    nn <silent><buffer> <LocalLeader>xl :w\|lcd %:h<CR>
+    nn <silent><buffer> <LocalLeader>el :w\|lcd %:h<CR>
                 \
                 \:silent !clear; rm -f a.out /tmp/_err<CR>
                 \:silent !c++
@@ -111,7 +128,7 @@ if system("uname -s") == "Darwin\n"
                 \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
                 \:silent !clear; leaks -q -atExit -- ./a.out<CR>
 elseif system("uname -s") == "Linux\n"
-    nn <silent><buffer> <LocalLeader>xl :w\|lcd %:h<CR>
+    nn <silent><buffer> <LocalLeader>el :w\|lcd %:h<CR>
                 \
                 \:silent !clear; rm -f a.out /tmp/_err<CR>
                 \:silent !c++
@@ -121,6 +138,7 @@ elseif system("uname -s") == "Linux\n"
                 \:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
                 \:silent !clear; valgrind -q ./a.out<CR>
 endif
+
 
 "   docstring skeleton
 nn <silent><buffer> <LocalLeader>d mdj
