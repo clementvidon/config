@@ -111,8 +111,13 @@ let g:copilot_filetypes = {
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','
 " let g:user_emmet_mode = 'i'
+" let g:user_emmet_settings = {
+"             \  'javascript.jsx' : {
+"                 \      'extends' : 'jsx',
+"                 \  },
+"                 \}
 " if exists('EmmetInstall')
-"     autocmd! FileType html,css,javascript,php EmmetInstall
+"     autocmd! FileType html,css,javascript,php,typescript,typescriptreact EmmetInstall
 " endif
 
 " let g:goyo_width = 90
