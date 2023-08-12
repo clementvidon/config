@@ -7,35 +7,32 @@
 "   plug settings
 
 
-"   plugin leader
 nn gj <nop>
 
-" https://github.com/bryley/neoai.nvim
-" https://github.com/neovim/nvim-lspconfig
-" https://github.com/nvim-lua/completion-nvim
 
-set omnifunc=ale#completion#OmniFunc
-let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
+let g:ale_set_signs = 0
+let g:ale_sign_column_always = 0
+
+" let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
+let g:ale_virtualtext_cursor = 'disabled'
+let g:ale_virtualtext_delay = 0
+let g:ale_virtualtext_prefix = ""
+
 " let g:ale_linters_explicit = 1
 " let g:ale_linters_ignore = {}
-let g:ale_sign_column_always = 0
-let g:ale_set_signs = 0
-let g:ale_completion_enabled = 1
-
-
-" set to 0 to disable virtual text
-" g:ale_virtualtext_maxcolumn
-let g:ale_virtualtext_cursor = 'disabled' " all, current, disabled
-
 let g:ale_lint_delay = 0
-let g:ale_lint_on_filetype_change = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_change = 0
+let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
 
+" let g:ale_completion_excluded_words = ['it', 'describe']
 let g:ale_completion_delay = 0
+let g:ale_completion_enabled = 1
 let g:ale_completion_max_suggestions = 0
+set omnifunc=ale#completion#OmniFunc
+
 let g:ale_echo_msg_error_str = 'Error'
 let g:ale_echo_msg_format = '%linter%: %code: %%s'
 let g:ale_history_enabled = 0
@@ -44,51 +41,39 @@ let g:ale_history_log_output = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_list_window_size = 10
 let g:ale_loclist_msg_format = '%linter%: %code: %%s'
-
-let g:ale_set_balloons = 1 " TODO
-let g:ale_lsp_show_message_format = 'Hello %severity%:%linter%: %s'
-
-let g:ale_virtualtext_delay = 0
-let g:ale_maximum_file_size = 1000
-
-
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 1
 
-"   ale hover
+let g:ale_lsp_show_message_format = 'TODO TODO TODO %severity%:%linter%: %s'
+let g:ale_set_balloons = 0 " TODO
+
+let g:ale_maximum_file_size = 1000
+let g:ale_emit_conflict_warnings = 0
+
 nn gjah :ALEHover<CR>
-"   ale code action
 nn gjaa :ALECodeAction<CR>
-"   ale detail
 nn gjad :ALEDetail<CR>
-"   ale toggle
 nn gjat :ALEToggle<CR>
 
-let g:ale_virtualtext_prefix = ""
-
 " highlight ALEError                      ctermfg=1
-" highlight ALEErrorSign                  ctermfg=#BF616A
-
-" highlight ALEInfo                       ctermfg=
 " highlight ALEStyleError                 ctermfg=
-" highlight ALEStyleWarning               ermfg=
 " highlight ALEWarning                    ctermfg=
-" highlight ALEWarningSign                ermfg=
-"
+" highlight ALEWarningSign                ctermfg=
+" highlight ALEErrorSign                  ctermfg=#BF616A
+" highlight ALEInfo                       ctermfg=
+
 " highlight ALEVirtualTextError           ctermfg=219
 " highlight ALEVirtualTextStyleError      ctermfg=183
 " highlight ALEVirtualTextWarning         ctermfg=218
 " highlight ALEVirtualTextStyleWarning    ctermfg=182
 " highlight ALEVirtualTextInfo            ctermfg=103
 
-" let b:ale_exclude_highlights = ['line too long', '*is declared*']
-
-let g:ale_emit_conflict_warnings = 0
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['eslint', 'tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
             \}
+
 let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'json': ['prettier'],
@@ -98,12 +83,13 @@ let g:ale_fixers = {
             \'bash': ['shfmt'],
             \}
 
-" \'typescript': ['eslint', 'prettier'],
+let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
 
-imap <Left> <Plug>(copilot-dismiss)
-imap <Right> <Plug>(copilot-suggest)
-imap <Down> <Plug>(copilot-next)
-imap <Up> <Plug>(copilot-previous)
+imap <Left>     <Plug>(copilot-dismiss)
+imap <Right>    <Plug>(copilot-suggest)
+imap <Down>     <Plug>(copilot-next)
+imap <Up>       <Plug>(copilot-previous)
+
 let g:copilot_filetypes = {
             \ '*': v:false,
             \ 'javascript': v:true,
@@ -121,12 +107,6 @@ let g:copilot_filetypes = {
             \ 'lua': v:true,
             \ 'c': v:true
             \ }
-
-" autocmd BufReadPre *
-"             \ let f=getfsize(expand("<afile>"))
-"             \ | if f > 100000 || f == -2
-"                 \ | let b:copilot_enabled = v:false
-"                 \ | endif
 
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','
@@ -163,6 +143,7 @@ endif
 let g:netrw_banner = 0
 let g:netrw_dirhistmax = 0
 
+let g:seoul256_background = 256
 
 "   plug manager
 
@@ -183,6 +164,11 @@ Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
             \ {'do': ':TSUpdate'}
 Plug 'w0rp/ale'                                 " lsp config
 Plug 'prisma/vim-prisma'                        " prisma
+
+" https://github.com/bryley/neoai.nvim
+" https://github.com/neovim/nvim-lspconfig
+" https://github.com/nvim-lua/completion-nvim
+
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
 " Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
@@ -194,11 +180,3 @@ Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'tidalcycles/vim-tidal'                    " tidal filetype
 " Plug 'sophacles/vim-processing'                 " processing filetype
 call plug#end()
-
-let g:seoul256_background = 256
-
-try
-    color nord | set bg=dark
-catch /^Vim\%((\a\+)\)\=:E185/
-    echo "Colorscheme not installed."
-endtry

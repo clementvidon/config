@@ -13,13 +13,13 @@ function colorswitch#(clight, cdark)
         colors
     elseif system("uname -s") == "Linux\n"
         if &background ==# "dark"
-            execute 'silent !sed -i --follow-symlinks "s/   color .*/   color ' . a:clight . ' | set bg=light/g" $DOTVIM/init/plugin.vim'
+            execute 'silent !sed -i --follow-symlinks "s/   color .*/   color ' . a:clight . ' | set bg=light/g" $DOTVIM/init/option.vim'
             execute 'silent set bg=light'
             execute 'colors ' . a:clight
             execute 'highlight Normal ctermbg=NONE'
             execute 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
         elseif &background ==# "light"
-            execute 'silent !sed -i --follow-symlinks "s/   color .*/   color ' . a:cdark . ' | set bg=dark/g" $DOTVIM/init/plugin.vim'
+            execute 'silent !sed -i --follow-symlinks "s/   color .*/   color ' . a:cdark . ' | set bg=dark/g" $DOTVIM/init/option.vim'
             execute 'silent set bg=dark'
             execute 'colors ' . a:cdark
             execute 'highlight Normal ctermbg=NONE'

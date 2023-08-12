@@ -15,7 +15,7 @@ set runtimepath^=$DOTVIM
 set runtimepath+=$DOTVIM/after
 set packpath+=$DOTVIM
 
-source $DOTVIM/init/autocmd.vim
 source $DOTVIM/init/plugin.vim
 source $DOTVIM/init/option.vim
 source $DOTVIM/init/command.vim
+source $DOTVIM/init/autocmd.vim

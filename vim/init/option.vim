@@ -3,6 +3,20 @@
 " Updated: 230524 19:45:03 by clem9nt@imac
 " Maintainer: Clément Vidon
 
+syntax on
+filetype plugin indent on
+
+try
+    color nord | set bg=dark
+catch /^Vim\%((\a\+)\)\=:E185/
+    echo "Colorscheme not installed."
+endtry
+
+highlight LineNr ctermbg=NONE
+highlight CursorLine gui=underline cterm=underline ctermbg=NONE
+highlight Comment term=bold ctermfg=103
+
+
 if has('nvim')
     set shada='100,<50,s10,h,n$DOTVIM/.shada        " shared data
     set undodir=$DOTVIM/.undo/nvim//,/tmp//         " undo files location
@@ -18,9 +32,6 @@ else
     set showcmd                                     " cursor pos%[y:x] in statusline (vim)
     set ruler                                       " cursor pos [y:x] n% in statusline (vim)
 endif
-
-syntax on
-filetype plugin indent on
 
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:·,diff:- " split separator decoration
 set guicursor=n-v-c-i:block                         " cursor style
