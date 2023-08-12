@@ -6,4 +6,5 @@
 "   options
 
 
-setlocal formatexpr=GetTypescriptIndent()
+" TODO
+" setlocal formatexpr=GetTypescriptIndent()

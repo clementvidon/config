@@ -164,6 +164,7 @@ Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
             \ {'do': ':TSUpdate'}
 Plug 'w0rp/ale'                                 " lsp config
 Plug 'prisma/vim-prisma'                        " prisma
+Plug 'peitalin/vim-jsx-typescript'              " typescriptreact based on builtin ts ft
 
 " https://github.com/bryley/neoai.nvim
 " https://github.com/neovim/nvim-lspconfig

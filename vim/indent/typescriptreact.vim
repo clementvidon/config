@@ -1,13 +1,11 @@
-" @filename  javascript.vim
-" @created   230522 18:11:05  by  clem9nt@imac
-" @updated   230522 18:11:05  by  clem9nt@imac
-" @author    Clément Vidon
+" indent/typescriptreact
+" Created: 230812 13:45:45 by clem@ghost
+" Updated: 230812 13:45:45 by clem@ghost
+" Maintainer: Clément Vidon
 
 "   options
 
 
-setlocal indentexpr=GetTypescriptIndent()
-setlocal indentkeys=0{,0},0),0],0\,,!^F,o,O,e
 setlocal autoindent
 setlocal expandtab
 setlocal formatprg=prettier\ --stdin-filepath\ %
