@@ -81,7 +81,10 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect iPhone"
 fi
 
-alias ag='grep -r --color=auto'
+if ! (( $+commands[ag] )); then
+    alias ag='grep -r --color=auto'
+fi
+
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
 alias grep='grep --color=auto'
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"

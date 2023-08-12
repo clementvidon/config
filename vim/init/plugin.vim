@@ -92,20 +92,22 @@ imap <Up>       <Plug>(copilot-previous)
 
 let g:copilot_filetypes = {
             \ '*': v:false,
+            \ 'bash': v:true,
+            \ 'c': v:true,
+            \ 'cpp': v:true,
+            \ 'css': v:true,
+            \ 'dockerfile': v:true,
+            \ 'html': v:true,
             \ 'javascript': v:true,
+            \ 'javascriptreact': v:true,
+            \ 'lua': v:true,
+            \ 'make': v:true,
+            \ 'markdown': v:true,
+            \ 'python': v:true,
             \ 'typescript': v:true,
             \ 'typescriptreact': v:true,
-            \ 'markdown': v:true,
-            \ 'html': v:true,
-            \ 'css': v:true,
-            \ 'python': v:true,
-            \ 'make': v:true,
-            \ 'bash': v:true,
-            \ 'zsh': v:true,
             \ 'vim': v:true,
-            \ 'cpp': v:true,
-            \ 'lua': v:true,
-            \ 'c': v:true
+            \ 'zsh': v:true,
             \ }
 
 " let g:user_emmet_install_global = 0
@@ -169,7 +171,7 @@ Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
             \ {'do': ':TSUpdate'}
 Plug 'w0rp/ale'                                 " lsp config
 Plug 'prisma/vim-prisma'                        " prisma
-Plug 'peitalin/vim-jsx-typescript'              " typescriptreact based on builtin ts ft
+" Plug 'peitalin/vim-jsx-typescript'              " typescriptreact indent
 
 " https://github.com/bryley/neoai.nvim
 " https://github.com/neovim/nvim-lspconfig

@@ -255,11 +255,11 @@ floating_maximum_size 800 x 800
 
 # Save Screenshots
 # bindsym $mod+Ctrl+d exec --no-startup-id maim "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
-bindsym $mod+Ctrl+f exec --no-startup-id maim --select "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre.png"
+bindsym $mod+Ctrl+p exec --no-startup-id maim --select "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre.png"
 # bindsym $mod+Ctrl+g exec --no-startup-id maim --window $(xdotool getactivewindow) "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
 # Clipboard Screenshots
 # bindsym $mod+Alt+3 exec --no-startup-id maim | xclip -selection clipboard -t image/png
-bindsym $mod+Ctrl+Shift+f exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+bindsym $mod+Ctrl+Shift+P exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 # bindsym $mod+Alt+4 exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 # bindsym $mod+Alt+5 exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 
