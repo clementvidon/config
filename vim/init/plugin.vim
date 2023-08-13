@@ -14,6 +14,7 @@ let g:ale_set_signs = 0
 let g:ale_sign_column_always = 0
 
 " let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
+let b:ale_exclude_highlights = ['eslint: prettier/prettier: Delete']
 let g:ale_virtualtext_cursor = 'disabled'
 let g:ale_virtualtext_delay = 0
 let g:ale_virtualtext_prefix = ""
@@ -28,10 +29,10 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 
 " let g:ale_completion_excluded_words = ['it', 'describe']
-let g:ale_completion_delay = 0
-let g:ale_completion_enabled = 1
-let g:ale_completion_max_suggestions = 0
-set omnifunc=ale#completion#OmniFunc
+" let g:ale_completion_delay = 0
+" let g:ale_completion_enabled = 1
+" let g:ale_completion_max_suggestions = 10
+" set omnifunc=ale#completion#OmniFun
 
 let g:ale_echo_msg_error_str = 'Error'
 let g:ale_echo_msg_format = '%linter%: %code: %%s'
@@ -70,14 +71,15 @@ nn gjat :ALEToggle<CR>
 
 let g:ale_linters = {
             \'javascript': ['eslint'],
-            \'typescript': ['eslint', 'tsserver', 'prettier'],
+            \'typescript': ['tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
             \}
 
+" let g:ale_fix_on_save_ignore = 1
 let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'json': ['prettier'],
-            \'typescript': [],
+            \'typescript': ['eslint', 'prettier', 'tslint'],
             \'markdown': ['prettier'],
             \'cpp': ['clang-format'],
             \'bash': ['shfmt'],
@@ -109,6 +111,20 @@ let g:copilot_filetypes = {
             \ 'vim': v:true,
             \ 'zsh': v:true,
             \ }
+
+let s:copilot_enabled = 1
+function! CopilotToggle()
+    if s:copilot_enabled
+        Copilot disable
+        let s:copilot_enabled = 0
+        echo "Copilot disabled"
+    else
+        Copilot enable
+        let s:copilot_enabled = 1
+        echo "Copilot enabled"
+    endif
+endfunction
+nnoremap gjct :call CopilotToggle()<CR>
 
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','
