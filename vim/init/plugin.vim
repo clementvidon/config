@@ -100,6 +100,7 @@ let g:copilot_filetypes = {
             \ 'css': v:true,
             \ 'dockerfile': v:true,
             \ 'html': v:true,
+            \ 'json': v:true,
             \ 'javascript': v:true,
             \ 'javascriptreact': v:true,
             \ 'lua': v:true,
@@ -109,6 +110,7 @@ let g:copilot_filetypes = {
             \ 'typescript': v:true,
             \ 'typescriptreact': v:true,
             \ 'vim': v:true,
+            \ 'yaml': v:true,
             \ 'zsh': v:true,
             \ }
 
