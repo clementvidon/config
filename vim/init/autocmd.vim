@@ -8,7 +8,7 @@ augroup vim_startup
     autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
                 \ | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
     autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
-                \ | nnoremap <buffer> <silent> <CR> :e $NOESIS/Lists/todo.noe<CR>G | endif
+                \ | nnoremap <buffer> <silent> <CR> :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=""<CR>:let @/=@s<CR>0 | endif
 augroup END
 
 " augroup custom_highlight

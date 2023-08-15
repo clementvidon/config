@@ -68,7 +68,7 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
 nn <buffer><silent> <LocalLeader>ge :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
 nn <buffer><silent> <LocalLeader>gd :silent %!gpg -d 2>/dev/null<CR>
 "   restart
-nn <buffer><silent> <LocalLeader>gr :!gpgconf --kill gpg-agent<CR>
+nn <buffer><silent> <LocalLeader>gr :silent !gpgconf --kill gpg-agent<CR>:redraw!<CR>
 "   gpg enc / dec selection
 vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
 vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"

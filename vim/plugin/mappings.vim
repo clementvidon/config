@@ -20,18 +20,18 @@ nn gk <nop>
 
 
 "   write / quit
-no sw  :write<CR>
-nn SW  :write !sudo tee %<CR>
-no gsw :write!<CR>
-no sW  :wall<CR>
-no gsW :wall!<CR>
-no sq  :quit<CR>
-no gsq :quit!<CR>
-no sQ  :quitall<CR>
-no gsQ :quitall!<CR>
-no sd  :bn\|bd#<CR>
-no gsd :bn!\|bd! #<CR>
-no so  :silent write\|source $DOTVIM/init.vim\|e<CR>zR
+no mw  :write<CR>
+nn mW  :write !sudo tee %<CR>
+no gmw :write!<CR>
+no mW  :wall<CR>
+no gmW :wall!<CR>
+no mq  :quit<CR>
+no gmq :quit!<CR>
+no mQ  :quitall<CR>
+no gmQ :quitall!<CR>
+no md  :bn\|bd#<CR>
+no gmd :bn!\|bd! #<CR>
+no mo  :silent write\|source $DOTVIM/init.vim\|e<CR>zR
 
 "   find
 nn sf  :fin<Space>
@@ -74,20 +74,19 @@ nn sis :isearch /
 nn sg :grep -r<Space>
 
 "   noesis
-nn sn  <nop>
-nn sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
-nn sne :e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>
-nn snf :e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>
-nn snt :e $NOESIS/Lists/todo.noe<CR>G
-" $:silent! ?^- \(\(.*\d\d\d\d\d\d.*\)\@!.\)*$<CR>z.:let @/=""<CR>
-nn snh :e $NOESIS/Lists/history.gpg.noe<CR>
-nn snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
-nn sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
-"   config
-nn scv :e $HOME/.vimrc<CR>
-nn scz :e $HOME/.zshrc<CR>
-nn sce :e $HOME/.zshenv<CR>
-nn sct :e $HOME/.tmux.conf<CR>
+nn <silent> sn  <nop>
+nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
+nn <silent> sne :let @s=@/<CR>e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+nn <silent> snf :let @s=@/<CR>e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+nn <silent> snt :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
+nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
+nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
+nn <silent> sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+"  config
+nn <silent> scv :e $HOME/.vimrc<CR>
+nn <silent> scz :e $HOME/.zshrc<CR>
+nn <silent> sce :e $HOME/.zshenv<CR>
+nn <silent> sct :e $HOME/.tmux.conf<CR>
 
 "   cmdline (gl)
 
