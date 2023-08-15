@@ -48,13 +48,13 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 iabbr <silent><buffer> mma maingoal:
 iabbr <silent><buffer> ssi sidework:
 iabbr <silent><buffer> wwo work_env:
-iabbr <silent><buffer> wwoup work_env: update
-iabbr <silent><buffer> wwoupco work_env: update config
-iabbr <silent><buffer> wwoupcoac work_env: update config achiever
-iabbr <silent><buffer> wwoupcono work_env: update config noesis
-iabbr <silent><buffer> wwoupcovi work_env: update config vim
+iabbr <silent><buffer> wwou work_env: update
+iabbr <silent><buffer> wwouc work_env: update config
+iabbr <silent><buffer> wwouca work_env: update config achiever
+iabbr <silent><buffer> wwoucn work_env: update config noesis
+iabbr <silent><buffer> wwoucv work_env: update config vim
 iabbr <silent><buffer> lli life_env:
 iabbr <silent><buffer> sse self_rel:
-iabbr <silent><buffer> ssech self_rel: chill
+iabbr <silent><buffer> ssec self_rel: chill
 iabbr <silent><buffer> sso soc_rela:
 iabbr <silent><buffer> ffa fam_rela:
