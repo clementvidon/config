@@ -10,7 +10,6 @@ let mapleader=" "
 
 nn s  <nop>
 nn ss <nop>
-nn gs <nop>
 nn sT <nop>
 nn sh <nop>
 nn sv <nop>
@@ -18,6 +17,8 @@ nn sn <nop>
 nn sp <nop>
 nn gk <nop>
 
+nn sw :sleep 2<CR>
+nn sq :sleep 2<CR>
 
 "   write / quit
 no mw  :write<CR>
@@ -31,7 +32,8 @@ no mQ  :quitall<CR>
 no gmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
 no gmd :bn!\|bd! #<CR>
-no mo  :silent write\|source $DOTVIM/init.vim\|e<CR>zR
+no ms   :let view = winsaveview() \| silent write\|source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
+no mS   :source %<CR>
 
 "   find
 nn sf  :fin<Space>

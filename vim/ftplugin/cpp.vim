@@ -32,51 +32,51 @@ let b:surround_45='("\r");'
 nn <silent><buffer> <LocalLeader> <nop>
 
 "   make
-nn <silent><buffer> mm :w<CR>
+nn <silent><buffer> <LocalLeader>mm :w<CR>
             \:!clear<CR>
             \:make!<CR>
             \:cwindow<CR>
 
 "   make clean
-nn <silent><buffer> mc :w<CR>
+nn <silent><buffer> <LocalLeader>mc :w<CR>
             \:!clear<CR>
             \:make! clean<CR>
 
 "   make re
-nn <silent><buffer> mr :w<CR>
+nn <silent><buffer> <LocalLeader>mr :w<CR>
             \:!clear<CR>
             \:make! re<CR>
             \:cwindow<CR>
 
 "   make sure
-nn <silent><buffer> ms :w<CR>
+nn <silent><buffer> <LocalLeader>ms :w<CR>
             \:!clear<CR>
             \:make! sure<CR>
             \:cwindow<CR>
 
 "   make asan
-nn <silent><buffer> ma :w<CR>
+nn <silent><buffer> <LocalLeader>ma :w<CR>
             \:!clear<CR>
             \:make! asan<CR>
             \:cwindow<CR>
 
 "   make leak
-nn <silent><buffer> ml :w<CR>
+nn <silent><buffer> <LocalLeader>ml :w<CR>
             \:!clear<CR>
             \:make! leak<CR>
 
 "   make exec
-nn <silent><buffer> me :w<CR>
+nn <silent><buffer> <LocalLeader>me :w<CR>
             \:!clear<CR>
             \:make! exec<CR>
 
 "   make test
-nn <silent><buffer> mt :w<CR>
+nn <silent><buffer> <LocalLeader>mt :w<CR>
             \:!clear<CR>
             \:make! test<CR>
 
 "   make help
-nn <silent><buffer> mh :w<CR>
+nn <silent><buffer> <LocalLeader>mh :w<CR>
             \:!clear<CR>
             \:make! each<CR>
 
@@ -159,7 +159,7 @@ nn <silent><buffer> <LocalLeader>D mdj
             \jfT
 
 "   format
-nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>:w<CR>
+nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>
 
 "   print
 nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==0f"a
