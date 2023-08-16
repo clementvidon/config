@@ -17,12 +17,12 @@ nn sn <nop>
 nn sp <nop>
 nn gk <nop>
 
-nn sw :sleep 2<CR>
-nn sq :sleep 2<CR>
+nn sw :echohl WarningMsg \| echo "Nop!" \| echohl None<CR>
+nn sq :echohl WarningMsg \| echo "Nop!" \| echohl None<CR>
 
 "   write / quit
 no mw  :write<CR>
-nn mW  :write !sudo tee %<CR>
+nn mvv :write !sudo tee %<CR>
 no gmw :write!<CR>
 no mW  :wall<CR>
 no gmW :wall!<CR>
@@ -32,8 +32,8 @@ no mQ  :quitall<CR>
 no gmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
 no gmd :bn!\|bd! #<CR>
-no ms   :let view = winsaveview() \| silent write\|source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
-no mS   :source %<CR>
+no ms  :let view = winsaveview() \| silent write\|source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
+no mS  :source %<CR>
 
 "   find
 nn sf  :fin<Space>
@@ -80,7 +80,7 @@ nn <silent> sn  <nop>
 nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 nn <silent> sne :let @s=@/<CR>e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snt :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
+nn <silent> snt :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
 nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
 nn <silent> sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
@@ -180,3 +180,7 @@ nn <Leader>e :call header#()<CR>
 
 ino jf <Esc>
 ino fj <Esc>
+
+"   disable pattern not found 0.5s freeze
+nn / :/
+nn ? :?
