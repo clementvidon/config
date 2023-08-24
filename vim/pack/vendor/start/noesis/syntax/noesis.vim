@@ -38,13 +38,13 @@ if has("conceal")
     syn region noesisItalic     concealends matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
     syn region noesisBold       concealends matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
     syn region noesisBoldItalic concealends matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
-    syn region noesisStrike     concealends matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
+    " syn region noesisStrike     concealends matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 else
     syn region noesisCode                   matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`"
     syn region noesisItalic                 matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
     syn region noesisBold                   matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
     syn region noesisBoldItalic             matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
-    syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
+    " syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
 
 syn match todoKeywordPos "\W\zs?\{2,3}\ze\(\W\|\)"
@@ -84,7 +84,7 @@ if &background == "dark"
     hi noesisItalic                   ctermfg=111
     hi noesisBold                     ctermfg=3
     hi noesisBoldItalic               ctermfg=214
-    hi noesisStrike                   ctermfg=168
+    " hi noesisStrike                   ctermfg=168
 
     hi todoKeywordPos                 ctermfg=190
     hi todoKeywordNeg                 ctermfg=207
@@ -105,7 +105,7 @@ elseif &background == "light"
     hi noesisItalic                   ctermbg=230
     hi noesisBold                     ctermbg=229
     hi noesisBoldItalic               ctermbg=195
-    hi noesisStrike                   ctermfg=174
+    " hi noesisStrike                   ctermfg=174
 
 endif
 

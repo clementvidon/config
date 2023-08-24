@@ -6,7 +6,7 @@
 "   options
 
 
-let g:todo_schedule_option = "home"
+let g:todo_schedule_option = "dinard"
 
 
 "   mappings
@@ -45,16 +45,11 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 "   abbreviations
 
 
+iabbr <silent><buffer> aac achiever:
 iabbr <silent><buffer> mma maingoal:
 iabbr <silent><buffer> ssi sidework:
 iabbr <silent><buffer> wwo work_env:
-iabbr <silent><buffer> wwou work_env: update
-iabbr <silent><buffer> wwouc work_env: update config
-iabbr <silent><buffer> wwouca work_env: update config achiever
-iabbr <silent><buffer> wwoucn work_env: update config noesis
-iabbr <silent><buffer> wwoucv work_env: update config vim
 iabbr <silent><buffer> lli life_env:
 iabbr <silent><buffer> sse self_rel:
-iabbr <silent><buffer> ssec self_rel: chill
 iabbr <silent><buffer> sso soc_rela:
 iabbr <silent><buffer> ffa fam_rela:

@@ -87,10 +87,12 @@ let g:ale_fixers = {
 
 let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
 
-imap <Left>     <Plug>(copilot-dismiss)
-imap <Right>    <Plug>(copilot-suggest)
-imap <Down>     <Plug>(copilot-next)
-imap <Up>       <Plug>(copilot-previous)
+if has('copilot')
+    imap <Left>     <Plug>(copilot-dismiss)
+    imap <Right>    <Plug>(copilot-suggest)
+    imap <Down>     <Plug>(copilot-next)
+    imap <Up>       <Plug>(copilot-previous)
+endif
 
 let g:copilot_filetypes = {
             \ '*': v:false,

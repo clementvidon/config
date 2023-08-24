@@ -78,8 +78,8 @@ nn sg :grep -r<Space>
 "   noesis
 nn <silent> sn  <nop>
 nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
-nn <silent> sne :let @s=@/<CR>e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snf :let @s=@/<CR>e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snt :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
 nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
@@ -160,6 +160,7 @@ vno P pgvy
 "   spell
 nn 2s 2z=
 nn 1s 1z=
+inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 
 "   indent
 nn <silent> <Leader>= :let view = winsaveview() \| execute 'normal! gg=G' \| call winrestview(view)<CR>
@@ -180,7 +181,3 @@ nn <Leader>e :call header#()<CR>
 
 ino jf <Esc>
 ino fj <Esc>
-
-"   disable pattern not found 0.5s freeze
-nn / :/
-nn ? :?
