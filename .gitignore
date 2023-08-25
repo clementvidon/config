@@ -46,3 +46,4 @@ tags
 # Other #
 ########
 .zsecret
+.env
