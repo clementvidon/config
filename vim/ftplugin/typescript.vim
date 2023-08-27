@@ -20,7 +20,7 @@ nn <buffer> sf :fin *
 
 
 "   execute
-nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!clear; node %<CR>
+nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!tsc --target es6 %<CR>:!clear; node %:r.js && rm %:r.js<CR>
 
 "   clear
 nn <silent><buffer> <LocalLeader>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
@@ -49,6 +49,6 @@ nn <silent><buffer> <LocalLeader>e :lcd %:h<CR>
             \:silent echo "Wrap the current line expression into a print."<CR>
             \0<<Iconsole.log(<Esc>$i)<Esc>:w<CR>
             \:silent echo "Print its value in a comment"<CR>
-            \:undojoin \| r!node % 2>/dev/null<CR>`[V`]<C-V>0I//> <Esc>
+            \:undojoin \| r!tsc --target es6 %<CR>:!node %:r.js 2>/dev/null<CR>`[V`]<C-V>0I//> <Esc>
             \:silent echo "Delete line"<CR>
             \kddkJ
