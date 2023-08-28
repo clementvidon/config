@@ -37,9 +37,9 @@ exec --no-startup-id nm-applet
 exec --no-startup-id alacritty
 
 # Use amixer to adjust volume in Alsamixer.
-bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && $refresh_i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 10%+ && exec amixer set Master unmute && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 10%- && exec amixer set Master unmute && $refresh_i3status
+bindsym XF86AudioMute exec amixer set Master toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec amixer set Master 10%+ && exec amixer set Master unmute && $refresh_i3status
+bindsym XF86AudioLowerVolume exec amixer set Master 10%- && exec amixer set Master unmute && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -254,14 +254,14 @@ floating_minimum_size 450 x 450
 floating_maximum_size 800 x 800
 
 # Save Screenshots
-# bindsym $mod+Ctrl+d exec --no-startup-id maim "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
-bindsym $mod+Ctrl+p exec --no-startup-id maim --select "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre.png"
-# bindsym $mod+Ctrl+g exec --no-startup-id maim --window $(xdotool getactivewindow) "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
+# bindsym $mod+Ctrl+d exec maim "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
+bindsym $mod+Ctrl+p exec maim --select "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre.png"
+# bindsym $mod+Ctrl+g exec maim --window $(xdotool getactivewindow) "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
 # Clipboard Screenshots
-# bindsym $mod+Alt+3 exec --no-startup-id maim | xclip -selection clipboard -t image/png
-bindsym $mod+Ctrl+Shift+P exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
-# bindsym $mod+Alt+4 exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
-# bindsym $mod+Alt+5 exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+# bindsym $mod+Alt+3 exec maim | xclip -selection clipboard -t image/png
+bindsym $mod+Ctrl+Shift+P exec maim --select | xclip -selection clipboard -t image/png
+# bindsym $mod+Alt+4 exec maim --select | xclip -selection clipboard -t image/png
+# bindsym $mod+Alt+5 exec maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 
 # Toggle Touchpad
-bindsym $mod+Shift+t exec --no-startup-id ~/.local/script/i3/toggle_touchpad
+bindsym $mod+Shift+t exec ~/.local/script/i3/toggle_touchpad

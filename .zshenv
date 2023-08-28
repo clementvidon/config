@@ -1,22 +1,17 @@
-# @file     .zshenv
-# @brief    Zsh environment variables.
-# @author   clemedon (Clément Vidon)
-
-## General
-##########
+#  clem/.zshenv
+#  Created: 230828 14:48:02 by clem@spectre
+#  Updated: 230828 14:48:02 by clem@spectre
+#  Maintainer: Clément Vidon
 
 export PATH=$PATH:"$HOME/bin"
 export PATH=$PATH:"$HOME/.local/bin"
 export PATH=$PATH:"$HOME/.local/script"
 
-
-[ -r "$HOME/.zoffline" ] && source $HOME/.zoffline
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc
 
-## Home
-#######
+######################################## Home
 
-if [[ "$LOGNAME" = "clem"* ]]; then
+if [[ "$LOGNAME" = "clem" ]]; then
     export GPG_TTY=$(tty)
     export GPG_KEY=Clem9nt
     export GNUPGHOME=$HOME/.gnupg
@@ -27,41 +22,29 @@ if [[ "$LOGNAME" = "clem"* ]]; then
     fi
 fi
 
-## 42
-#####
-
-if [[ "$LOGNAME" = "cvidon" ]]
-then
-    export PATH=$PATH:"$HOME/.linuxbrew/bin"
-    export PATH=$PATH:"/mnt/nfs/homes/cvidon/.linuxbrew/sbin"
-    export PATH="/sgoinfre/goinfre/Perso/cvidon/.poetry/bin:$PATH"
-    export PATH=$HOME/.npm/bin:$PATH
-    export PATH=$PATH:"$HOME/node_modules/.bin"
-    export PATH=$PATH:"$HOME/nvim-linux64/bin"
-fi
-
-## Alacritty
-#####
+######################################## Alacritty
 
 export PATH=$PATH:"$HOME/.cargo/bin"
 
-## i3
-#####
+######################################## Password Store
 
-if [[ "$OSTYPE" == "linux"* ]] && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]
-then
-    export GDK_SCALE=2
-    startx
+if (( $+commands[pass] )); then
+    export PASSWORD_STORE_CLIPBOARD=primary
 fi
 
-export PATH=$PATH:"$HOME/processing"
+######################################## i3-wm
 
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin
+if (( $+commands[i3] )); then
+    if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+        export GDK_SCALE=2
+        startx
+    fi
+    export GOROOT=/usr/local/go
+    export GOPATH=$HOME/go
+    export PATH=$PATH:$GOROOT/bin
+fi
 
-## ic
-#####
+######################################## Internet Computer
 
 if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
