@@ -6,7 +6,7 @@
 "   options
 
 
-let g:todo_schedule_option = "42"
+let g:todo_schedule_option = "bda"
 
 
 "   mappings
