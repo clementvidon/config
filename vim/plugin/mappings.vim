@@ -32,8 +32,8 @@ no mQ  :quitall<CR>
 no gmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
 no gmd :bn!\|bd! #<CR>
-no ms  :let view = winsaveview() \| silent write\|source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
-no mS  :source %<CR>
+no <silent> mso :let view = winsaveview() \| write \| source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
+no mse :source %<CR>
 
 "   find
 nn sf  :fin<Space>
@@ -125,9 +125,9 @@ nn glts :put=strftime('%y%m%d%H%M%S')<CR>
 
 "   windows ( CTRL-W aemABCDE G I MNO Q UVWXYZ)
 
-nn <Leader>w <C-W>
-nn <Leader>wM <C-W>_\|<C-W><BAR>
-nn <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
+no <Leader>w <C-W>
+no <Leader>wM <C-W>_\|<C-W><BAR>
+no <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>
 tno <Leader>w <C-W>
 tno <Leader>wM <C-W>_\|<C-W><BAR>
 tno <Leader>wX <C-W>x\|<C-W>_\|<C-W><BAR>

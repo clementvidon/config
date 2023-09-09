@@ -187,8 +187,8 @@ Plug 'tpope/vim-commentary'                     " comment out
 Plug 'ludovicchabant/vim-gutentags'             " tags manager
 Plug 'arcticicestudio/nord-vim'                 " colorscheme
 Plug 'junegunn/seoul256.vim'                    " colorscheme
-Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
-            \ {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
+"             \ {'do': ':TSUpdate'}
 Plug 'w0rp/ale'                                 " lsp config
 Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'peitalin/vim-jsx-typescript'              " typescriptreact indent
