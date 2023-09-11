@@ -30,6 +30,9 @@ export PATH=$PATH:"$HOME/.cargo/bin"
 
 if (( $+commands[pass] )); then
     export PASSWORD_STORE_CLIPBOARD=primary
+    export PASSWORD_STORE_CLIP_TIME=5
+    export PASSWORD_STORE_GENERATED_LENGTH=32
+    export EDITOR="/bin/vim"
 fi
 
 ######################################## i3-wm
