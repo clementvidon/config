@@ -85,7 +85,7 @@ if ! (( $+commands[ag] )); then
     alias ag='grep -r --color=auto'
 fi
 
-alias dush="sudo du -h --max-depth=1 . | sort -rh"
+alias dush="du -h --max-depth=1 . | sort -rh"
 alias grep='grep --color=auto'
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
 alias shred="shred -uzn9"

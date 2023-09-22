@@ -181,3 +181,6 @@ nn <Leader>e :call header#()<CR>
 
 ino jf <Esc>
 ino fj <Esc>
+
+"   prevent cmdline c-u deletion
+cno <C-U> <Nop>

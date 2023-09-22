@@ -25,7 +25,7 @@ nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
 "   index generator TODO func (or update existing)
 nn <silent><buffer> <LocalLeader>I :silent
             \
-            \ :let @a=''<CR>:keeppatterns g/^##/y A<CR>3Gpo#INDEX<CR>------<Esc>0k
+            \ :let @a=''<CR>:keeppatterns g/^##/y A<CR>:let @a=''<CR>3Gpo#INDEX<CR>------<Esc>0k
 
 "   index nav TODO func
 nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
