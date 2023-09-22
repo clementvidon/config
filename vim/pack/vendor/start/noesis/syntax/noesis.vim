@@ -49,6 +49,7 @@ endif
 
 syn match todoKeywordPos "\W\zs?\{2,3}\ze\(\W\|\)"
 syn match todoKeywordPos "\<TODO\>"
+syn match todoKeywordPos "\<WIP\>"
 syn match todoKeywordNeg "\W\zs!\{2,3}\ze\(\W\|\)"
 syn match todoKeywordNeg "\<X\>"
 syn match todoKeywordNeg "\<XXX\>"
