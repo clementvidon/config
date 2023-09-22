@@ -28,7 +28,7 @@ syn match todoTag  /\s\<fam_rela\>:\s/
 
 syn match todoDetail /\s\zs(\s.\{-}\s)\ze\(\s\|$\)/
 syn match todoFeedback /\s\zs{\s.\{-}\s}$/
-syn match todoUnplanned /^\~\s/ contains=todoDone
+syn match todoUnplanned /^\~\s/ contains=todoDone,todoTag
 
 
 "   highlight
@@ -43,7 +43,7 @@ if &background == "dark"
     hi todoTag                  ctermfg=139
     hi todoDetail               ctermfg=103
     hi todoFeedback             ctermfg=194
-    hi todoUnplanned            ctermfg=138
+    hi todoUnplanned            ctermfg=yellow
 
 elseif &background == "light"
 
