@@ -153,8 +153,11 @@ function! AppendJournal()
     call append(line('$'), '  Entertainment              : 0')
     call append(line('$'), '<<<-')
     call append(line('$'), 'TODO REPORT ->>>')
+    call append(line('$'), '')
     call append(line('$'), '  Daily Self Advice: -')
+    call append(line('$'), '')
     call append(line('$'), '  Daily Report: -')
+    call append(line('$'), '')
     call append(line('$'), '<<<-')
 endfunction
 
