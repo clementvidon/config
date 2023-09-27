@@ -45,11 +45,11 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 "   abbreviations
 
 
-iabbr <silent><buffer> aac achiever<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> mma maingoal<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> ssi sidework<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> wwo work_env<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> lli life_env<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> sse self_rel<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> sso soc_rela<C-R>=eatchar#('\s')<CR>
-iabbr <silent><buffer> ffa fam_rela<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> aac achiever<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> mma maingoal<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> ssi sidework<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> wwo work_env<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> lli life_env<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> sse self_rel<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> sso soc_rela<C-R>=eatchar#('\s')<CR><Esc>
+iabbr <silent><buffer> ffa fam_rela<C-R>=eatchar#('\s')<CR><Esc>

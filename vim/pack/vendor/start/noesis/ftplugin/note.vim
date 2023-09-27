@@ -18,7 +18,7 @@ nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
             \:%s/\* { font-size: 1em; }$/\* { font-size: 1.2em; }/g<CR>
             \go/title<CR>o<meta name="author" content="Clement VIDON"><Esc>
             \o<meta name="copyright" content="&copy; Clément VIDON. All Rights Reserved."><Esc>
-            \G?body<CR>o<footer><CR><p>Contact:<!-- --hello-- --> cvidon@<!-- hel--lo -->student.<!-- hello -->42.fr - Copyright: &copy; Clément VIDON. All Rights Reserved.</p><CR></footer>
+            \G?body<CR>o<footer><CR><p>Contact:<!-- --hello-- --> cvidon<!-- hel--lo -->@student.<!-- hello -->42.fr - Copyright: &copy; Clément VIDON. All Rights Reserved.</p><CR></footer>
             \<Esc>
 
 

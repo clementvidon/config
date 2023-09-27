@@ -133,6 +133,9 @@ alias ml='make leak'
 alias me='make exec'
 alias mt='make test'
 
+#       [ Misc ]
+alias please='sudo'
+
 
 #------------------------------------------------------------------------------#
 #                  functions                                                   #
