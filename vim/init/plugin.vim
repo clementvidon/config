@@ -30,7 +30,7 @@ let g:ale_lint_on_text_changed = 'never'
 
 " let g:ale_completion_excluded_words = ['it', 'describe']
 " let g:ale_completion_delay = 0
-" let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 1
 " let g:ale_completion_max_suggestions = 10
 " set omnifunc=ale#completion#OmniFun
 
@@ -72,6 +72,7 @@ nn gjat :ALEToggle<CR>
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['tsserver', 'prettier'],
+            \'typescriptreact': ['tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
             \}
 
@@ -80,6 +81,7 @@ let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'json': ['prettier'],
             \'typescript': ['eslint', 'prettier', 'tslint'],
+            \'typescriptreact': ['eslint', 'prettier', 'tslint'],
             \'markdown': ['prettier'],
             \'cpp': ['clang-format'],
             \'bash': ['shfmt'],

@@ -9,18 +9,19 @@
 "   export as html TODO func
 nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
             \
-            \:%s/\.noesisItalic { .\{-} }$/.noesisItalic { color: #87AFFF; font-style: italic; }/g<CR>
-            \:%s/\.noesisBold { .\{-} }$/.noesisBold { color: #EBCB8B; font-weight: bold; }/g<CR>
-            \:%s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
+            \:silent! %s/\.noesisItalic { .\{-} }$/.noesisItalic { color: #87AFFF; font-style: italic; }/g<CR>
+            \:silent! %s/\.noesisBold { .\{-} }$/.noesisBold { color: #EBCB8B; font-weight: bold; }/g<CR>
+            \:silent! %s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
             \/--><CR>Oa { color: #8787af; font-size: inherit; }<CR>
-            \footer { font-style: italic; font-size: inherit; }<Esc>
-            \:g/\.noesis.\{-} { .\{-} }$/norm f}clfont-size: inherit; }<CR>
-            \:%s/\* { font-size: 1em; }$/\* { font-size: 1.2em; }/g<CR>
+            \footer { font-style: italic; font-size: inherit; font-size: 0.8em; }<Esc>
+            \:silent! g/\.noesis.\{-} { .\{-} }$/norm f}clfont-size: inherit; }<CR>
+            \:silent! %s/\* { font-size: 1em; }$/\* { font-size: 1.1em; }/g<CR>
             \go/title<CR>o<meta name="author" content="Clement VIDON"><Esc>
             \o<meta name="copyright" content="&copy; Clément VIDON. All Rights Reserved."><Esc>
-            \G?body<CR>o<footer><CR><p>Contact:<!-- --hello-- --> cvidon<!-- hel--lo -->@student.<!-- hello -->42.fr - Copyright: &copy; Clément VIDON. All Rights Reserved.</p><CR></footer>
+            \G?body<CR>o<footer><CR><a href="https://github.com/clemedon">
+            \Contact:<!-- --cv-- --> cvidon<!-- c--v -->@student.<!-- cv -->42.fr - Copyright: &copy; Clément VIDON. All Rights Reserved.
+            \</a><CR></footer>
             \<Esc>
-
 
 "   index generator TODO func (or update existing)
 nn <silent><buffer> <LocalLeader>I :silent
