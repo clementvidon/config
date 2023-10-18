@@ -1,6 +1,6 @@
 " ftplugin/note
 " Created: 230727 21:56:38 by clem@spectre
-" Updated: 230727 21:56:38 by clem@spectre
+" Updated: 231018 13:33:43 by clem@spectre
 " Maintainer: Clément Vidon
 
 "   mappings
@@ -23,10 +23,16 @@ nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
             \</a><CR></footer>
             \<Esc>
 
-"   index generator TODO func (or update existing)
-nn <silent><buffer> <LocalLeader>I :silent
+"   index generator TODO func
+nn <silent><buffer> <LocalLeader>I :let @a=''<CR>
             \
-            \ :let @a=''<CR>:keeppatterns g/^##/y A<CR>:let @a=''<CR>3Gpo#INDEX<CR>------<Esc>0k
+            \:silent! g/^\nINDEX\n=*\n\n/norm V}}d<CR>
+            \:g/^\(-\\|=\)\{40,80}/-1y A<CR>
+            \3G"apo<CR>INDEX<CR><Esc>80i=<Esc>o<Esc>0k:let @a=''<CR>
+            \jjvip>gv:g/[A-Z][a-z]/norm i<Space><CR>{
 
 "   index nav TODO func
-nn <silent><buffer> <LocalLeader>i :keeppatterns /<C-R>=getline('.')<CR>$<CR>zt5<C-y>
+nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
+            \:keeppatterns /<C-R>a<CR>
+            \0zt5<C-y>
+            \:let @a=''<CR>

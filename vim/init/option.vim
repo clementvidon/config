@@ -42,6 +42,7 @@ set nowrap                                          " screen line wrapping
 set relativenumber                                  " number column
 set showmatch                                       " set showmatch
 set spellfile=$DOTVIM/.spell/custom.utf-8.add       " dictionary location
+set spelllang=en,fr                                 " lang for spellcheck
 set autoindent                                      " auto indent
 set expandtab                                       " insert spaces instead tab
 set formatoptions=tcrqjnp                           " see ':h fo-table'

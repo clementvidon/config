@@ -14,4 +14,3 @@ function! sanity_check#after()
     endif
     call winrestview(view)
 endfunction
-

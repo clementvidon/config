@@ -198,6 +198,7 @@ Plug 'prisma/vim-prisma'                        " prisma
 " https://github.com/bryley/neoai.nvim
 " https://github.com/neovim/nvim-lspconfig
 " https://github.com/nvim-lua/completion-nvim
+" https://github.com/jackmort/chat-gpt.nvim
 
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
 " Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)
@@ -209,4 +210,5 @@ Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'junegunn/goyo.vim'                        " window focus
 " Plug 'tidalcycles/vim-tidal'                    " tidal filetype
 " Plug 'sophacles/vim-processing'                 " processing filetype
+" Plug 'MaximilianLloyd/tw-values.nvim'           " view applied tailwind value on element
 call plug#end()
