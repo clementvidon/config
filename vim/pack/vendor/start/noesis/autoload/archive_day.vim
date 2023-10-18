@@ -8,6 +8,7 @@
 function! AppendSchedule(option)
 
     if a:option == "temp"
+        call append(line('$'), '')
         " call append(line('$'), '- ( 20:30 20:45 ) self_rel: exercise ( stretch )')
         " call append(line('$'), '- ( 19:30 20:30 ) phys_env: prepare meal and dine')
         " call append(line('$'), '- ( 19:00 19:30 ) achiever: update journal and schedule')
