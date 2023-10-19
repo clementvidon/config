@@ -5,13 +5,17 @@
 
 #!/bin/zsh
 
-vimpath=$(realpath --relative-to="$HOME" $(dirname -- "${BASH_SOURCE:-$0}"))
+if [[ "$(uname -s)" == "Darwin" ]]; then
+	VIMPATH="git/config/vim"
+else
+	VIMPATH=$(realpath --relative-to="$HOME" $(dirname -- "${BASH_SOURCE:-$0}"))
+fi
 
 # vim
 if [ -f $HOME/.vimrc ]; then
 	rm -i $HOME/.vimrc
 fi
-echo "source \$HOME/$vimpath/init.vim" > $HOME/.vimrc
+echo "source \$HOME/$VIMPATH/init.vim" > $HOME/.vimrc
 echo "~/.vimrc created:"
 cat $HOME/.vimrc
 
@@ -20,6 +24,6 @@ if [ -f $HOME/.config/nvim/init.vim ]; then
 	rm -i $HOME/.config/nvim/init.vim
 fi
 mkdir -p $HOME/.config/nvim
-echo "source \$HOME/$vimpath/init.vim" > $HOME/.config/nvim/init.vim
+echo "source \$HOME/$VIMPATH/init.vim" > $HOME/.config/nvim/init.vim
 echo "~/.config/nvim/init.vim created:"
 cat $HOME/.config/nvim/init.vim

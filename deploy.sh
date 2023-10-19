@@ -3,6 +3,12 @@
 # @brief    Configuration deployment script.
 # @author   clemedon (Clément Vidon)
 
+echo "Before to continue, make sure that 'config/' is located in '~/git/' directory."
+read -p "Continue? y/n " choice
+if [[ "$choice" == "n" ]]; then
+    exit 0
+fi
+
 if command -v bash &> /dev/null; then
     {
         ln -fsv $HOME/git/config/.bashrc                    $HOME/.bashrc
