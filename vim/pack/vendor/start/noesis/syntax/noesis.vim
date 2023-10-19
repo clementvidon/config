@@ -27,7 +27,7 @@ syn match noesisHeader "^\s\{72}\[\d\{6}]$"
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
-" syn match noesisCodeblock "^\s\{4,32}\S.*$" contains=todoKeywordPos,todoKeywordNeg,noesisUrl
+" syn match noesisCodeblock "^\s\{4,32}\S.*$" contains=noesisKeywordPos,todoKeywordNeg,noesisUrl
 syn match noesisBlockquote "^\s\{0,3}>\{1,2}\s"
 syn match noesisBlockquote "^\s\{0,3}>$"
 
@@ -47,12 +47,12 @@ else
     " syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
 
-syn match todoKeywordPos "\W\zs?\{2,3}\ze\(\W\|\)"
-syn match todoKeywordPos "\<TODO\>"
-syn match todoKeywordPos "\<WIP\>"
-syn match todoKeywordNeg "\W\zs!\{2,3}\ze\(\W\|\)"
-syn match todoKeywordNeg "\<X\>"
-syn match todoKeywordNeg "\<XXX\>"
+syn match noesisKeywordPos "\W\zs?\{2,3}\ze\(\W\|\)"
+syn match noesisKeywordPos "\<TODO\>"
+syn match noesisKeywordPos "\<WIP\>"
+syn match noesisKeywordNeg "\W\zs!\{2,3}\ze\(\W\|\)"
+syn match noesisKeywordNeg "\<X\>"
+syn match noesisKeywordNeg "\<XXX\>"
 
 
 " FG: for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
@@ -87,7 +87,7 @@ if &background == "dark"
     hi noesisBoldItalic               ctermfg=214
     " hi noesisStrike                   ctermfg=168
 
-    hi todoKeywordPos                 ctermfg=190
+    hi noesisKeywordPos                 ctermfg=190
     hi todoKeywordNeg                 ctermfg=207
 
 elseif &background == "light"
