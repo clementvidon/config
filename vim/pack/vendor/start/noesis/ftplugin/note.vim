@@ -26,13 +26,14 @@ nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
 "   index generator TODO func
 nn <silent><buffer> <LocalLeader>I :let @a=''<CR>
             \
-            \:silent! g/^\nINDEX\n=*\n\n/norm V}}d<CR>
-            \:g/^\(-\\|=\)\{40,80}/-1y A<CR>
+            \:silent! keeppatterns g/^\nINDEX\n=*\n\n/norm V}}d<CR>
+            \:silent! keeppatterns g/^\(-\\|=\)\{40,80}/-1y A<CR>
             \3G"apo<CR>INDEX<CR><Esc>80i=<Esc>o<Esc>0k:let @a=''<CR>
-            \jjvip>gv:g/[A-Z][a-z]/norm i<Space><CR>{
+            \jjvip>gv:silent! keeppatterns g/[A-Z][a-z]/norm i<Space><CR>{
 
 "   index nav TODO func
 nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
-            \:keeppatterns /<C-R>a<CR>
+            \
+            \:silent! keeppatterns /<C-R>a<CR>
             \0zt5<C-y>
             \:let @a=''<CR>

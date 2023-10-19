@@ -88,7 +88,7 @@ if &background == "dark"
     " hi noesisStrike                   ctermfg=168
 
     hi noesisKeywordPos                 ctermfg=190
-    hi todoKeywordNeg                 ctermfg=207
+    hi noesisKeywordNeg                 ctermfg=207
 
 elseif &background == "light"
 
