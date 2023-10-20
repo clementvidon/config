@@ -1,0 +1,45 @@
+#!/bin/bash
+
+SALAIRE_NET="$1"
+WORKDAY_PER_MONTH=15
+WORKHOUR_PER_DAY=8
+PCT_COTISATIONS_SOCIALES=80
+EUR_MUTUELLE_TNS=50
+EUR_ASSURANCE_CHOMAGE=90
+EUR_ASSURANCE_RS=30
+PCT_FRAIS_FONCTIONNEMENT=10
+
+# Check if the script received exactly one argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <salaire net désiré>"
+    exit 1
+fi
+
+# Check if the argument is a valid number
+if ! [[ $1 =~ ^[0-9]+$ ]]; then
+    echo "Error: The argument must be a valid number."
+    exit 1
+fi
+
+# Compute the TJM based on the NET Salary
+echo "$SALAIRE_NET + cotisations sociales $PCT_COTISATIONS_SOCIALES PCT"
+TJM=$(($SALAIRE_NET + ($SALAIRE_NET * $PCT_COTISATIONS_SOCIALES / 100)))
+
+echo "$TJM + contrat de mutuelle TNS $EUR_MUTUELLE_TNS EUR"
+TJM=$(($TJM + $EUR_MUTUELLE_TNS))
+
+echo "$TJM + assurance chomage $EUR_ASSURANCE_CHOMAGE EUR"
+TJM=$(($TJM + $EUR_ASSURANCE_CHOMAGE))
+
+echo "$TJM + assurance responsabilite civile pro $EUR_ASSURANCE_RS EUR"
+TJM=$(($TJM + $EUR_ASSURANCE_RS))
+
+echo "$TJM + frais de fonctionnement $PCT_FRAIS_FONCTIONNEMENT PCT"
+TJM=$(($TJM + ($TJM * $PCT_FRAIS_FONCTIONNEMENT / 100)))
+
+TJM=$(($TJM/$WORKDAY_PER_MONTH))
+THM=$(($TJM/$WORKHOUR_PER_DAY))
+
+echo "TJM: $TJM"
+echo "THM: $THM"
+

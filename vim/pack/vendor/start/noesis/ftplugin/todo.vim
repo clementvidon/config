@@ -45,19 +45,11 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 "   abbreviations
 
 
-iabbr <silent><buffer> aac achiever<Left><Esc>
-iabbr <silent><buffer> mma maingoal<Left><Esc>
-iabbr <silent><buffer> ssi sidework<Left><Esc>
-iabbr <silent><buffer> vvi virt_env<Left><Esc>
-iabbr <silent><buffer> pph phys_env<Left><Esc>
-iabbr <silent><buffer> sse self_rel<Left><Esc>
-iabbr <silent><buffer> sso soc_rela<Left><Esc>
-iabbr <silent><buffer> ffa fam_rela<Left><Esc>
-iabbr <silent><buffer> iaac achiever:
-iabbr <silent><buffer> imma maingoal:
-iabbr <silent><buffer> issi sidework:
-iabbr <silent><buffer> ivvi virt_env:
-iabbr <silent><buffer> ipph phys_env:
-iabbr <silent><buffer> isse self_rel:
-iabbr <silent><buffer> isso soc_rela:
-iabbr <silent><buffer> iffa fam_rela:
+iabbr <silent><buffer> aac - achiever:
+iabbr <silent><buffer> mma - maingoal:
+iabbr <silent><buffer> ssi - sidework:
+iabbr <silent><buffer> vvi - virt_env:
+iabbr <silent><buffer> pph - phys_env:
+iabbr <silent><buffer> sse - self_rel:
+iabbr <silent><buffer> sso - soc_rela:
+iabbr <silent><buffer> ffa - fam_rela:
