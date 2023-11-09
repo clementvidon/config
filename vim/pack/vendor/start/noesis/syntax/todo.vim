@@ -20,8 +20,8 @@ syn match todoDone /^\(-\|\~\)\zs\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s./
 syn match todoTagMaingoal /\s\<maingoal\>:\s/
 syn match todoTag  /\s\<sidework\>:\s/
 syn match todoTag  /\s\<achiever\>:\s/
-syn match todoTag  /\s\<virt_env\>:\s/
-syn match todoTag  /\s\<phys_env\>:\s/
+syn match todoTag  /\s\<work_env\>:\s/
+syn match todoTag  /\s\<life_env\>:\s/
 syn match todoTag  /\s\<self_rel\>:\s/
 syn match todoTag  /\s\<soc_rela\>:\s/
 syn match todoTag  /\s\<fam_rela\>:\s/

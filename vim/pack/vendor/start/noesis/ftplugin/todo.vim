@@ -48,8 +48,8 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 iabbr <silent><buffer> aac - achiever:
 iabbr <silent><buffer> mma - maingoal:
 iabbr <silent><buffer> ssi - sidework:
-iabbr <silent><buffer> vvi - virt_env:
-iabbr <silent><buffer> pph - phys_env:
+iabbr <silent><buffer> lli - life_env:
+iabbr <silent><buffer> wwo - work_env:
 iabbr <silent><buffer> sse - self_rel:
 iabbr <silent><buffer> sso - soc_rela:
 iabbr <silent><buffer> ffa - fam_rela:

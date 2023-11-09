@@ -20,8 +20,8 @@ if command -v zsh &> /dev/null; then
     {
         ln -fsv $HOME/git/config/.zshrc                     $HOME/.zshrc
         ln -fsv $HOME/git/config/.zshenv                    $HOME/.zshenv
-        mkdir -pv $HOME/.local/script/misc
-        ln -fsv $HOME/git/config/.local/script/misc/*       $HOME/.local/script/misc
+        mkdir -pv $HOME/.local/script
+        ln -fsv $HOME/git/config/.local/script/*            $HOME/.local/script
     } 1>/dev/null
     echo "zsh          OK"
 fi

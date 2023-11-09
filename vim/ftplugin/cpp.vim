@@ -171,6 +171,9 @@ nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Istd::cout << <Esc>A << st
 nn <silent><buffer> <LocalLeader>. ostd::cout << "(" << __FILE__ << ": " << __func__  << ": l." << __LINE__ << ")" << std::endl;<Esc>==0f(
 
 "   toggle .hpp/.cpp
+"   TODO try
+"   :e %:r.hpp<CR>
+"   :e %:r.cpp<CR>
 nn <silent><buffer> <LocalLeader>s :call cpp_defswap#()<CR>
 
 "   class nav TODO

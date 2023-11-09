@@ -5,6 +5,7 @@
 
 export PATH=$PATH:"$HOME/bin"
 export PATH=$PATH:"$HOME/.local/bin"
+export PATH=$PATH:"$HOME/.local/script/i3"
 export PATH=$PATH:"$HOME/.local/script"
 
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc
