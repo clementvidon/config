@@ -47,10 +47,9 @@ else
     " syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
 
-syn match noesisKeywordPos "\W\zs?\{2,3}\ze\(\W\|\)"
 syn match noesisKeywordPos "\<TODO\>"
 syn match noesisKeywordPos "\<WIP\>"
-syn match noesisKeywordNeg "\W\zs!\{2,3}\ze\(\W\|\)"
+syn match noesisKeywordNeg "\W\zs!\{3}\ze\(\W\|\)"
 syn match noesisKeywordNeg "\<X\>"
 syn match noesisKeywordNeg "\<XXX\>"
 
