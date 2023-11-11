@@ -40,6 +40,10 @@ TJM=$(($TJM + ($TJM * $PCT_FRAIS_FONCTIONNEMENT / 100)))
 TJM=$(($TJM/$WORKDAY_PER_MONTH))
 THM=$(($TJM/$WORKHOUR_PER_DAY))
 
-echo "TJM: $TJM"
-echo "THM: $THM"
+BRUT=$(($TJM*$WORKDAY_PER_MONTH*12))
+NET=$(($SALAIRE_NET*12))
 
+echo "NET/Y:    $NET"
+echo "TJM:      $TJM"
+echo "THM:      $THM"
+echo "BRUT/Y:   $BRUT"

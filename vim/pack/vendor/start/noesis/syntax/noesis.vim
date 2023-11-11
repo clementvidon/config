@@ -77,17 +77,18 @@ if &background == "dark"
     hi noesisLink                     ctermfg=105
 
     hi noesisBlockquote               ctermfg=103
-    hi noesisCodeblock                ctermfg=115
+    " hi noesisCodeblock                ctermfg=115
 
     " TODO check 218 182 146 110 74
-    hi noesisCode                     ctermfg=115
-    hi noesisItalic                   ctermfg=111   cterm=italic
-    hi noesisBold                     ctermfg=3     cterm=bold
+    hi noesisCode                     ctermfg=189
+    " hi noesisItalic                   ctermfg=111 cterm=italic
+    hi noesisItalic                   ctermfg=145 cterm=italic
+    hi noesisBold                     ctermfg=176 cterm=bold
     hi noesisBoldItalic               ctermfg=214
     " hi noesisStrike                   ctermfg=168
 
-    hi noesisKeywordPos                 ctermfg=190
-    hi noesisKeywordNeg                 ctermfg=207
+    hi noesisKeywordPos                 ctermfg=192
+    hi noesisKeywordNeg                 ctermfg=210
 
 elseif &background == "light"
 
