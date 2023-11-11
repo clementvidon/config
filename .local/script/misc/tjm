@@ -1,9 +1,9 @@
 #!/bin/bash
 
-SALAIRE_NET="$1"
+NET_MONTH="$1"
 WORKDAY_PER_MONTH=15
 WORKHOUR_PER_DAY=8
-PCT_COTISATIONS_SOCIALES=80
+PCT_COTISATIONS_SOCIALES=22 # not 80!!!
 EUR_MUTUELLE_TNS=50
 EUR_ASSURANCE_CHOMAGE=90
 EUR_ASSURANCE_RS=30
@@ -22,8 +22,8 @@ if ! [[ $1 =~ ^[0-9]+$ ]]; then
 fi
 
 # Compute the TJM based on the NET Salary
-echo "$SALAIRE_NET + cotisations sociales $PCT_COTISATIONS_SOCIALES PCT"
-TJM=$(($SALAIRE_NET + ($SALAIRE_NET * $PCT_COTISATIONS_SOCIALES / 100)))
+echo "$NET_MONTH + cotisations sociales $PCT_COTISATIONS_SOCIALES PCT"
+TJM=$(($NET_MONTH + ($NET_MONTH * $PCT_COTISATIONS_SOCIALES / 100)))
 
 echo "$TJM + contrat de mutuelle TNS $EUR_MUTUELLE_TNS EUR"
 TJM=$(($TJM + $EUR_MUTUELLE_TNS))
@@ -37,13 +37,19 @@ TJM=$(($TJM + $EUR_ASSURANCE_RS))
 echo "$TJM + frais de fonctionnement $PCT_FRAIS_FONCTIONNEMENT PCT"
 TJM=$(($TJM + ($TJM * $PCT_FRAIS_FONCTIONNEMENT / 100)))
 
+BRUT_MONTH=$TJM
+
 TJM=$(($TJM/$WORKDAY_PER_MONTH))
 THM=$(($TJM/$WORKHOUR_PER_DAY))
 
-BRUT=$(($TJM*$WORKDAY_PER_MONTH*12))
-NET=$(($SALAIRE_NET*12))
+BRUT_YEAR=$(($BRUT_MONTH*12))
+NET_YEAR=$(($NET_MONTH*12))
 
-echo "NET/Y:    $NET"
-echo "TJM:      $TJM"
-echo "THM:      $THM"
-echo "BRUT/Y:   $BRUT"
+echo "-- NET --"
+echo "YEAR:     $NET_YEAR"
+echo "MONTH:    $NET_MONTH"
+echo "-- BRUT --"
+echo "YEAR      $BRUT_YEAR"
+echo "MONTH     $BRUT_MONTH"
+echo "TJM BRUT: $TJM"
+echo "THM BRUT: $THM"
