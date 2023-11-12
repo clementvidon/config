@@ -11,7 +11,7 @@ PCT_FRAIS_FONCTIONNEMENT=10
 
 # Check if the script received exactly one argument
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <salaire net désiré>"
+    echo "Usage: tjm <salaire net désiré>"
     exit 1
 fi
 

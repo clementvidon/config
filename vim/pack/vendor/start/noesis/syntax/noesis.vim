@@ -85,8 +85,8 @@ if &background == "dark"
     hi noesisCode                     ctermfg=145 cterm=italic
     " hi noesisItalic                   ctermfg=111 cterm=italic
     hi noesisItalic                   ctermfg=145 cterm=italic
-    hi noesisBold                     ctermfg=176 cterm=bold
-    hi noesisBoldItalic               ctermfg=214
+    hi noesisBold                     ctermfg=219 cterm=bold
+    hi noesisBoldItalic               ctermfg=205
     " hi noesisStrike                   ctermfg=168
 
     hi noesisKeywordPos                 ctermfg=192
