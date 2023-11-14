@@ -125,6 +125,7 @@ alias gsw="git switch"
 #       [ Make ]
 alias mm='make'
 alias mc='make clean'
+alias mf='make fclean'
 alias mr='make re'
 
 alias ms='make sure'
