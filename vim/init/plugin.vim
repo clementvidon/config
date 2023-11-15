@@ -182,6 +182,7 @@ let g:seoul256_background = 256
 " packadd justify                                 " justify selection
 
 call plug#begin('$DOTVIM/.plugged')
+Plug 'AndrewRadev/linediff.vim'           " view applied tailwind value on element
 Plug 'github/copilot.vim'
 Plug 'tpope/vim-repeat'                         " repeat extension
 Plug 'tpope/vim-surround'                       " surround operator
@@ -189,7 +190,7 @@ Plug 'tpope/vim-commentary'                     " comment out
 Plug 'ludovicchabant/vim-gutentags'             " tags manager
 Plug 'arcticicestudio/nord-vim'                 " colorscheme
 Plug 'junegunn/seoul256.vim'                    " colorscheme
-" Plug 'nvim-treesitter/nvim-treesitter',         " better syntax / indent
+" Plug 'nvim-treesitter/nvim-treesitter',
 "             \ {'do': ':TSUpdate'}
 Plug 'w0rp/ale'                                 " lsp config
 Plug 'prisma/vim-prisma'                        " prisma

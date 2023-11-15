@@ -33,7 +33,6 @@ no gmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
 no gmd :bn!\|bd! #<CR>
 no <silent> mso :let view = winsaveview() \| write \| source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
-no mse :source %<CR>
 
 "   find
 nn sf  :fin<Space>
@@ -164,7 +163,7 @@ inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 
 "   indent
 nn <silent> <Leader>= :let view = winsaveview() \| execute 'normal! gg=G' \| call winrestview(view)<CR>
-nn <silent> <Leader>H :let view = winsaveview() \| execute 'normal! ggg?G' \| call winrestview(view)<CR>
+nn <silent> <Leader>? :let view = winsaveview() \| execute 'normal! ggg?G' \| call winrestview(view)<CR>
 
 "   clipboard
 nn <silent> <Leader>y :call system("xclip -sel clip", getreg('"'))<CR>

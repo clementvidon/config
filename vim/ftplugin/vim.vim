@@ -25,3 +25,6 @@ nn <silent><buffer> <LocalLeader>D mdj
             \
             \:keeppatterns ?function.*(.*)$<CR>
             \O<Esc>O"    @brief <Esc>==A
+
+"   source itself
+nn <buffer> <LocalLeader>so :source %<CR>:echo ":source %"<CR>
