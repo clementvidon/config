@@ -33,18 +33,18 @@ function! task_check#()
     let cursor_pos = getpos('.')
     let line = getline('.')
 
-    if line =~ '^[-~] \d\{6} \d\d:\d\d \d\d:\d\d .' " - 000000 11:11 22:22 task => - 000000 11:11 33:33 task
-        call setline('.', substitute(getline('.'), '^[-~] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze .', timestamp, ''))
+    if line =~ '^[+-~] \d\{6} \d\d:\d\d \d\d:\d\d .' " - 000000 11:11 22:22 task => - 000000 11:11 33:33 task
+        call setline('.', substitute(getline('.'), '^[+-~] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze .', timestamp, ''))
 
-    elseif line =~ '^[-~] \d\{6} \d\d:\d\d .' "      - 000000 11:11 task        => - 000000 11:11 22:22 task
-        call setline('.', substitute(getline('.'), '^[-~] \d\{6} \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', ''))
+    elseif line =~ '^[+-~] \d\{6} \d\d:\d\d .' "      - 000000 11:11 task        => - 000000 11:11 22:22 task
+        call setline('.', substitute(getline('.'), '^[+-~] \d\{6} \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', ''))
 
-    elseif line =~ '^[-~] (.\{-}) .' "                  - ( WHATEVER ) task        => - 000000 11:11 task
-        call setline('.', substitute(line, '^[-~] \zs(.\{-})\ze .', datestamp . ' ' . timestamp, ''))
+    elseif line =~ '^[+-~] (.\{-}) .' "                  - ( WHATEVER ) task        => - 000000 11:11 task
+        call setline('.', substitute(line, '^[+-~] \zs(.\{-})\ze .', datestamp . ' ' . timestamp, ''))
 
-    elseif line =~ '^[-~] .' "                       - task                     => - 000000 11:11 task
+    elseif line =~ '^[+-~] .' "                       - task                     => - 000000 11:11 task
         normal 0
-        call setline('.', substitute(getline('.'), '^[-~]\zs \ze.', ' ' . datestamp . ' ' . timestamp . ' ', ''))
+        call setline('.', substitute(getline('.'), '^[+-~]\zs \ze.', ' ' . datestamp . ' ' . timestamp . ' ', ''))
 
     endif
     call setpos('.', cursor_pos)
