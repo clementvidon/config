@@ -27,8 +27,12 @@ syn match noesisHeader "^\s\{72}\[\d\{6}]$"
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
 
-syn match noesisCodeblock "^\s\{8,32}\S.*$" contains=noesisKeywordPos,todoKeywordNeg,noesisUrl
+" syn match noesisCodeblock "^\s\{8,32}\S.*$" contains=noesisKeywordPos,todoKeywordNeg,noesisUrl
+" syn match noesisCodeblock "^\s\{4,32}\S.*$"
+" syn match noesisCodeblock "^\s\{4,}\$.*$"
+
 syn match noesisBlockquote "^\s\{0,5}>\{1,2}\s"
+syn match noesisBlockquote "^\s\{0,5}>$"
 syn match noesisBlockquote "^\s\{0,5}>$"
 
 if has("conceal")
@@ -47,7 +51,7 @@ else
     " syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
 
-" syn region noesisCode start="\S\@<=`\|`\S\@=" end="\S\@<=`\|`\S\@=" contains=@NoSpell
+syn region noesisCode start="```" end="```" contains=@NoSpell
 
 syn match noesisKeywordPos "\<TODO\>"
 syn match noesisKeywordPos "\<WIP\>"
@@ -80,9 +84,8 @@ if &background == "dark"
 
     hi noesisBlockquote               ctermfg=103
     hi noesisCodeblock                ctermfg=145 cterm=italic
-
     " TODO check 218 182 146 110 74
-    hi noesisCode                     ctermfg=145 cterm=italic
+    hi noesisCode                     ctermfg=146 cterm=italic
     " hi noesisItalic                   ctermfg=111 cterm=italic
     hi noesisItalic                   ctermfg=145 cterm=italic
     hi noesisBold                     ctermfg=219 cterm=bold
