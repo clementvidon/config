@@ -192,7 +192,9 @@ Plug 'arcticicestudio/nord-vim'                 " colorscheme
 Plug 'junegunn/seoul256.vim'                    " colorscheme
 " Plug 'nvim-treesitter/nvim-treesitter',
 "             \ {'do': ':TSUpdate'}
-Plug 'w0rp/ale'                                 " lsp config
+" Plug 'neovim/nvim-lspconfig'
+"
+Plug 'w0rp/ale'                                 " lsp config TODO
 Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'peitalin/vim-jsx-typescript'              " typescriptreact indent
 
@@ -201,8 +203,7 @@ Plug 'prisma/vim-prisma'                        " prisma
 " https://github.com/nvim-lua/completion-nvim
 " https://github.com/jackmort/chat-gpt.nvim
 
-" Plug 'evanleck/vim-svelte', {'branch': 'main'}  " svelte filetype
-" Plug 'othree/html5.vim'                         " html indent (vim-svelte dep)
+Plug 'leafOfTree/vim-svelte-plugin'
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
 " Plug 'mattn/emmet-vim'                          " html css shortcuts
