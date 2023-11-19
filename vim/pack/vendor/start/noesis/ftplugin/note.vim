@@ -34,6 +34,6 @@ nn <silent><buffer> <LocalLeader>I :let @a=''<CR>
 "   index nav TODO func
 nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
             \
-            \:silent! keeppatterns /<C-R>a<CR>
+            \:silent! keeppatterns /^\(  \)\?<C-R>a$<CR>
             \0zt5<C-y>
             \:let @a=''<CR>
