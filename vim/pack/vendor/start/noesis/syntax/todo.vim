@@ -11,11 +11,11 @@
 "   syntax
 
 
-syn match todoTime /^\(-\|\~\|+\)\zs\s(\s[a-zA-Z0-9: ]*\s)\ze\s./
-syn match todoDone /^\(-\|\~\|+\)\zs\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s./
+syn match todoTime /^[-~+=]\zs\s(\s[a-zA-Z0-9: ]*\s)\ze\s./
+syn match todoDone /^[-~+=]\zs\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s./
 
 
-" syn match todoTag  "\(\d\d:\d\d\|\s)\|^-\|^\~\)\@<=\s[a-zA-Z0-9/_.+\-~]\{8}:\s"
+" syn match todoTag  "\(\d\d:\d\d\|\s)\|^-\|^\~\)\@<=\s[a-zA-Z0-9/_.-~+=]\{8}:\s"
 
 syn match todoTagMaingoal /\s\<maingoal\>:\s/
 syn match todoTag  /\s\<sidework\>:\s/

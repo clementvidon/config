@@ -9,19 +9,19 @@
 function! task_fix#(option)
     let cursor_line = getline('.')
     let cursor_pos = getpos('.')
-    if a:option == "down" && getline(search('.') + 1) =~ '^[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
+    if a:option == "down" && getline(search('.') + 1) =~ '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
         normal h
         let down_line = getline(search('.') + 1)
-        let down_time = substitute(down_line, '^[-~] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
-        let down_time = substitute(down_time, '^[-~] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
-        let new_line = substitute(cursor_line, '^[-~] \d\d\d\d\d\d \zs\d\d:\d\d\ze.', down_time, 'e')
+        let down_time = substitute(down_line, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
+        let down_time = substitute(down_time, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
+        let new_line = substitute(cursor_line, '^[-~+=] \d\d\d\d\d\d \zs\d\d:\d\d\ze.', down_time, 'e')
         call setline('.', new_line)
-    elseif a:option == "up" && getline(search('.') - 1) =~ '^[-~] \d\d\d\d\d\d \d\d:\d\d .'
+    elseif a:option == "up" && getline(search('.') - 1) =~ '^[-~+=] \d\d\d\d\d\d \d\d:\d\d .'
         normal h
         let up_line = getline(search('.') - 1)
-        let up_time = substitute(up_line, '^[-~] \d\d\d\d\d\d \d\d:\d\d\zs.*', '', 'e')
-        let up_time = substitute(up_time, '^[-~] \d\d\d\d\d\d \ze\d\d:\d\d', '', 'e')
-        let new_line = substitute(cursor_line, '^[-~] \d\d\d\d\d\d \d\d:\d\d \zs\d\d:\d\d\ze.', up_time, 'e')
+        let up_time = substitute(up_line, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d\zs.*', '', 'e')
+        let up_time = substitute(up_time, '^[-~+=] \d\d\d\d\d\d \ze\d\d:\d\d', '', 'e')
+        let new_line = substitute(cursor_line, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \zs\d\d:\d\d\ze.', up_time, 'e')
         call setline('.', new_line)
     else
         return 1

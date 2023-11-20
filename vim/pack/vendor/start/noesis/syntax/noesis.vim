@@ -55,7 +55,7 @@ syn region noesisCode start="```" end="```" contains=@NoSpell
 
 syn match noesisKeywordPos "\<TODO\>"
 syn match noesisKeywordPos "\<WIP\>"
-syn match noesisKeywordNeg "\W\zs!\{3}\ze\(\W\|\)"
+syn match noesisKeywordNeg "\W \zs!\{2}\ze \(\W\|\)"
 syn match noesisKeywordNeg "\<X\>"
 syn match noesisKeywordNeg "\<XXX\>"
 
