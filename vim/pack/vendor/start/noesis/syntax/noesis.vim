@@ -13,6 +13,9 @@ endif
 
 syn sync fromstart
 
+syn match FoldMarker "->>>"
+syn match FoldMarker "<<<-"
+
 syn region noesisH1 start="^##\@!"        end="#*\s*$"
 syn region noesisH2 start="^###\@!"       end="#*\s*$"
 syn region noesisH3 start="^####\@!"      end="#*\s*$"
@@ -69,6 +72,9 @@ syn match noesisKeywordNeg "\<XXX\>"
 
 
 if &background == "dark"
+
+    hi Folded                         ctermfg=105 ctermbg=NONE cterm=italic
+    hi FoldMarker                     ctermfg=105
 
     hi noesisH1                       ctermfg=85
     hi noesisH2                       ctermfg=85
