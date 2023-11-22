@@ -33,7 +33,7 @@ else
     set ruler                                       " cursor pos [y:x] n% in statusline (vim)
 endif
 
-set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\.,diff:- " split separator decoration
+set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:- " split separator decoration
 set guicursor=n-v-c-i:block                         " cursor style
 set shortmess=filnxtToOF                            " see ':h shortmess'
 set ignorecase smartcase                            " ignore case except if uppercase used
