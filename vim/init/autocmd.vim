@@ -16,14 +16,6 @@ augroup vim_startup
                 \| endif
 augroup END
 
-" augroup custom_highlight
-"     autocmd!
-"     " autocmd ColorScheme * syntax enable maxlines=400
-"     autocmd ColorScheme * highlight LineNr ctermbg=NONE
-"     autocmd ColorScheme * highlight CursorLine gui=underline cterm=underline ctermbg=NONE
-"     autocmd ColorScheme * highlight Comment term=bold ctermfg=103
-" augroup END
-
 augroup gpg_auto_encryption
     autocmd!
     autocmd BufReadPre,FileReadPre *.gpg.* setlocal viminfo="" shada=""
