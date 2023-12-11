@@ -28,9 +28,13 @@ let b:surround_45='("\r");'
 "   mappings
 
 
-nn <silent><buffer> <LocalLeader> <nop>
+"   settings
+nn <LocalLeader>, :e $DOTVIM/ftplugin/c.vim<CR>
+
+nn <silent><buffer> <LocalLeader>mm :w<CR>
 
 "   make
+"
 nn <silent><buffer> <LocalLeader>mm :w<CR>
             \:!clear<CR>
             \:make!<CR>

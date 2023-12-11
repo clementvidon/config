@@ -9,6 +9,7 @@
 
 nn gj <nop>
 
+" let g:ale_pattern_options = {'\.go$': {'ale_enabled': 0}}
 
 let g:ale_set_signs = 0
 let g:ale_sign_column_always = 0
@@ -30,7 +31,7 @@ let g:ale_lint_on_text_changed = 'never'
 
 " let g:ale_completion_excluded_words = ['it', 'describe']
 " let g:ale_completion_delay = 0
-let g:ale_completion_enabled = 1
+" let g:ale_completion_enabled = 1
 " let g:ale_completion_max_suggestions = 10
 " set omnifunc=ale#completion#OmniFun
 
@@ -75,6 +76,7 @@ let g:ale_linters = {
             \'typescriptreact': ['tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
             \}
+            " \'go': ['golangci-lint', 'gofmt'],
 
 " let g:ale_fix_on_save_ignore = 1
 let g:ale_fixers = {
@@ -86,6 +88,7 @@ let g:ale_fixers = {
             \'cpp': ['clang-format'],
             \'bash': ['shfmt'],
             \}
+            " \'go': ['gofmt'],
 
 let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
 
@@ -99,6 +102,7 @@ endif
 let g:copilot_filetypes = {
             \ '*': v:false,
             \ 'bash': v:true,
+            \ 'go': v:true,
             \ 'c': v:true,
             \ 'cpp': v:true,
             \ 'css': v:true,
@@ -204,6 +208,7 @@ Plug 'prisma/vim-prisma'                        " prisma
 " https://github.com/jackmort/chat-gpt.nvim
 
 Plug 'leafOfTree/vim-svelte-plugin'
+Plug 'fatih/vim-go'
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
 " Plug 'mattn/emmet-vim'                          " html css shortcuts

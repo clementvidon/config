@@ -29,14 +29,15 @@ nn <silent><buffer> <LocalLeader>I :let @a=''<CR>zR
             \:silent! keeppatterns g/^\nINDEX\n=*\n->>>/norm V}}jd<CR>
             \:silent! keeppatterns g/^\(-\\|=\)\{40,80}/-1y A<CR>
             \3G"apo<CR>INDEX<CR><Esc>80i=<Esc>o<Esc>0O->>><Esc>}}o<<<-<Esc>kk
-            \:let @a=''<CR>
-            \>ip
-            \zM
+            \:let @a=""<CR>
+            \vip>gv:g/[a-z][a-z]\C/norm >><CR>
+            \:let @/=""<CR>
+            \zMzo
 
 
 "   index nav TODO func
 nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
             \
-            \:silent! keeppatterns /^\(  \)\?<C-R>a$<CR>
-            \0zt5<C-y>
+            \:silent! keeppatterns /^\s\{0,4}<C-R>a$<CR>
+            \zOzt5<C-y>
             \:let @a=''<CR>

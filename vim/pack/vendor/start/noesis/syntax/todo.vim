@@ -26,7 +26,7 @@ syn match todoTag  /\s\<self_rel\>:\s/
 syn match todoTag  /\s\<soc_rela\>:\s/
 syn match todoTag  /\s\<fam_rela\>:\s/
 
-syn match todoDetail /\s\zs(\s.\{-}\s)\ze\(\s\|$\)/
+syn match todoDetail /\s\zs(\s.\{-}\s)\ze\(\s\|$\)/ contains=noesisKeywordNeg
 syn match todoFeedback /\s\zs{\s.\{-}\s}$/
 syn match todoUnplanned /^\~\s/ contains=todoDone,todoTag
 

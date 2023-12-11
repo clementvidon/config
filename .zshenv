@@ -7,6 +7,11 @@ export PATH=$PATH:"$HOME/bin"
 export PATH=$PATH:"$HOME/.local/bin"
 export PATH=$PATH:"$HOME/.local/script/i3"
 export PATH=$PATH:"$HOME/.local/script"
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:/snap/bin
+
 
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc
 
@@ -43,9 +48,6 @@ if (( $+commands[i3] )); then
         export GDK_SCALE=2
         startx
     fi
-    export GOROOT=/usr/local/go
-    export GOPATH=$HOME/go
-    export PATH=$PATH:$GOROOT/bin
 fi
 
 ######################################## Internet Computer

@@ -1,7 +1,7 @@
-" @filename  cpp.vim
-" @created   230522 18:02:54  by  clem9nt@imac
-" @updated   230522 18:02:58  by  clem9nt@imac
-" @author    Clément Vidon
+" indent/cpp
+" Created: 231205 11:18:02 by clem@spectre
+" Updated: 231205 11:18:02 by clem@spectre
+" Maintainer: Clément Vidon
 
 if &filetype ==# 'cpp'
 

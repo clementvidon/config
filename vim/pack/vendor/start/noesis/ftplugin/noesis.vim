@@ -71,9 +71,9 @@ nn <buffer><silent> <LocalLeader>gd :silent %!gpg -d 2>/dev/null<CR>
 "   restart
 nn <buffer><silent> <LocalLeader>gr :silent !gpgconf --kill gpg-agent<CR>:redraw!<CR>
 "   gpg enc / dec selection
-vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"
-vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"
-vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"
+vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"<CR>
+vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"<CR>
+vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"<CR>
 
 "   french to english
 nn <buffer><silent> <LocalLeader>len v$y:En <C-R>"<CR>

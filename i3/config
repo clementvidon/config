@@ -254,9 +254,9 @@ floating_minimum_size 450 x 450
 floating_maximum_size 800 x 800
 
 # Save Screenshots
-# bindsym $mod+Ctrl+d exec maim "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
-bindsym $mod+Ctrl+p exec maim --select "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre.png"
-# bindsym $mod+Ctrl+g exec maim --window $(xdotool getactivewindow) "$HOME/Documents/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
+# bindsym $mod+Ctrl+d exec maim "$HOME/Documents/Screenshots/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
+bindsym $mod+Ctrl+p exec maim --select "$HOME/Documents/Screenshots/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre.png"
+# bindsym $mod+Ctrl+g exec maim --window $(xdotool getactivewindow) "$HOME/Documents/Screenshots/"$(date '+%g%m%d%H%M%S')"_screenshot_spectre"
 # Clipboard Screenshots
 # bindsym $mod+Alt+3 exec maim | xclip -selection clipboard -t image/png
 bindsym $mod+Ctrl+Shift+P exec maim --select | xclip -selection clipboard -t image/png

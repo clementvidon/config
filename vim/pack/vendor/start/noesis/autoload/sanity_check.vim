@@ -7,7 +7,7 @@
 
 function! sanity_check#after()
     let view = winsaveview()
-    let after_line = search("^AFTER$")
+    let after_line = search("^LATER$")
     let tomorrow_line = search("^TOMORROW$")
     if after_line > 0 && tomorrow_line > 0 && (tomorrow_line - after_line - 2) > 50
         echohl WarningMsg | echo "CLEAN UP YOUR TO-DO LIST!" | echohl None

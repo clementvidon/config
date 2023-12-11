@@ -3,18 +3,18 @@
 " Updated: 230524 19:44:57 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-augroup vim_startup
-    autocmd!
-    autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
-                \ | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
-    autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
-                \| nnoremap <buffer> <silent> <CR> :let @s=@/<CR>
-                \:e $NOESIS/Lists/todo.noe<CR>G
-                \:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>
-                \:let @/=@s<CR>
-                \:call sanity_check#after()<CR>0
-                \| endif
-augroup END
+" augroup vim_startup
+"     autocmd!
+"     autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
+"                 \ | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
+"     autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
+"                 \| nnoremap <buffer> <silent> <CR> :let @s=@/<CR>
+"                 \:e $NOESIS/Lists/todo.noe<CR>G
+"                 \:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>
+"                 \:let @/=@s<CR>
+"                 \:call sanity_check#after()<CR>0
+"                 \| endif
+" augroup END
 
 augroup gpg_auto_encryption
     autocmd!
