@@ -31,7 +31,13 @@ nn <buffer> <LocalLeader>f :write<CR>:silent !clear && go fmt<CR>:redraw!<CR>
 nn <buffer> <LocalLeader>, :write<CR>:e $DOTVIM/ftplugin/go.vim<CR>
 
 "   test
-nn <buffer> <LocalLeader>t :write<CR>:!clear && go test -cover<CR>
+nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
+nn <buffer> <LocalLeader>TV :write<CR>:!clear && go test -v<CR>
 
 "   benchmark
 nn <buffer> <LocalLeader>b :write<CR>:!clear && go test -bench=.<CR>
+
+"   coverage
+nn <buffer> <LocalLeader>c :write<CR>
+            \:!go test -covermode=count -coverprofile=/tmp/countcoverprofile.out<CR>
+            \:!clear && go tool cover -func=/tmp/countcoverprofile.out<CR>
