@@ -163,7 +163,7 @@ inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 
 "   indent
 nn <silent> <Leader>= :let view = winsaveview() \| execute 'normal! gg=G' \| call winrestview(view)<CR>
-nn <silent> <Leader>? :let view = winsaveview() \| execute 'normal! ggg?G' \| call winrestview(view)<CR>
+nn <silent> <Leader>? :let view = winsaveview() \| execute 'set nospell' \| execute 'normal! ggg?G' \| call winrestview(view)<CR>
 
 "   clipboard
 nn <silent> <Leader>y :call system("xclip -sel clip", getreg('"'))<CR>

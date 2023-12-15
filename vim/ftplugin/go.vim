@@ -32,7 +32,7 @@ nn <buffer> <LocalLeader>, :write<CR>:e $DOTVIM/ftplugin/go.vim<CR>
 
 "   test
 nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
-nn <buffer> <LocalLeader>TV :write<CR>:!clear && go test -v<CR>
+nn <buffer> <LocalLeader>T :write<CR>:!clear && go test -v<CR>
 
 "   benchmark
 nn <buffer> <LocalLeader>b :write<CR>:!clear && go test -bench=.<CR>
