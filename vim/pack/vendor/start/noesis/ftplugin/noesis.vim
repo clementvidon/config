@@ -49,7 +49,7 @@ nn <silent><buffer> <LocalLeader>? :echo "
 
 
 "   noesis grep TODO neovim support
-com! -nargs=+ Grep exec 'grep! -i <args> $NOESIS/**/*.noe' | cw
+com! -nargs=+ Grep exec 'grep! -i --excluse="*.gpg.noe" <args> $NOESIS/**/*.noe' | cw
 
 
 "   git pull

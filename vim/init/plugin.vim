@@ -52,6 +52,7 @@ let g:ale_set_balloons = 0 " TODO
 let g:ale_maximum_file_size = 1000
 let g:ale_emit_conflict_warnings = 0
 
+nn gjar :ALEDisable<CR>:ALEEnable<CR>
 nn gjah :ALEHover<CR>
 nn gjaa :ALECodeAction<CR>
 nn gjad :ALEDetail<CR>

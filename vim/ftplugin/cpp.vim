@@ -26,6 +26,13 @@ let g:gutentags_enabled = 1
 let b:surround_45='("\r");'
 
 
+"   autocommand
+
+
+"   format au save
+autocmd BufWritePre *.cpp,*.hpp exec 'call clangformat#("$HOME/.config/clang-format/.clang-format-cpp")'
+
+
 "   mappings
 
 
@@ -157,9 +164,6 @@ nn <silent><buffer> <LocalLeader>D mdj
             \@return      TODO<CR>
             \<BS>/<Esc>=ip
             \jfT
-
-"   format
-nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>
 
 "   print
 nn <silent><buffer> <LocalLeader>p ostd::cout << "" << std::endl;<Esc>==0f"a

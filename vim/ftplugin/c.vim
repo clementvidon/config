@@ -25,6 +25,13 @@ let g:gutentags_enabled = 1
 let b:surround_45='("\r");'
 
 
+"   autocommand
+
+
+"   format au save
+autocmd BufWritePre *.c,*.h exec 'call clangformat#("$HOME/.config/clang-format/.clang-format-c")'
+
+
 "   mappings
 
 
@@ -120,9 +127,6 @@ nn <silent><buffer> <LocalLeader>D mdj
             \@return      TODO<CR>
             \<BS>/<Esc>=ip
             \jfT
-
-"   format
-nn <silent><buffer> <LocalLeader>f :call clangformat#()<CR>
 
 nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==0f"a
 

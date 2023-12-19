@@ -21,14 +21,11 @@ let b:surround_45='("\r");'
 
 nn <buffer> <LocalLeader> <nop>
 
-"   execute
-nn <buffer> <LocalLeader>e :write<CR>:!clear && go run %<CR>
-
-"   format
-nn <buffer> <LocalLeader>f :write<CR>:silent !clear && go fmt<CR>:redraw!<CR>
-
 "   settings
 nn <buffer> <LocalLeader>, :write<CR>:e $DOTVIM/ftplugin/go.vim<CR>
+
+"   execute
+nn <buffer> <LocalLeader>e :write<CR>:!clear && go run %<CR>
 
 "   test
 nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
@@ -41,3 +38,6 @@ nn <buffer> <LocalLeader>b :write<CR>:!clear && go test -bench=.<CR>
 nn <buffer> <LocalLeader>c :write<CR>
             \:!go test -covermode=count -coverprofile=/tmp/countcoverprofile.out<CR>
             \:!clear && go tool cover -func=/tmp/countcoverprofile.out<CR>
+
+"   race
+nn <buffer> <LocalLeader>r :write<CR>:!clear && go test -race<CR>

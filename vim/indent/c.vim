@@ -12,7 +12,6 @@ setlocal autoindent
 setlocal cindent
 setlocal expandtab
 setlocal formatoptions=tcrqjnp
-setlocal formatprg="clang-format --style=file"
 setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
 setlocal shiftwidth=2
 setlocal softtabstop=2

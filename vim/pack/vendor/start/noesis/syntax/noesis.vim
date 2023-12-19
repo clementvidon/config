@@ -42,13 +42,13 @@ if has("conceal")
     syn region noesisBold       concealends matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
     syn region noesisBoldItalic concealends matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
     syn region noesisCode       concealends matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`" contains=@NoSpell
-    syn region noesisStrike     concealends matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
+    " syn region noesisStrike     concealends matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 else
     syn region noesisItalic                 matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
     syn region noesisBold                   matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
     syn region noesisBoldItalic             matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
     syn region noesisCode                   matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`" contains=@NoSpell
-    syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
+    " syn region noesisStrike                 matchgroup=noesisDelim start="\S\@<=\~\|\~\S\@="         end="\S\@<=\~\|\~\S\@="         skip="\\\~"
 endif
 
 syn region noesisCode start="```" end="```" contains=@NoSpell

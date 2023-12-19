@@ -39,5 +39,6 @@ nn <silent><buffer> <LocalLeader>I :let @a=''<CR>zR
 nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
             \
             \:silent! keeppatterns /^\s\{0,4}<C-R>a$<CR>
-            \zOzt5<C-y>
+            \zt5<C-y>
             \:let @a=''<CR>
+            " \zOzt5<C-y>

@@ -76,18 +76,24 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
+nn <silent> snI :e $NOESIS/INDEX.noe<CR>/Lists<CR>
+nn <silent> snP :e $NOESIS/Projects/Projects.noe<CR>gi<Esc>
+nn <silent> snA :e $NOESIS/Areas/Areas.noe<CR>gi<Esc>
+nn <silent> snR :e $NOESIS/Resources/Resources.noe<CR>gi<Esc>
+nn <silent> sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snt :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>:call sanity_check#after()<CR>0
 nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
-nn <silent> sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+
 "  config
 nn <silent> scv :e $HOME/.vimrc<CR>
 nn <silent> scz :e $HOME/.zshrc<CR>
 nn <silent> sce :e $HOME/.zshenv<CR>
 nn <silent> sct :e $HOME/.tmux.conf<CR>
+nn <silent> sci :e $HOME/.config/i3/config<CR>
 
 "   cmdline (gl)
 
