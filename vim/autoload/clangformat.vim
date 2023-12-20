@@ -9,8 +9,7 @@ function clangformat#(config_path)
         let save_view = winsaveview()
         set modifiable
         let buffer_content = getline(1, '$')
-        let clang_format_command = 'clang-format -style=file:' . config_path
-        echom clang_format_command
+        let clang_format_command = 'clang-format -style=file:' . a:config_path
         let formatted_content = system(clang_format_command, buffer_content)
         let formatted_lines = split(formatted_content, "\n")
         let num_extra_lines = line('$') - len(formatted_lines)
@@ -20,7 +19,8 @@ function clangformat#(config_path)
         endif
         call setline(1, formatted_lines)
         keeppatterns %s/\s\+$//e " trailing spaces
-        keeppatterns v/\_s*\S/d  " trailing lines
+        " keeppatterns v/\_s*\S/d  " trailing lines
+        silent! keeppatterns %s/\(.\+\)\n\(\n\+\)$/\1/ " trailing lines
         set nomodified
         call winrestview(save_view)
         call setpos('.', save_cursor)

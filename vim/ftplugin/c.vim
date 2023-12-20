@@ -29,6 +29,8 @@ let b:surround_45='("\r");'
 
 
 "   format au save
+"
+nn <silent><buffer> <LocalLeader>f :call clangformat#("$HOME/.config/clang-format/.clang-format-c")<CR>
 autocmd BufWritePre *.c,*.h exec 'call clangformat#("$HOME/.config/clang-format/.clang-format-c")'
 
 
@@ -93,22 +95,22 @@ nn <silent><buffer> <LocalLeader>mh :w<CR>
 "   prod compile run
 nn <silent><buffer> <LocalLeader>xx :w\|lcd %:h<CR>
             \
-            \:silent !clear; rm -f a.out /tmp/_err<CR>
-            \:silent !clang -Wall -Wextra -Werror -Wno-unused % 2>/tmp/_err<CR>
-            \:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
+            \:silent !clear; rm -f a.out /tmp/_cerr<CR>
+            \:silent !clang -Wall -Wextra -Werror -Wno-unused % 2>/tmp/_cerr<CR>
+            \:silent cfile /tmp/_cerr<CR>:silent 5cwindow<CR>
             \:!clear; ./a.out<CR>
 
-"   dev compile run
-nn <silent><buffer> <LocalLeader>xd :w\|lcd %:h<CR>
+"   compile run
+nn <silent><buffer> <LocalLeader>e :noau w\|lcd %:h<CR>
             \
-            \:silent !clear; rm -f a.out /tmp/_err<CR>
-            \:silent !clang
-            \ -Wall -Wextra -Werror
-            \ -Wconversion -Wsign-conversion -pedantic
-            \ -fsanitize=address,undefined,integer,nullability,vptr
-            \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEV
-            \ % 2>/tmp/_err<CR>:silent cfile /tmp/_err<CR>:silent 5cwindow<CR>
-            \:!clear; ./a.out<CR>
+            \:!clear; clang -Wall -Wextra -Werror -Wno-unused %
+            \ && ./a.out<CR>
+nn <silent><buffer> <LocalLeader>E :noau w\|lcd %:h<CR>
+            \
+            \:!clear; clang -Wall -Wextra -Werror -Wconversion -Wsign-conversion
+            \ -pedantic -fsanitize=address,undefined,integer,nullability,vptr
+            \ -fno-optimize-sibling-calls -fno-omit-frame-pointer -Og -D DEV %
+            \ && ./a.out<CR>
 
 "   docstring skeleton
 nn <silent><buffer> <LocalLeader>d mdj
@@ -121,20 +123,21 @@ nn <silent><buffer> <LocalLeader>d mdj
 nn <silent><buffer> <LocalLeader>D mdj
             \
             \:keeppatterns ?^\a<CR>
-            \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
-            \@param[out]  TODO<CR>
-            \@param[in]   TODO<CR>
-            \@return      TODO<CR>
+            \O<Esc>O/**<Esc>o<C-w>* @brief   TODO<CR><CR>
+            \@param   TODO<CR>
+            \@param   TODO<CR>
+            \@return  TODO<CR>
             \<BS>/<Esc>=ip
             \jfT
 
-nn <silent><buffer> <LocalLeader>p odprintf (1, "\n");<Esc>==0f"a
+"   print template
+nn <silent><buffer> <LocalLeader>p ofprintf (stdout, "\n");<Esc>==0f"a
 
-"   print wrap
-nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Idprintf(1, "> %%\n", <Esc>A);<Esc>==0f%
+"   print current line expression
+nn <silent><buffer> <LocalLeader>P 0<<V:norm f;Di<Esc>Ifprintf(stdout, "> %%\n", <Esc>A);<Esc>==0f%l
 
 "   print location
-nn <silent><buffer> <LocalLeader>. odprintf (1, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==0f(
+nn <silent><buffer> <LocalLeader>. ofprintf (stdout, "(%s: %s: l.%d)\n", __FILE__, __func__, __LINE__);<Esc>==0f(
 
 "   functions nav
 nn <silent><buffer> gzf /^\a<CR>
@@ -160,6 +163,7 @@ ono <silent><buffer> aF :normal VaF<CR>
 "   abbreviations
 
 iabbr <silent><buffer> mmain int main( void ) {<CR>return 0;<CR>}<Esc>kO<C-R>=eatchar#('\s')<CR>
+iabbr <silent><buffer> iinclude #include <stdio.h><CR>#include <stdlib.h><CR>#include <unistd.h><CR><Esc><C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> {{ {<CR>}<Esc>O<C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> [[ [<CR>]<Esc>O<C-R>=eatchar#('\s')<CR>
 iabbr <silent><buffer> (( ()<Left><C-R>=eatchar#('\s')<CR>

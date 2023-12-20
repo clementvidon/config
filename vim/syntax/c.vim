@@ -3,7 +3,7 @@
 " Updated: 230524 19:50:22 by clem9nt@imac
 " Maintainer: Clément Vidon
 
-if &filetype ==# 'c'
+if &filetype ==# 'cDISABLED'
 
 "   syntax
 

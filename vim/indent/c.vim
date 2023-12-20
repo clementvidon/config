@@ -11,11 +11,11 @@ if &filetype ==# 'c'
 setlocal autoindent
 setlocal cindent
 setlocal expandtab
-setlocal formatoptions=tcrqjnp
+" setlocal formatoptions=tcrqjnp
 setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('Makefile', '.;'), ":h") . " $*"
-setlocal shiftwidth=2
-setlocal softtabstop=2
-setlocal tabstop=2
+setlocal shiftwidth=4
+setlocal softtabstop=4
+setlocal tabstop=4
 setlocal textwidth=80
 
 
