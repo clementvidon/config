@@ -123,10 +123,11 @@ nn <silent><buffer> <LocalLeader>d mdj
 nn <silent><buffer> <LocalLeader>D mdj
             \
             \:keeppatterns ?^\a<CR>
-            \O<Esc>O/**<Esc>o<C-w>* @brief   TODO<CR><CR>
-            \@param   TODO<CR>
-            \@param   TODO<CR>
-            \@return  TODO<CR>
+            \O<Esc>O/**<Esc>o<C-w>* @brief       TODO<CR><CR>
+            \@param[out]  TODO<CR>
+            \@param[i/o]  TODO<CR>
+            \@param[in]   TODO<CR>
+            \@return      TODO<CR>
             \<BS>/<Esc>=ip
             \jfT
 
