@@ -9,7 +9,7 @@
 runtime macros/justify.vim
 setlocal suffixesadd+=.noe
 setlocal suffixesadd+=.gpg.noe
-setlocal path+=$DOTVIM/pack/vendor/start/noesis/**,
+setlocal path=$DOTVIM/pack/vendor/start/noesis/**,
             \$NOESIS,
             \$NOESIS/Lists/**,
             \$NOESIS/Areas/**,
