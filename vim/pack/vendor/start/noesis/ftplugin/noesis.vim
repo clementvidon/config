@@ -9,12 +9,12 @@
 runtime macros/justify.vim
 setlocal suffixesadd+=.noe
 setlocal suffixesadd+=.gpg.noe
-setlocal path=$DOTVIM/pack/vendor/start/noesis/**,
-            \$NOESIS,
+setlocal path=.,
             \$NOESIS/Lists/**,
             \$NOESIS/Areas/**,
             \$NOESIS/Projects/**,
-            \$NOESIS/Resources/**
+            \$NOESIS/Resources/**,
+            \$DOTVIM/pack/vendor/start/noesis/**
 setlocal expandtab
 setlocal foldmethod=marker
 setlocal foldmarker=->>>,<<<-
