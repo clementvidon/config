@@ -1,6 +1,7 @@
-" plugin/mappings Created: 230524 19:49:28 by clem9nt@imac
-" Updated: 230604 22:31:45 by clem9nt@imac
-" Maintainer: Clément Vidon
+" plugin/mappings
+" Created: 231229 16:44:16 by clem@spectre
+" Updated: 231229 16:44:16 by clem@spectre
+" Maintainer: Clément Vidon (clemedon)
 
 let mapleader=" "
 
@@ -76,11 +77,7 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-nn <silent> snI :e $NOESIS/INDEX.noe<CR>/Lists<CR>
-nn <silent> snP :e $NOESIS/Projects/Projects.noe<CR>gi<Esc>
-nn <silent> snA :e $NOESIS/Areas/Areas.noe<CR>gi<Esc>
-nn <silent> snR :e $NOESIS/Resources/Resources.noe<CR>gi<Esc>
-nn <silent> sna :e $NOESIS/Archives/Archives.noe<CR>gi<Esc>
+nn <silent> snn :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
@@ -94,6 +91,37 @@ nn <silent> scz :e $HOME/.zshrc<CR>
 nn <silent> sce :e $HOME/.zshenv<CR>
 nn <silent> sct :e $HOME/.tmux.conf<CR>
 nn <silent> sci :e $HOME/.config/i3/config<CR>
+
+
+"   git
+
+
+nn <Leader>g<CR> :echo system('git log --oneline -5')
+            \
+            \\|echo "                                                                   Max len msg ↓"
+            \<CR>:!git add . && git commit -m ""<Left>
+
+nn <Leader>g? :!clear
+            \
+            \ && git status -s --show-stash --ignore-submodules=untracked
+            \ && git diff -U0 && git show -U0
+            \ && git log --oneline -10<CR>
+
+nn <Leader>gcm :echo system('git log --oneline -5')
+            \
+            \\|echo "                                                                   Max len msg ↓"
+            \<CR>:!git commit -m ""<Left>
+
+nn <Leader>gau :!clear && git add --update<CR>
+nn <Leader>gap :!clear && git add --patch<CR>
+nn <Leader>gca :!clear && git commit --amend<CR>
+nn <Leader>gco :!clear && git commit<CR>
+nn <Leader>gdi :!clear && git diff<CR>
+nn <Leader>gds :!clear && git diff --staged<CR>
+nn <Leader>glo :!clear && git log --oneline -10<CR>
+nn <Leader>gsh :!clear && git show<CR>
+nn <Leader>gst :!clear && git status -s --show-stash --ignore-submodules=untracked<CR>
+
 
 "   cmdline (gl)
 
@@ -122,7 +150,6 @@ nn glss :StaticSearch<Space>
 nn glst :set startofline!<CR>
 nn glsy :call getsyntax#()<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
-
 
 
 "   improvements

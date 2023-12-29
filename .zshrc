@@ -100,8 +100,8 @@ fi
 
 #       [ git ]
 alias gad="git add"
-alias gap="git add -p"
-alias gau="git add -u"
+alias gap="git add --patch"
+alias gau="git add --update"
 alias gbr="git branch"
 alias gca="git commit --amend"
 alias gch="git checkout"
@@ -111,6 +111,7 @@ alias gco="git commit"
 alias gcp="git commit -p"
 alias gcv="git commit -v"
 alias gdi="git diff"
+alias gds="git diff --staged"
 alias glo="git log --oneline -10"
 alias gpl="git pull"
 alias gps="git push"

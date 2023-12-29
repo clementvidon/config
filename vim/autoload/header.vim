@@ -1,7 +1,7 @@
 " autoload/header
 " Created: 230524 19:37:48 by clem9nt@imac
 " Updated: 230529 16:50:36 by clem9nt@imac
-" Maintainer: Clément Vidon
+" Maintainer: Clément Vidon (clemedon)
 
 function header#()
     let cmmt = &commentstring
@@ -13,7 +13,7 @@ function header#()
         write
     else
         silent! call append(line("0"), "")
-        silent! call append(line("0"), substitute(cmmt, '%s', ' Maintainer: Clément Vidon ', ''))
+        silent! call append(line("0"), substitute(cmmt, '%s', ' Maintainer: Clément Vidon (clemedon)', ''))
         silent! call append(line("0"), substitute(cmmt, '%s', ' Updated: ' . seal . ' ', ''))
         silent! call append(line("0"), substitute(cmmt, '%s', ' Created: ' . seal . ' ', ''))
         silent! call append(line("0"), substitute(cmmt, '%s', ' ' . expand('%:p:h:t') . '/' . expand('%:t:r') . ' ', ''))
