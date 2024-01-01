@@ -96,10 +96,10 @@ nn <silent> sci :e $HOME/.config/i3/config<CR>
 "   git
 
 
-nn <Leader>g<CR> :echo system('git log --oneline -5')
+nn <Leader>gg :echo system('git diff -U0 \| grep "^+\\|^-" \| grep -v "^+++\\s\\|^---\\s" && echo "" && git log --oneline -5')
             \
             \\|echo "                                                                   Max len msg ↓"
-            \<CR>:!git add . && git commit -m ""<Left>
+            \<CR>:!git add . && git commit --allow-empty -m ""<Left>
 
 nn <Leader>g? :!clear
             \
@@ -112,13 +112,15 @@ nn <Leader>gcm :echo system('git log --oneline -5')
             \\|echo "                                                                   Max len msg ↓"
             \<CR>:!git commit -m ""<Left>
 
-nn <Leader>gau :!clear && git add --update<CR>
 nn <Leader>gap :!clear && git add --patch<CR>
+nn <Leader>gau :!clear && git add --update && git status -s --show-stash --ignore-submodules=untracked<CR>
 nn <Leader>gca :!clear && git commit --amend<CR>
 nn <Leader>gco :!clear && git commit<CR>
 nn <Leader>gdi :!clear && git diff<CR>
 nn <Leader>gds :!clear && git diff --staged<CR>
 nn <Leader>glo :!clear && git log --oneline -10<CR>
+nn <Leader>gre :!clear && git restore<Space>
+nn <Leader>grs :!clear && git reset<Space>
 nn <Leader>gsh :!clear && git show<CR>
 nn <Leader>gst :!clear && git status -s --show-stash --ignore-submodules=untracked<CR>
 
@@ -138,6 +140,8 @@ nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
 nn glhl :set hls!<CR>
 nn gllc :lc %:h<CR>
+nn glli :set list!<CR>
+nn glve :set virtualedit=all
 nn glln :call toggle_nav#(":lnext", ":lprev")<CR>
 nn glnu :set number!<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
@@ -209,7 +213,7 @@ no "+P :-1r!xclip -o -sel clip<CR>
 nn Q :echo "!Q"<CR>
 
 "   header
-nn <Leader>e :call header#()<CR>
+nn <Leader>H :call header#()<CR>
 
 ino jf <Esc>
 ino fj <Esc>
