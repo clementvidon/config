@@ -12,8 +12,8 @@ function! AppendSchedule(option)
 
         " saverne with plaster and friends 231227 to
         call append(line('$'), '#------------------- life_env ↓')
-        call append(line('$'), '- ( 21:00 23:00 ) life_env: chill with innaraz')
-        call append(line('$'), '- ( 19:30 21:00 ) life_env: dine with family')
+        call append(line('$'), '- ( 21:00 23:00 ) life_env: chill with X')
+        call append(line('$'), '- ( 19:30 21:00 ) life_env: dine with X')
         call append(line('$'), '#------------------- achiever ↓')
         call append(line('$'), '- ( 19:00 19:30 ) achiever: clear journal')
         call append(line('$'), '- ( 19:00 19:30 ) achiever: update journal')
