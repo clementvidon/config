@@ -9,7 +9,7 @@
 "                 \ | setlocal path+=$DOTVIM/**,$NOESIS/*/** | endif
 "     autocmd VimEnter * if isdirectory(expand("~/git/noesis"))
 "                 \| nnoremap <buffer> <silent> <CR> :let @s=@/<CR>
-"                 \:e $NOESIS/Lists/todo.noe<CR>G
+"                 \:e $NOESIS/Lists/achiever.noe<CR>G
 "                 \:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>
 "                 \:let @/=@s<CR>
 "                 \:call sanity_check#after()<CR>0

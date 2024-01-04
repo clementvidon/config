@@ -38,6 +38,42 @@ nn <buffer><silent> <Leader>e <nop>
 nn <silent><buffer> K <nop>
 
 
+"   export as html TODO func
+nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
+            \
+            \:silent! %s/\.noesisItalic { .\{-} }$/.noesisItalic { color: #87AFFF; font-style: italic; }/g<CR>
+            \:silent! %s/\.noesisBold { .\{-} }$/.noesisBold { color: #EBCB8B; font-weight: bold; }/g<CR>
+            \:silent! %s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
+            \/--><CR>Oa { color: #8787af; font-size: inherit; }<CR>
+            \footer { font-style: italic; font-size: inherit; font-size: 0.8em; }<Esc>
+            \:silent! g/\.noesis.\{-} { .\{-} }$/norm f}clfont-size: inherit; }<CR>
+            \:silent! %s/\* { font-size: 1em; }$/\* { font-size: 1.1em; }/g<CR>
+            \go/title<CR>o<meta name="author" content="Clement VIDON"><Esc>
+            \o<meta name="copyright" content="&copy; Clément VIDON. All Rights Reserved."><Esc>
+            \G?body<CR>o<footer><CR><a href="https://github.com/clemedon">
+            \Contact:<!-- --cv-- --> cvidon<!-- c--v -->@student.<!-- cv -->42.fr - Copyright: &copy; Clément VIDON. All Rights Reserved.
+            \</a><CR></footer>
+            \<Esc>
+
+"   index generator TODO func
+nn <silent><buffer> <LocalLeader>I :let @a=''<CR>zR
+            \
+            \:silent! keeppatterns g/^\nINDEX\n=*\n->>>/norm V}}jd<CR>
+            \:silent! keeppatterns g/^\(-\\|=\)\{40,80}/-1y A<CR>
+            \3G"apo<CR>INDEX<CR><Esc>80i=<Esc>o<Esc>0O->>><Esc>}}o<<<-<Esc>kk
+            \:let @a=""<CR>
+            \vip>gv:g/[a-z][a-z]\C/norm >><CR>
+            \:let @/=""<CR>
+            \zMzo
+
+"   index nav TODO func
+nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
+            \
+            \:silent! keeppatterns /^\s\{0,4}<C-R>a$<CR>
+            \zt5<C-y>
+            \:let @a=''<CR>
+            " \zOzt5<C-y>
+
 "   info
 nn <silent><buffer> <LocalLeader>? :echo "
             \\n
@@ -46,7 +82,6 @@ nn <silent><buffer> <LocalLeader>? :echo "
             \ HTML_EXPORT       : Space X          \|\n
             \                                      \|\n
             \"<CR>
-
 
 "   noesis grep TODO neovim support
 com! -nargs=+ Grep exec 'grep! -i --exclude="*.gpg.noe" <args> $NOESIS/**/*.noe' | cw
@@ -87,19 +122,15 @@ vn <buffer><silent> <LocalLeader>lfr y:Fr <C-R>"<CR>
 vn <buffer><silent> <LocalLeader>sy y:Sy <C-R>"<CR>
 
 "   string to H1
-
 nn <buffer><silent> <LocalLeader>h1 VUo<C-O>80i=<Esc>:put=strftime('%y%m%d')<CR>
             \73i<Space><Esc>r[A]<Esc>2k0
 
 "   string to H2
-
 nn <buffer><silent> <LocalLeader>h2 :s/\v<(.)(\w*)/\u\1\L\2/g<CR>o<C-O>40i-<Esc>k0
 
 "   update title time
-
 nn <buffer><silent> <LocalLeader>ht mm:let @t=strftime('%y%m%d')<CR>?\[\zs\d\{6}\]<CR>c6l<C-R>t<Esc>`m
 
-no <C-K>% <Nop>
 no <C-K>% <Nop>
 
 exec "digraphs es " . 0x2091

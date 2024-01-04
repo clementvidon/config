@@ -4,10 +4,10 @@
 " Maintainer: Clément Vidon
 
 function! SetNoesisFiletype()
-    if expand('%:t') =~# '^\(history\.gpg\|todo\|later\.gpg\)\.noe$'
-        setlocal filetype=noesis.todo
+    if expand('%:t') =~# '^\(achiever\|todo\.gpg\|journal\.gpg\|schedule\.gpg\)\.noe$'
+        setlocal filetype=noesis.achiever
     else
-        setlocal filetype=noesis.note
+        setlocal filetype=noesis
     endif
 endfunction
 

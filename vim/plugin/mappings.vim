@@ -81,8 +81,8 @@ nn <silent> snn :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snt :let @s=@/<CR>:e $NOESIS/Lists/todo.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>:call sanity_check#after()<CR>0
-nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
+nn <silent> sna :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>:call sanity_check#after()<CR>0
+nn <silent> snj :e $NOESIS/Lists/journal.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
 
 "  config

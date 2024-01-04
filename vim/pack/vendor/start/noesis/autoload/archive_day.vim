@@ -5,9 +5,9 @@
 
 "   @brief  Daily Schedule
 
-function! AppendSchedule(option)
+function! AppendSchedule(schedule)
 
-    if a:option == "temp"
+    if a:schedule == "temp"
         call append(line('$'), '')
 
         " saverne with plaster and friends 231227 to
@@ -181,8 +181,8 @@ endfunction
 
 "   @brief  Archive Today into history and set Today with Tomorrow tasks.
 
-function! archive_day#(schedule) " cf. todo.vim
-    if expand('%:t:r') . '.' . expand('%:e') != 'todo.noe'
+function! archive_day#(schedule) " cf. achiever.vim
+    if expand('%:t:r') . '.' . expand('%:e') != 'achiever.noe'
         return 1
     endif
     let cursor_pos = getpos('.')
