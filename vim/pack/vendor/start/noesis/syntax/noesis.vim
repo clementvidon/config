@@ -53,7 +53,7 @@ endif
 
 syn region noesisCode start="```" end="```" contains=@NoSpell
 
-syn match noesisKeywordPos "\<TODO\>"
+syn match noesisKeywordPos "\<TODO\>" contains=noesisHeader
 syn match noesisKeywordPos "\<WIP\>"
 syn match noesisKeywordNeg "\W \zs!\{2}\ze \(\W\|\)"
 syn match noesisKeywordNeg "\<X\>"

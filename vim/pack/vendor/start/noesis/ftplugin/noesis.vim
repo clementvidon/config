@@ -15,7 +15,6 @@ setlocal path=.,
             \$NOESIS/Projects/**,
             \$NOESIS/Resources/**,
             \$DOTVIM/pack/vendor/start/noesis/**
-setlocal expandtab
 setlocal foldmethod=marker
 setlocal foldmarker=->>>,<<<-
 let maplocalleader = "gh"

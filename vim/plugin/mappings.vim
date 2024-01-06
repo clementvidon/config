@@ -77,11 +77,11 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-nn <silent> snn :e $NOESIS/INDEX.noe<CR>/Lists<CR>
+nn <silent> snN :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> sna :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>:call sanity_check#after()<CR>0
+nn <silent> snn :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
 nn <silent> snj :e $NOESIS/Lists/journal.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
 
@@ -96,9 +96,12 @@ nn <silent> sci :e $HOME/.config/i3/config<CR>
 "   git
 
 
-nn <Leader>gg :echo system('git diff -U0 \| grep "^+\\|^-" \| grep -v "^+++\\s\\|^---\\s" && echo "" && git log --oneline -5')
+nn <Leader>gg :echo system('
             \
-            \\|echo "                                                                   Max len msg ↓"
+            \ git status -s --show-stash --ignore-submodules=untracked &&
+            \ git diff -U0 \| grep "^+\\|^-" \| grep -v "^+++\\s\\|^---\\s" &&
+            \ echo "" && git log --oneline -5')
+            \\|echo "                                                                             Max len msg ↓"
             \<CR>:!git add . && git commit --allow-empty -m ""<Left>
 
 nn <Leader>g? :!clear

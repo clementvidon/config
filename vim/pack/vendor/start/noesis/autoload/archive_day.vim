@@ -3,6 +3,19 @@
 " Updated: 231224 20:12:38 by clem@spectre
 " Maintainer: Clément Vidon
 
+"   @brief  Check that a chunk of text corresponding to pending tasks to do is
+"           less than 50 lines
+
+function! SanityCheck()
+    let view = winsaveview()
+    let beg_line = search("^TODO$")
+    let end_line = search("^TOMORROW SCHEDULE$")
+    if beg_line > 0 && end_line > 0 && (end_line - beg_line - 2) > 50
+        echohl WarningMsg | echo "CLEAN UP YOUR 'TODO' SECTION!" | echohl None
+    endif
+    call winrestview(view)
+endfunction
+
 "   @brief  Daily Schedule
 
 function! AppendSchedule(schedule)
@@ -10,30 +23,50 @@ function! AppendSchedule(schedule)
     if a:schedule == "temp"
         call append(line('$'), '')
 
-        " saverne with plaster and friends 231227 to
-        call append(line('$'), '#------------------- life_env ↓')
-        call append(line('$'), '- ( 21:00 23:00 ) life_env: chill with X')
-        call append(line('$'), '- ( 19:30 21:00 ) life_env: dine with X')
-        call append(line('$'), '#------------------- achiever ↓')
-        call append(line('$'), '- ( 19:00 19:30 ) achiever: clear journal')
+        " saverne with innaraz and 4 days training before scaleway tech interview
+        call append(line('$'), '#------------------- life_env_3')
+        call append(line('$'), '- ( 19:30 22:00 ) life_env: relax for dinner')
+        call append(line('$'), '#------------------- achiever_2')
+        call append(line('$'), '- ( 19:00 19:30 ) achiever: clear schedule')
         call append(line('$'), '- ( 19:00 19:30 ) achiever: update journal')
-        call append(line('$'), '- ( 19:00 19:30 ) achiever: update schedule')
-        call append(line('$'), '#------------------- mainwork ↓')
-        call append(line('$'), '- ( 15:00 19:00 ) mainwork: @employment X')
-        call append(line('$'), '#------------------- life_env ↓')
-        call append(line('$'), '- ( 12:45 15:00 ) life_env: lunch with family')
-        call append(line('$'), '#------------------- mainwork ↓')
-        call append(line('$'), '- ( 10:45 12:45 ) mainwork: @employment X')
-        call append(line('$'), '- ( 10:00 10:45 ) life_env: chill with innaraz')
-        call append(line('$'), '- ( 07:45 10:00 ) mainwork: @employment X')
-        call append(line('$'), '#------------------- achiever ↓')
-        call append(line('$'), '- ( 07:20 07:45 ) achiever: save phone notes')
-        call append(line('$'), '- ( 07:20 07:45 ) achiever: update journal')
-        call append(line('$'), '#------------------- life_env ↓')
-        call append(line('$'), '- ( 07:00 07:20 ) life_env: prepare ( wash )')
-        call append(line('$'), '- TODO 22:30 06:00 life_env: sleep')
+        call append(line('$'), '#------------------- mainwork_2')
+        call append(line('$'), '- ( 14:30 19:00 ) mainwork: @employment X')
+        call append(line('$'), '#------------------- life_env_2')
+        call append(line('$'), '- ( 12:30 14:30 ) life_env: relax for lunch')
+        call append(line('$'), '#------------------- mainwork_1')
+        call append(line('$'), '- ( 07:30 12:30 ) mainwork: @employment X')
+        call append(line('$'), '#------------------- achiever_1')
+        call append(line('$'), '- ( 07:10 07:30 ) achiever: save phone notes')
+        call append(line('$'), '- ( 07:10 07:30 ) achiever: update journal')
+        call append(line('$'), '#------------------- life_env_1')
+        call append(line('$'), '- ( 07:00 07:10 ) life_env: get up')
+        call append(line('$'), '- TODO 23:00 07:00 life_env: sleep')
 
-        " saverne with plaster 231217 to
+
+        " " saverne with plaster and friends 231227 to
+        " call append(line('$'), '#------------------- life_env ↓')
+        " call append(line('$'), '- ( 21:00 23:00 ) life_env: chill with X')
+        " call append(line('$'), '- ( 19:30 21:00 ) life_env: dine with X')
+        " call append(line('$'), '#------------------- achiever ↓')
+        " call append(line('$'), '- ( 19:00 19:30 ) achiever: clear journal')
+        " call append(line('$'), '- ( 19:00 19:30 ) achiever: update journal')
+        " call append(line('$'), '- ( 19:00 19:30 ) achiever: update schedule')
+        " call append(line('$'), '#------------------- mainwork ↓')
+        " call append(line('$'), '- ( 15:00 19:00 ) mainwork: @employment X')
+        " call append(line('$'), '#------------------- life_env ↓')
+        " call append(line('$'), '- ( 12:45 15:00 ) life_env: lunch with family')
+        " call append(line('$'), '#------------------- mainwork ↓')
+        " call append(line('$'), '- ( 10:45 12:45 ) mainwork: @employment X')
+        " call append(line('$'), '- ( 10:00 10:45 ) life_env: chill with innaraz')
+        " call append(line('$'), '- ( 07:45 10:00 ) mainwork: @employment X')
+        " call append(line('$'), '#------------------- achiever ↓')
+        " call append(line('$'), '- ( 07:20 07:45 ) achiever: save phone notes')
+        " call append(line('$'), '- ( 07:20 07:45 ) achiever: update journal')
+        " call append(line('$'), '#------------------- life_env ↓')
+        " call append(line('$'), '- ( 07:00 07:20 ) life_env: prepare ( wash )')
+        " call append(line('$'), '- TODO 22:30 06:00 life_env: sleep')
+
+        " " saverne with plaster 231217 to
         " call append(line('$'), '#------------------- life_env ↓')
         " call append(line('$'), '- ( 21:00 22:00 ) life_env: chill with family')
         " call append(line('$'), '- ( 20:00 21:00 ) life_env: dine with family')
@@ -58,7 +91,7 @@ function! AppendSchedule(schedule)
         " call append(line('$'), '- ( 06:50 07:10 ) life_env: exercise ( stretch, warm-up )')
         " call append(line('$'), '- TODO 22:30 06:45 life_env: sleep')
 
-        " saverne with innaraz 231217 to 231223
+        " " saverne with innaraz 231217 to 231223
         " call append(line('$'), '- ( 21:00 22:30 ) life_env: chill with innaraz')
         " call append(line('$'), '- ( 20:00 21:00 ) life_env: dine with family')
         " call append(line('$'), '- ( 19:00 20:00 ) life_env: chill with innaraz')
@@ -89,7 +122,7 @@ function! AppendSchedule(schedule)
         " call append(line('$'), '- ( 06:45 07:00 ) life_env: exercise ( warm-up )')
         " call append(line('$'), '- TODO 22:30 06:45 life_env: sleep')
 
-        " inna 231206 to
+        " " inna 231206 to
         " call append(line('$'), '- ( 19:30 23:00 ) life_env: spend time with innaraz')
         " call append(line('$'), '- ( 19:20 19:30 ) achiever: update journal')
         " call append(line('$'), '- ( 16:00 19:20 ) mainwork: @employment study go and tdd ( quii go-with-tests / X )')
@@ -179,7 +212,7 @@ function! AppendJournal()
     call append(line('$'), '<<<-')
 endfunction
 
-"   @brief  Archive Today into history and set Today with Tomorrow tasks.
+"   @brief  Archive Today journal and set Today with Tomorrow tasks.
 
 function! archive_day#(schedule) " cf. achiever.vim
     if expand('%:t:r') . '.' . expand('%:e') != 'achiever.noe'
@@ -198,13 +231,13 @@ function! archive_day#(schedule) " cf. achiever.vim
     "   Archive today
 
     write
-    exec 'silent edit ' . expand('%:p:h') . '/history.gpg.noe'
-    if search('^#       JOURNAL HISTORY$', 'n') == 0
+    exec 'silent edit ' . expand('%:p:h') . '/journal.gpg.noe'
+    if search('^#       JOURNAL$', 'n') == 0
         echo "Encrypted file, archive aborted."
         return
     endif
-    call append(search('^#       JOURNAL HISTORY$', 'n'), l:today_content)
-    call append(search('^#       JOURNAL HISTORY$', 'n'), '')
+    call append(search('^#       JOURNAL$', 'n'), l:today_content)
+    call append(search('^#       JOURNAL$', 'n'), '')
     write
     exec 'silent edit #'
 
@@ -228,6 +261,7 @@ function! archive_day#(schedule) " cf. achiever.vim
     call append(line('$'), l:tmrrw_content)
     call winrestview(l:save_view)
     call setpos('.', cursor_pos)
+    call SanityCheck()
     write
     return 0
 endfunction

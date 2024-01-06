@@ -10,6 +10,8 @@ setlocal norelativenumber
 setlocal laststatus=2
 setlocal autoread
 setlocal path=.,, " ./**
+setlocal foldmethod=marker
+setlocal foldmarker={{{,}}}
 
 let maplocalleader="gh"
 
