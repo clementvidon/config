@@ -43,3 +43,9 @@ nn <buffer> <LocalLeader>c :write<CR>
 
 "   race
 nn <buffer> <LocalLeader>r :write<CR>:!clear && go test -race<CR>
+
+"   print template
+nn <buffer> <LocalLeader>p ofmt.Printf("\n");<Esc>==0f\i
+
+"   print wrapper
+nn <buffer> <LocalLeader>P 0<<V:norm f;Di<Esc>Ifmt.Printf("'%v'\n", <Esc>A);<Esc>==0f%l
