@@ -26,8 +26,11 @@ nn <buffer> <LocalLeader> <nop>
 "   settings
 nn <buffer> <LocalLeader>, :write<CR>:e $DOTVIM/ftplugin/go.vim<CR>
 
-"   execute
+"   execute single-file
 nn <buffer> <LocalLeader>e :write<CR>:!clear && go run %<CR>
+
+"   execute multi-file
+nn <buffer> <LocalLeader>E :write<CR>:!clear && go run *.go<CR>
 
 "   test
 nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
