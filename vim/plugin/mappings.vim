@@ -77,20 +77,28 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-nn <silent> snN :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 
+nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snn :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
+nn <silent> sna :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
+nn <silent> snt :e $NOESIS/Lists/todo.gpg.noe<CR>
 nn <silent> snj :e $NOESIS/Lists/journal.gpg.noe<CR>
+nn <silent> snc :e $NOESIS/Lists/schedule.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
 
 "  config
-nn <silent> scv :e $HOME/.vimrc<CR>
-nn <silent> scz :e $HOME/.zshrc<CR>
-nn <silent> sce :e $HOME/.zshenv<CR>
-nn <silent> sct :e $HOME/.tmux.conf<CR>
-nn <silent> sci :e $HOME/.config/i3/config<CR>
+nn <silent> scv :e $HOME/.vimrc<CR>gi<Esc>
+nn <silent> scA :e $HOME/git/config/vim/init/autocmd.vim<CR>gi<Esc>
+nn <silent> scC :e $HOME/git/config/vim/init/command.vim<CR>gi<Esc>
+nn <silent> scO :e $HOME/git/config/vim/init/option.vim<CR>gi<Esc>
+nn <silent> scP :e $HOME/git/config/vim/init/plugin.vim<CR>gi<Esc>
+nn <silent> scM :e $HOME/git/config/vim/plugin/mappings.vim<CR>gi<Esc>
+nn <silent> sca :e $HOME/.config/alacritty/alacritty.yml<CR>gi<Esc>
+nn <silent> scz :e $HOME/.zshrc<CR>gi<Esc>
+nn <silent> sce :e $HOME/.zshenv<CR>gi<Esc>
+nn <silent> sct :e $HOME/.tmux.conf<CR>gi<Esc>
+nn <silent> sci :e $HOME/.config/i3/config<CR>gi<Esc>
 
 
 "   git
