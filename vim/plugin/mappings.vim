@@ -10,13 +10,10 @@ let mapleader=" "
 
 
 nn s  <nop>
-nn ss <nop>
+nn gs <nop>
 nn sT <nop>
 nn sh <nop>
 nn sv <nop>
-nn sn <nop>
-nn sp <nop>
-nn gk <nop>
 
 nn sw :echohl WarningMsg \| echo "Nop!" \| echohl None<CR>
 nn sq :echohl WarningMsg \| echo "Nop!" \| echohl None<CR>
@@ -33,7 +30,7 @@ no mQ  :quitall<CR>
 no gmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
 no gmd :bn!\|bd! #<CR>
-no <silent> mso :let view = winsaveview() \| write \| source $DOTVIM/init.vim\|e \| call winrestview(view)<CR>
+no <silent> mso :let view = winsaveview() \| write \| source $HOME/.vimrc\|e \| call winrestview(view)<CR>
 
 "   find
 nn sf  :fin<Space>
@@ -50,8 +47,7 @@ nn she :sp<Space>
 nn sve :vert<Space>
 
 "   prev
-nn sp  :e #<CR>
-nn gsp :e! #<CR>
+nn sp :e #<CR>
 nn sTp :tabe #<CR>
 nn shp :sp #<CR>
 nn svp :vert #<CR>
@@ -77,17 +73,16 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-
 nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> sna :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G:silent! ?\s\d\{6}\s\d\d:\d\d\s\D<CR>:let @/=@s<CR>0
-nn <silent> snt :e $NOESIS/Lists/todo.gpg.noe<CR>
-nn <silent> snj :e $NOESIS/Lists/journal.gpg.noe<CR>
-nn <silent> snc :e $NOESIS/Lists/schedule.gpg.noe<CR>
+nn <silent> snn :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G{:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0
+nn <silent> snt :e $NOESIS/Lists/todos.gpg.noe<CR>
+nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
 nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
 
 "  config
+nn <silent> sc  <nop>
 nn <silent> scv :e $HOME/.vimrc<CR>gi<Esc>
 nn <silent> scA :e $HOME/git/config/vim/init/autocmd.vim<CR>gi<Esc>
 nn <silent> scC :e $HOME/git/config/vim/init/command.vim<CR>gi<Esc>

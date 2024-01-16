@@ -3,19 +3,6 @@
 " Updated: 231224 20:12:38 by clem@spectre
 " Maintainer: Clément Vidon
 
-"   @brief  Check that a chunk of text corresponding to pending tasks to do is
-"           less than 50 lines
-
-function! SanityCheck()
-    let view = winsaveview()
-    let beg_line = search("^TODO$")
-    let end_line = search("^TOMORROW SCHEDULE$")
-    if beg_line > 0 && end_line > 0 && (end_line - beg_line - 2) > 50
-        echohl WarningMsg | echo "CLEAN UP YOUR 'TODO' SECTION!" | echohl None
-    endif
-    call winrestview(view)
-endfunction
-
 "   @brief  Daily Schedule
 
 function! AppendSchedule(schedule)
@@ -24,21 +11,20 @@ function! AppendSchedule(schedule)
         call append(line('$'), '')
 
         " saverne with innaraz and 4 days training before scaleway tech interview
-        call append(line('$'), '#------------------- life_env_3')
-        call append(line('$'), '- ( 19:30 22:00 ) life_env: relax for dinner')
-        call append(line('$'), '#------------------- achiever_2')
-        call append(line('$'), '- ( 19:00 19:30 ) achiever: clear schedule')
+        call append(line('$'), '- ( 19:30 22:00 ) life_env: relax -- end of day')
+        call append(line('$'), '#------------------- stop')
         call append(line('$'), '- ( 19:00 19:30 ) achiever: update journal')
-        call append(line('$'), '#------------------- mainwork_2')
+        call append(line('$'), '- ( 19:00 19:30 ) achiever: update schedule')
         call append(line('$'), '- ( 14:30 19:00 ) mainwork: @employment X')
-        call append(line('$'), '#------------------- life_env_2')
-        call append(line('$'), '- ( 12:30 14:30 ) life_env: relax for lunch')
-        call append(line('$'), '#------------------- mainwork_1')
+        call append(line('$'), '- ( 14:30 19:00 ) mainwork: @42 X')
+        call append(line('$'), '#------------------- start')
+        call append(line('$'), '- ( 12:30 14:30 ) life_env: relax -- lunch break')
+        call append(line('$'), '#------------------- stop')
         call append(line('$'), '- ( 07:30 12:30 ) mainwork: @employment X')
-        call append(line('$'), '#------------------- achiever_1')
+        call append(line('$'), '- ( 07:30 12:30 ) mainwork: @42 X')
         call append(line('$'), '- ( 07:10 07:30 ) achiever: save phone notes')
         call append(line('$'), '- ( 07:10 07:30 ) achiever: update journal')
-        call append(line('$'), '#------------------- life_env_1')
+        call append(line('$'), '#------------------- start')
         call append(line('$'), '- ( 07:00 07:10 ) life_env: get up')
         call append(line('$'), '- TODO 23:00 07:00 life_env: sleep')
 
@@ -160,10 +146,10 @@ endfunction
 function! AppendJournal()
     call append(line('$'), '')
     call append(line('$'), '')
-    call append(line('$'), 'TODAY JOURNAL')
+    call append(line('$'), 'TODAY')
     call append(line('$'), '================================================================================')
     call append(line('$'), '')
-    call append(line('$'), 'TODO METRICS->>>')
+    call append(line('$'), 'JOURNAL->>>')
     call append(line('$'), '')
     call append(line('$'), '  MIN -2 -1  0  1  2  MAX')
     call append(line('$'), '    0  -  <  =  >  +  1')
@@ -195,19 +181,21 @@ function! AppendJournal()
     call append(line('$'), '    Self Sabotaging : X')
     call append(line('$'), '    Env Constraints : X')
     call append(line('$'), '')
-    call append(line('$'), '<<<-')
-    call append(line('$'), 'TODO REPORTS->>>')
+    call append(line('$'), '  Daily Report')
     call append(line('$'), '')
-    call append(line('$'), '  Daily Report: X')
+    call append(line('$'), '    X')
     call append(line('$'), '')
-    call append(line('$'), '  Daily Advice: X')
+    call append(line('$'), '  Daily Advice')
     call append(line('$'), '')
-    call append(line('$'), '  Sport Report:')
-    call append(line('$'), '  - plank        : X')
-    call append(line('$'), '  - scissor kick : X')
-    call append(line('$'), '  - flexion      : X')
-    call append(line('$'), '  - push up      : X')
-    call append(line('$'), '  - high kick    : X')
+    call append(line('$'), '    X')
+    call append(line('$'), '')
+    call append(line('$'), '  Sport Report')
+    call append(line('$'), '')
+    call append(line('$'), '    Plank        : X')
+    call append(line('$'), '    Scissor kick : X')
+    call append(line('$'), '    Flexion      : X')
+    call append(line('$'), '    Push up      : X')
+    call append(line('$'), '    High kick    : X')
     call append(line('$'), '')
     call append(line('$'), '<<<-')
 endfunction
@@ -223,7 +211,7 @@ function! archive_day#(schedule) " cf. achiever.vim
 
     "   Insert the dates
 
-    let l:today_loc = searchpos('^TODAY JOURNAL$')[0]
+    let l:today_loc = searchpos('^TODAY$')[0]
     call append(l:today_loc + 1, strftime('%a %d %b %Y'))
     call append(l:today_loc + 2, '================================================================================')
     let l:today_content = getline(l:today_loc + 2, line('$'))
@@ -231,19 +219,19 @@ function! archive_day#(schedule) " cf. achiever.vim
     "   Archive today
 
     write
-    exec 'silent edit ' . expand('%:p:h') . '/journal.gpg.noe'
-    if search('^#       JOURNAL$', 'n') == 0
+    exec 'silent edit ' . expand('%:p:h') . '/history.gpg.noe'
+    if search('^#       HISTORY$', 'n') == 0
         echo "Encrypted file, archive aborted."
         return
     endif
-    call append(search('^#       JOURNAL$', 'n'), l:today_content)
-    call append(search('^#       JOURNAL$', 'n'), '')
+    call append(search('^#       HISTORY$', 'n'), l:today_content)
+    call append(search('^#       HISTORY$', 'n'), '')
     write
     exec 'silent edit #'
 
     "   Save Tomorrow content
 
-    let l:today_loc = searchpos('^TODAY JOURNAL$')[0]
+    let l:today_loc = searchpos('^TODAY$')[0]
     let l:tmrrw_loc = searchpos('^TOMORROW SCHEDULE$')[0]
     let l:tmrrw_content = getline(l:tmrrw_loc + 2, l:today_loc - 3)
 
@@ -261,7 +249,6 @@ function! archive_day#(schedule) " cf. achiever.vim
     call append(line('$'), l:tmrrw_content)
     call winrestview(l:save_view)
     call setpos('.', cursor_pos)
-    call SanityCheck()
     write
     return 0
 endfunction

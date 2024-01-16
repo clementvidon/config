@@ -28,25 +28,39 @@ endfunction
 "           and [00:00 00:00] if called twice.
 
 function! task_check#()
+    let cursor_pos = getpos('.')
     let timestamp = RoundTime()
     let datestamp = strftime('%y%m%d')
-    let cursor_pos = getpos('.')
     let line = getline('.')
 
-    if line =~ '^[-~+=] \d\{6} \d\d:\d\d \d\d:\d\d .' " - 000000 11:11 22:22 task => - 000000 11:11 33:33 task
-        call setline('.', substitute(getline('.'), '^[-~+=] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze .', timestamp, ''))
+    " Task '- 000000 11:11 22:22 task'
 
-    elseif line =~ '^[-~+=] \d\{6} \d\d:\d\d .' "      - 000000 11:11 task        => - 000000 11:11 22:22 task
-        call setline('.', substitute(getline('.'), '^[-~+=] \d\{6} \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', ''))
+    if line =~ '^[-~=] \d\{6} \d\d:\d\d \d\d:\d\d \a' " - 000000 11:11 22:22 task  => - 000000 11:11 33:33 task
+        let newline = substitute(getline('.'), '^[-~=] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze.', timestamp, '')
 
-    elseif line =~ '^[-~+=] (.\{-}) .' "                  - ( WHATEVER ) task        => - 000000 11:11 task
-        call setline('.', substitute(line, '^[-~+=] \zs(.\{-})\ze .', datestamp . ' ' . timestamp, ''))
+    elseif line =~ '^[-~=] \d\{6} \d\d:\d\d \a' "       - 000000 11:11 task        => - 000000 11:11 22:22 task
+        let newline = substitute(getline('.'), '^[-~=] \d\{6} \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', '')
 
-    elseif line =~ '^[-~+=] .' "                       - task                     => - 000000 11:11 task
-        normal 0
-        call setline('.', substitute(getline('.'), '^[-~+=]\zs \ze.', ' ' . datestamp . ' ' . timestamp . ' ', ''))
+    elseif line =~ '^[-~=] (.\{-}) \a' "                - ( 00:00 00:00 ) task     => - 000000 11:11 task
+        let newline = substitute(line, '^[-~=] \zs(.\{-})\ze.', datestamp . ' ' . timestamp, '')
+
+    elseif line =~ '^[-~=] \a' "                        - task                     => - 000000 11:11 task
+        let newline = substitute(getline('.'), '^[-~=]\zs \ze.', ' ' . datestamp . ' ' . timestamp . ' ', '')
+
+    " Sub-task '  - 11:11 22:22 sub-task'
+
+    elseif line =~ '^  [-~=] \d\d:\d\d \d\d:\d\d \a' "  - task 11:11 22:22 task    => - 11:11 33:33 task
+        let newline = substitute(getline('.'), '^  [-~=] \d\d:\d\d \zs\d\d:\d\d\ze.', timestamp, '')
+
+    elseif line =~ '^  [-~=] \d\d:\d\d \a' "            - task 11:11               => - 11:11 22:22 task
+        let newline = substitute(getline('.'), '^  [-~=] \d\d:\d\d\zs \ze.', ' ' . timestamp . ' ', '')
+
+    elseif line =~ '^  [-~=] \a' "                      - task                     => - 11:11 task
+        let newline = substitute(getline('.'), '^  [-~=]\zs \ze.', ' ' . timestamp . ' ', '')
 
     endif
+    call setline('.', newline)
+    echom "task_check: " . newline
     call setpos('.', cursor_pos)
 endfunction
 

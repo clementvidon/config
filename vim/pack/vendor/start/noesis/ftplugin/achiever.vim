@@ -12,7 +12,7 @@ let g:achiever_schedule = "temp"
 "   mappings
 
 
-nn <silent><buffer> <LocalLeader>k :call task_check#()<CR>:write<CR>0
+nn <silent><buffer> <LocalLeader>k :call task_check#()<CR>
 nn <silent><buffer> <LocalLeader>F :call task_fix#("up")<CR>
 nn <silent><buffer> <LocalLeader>f :call task_fix#("down")<CR>
 nn <buffer><silent> <LocalLeader>t :call time_diff#(getline('.'))<CR>
@@ -21,6 +21,8 @@ nn <buffer><silent> <LocalLeader>A :call archive_day#(g:achiever_schedule)<CR>
             \:sil cd $NOESIS/<CR>
             \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Archive"<CR>:redraw!<CR>
+            \:call sanity_check#("^TODOS$", "^TOMORROW SCHEDULE$")<CR>
+
 
 "   task un-parenthesis
 nn <silent><buffer> <LocalLeader>K <Esc>
@@ -45,8 +47,9 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 "   abbreviations
 
 
-iabbr <silent><buffer> aac achiever:
-iabbr <silent><buffer> mma mainwork:
-iabbr <silent><buffer> ssi sidework:
-iabbr <silent><buffer> lli life_env:
-iabbr <silent><buffer> wwo work_env:
+iabbr <silent><buffer> aac - achiever:
+iabbr <silent><buffer> mma - mainwork:
+iabbr <silent><buffer> ssi - sidework:
+iabbr <silent><buffer> lli - life_env:
+iabbr <silent><buffer> wwo - work_env:
+iabbr <silent><buffer> --- - __:__ __:__

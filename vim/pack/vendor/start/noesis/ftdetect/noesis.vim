@@ -4,7 +4,7 @@
 " Maintainer: Clément Vidon
 
 function! SetNoesisFiletype()
-    if expand('%:t') =~# '^\(achiever\|todo\.gpg\|journal\.gpg\|schedule\.gpg\)\.noe$'
+    if expand('%:t') =~# '^\(todos\.gpg\|achiever\|history\.gpg\)\.noe$'
         setlocal filetype=noesis.achiever
     else
         setlocal filetype=noesis

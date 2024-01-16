@@ -6,4 +6,5 @@
 "   options
 
 
+setlocal formatoptions-=ro
 setlocal textwidth=80
