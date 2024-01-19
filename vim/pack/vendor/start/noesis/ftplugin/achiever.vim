@@ -13,8 +13,8 @@ let g:achiever_schedule = "temp"
 
 
 nn <silent><buffer> <LocalLeader>k :call task_check#()<CR>
-nn <silent><buffer> <LocalLeader>F :call task_fix#("up")<CR>
-nn <silent><buffer> <LocalLeader>f :call task_fix#("down")<CR>
+nn <silent><buffer> <LocalLeader>F :call task_fix#("time_end")<CR>
+nn <silent><buffer> <LocalLeader>f :call task_fix#("time_beg")<CR>
 nn <buffer><silent> <LocalLeader>t :call time_diff#(getline('.'))<CR>
 nn <buffer><silent> <LocalLeader>A :call archive_day#(g:achiever_schedule)<CR>
             \

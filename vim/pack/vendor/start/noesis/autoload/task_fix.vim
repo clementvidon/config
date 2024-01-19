@@ -3,70 +3,102 @@
 " Updated: 230806 10:34:24 by clem@spectre
 " Maintainer: Clément Vidon
 
-"   @brief  Connect time1 of the current task with time2 of the previous one,
-"           or time2 of the current task with time1 of the next one
+"   @brief  Return the position of the next line matching the given pattern
+"
+"   This function is used to find the next line matching a given pattern within
+"   the same paragraph (until the first emptyline encountered). It can be used
+"   to find a sibling task by passing it a pattern that identify this task.
+"
+"   @param  from_line     The line number to start searching from
+"   @param  to_pattern    The pattern to search for (regex)
+"   @param  abort_pattern Pattern that abort the searching encountered (regex)
+"   @param  step          Step size for searching, can be negative.
+"   @return The line number of the next matching line, or 0 if no match is found
+"
+"   @note   Don't forget that if the pattern match the current line, this one
+"           will be returned.
 
-" function! task_fix#(option)
-"     let cursor_line = getline('.')
-"     let cursor_pos = getpos('.')
-"     normal 0
-"     if a:option == "down" && getline(search('.') + 1) =~ '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d .'
-"         let down_line = getline(search('.') + 1)
-"         let down_time = substitute(down_line, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\zs.*', '', 'e')
-"         let down_time = substitute(down_time, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \ze\d\d:\d\d', '', 'e')
-"         let new_line = substitute(cursor_line, '^[-~+=] \d\d\d\d\d\d \zs\d\d:\d\d\ze.', down_time, 'e')
-"         call setline('.', new_line)
-"     elseif a:option == "up" && getline(search('.') - 1) =~ '^[-~+=] \d\d\d\d\d\d \d\d:\d\d .'
-"         let up_line = getline(search('.') - 1)
-"         let up_time = substitute(up_line, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d\zs.*', '', 'e')
-"         let up_time = substitute(up_time, '^[-~+=] \d\d\d\d\d\d \ze\d\d:\d\d', '', 'e')
-"         let new_line = substitute(cursor_line, '^[-~+=] \d\d\d\d\d\d \d\d:\d\d \zs\d\d:\d\d\ze.', up_time, 'e')
-"         call setline('.', new_line)
-"     else
-"         return 1
-"     endif
-"     call setpos('.', cursor_pos)
-"     echo "Timestamp fixed"
-"     return 0
-" endfunction
+function! s:findMatchingLine(start_line, to_pattern, abort_pattern, step)
+    let line = a:start_line
+    " Loop through lines in function of the step
+    while line >= 1 && line <= line('$')
+        " Check if the line matches the wanted pattern
+        if getline(line) =~ a:to_pattern
+            return line
+        elseif getline(line) =~ a:abort_pattern
+            break
+        endif
+        " Move to the next line
+        let line += a:step
+    endwhile
+
+    " Return 0 if no match is found
+    return 0
+endfunction
+
+"   @brief  Re-link the current task's timestamp to its sibling one.
+"   @param  option  The ts part of the current task to fix "time_beg" or "time_end"
 
 function! task_fix#(option)
-    let curr_pos = getpos('.')
+    let cursor_pos = getpos('.')
 
-    let curr_lnum = line('.')
-    let curr_task = getline(curr_lnum)
-    if curr_task !~ 's\d\d\d\d\d\d\s\d\d:\d\d\s' && curr_lnum == line('$')
-        echo "task_fix: No timestamp found"
-        return 0
+    " Get the current task
+    let dst_line = line('.')
+    let dst_task = getline(dst_line)
+
+    " Super-tasks (bottom-top)
+    if dst_task =~ '^[-~=*] \d\{6} \d\d:\d\d\( \d\d:\d\d\)\? [^0-9]'          " 000000 00:00 or 000000 00:00 00:00
+        let task_ts_pattern = '^[-~=*] \d\{6} \d\d:\d\d\( \d\d:\d\d\)\? ' " 000000 00:00 or 000000 00:00 00:00
+        let abort_pattern = '^$'
+        if a:option == "time_beg"
+            let step = 1
+            let src_task_pattern = '^[-~=*] \d\{6} \d\d:\d\d \d\d:\d\d '       " 000000 00:00 00:00
+            let src_time_pattern = '^[-~=*] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze ' " 000000 00:00 <00:00>
+            let dst_time_pattern = '^[-~=*] \d\{6} \zs\d\d:\d\d\ze '           " 000000 <00:00>
+        elseif a:option == "time_end"
+            let step = -1
+            let src_task_pattern = '^[-~=*] \d\{6} \d\d:\d\d '                 " 000000 00:00
+            let src_time_pattern = '^[-~=*] \d\{6} \zs\d\d:\d\d\ze '           " 000000 <00:00>
+            let dst_time_pattern = '^[-~=*] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze ' " 000000 00:00 <00:00>
+        endif
+    " Sub-tasks (top-bottom)
+    elseif dst_task =~ '^  [-~=*] \d\d:\d\d\( \d\d:\d\d\)\? [^0-9]'           " 00:00 or 00:00 00:00
+        let task_ts_pattern = '^  [-~=*] \d\d:\d\d\( \d\d:\d\d\)\? '        " 00:00 or 00:00 00:00
+        let abort_pattern = '\(^$\|^#\)'
+        if a:option == "time_beg"
+            let step = -1
+            let src_task_pattern = '^  [-~=*] \d\d:\d\d \d\d:\d\d '              " 00:00 00:00
+            let src_time_pattern = '^  [-~=*] \d\d:\d\d \zs\d\d:\d\d\ze '        " 00:00 <00:00>
+            let dst_time_pattern = '^  [-~=*] \zs\d\d:\d\d\ze '                  " <00:00>
+        elseif a:option == "time_end"
+            let step = 1
+            let src_task_pattern = '^  [-~=*] \d\d:\d\d '                        " 00:00
+            let src_time_pattern = '^  [-~=*] \zs\d\d:\d\d\ze '                  " <00:00>
+            let dst_time_pattern = '^  [-~=*] \d\d:\d\d \zs\d\d:\d\d\ze '        " 00:00 <00:00>
+        endif
+    else
+        echo "task_fix: The current line is not a valid task."
     endif
 
-    if a:option == "down"
-        " For each line between the next one and last one
-
-
-        if getline(curr_lnum) =~ '^[-~=] \d\{6} \d\d:\d\d ' " - 000000 00:00 00:00 task
-            for lnum in range(curr_lnum + 1, line('$'))
-                " Get the content of the current line
-                let prev_task = getline(lnum)
-                " Check if there is a timestamp '00:00 00:00'
-                if prev_task =~ ' \d\{6} \d\d:\d\d \d\d:\d\d '
-                    " Update current task starting time with the previous task ending time
-                    let prev_task_time = matchstr(prev_task, ' \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze ')
-                    let new_curr_task = substitute(curr_task, ' \d\{6} \zs\d\d:\d\d\ze ', prev_task_time, '')
-                    call setline(curr_lnum, new_curr_task)
-                    break
-                endif
-            endfor
-
-        elseif getline(curr_lnum) =~ '^  [-~=] \d\d:\d\d ' " - 00:00 00:00 task
-            let upper_line = getline(search('.') - 1)
-            let upper_time = substitute(upper_line, '^[-~+=] \d\d:\d\d\zs.*', '', 'e')
-            let upper_time = substitute(upper_time, '^[-~+=] \ze\d\d:\d\d', '', 'e')
-            let new_line = substitute(curr_line, '^[-~+=] \d\d:\d\d \zs\d\d:\d\d\ze.', upper_time, 'e')
-            call setline('.', new_line)
+    if exists('step')
+        " Find the sibling task
+        let src_task_line = s:findMatchingLine(dst_line + step, src_task_pattern, abort_pattern, step)
+        let src_task = getline(src_task_line)
+        if src_task_line == 0
+            echo "task_fix: Close sibling note found for this task."
+            return 1
         endif
-
-        call setpos('.', curr_pos)
-        echo "task_fix: Timestamp fixed"
-        return 0
+        " Replace the ts part of the current task with the ts part from the src task
+        let src_time  = matchstr(src_task, src_time_pattern)
+        let dst_time  = matchstr(dst_task, dst_time_pattern)
+        if src_time == dst_time
+            echo "task_fix: Nothing to be done."
+            return 1
+        endif
+        let new_curr_task = substitute(dst_task, dst_time, src_time, '')
+        " Replace the old line with the new one
+        call setline('.', new_curr_task)
+        echom "task_fix: " . matchstr(new_curr_task, task_ts_pattern)
+    endif
+    call setpos('.', cursor_pos)
 endfunction

@@ -26,7 +26,7 @@ function! AppendSchedule(schedule)
         call append(line('$'), '- ( 07:10 07:30 ) achiever: update journal')
         call append(line('$'), '#------------------- start')
         call append(line('$'), '- ( 07:00 07:10 ) life_env: get up')
-        call append(line('$'), '- TODO 23:00 07:00 life_env: sleep')
+        call append(line('$'), '- ( 23:00 07:00 ) TODO life_env: sleep')
 
 
         " " saverne with plaster and friends 231227 to

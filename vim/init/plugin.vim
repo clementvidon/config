@@ -187,6 +187,8 @@ let g:seoul256_background = 256
 " packadd justify                                 " justify selection
 
 call plug#begin('$DOTVIM/.plugged')
+Plug 'clemedon/vim-reselect-two'
+
 Plug 'AndrewRadev/linediff.vim'           " view applied tailwind value on element
 Plug 'github/copilot.vim'
 Plug 'tpope/vim-repeat'                         " repeat extension
