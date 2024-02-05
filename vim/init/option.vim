@@ -36,7 +36,7 @@ endif
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:- " split separator decoration
 set guicursor=n-v-c-i:block                         " cursor style
 set shortmess=filnxtToOF                            " see ':h shortmess'
-set ignorecase smartcase                            " ignore case except if uppercase used
+set smartcase " ignorecase                          " searches case-sensitive if they contain an uppercase letter
 set noincsearch                                     " disable incremental search (neo)
 set nowrap                                          " screen line wrapping
 set relativenumber                                  " number column
