@@ -52,7 +52,7 @@ BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeComma
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: false
-ColumnLimit: 80
+ColumnLimit: 120
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
@@ -96,7 +96,7 @@ PenaltyExcessCharacter: 100
 PenaltyReturnTypeOnItsOwnLine: 60
 
 PointerAlignment: Left
-ReflowComments: false
+ReflowComments: true
 SortIncludes: true
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false

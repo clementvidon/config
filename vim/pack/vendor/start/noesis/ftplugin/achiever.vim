@@ -41,7 +41,7 @@ nn <silent><buffer> <LocalLeader>c <Esc>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~+=]\zs \d\d:\d\d\ze', '', 'g'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~+=]\zs \d\d:\d\d\ze', '', 'e'))<CR>
             \:call setline('.', substitute(getline('.'), '\s\{0,1}[-~+=]\zs \d\d\d\d\d\d\ze.', '', 'e'))<CR>
-            \:write<CR>0
+            \0
 
 
 "   abbreviations

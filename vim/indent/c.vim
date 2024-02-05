@@ -16,7 +16,7 @@ setlocal makeprg="make --no-print-directory --jobs -C " . fnamemodify(findfile('
 setlocal shiftwidth=4
 setlocal softtabstop=4
 setlocal tabstop=4
-setlocal textwidth=80
+setlocal textwidth=120
 
 
 endif " prevent vim from loading this config for related filetypes
