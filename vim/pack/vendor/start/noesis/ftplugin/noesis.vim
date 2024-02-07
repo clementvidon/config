@@ -42,6 +42,7 @@ nn <silent><buffer> <LocalLeader>X :set term=xterm-256color<CR>:TOhtml<CR>
             \
             \:silent! %s/\.noesisItalic { .\{-} }$/.noesisItalic { color: #87AFFF; font-style: italic; }/g<CR>
             \:silent! %s/\.noesisBold { .\{-} }$/.noesisBold { color: #EBCB8B; font-weight: bold; }/g<CR>
+            \:silent! %s/\.Todo { .\{-} }$/.Todo { color: #EBCB8B; font-weight: bold; }/g<CR>
             \:silent! %s/background-color: \#000000; }$/background-color: \#2e333f; }/g<CR>
             \/--><CR>Oa { color: #8787af; font-size: inherit; }<CR>
             \footer { font-style: italic; font-size: inherit; font-size: 0.8em; }<Esc>
