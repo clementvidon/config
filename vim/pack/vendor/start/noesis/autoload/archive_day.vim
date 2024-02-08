@@ -12,22 +12,39 @@ function! AppendSchedule(schedule)
 
         " bda + scaleway TODO
 
-        " bda before scaleway 240204
-
         call append(line('$'), '#------------------- stop')
-        call append(line('$'), '- ( 20:40 21:30 ) sidework: @gea board -- daily point with mervaonu, catlic and antoninboi')
+        call append(line('$'), '- ( 20:40 21:40 ) sidework: @gea board -- daily point with mervaonu, catlic and antoninboi')
         call append(line('$'), '- ( 19:40 20:40 ) achiever: update journal')
         call append(line('$'), '- ( 19:40 20:40 ) achiever: update schedule')
         call append(line('$'), '- ( 19:00 19:40 ) life_env: dine -- with grand parents')
-        call append(line('$'), '- ( 14:00 19:00 ) mainwork: @scaleway get started -- X')
-        call append(line('$'), '- ( 12:40 14:00 ) achiever: save notes -- phone')
-        call append(line('$'), '- ( 12:00 12:40 ) life_env: lunch -- with grand parents')
-        call append(line('$'), '- ( 08:00 12:00 ) mainwork: @scaleway get started -- X')
-        call append(line('$'), '- ( 07:30 08:00 ) achiever: update journal')
+        call append(line('$'), '- ( 17:30 19:00 ) life_env: move to home -- listen news, read book')
+        call append(line('$'), '- ( 13:00 17:30 ) mainwork: @scaleway/launchpad X')
+        call append(line('$'), '- ( 12:00 13:00 ) life_env: lunch -- with team')
+        call append(line('$'), '  * chat with fredericrou -- to sleep at his place on saturday')
+        call append(line('$'), '- ( 10:00 12:00 ) mainwork: @scaleway/launchpad X')
         call append(line('$'), '#------------------- start')
-        call append(line('$'), '- ( 07:00 07:30 ) life_env: prepare -- wash, dress, breakfast')
-        call append(line('$'), '- ( 06:30 07:00 ) life_env: exercise -- run in the forest')
-        call append(line('$'), '- ( 22:30 06:30 ) life_env: sleep')
+        call append(line('$'), '- ( 09:35 10:00 ) achiever: update journal')
+        call append(line('$'), '- ( 08:25 09:35 ) life_env: move to scaleway -- listen news, read book')
+        call append(line('$'), '- ( 08:00 08:25 ) life_env: prepare -- wash, dress')
+        call append(line('$'), '- ( 07:20 08:00 ) life_env: exercise -- run in the forest')
+        call append(line('$'), '- ( 22:30 07:20 ) life_env: sleep')
+
+        " bda before scaleway 240204
+
+        " call append(line('$'), '#------------------- stop')
+        " call append(line('$'), '- ( 20:40 21:30 ) sidework: @gea board -- daily point with mervaonu, catlic and antoninboi')
+        " call append(line('$'), '- ( 19:40 20:40 ) achiever: update journal')
+        " call append(line('$'), '- ( 19:40 20:40 ) achiever: update schedule')
+        " call append(line('$'), '- ( 19:00 19:40 ) life_env: dine -- with grand parents')
+        " call append(line('$'), '- ( 14:00 19:00 ) mainwork: @scaleway get started -- X')
+        " call append(line('$'), '- ( 12:40 14:00 ) achiever: save notes -- phone')
+        " call append(line('$'), '- ( 12:00 12:40 ) life_env: lunch -- with grand parents')
+        " call append(line('$'), '- ( 08:00 12:00 ) mainwork: @scaleway get started -- X')
+        " call append(line('$'), '- ( 07:30 08:00 ) achiever: update journal')
+        " call append(line('$'), '#------------------- start')
+        " call append(line('$'), '- ( 07:00 07:30 ) life_env: prepare -- wash, dress, breakfast')
+        " call append(line('$'), '- ( 06:30 07:00 ) life_env: exercise -- run in the forest')
+        " call append(line('$'), '- ( 22:30 06:30 ) life_env: sleep')
 
         " paris with inna 240123
         " call append(line('$'), '- life_env: relax -- with innaraz')
