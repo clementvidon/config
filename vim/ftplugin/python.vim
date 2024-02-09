@@ -31,22 +31,24 @@ nn <silent><buffer> <LocalLeader>f :let g:save=winsaveview()<CR>
             \echo expand("%") . " formatted" <BAR>
             \endif <CR>
 
-"   execute file
-nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>
-            \:!clear; /usr/bin/python3 %<CR>
+"   execute single-file
+nn <buffer> <LocalLeader>e :write<CR>:!clear && /usr/bin/python3 %<CR>
 
 "   execute program
-au FileType python nn <silent><buffer> <LocalLeader>X :w\|lc %:h<CR>
-            \:!clear; /usr/bin/python3 main.py<CR>
+nn <buffer> <LocalLeader>E :write<CR>:!clear && /usr/bin/python3 main.py<CR>
+
+"   test
+nn <buffer> <LocalLeader>t :write<CR>:!clear && pytest<CR>
+nn <buffer> <LocalLeader>T :write<CR>:!clear && pytest -v<CR>
 
 "   print
-au Filetype python nn <silent><buffer> <LocalLeader>p oprint ()<Esc>==f)i
+nn <silent><buffer> <LocalLeader>p oprint ()<Esc>==f)i
 
 "   print wrap
-au Filetype python nn <silent><buffer> <LocalLeader>w 0iprint (<Esc>A)<Esc>==f)h
+nn <silent><buffer> <LocalLeader>P 0iprint (<Esc>A)<Esc>==f)h
 
 "   put expr value
-nn <silent><buffer> <LocalLeader>e :lc %:h<CR>
+nn <silent><buffer> <LocalLeader>x :lc %:h<CR>
             \
             \:sil ec "Duplicate the line."<CR>
             \0Yp

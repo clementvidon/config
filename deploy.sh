@@ -47,8 +47,8 @@ if command -v alacritty &> /dev/null; then
         mkdir -pv "$HOME/.fonts"
         ln -fsv "$HOME/git/config/.fonts/"*.ttc               "$HOME/.fonts/"
         mkdir -pv "$HOME/.config/alacritty/colors"
-        ln -fsv "$HOME/git/config/alacritty/"*.yml            "$HOME/.config/alacritty/"
-        ln -fsv "$HOME/git/config/alacritty/colors/"*.yml     "$HOME/.config/alacritty/colors/"
+        ln -fsv "$HOME/git/config/alacritty/"*.toml           "$HOME/.config/alacritty/"
+        ln -fsv "$HOME/git/config/alacritty/colors/"*.toml    "$HOME/.config/alacritty/colors/"
     } 1>/dev/null
     echo "alacritty    OK"
 fi
