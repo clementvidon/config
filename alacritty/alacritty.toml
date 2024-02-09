@@ -1,0 +1,31 @@
+import = ["~/.config/alacritty/colors.toml", "~/.config/alacritty/fonts.toml"]
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[env]
+TERM = "xterm-256color"
+
+[[hints.enabled]]
+command = "firefox"
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "U"
+mods = "Control|Shift"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+[scrolling]
+history = 10000
+
+[shell]
+args = ["-l", "-c", "tmux attach || tmux;clear"]
+program = "/bin/zsh"
+
+[window.dimensions]
+columns = 67
+lines = 30

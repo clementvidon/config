@@ -1,0 +1,18 @@
+[font]
+size = 12
+
+[font.bold]
+family = "Iosevka Term"
+style = "Semibold Extended"
+
+[font.bold_italic]
+family = "Iosevka Term"
+style = "Bold Extended Italic"
+
+[font.italic]
+family = "Iosevka Term"
+style = "Semibold Extended Italic"
+
+[font.normal]
+family = "Iosevka Term"
+style = "Semibold Extended"
