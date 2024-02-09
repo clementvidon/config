@@ -6,7 +6,7 @@
 if $USER == 'clem' " at home
     let $NOESIS=$HOME . "/git/noesis"
 else " at work
-    let $NOESIS=$HOME . "/git/perso/noesis"
+    let $NOESIS=$HOME . "/perso/noesis"
 endif
 
 let $DOTVIM=$HOME . "/git/config/vim"

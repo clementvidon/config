@@ -3,7 +3,7 @@ size = 12
 
 [font.bold]
 family = "Iosevka Term"
-style = "Semibold Extended"
+style = "Bold Extended"
 
 [font.bold_italic]
 family = "Iosevka Term"
@@ -11,8 +11,8 @@ style = "Bold Extended Italic"
 
 [font.italic]
 family = "Iosevka Term"
-style = "Semibold Extended Italic"
+style = "Medium Extended Italic"
 
 [font.normal]
 family = "Iosevka Term"
-style = "Semibold Extended"
+style = "Medium Extended"
