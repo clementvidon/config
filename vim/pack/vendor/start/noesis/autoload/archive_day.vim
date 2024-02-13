@@ -14,7 +14,11 @@ function! AppendSchedule(schedule)
 
         " bda + scaleway TODO
 
-        " call append(line('$'), '#------------------- stop')
+        call append(line('$'), '#------------------- evening')
+        call append(line('$'), '#------------------- afternoon')
+        call append(line('$'), '#------------------- morning')
+        call append(line('$'), '#------------------- night')
+
         " call append(line('$'), '- ( 20:40 21:40 ) sidework: @gea board -- daily point with mervaonu, catlic and antoninboi')
         " call append(line('$'), '- ( 19:40 20:40 ) achiever: update journal')
         " call append(line('$'), '- ( 19:40 20:40 ) achiever: update schedule')
