@@ -10,8 +10,6 @@ function! AppendSchedule(schedule)
     if a:schedule == "temp"
         call append(line('$'), '')
 
-        call append(line('$'), 'TODO')
-
         " bda + scaleway TODO
 
         call append(line('$'), '#------------------- evening')
