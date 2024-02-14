@@ -3,7 +3,7 @@
 " Updated: 230802 15:42:37 by cvidon@paul-f5Br5s5.clusters.42paris.fr
 " Maintainer: Clément Vidon
 
-if $USER == 'clem' " at home
+if $USER == 'clem' || $USER == 'perso' " at home
     let $NOESIS=$HOME . "/git/noesis"
 else " at work
     let $NOESIS=$HOME . "/perso/noesis"
