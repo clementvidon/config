@@ -39,7 +39,7 @@ set shortmess=filnxtToOF                            " see ':h shortmess'
 set smartcase " ignorecase                          " searches case-sensitive if they contain an uppercase letter
 set noincsearch                                     " disable incremental search (neo)
 set nowrap                                          " screen line wrapping
-set relativenumber                                  " number column
+set norelativenumber                                  " number column
 set showmatch                                       " set showmatch
 set spellfile=$DOTVIM/.spell/custom.utf-8.add       " dictionary location
 set spelllang=en,fr                                 " lang for spellcheck
