@@ -13,8 +13,10 @@ function! AppendSchedule(schedule)
         " 240212 scaleway
 
         call append(line('$'), '#------------------- evening')
+        call append(line('$'), '- achiever: update journal')
         call append(line('$'), '#------------------- afternoon')
         call append(line('$'), '#------------------- morning')
+        call append(line('$'), '- achiever: update journal')
         call append(line('$'), '#------------------- night')
 
         " bda + scaleway
@@ -232,7 +234,7 @@ function! AppendJournal()
     call append(line('$'), '    Env Constraints : X')
     call append(line('$'), '')
     call append(line('$'), '<<<-')
-    call append(line('$'), 'MORNING JOURNAL TODO->>>')
+    call append(line('$'), 'EVENING JOURNAL TODO->>>')
     call append(line('$'), '')
     call append(line('$'), '  Last State')
     call append(line('$'), '    At              : X')
