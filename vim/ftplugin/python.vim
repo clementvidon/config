@@ -38,8 +38,10 @@ nn <buffer> <LocalLeader>e :write<CR>:!clear && /usr/bin/python3 %<CR>
 nn <buffer> <LocalLeader>E :write<CR>:!clear && /usr/bin/python3 main.py<CR>
 
 "   test
-nn <buffer> <LocalLeader>t :write<CR>:!clear && pytest -v<CR>
-nn <buffer> <LocalLeader>T :write<CR>:!clear && pytest -v %<CR>
+" nn <buffer> <LocalLeader>t :write<CR>:!clear && pytest -v<CR>
+" nn <buffer> <LocalLeader>T :write<CR>:!clear && pytest -v %<CR>
+nn <buffer> <LocalLeader>t :write<CR>:!clear && python3 -m unittest -v<CR>
+nn <buffer> <LocalLeader>T :write<CR>:!clear && python3 -m unittest -v %<CR>
 
 "   print
 nn <silent><buffer> <LocalLeader>p oprint ()<Esc>==f)i
