@@ -13,10 +13,9 @@ function! AppendSchedule(schedule)
         " 240212 scaleway
 
         call append(line('$'), '#------------------- evening')
-        call append(line('$'), '- achiever: update journal')
+        call append(line('$'), '- sidework: @achiever journal update')
         call append(line('$'), '#------------------- afternoon')
         call append(line('$'), '#------------------- morning')
-        call append(line('$'), '- achiever: update journal')
         call append(line('$'), '#------------------- night')
 
         " bda + scaleway
