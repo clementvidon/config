@@ -9,89 +9,95 @@
 
 nn gj <nop>
 
-" let g:ale_pattern_options = {'\.go$': {'ale_enabled': 0}}
-
-let g:ale_set_signs = 0
-let g:ale_sign_column_always = 0
-
-" let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
-let b:ale_exclude_highlights = ['eslint: prettier/prettier: Delete']
+let g:ale_enabled = 0
+"     " let g:ale_pattern_options = {'\.go$': {'ale_enabled': 0}}
+"
+"     let g:ale_set_signs = 0
+"     let g:ale_sign_column_always = 0
+"
+"     " let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
+"     let b:ale_exclude_highlights = ['eslint: prettier/prettier: Delete']
 let g:ale_virtualtext_cursor = 'disabled'
-let g:ale_virtualtext_delay = 0
-let g:ale_virtualtext_prefix = ""
-
-" let g:ale_linters_explicit = 1
-" let g:ale_linters_ignore = {}
-let g:ale_lint_delay = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_filetype_change = 0
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-
-" let g:ale_completion_excluded_words = ['it', 'describe']
-" let g:ale_completion_delay = 0
-" let g:ale_completion_enabled = 1
-" let g:ale_completion_max_suggestions = 10
-" set omnifunc=ale#completion#OmniFun
-
-let g:ale_echo_msg_error_str = 'Error'
-let g:ale_echo_msg_format = '%linter%: %code: %%s'
-let g:ale_history_enabled = 0
-let g:ale_history_log_output = 0
-
-let g:ale_keep_list_window_open = 0
-let g:ale_list_window_size = 10
-let g:ale_loclist_msg_format = '%linter%: %code: %%s'
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 1
-
-let g:ale_lsp_show_message_format = 'TODO TODO TODO %severity%:%linter%: %s'
-let g:ale_set_balloons = 0 " TODO
-
-let g:ale_maximum_file_size = 1000
-let g:ale_emit_conflict_warnings = 0
-
+"     let g:ale_virtualtext_delay = 0
+"     let g:ale_virtualtext_prefix = ""
+"
+"     " let g:ale_linters_explicit = 1
+"     " let g:ale_linters_ignore = {}
+"     let g:ale_lint_delay = 0
+"     let g:ale_lint_on_enter = 0
+"     let g:ale_lint_on_filetype_change = 0
+"     let g:ale_lint_on_insert_leave = 1
+"     let g:ale_lint_on_save = 1
+"     let g:ale_lint_on_text_changed = 'never'
+" let ale_lsp_show_message_severity = 'error'
+"
+"     " let g:ale_completion_excluded_words = ['it', 'describe']
+"     " let g:ale_completion_delay = 0
+"     " let g:ale_completion_enabled = 1
+"     " let g:ale_completion_max_suggestions = 10
+"     " set omnifunc=ale#completion#OmniFun
+"
+"     let g:ale_echo_msg_error_str = 'Error'
+"     let g:ale_echo_msg_format = '%linter%: %code: %%s'
+"     let g:ale_history_enabled = 0
+"     let g:ale_history_log_output = 0
+"
+"     let g:ale_keep_list_window_open = 0
+"     let g:ale_list_window_size = 10
+"     let g:ale_loclist_msg_format = '%linter%: %code: %%s'
+"     let g:ale_set_loclist = 1
+"     let g:ale_set_quickfix = 1
+"
+"     let g:ale_lsp_show_message_format = 'TODO TODO TODO %severity%:%linter%: %s'
+"     let g:ale_set_balloons = 0 " TODO
+"
+" let g:ale_maximum_file_size = 1000
+"     let g:ale_emit_conflict_warnings = 0
+"
+nn gja? :nn gja<CR>
+nn gjar :ALEDisable<CR>:ALEEnable<CR>
 nn gjar :ALEDisable<CR>:ALEEnable<CR>
 nn gjah :ALEHover<CR>
+nn gjai :ALEInfo<CR>
 nn gjaa :ALECodeAction<CR>
 nn gjad :ALEDetail<CR>
 nn gjat :ALEToggle<CR>
-
-" highlight ALEError                      ctermfg=1
-" highlight ALEStyleError                 ctermfg=
-" highlight ALEWarning                    ctermfg=
-" highlight ALEWarningSign                ctermfg=
-" highlight ALEErrorSign                  ctermfg=#BF616A
-" highlight ALEInfo                       ctermfg=
-
-" highlight ALEVirtualTextError           ctermfg=219
-" highlight ALEVirtualTextStyleError      ctermfg=183
-" highlight ALEVirtualTextWarning         ctermfg=218
-" highlight ALEVirtualTextStyleWarning    ctermfg=182
-" highlight ALEVirtualTextInfo            ctermfg=103
-
+"
+"     " highlight ALEError                      ctermfg=1
+"     " highlight ALEStyleError                 ctermfg=
+"     " highlight ALEWarning                    ctermfg=
+"     " highlight ALEWarningSign                ctermfg=
+"     " highlight ALEErrorSign                  ctermfg=#BF616A
+"     " highlight ALEInfo                       ctermfg=
+"
+"     " highlight ALEVirtualTextError           ctermfg=219
+"     " highlight ALEVirtualTextStyleError      ctermfg=183
+"     " highlight ALEVirtualTextWarning         ctermfg=218
+"     " highlight ALEVirtualTextStyleWarning    ctermfg=182
+"     " highlight ALEVirtualTextInfo            ctermfg=103
+"
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['tsserver', 'prettier'],
             \'typescriptreact': ['tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
+            \'python': ['pylint'],
             \}
-            " \'go': ['golangci-lint', 'gofmt'],
-
-" let g:ale_fix_on_save_ignore = 1
-let g:ale_fixers = {
-            \'javascript': ['eslint'],
-            \'json': ['prettier'],
-            \'typescript': ['eslint', 'prettier', 'tslint'],
-            \'typescriptreact': ['eslint', 'prettier', 'tslint'],
-            \'markdown': ['prettier'],
-            \'cpp': ['clang-format'],
-            \'bash': ['shfmt'],
-            \}
-            " \'go': ['gofmt'],
-
-let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
+"     "     \'go': ['golangci-lint', 'gofmt'],
+"
+"     " let g:ale_fix_on_save_ignore = 1
+"     let g:ale_fixers = {
+"                 \'javascript': ['eslint'],
+"                 \'json': ['prettier'],
+"                 \'typescript': ['eslint', 'prettier', 'tslint'],
+"                 \'typescriptreact': ['eslint', 'prettier', 'tslint'],
+"                 \'markdown': ['prettier'],
+"                 \'cpp': ['clang-format'],
+"                 \'bash': ['shfmt'],
+"                 \}
+"                 " \'go': ['gofmt'],
+"
+"     let g:ale_cpp_cc_options = '-Wall -Wextra -Werror -std=c++98 -Wconversion -Wsign-conversion -pedantic -Iinclude -Iincludes -Iinc -Iincs -I.'
 
 if has('copilot')
     imap <Left>     <Plug>(copilot-dismiss)

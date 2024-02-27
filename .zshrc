@@ -236,3 +236,6 @@ function repl()
     fi
     find "$1" -type f -exec sed -i "s/$2/$3/g" {} +
 }
+
+# Scaleway CLI autocomplete initialization.
+eval "$(scw autocomplete script shell=zsh)"

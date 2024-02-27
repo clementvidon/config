@@ -30,7 +30,7 @@ nn <buffer> <LocalLeader>, :write<CR>:e $DOTVIM/ftplugin/go.vim<CR>
 nn <buffer> <LocalLeader>e :write<CR>:!clear && go run %<CR>
 
 "   execute multi-file
-nn <buffer> <LocalLeader>E :write<CR>:!clear && go run *.go<CR>
+nn <buffer> <LocalLeader>E :write<CR>:!clear && go run $(ls -1 *.go \| grep -v _test.go)<CR>
 
 "   test
 nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
