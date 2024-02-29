@@ -10,3 +10,4 @@ setlocal cindent
 setlocal expandtab
 setlocal formatprg="black --quiet - 2>/tmp/vim_format_errors"
 setlocal tw=80
+setlocal list listchars=multispace:│\ \ \  " jj
