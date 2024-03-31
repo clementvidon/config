@@ -6,7 +6,7 @@
 #                  vi mode                                                     #
 #------------------------------------------------------------------------------#
 
-bindkey -v                                                          # enable vim keybinding ( $ bindkey -l )
+indkey -v                                                          # enable vim keybinding ( $ bindkey -l )
 export EDITOR=vim
 export KEYTIMEOUT=1                                                 # 10ms vi MODES transition
 

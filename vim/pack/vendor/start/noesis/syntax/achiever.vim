@@ -41,8 +41,8 @@ if &background == "dark"
     hi achieverTime                 ctermfg=103
 
     hi achieverTagMainwork          ctermfg=211
-    hi achieverTagSidework          ctermfg=211
-    hi achieverTagAchiever          ctermfg=175
+    hi achieverTagSidework          ctermfg=175
+    " hi achieverTagAchiever          ctermfg=175
     hi achieverTagWork_env          ctermfg=139
     hi achieverTagLife_env          ctermfg=96
 
