@@ -10,7 +10,7 @@
     defaultBranch = main
 [core]
 	editor = vim
-	excludesfile = "$HOME/.gitignore"
+	excludesfile = ~/.gitignore
 	pager = less
 [color "status"]
 	added = green bold
@@ -45,3 +45,9 @@
     ss = status -sb
 [commit]
 	template = "~/.gitmessage"
+[credential]
+	helper = cache
+[url "git@git.companyname.com:"]
+	insteadOf = https://gitlab.companyname.com/
+[url "git@gitlab.infra.online.net:"]
+	insteadOf = https://gitlab.infra.online.net/

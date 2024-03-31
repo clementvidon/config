@@ -16,11 +16,9 @@ syn match achieverTime /\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s/                     
 syn match achieverTime /\(^\s\{0,2}[*-~]\s\)\@<=\d\d:\d\d\ze\s/                     " 00:00
 syn match achieverTime /\(^\s\{0,2}[*-~]\s\)\@<=\d\d:\d\d\s\d\d:\d\d\ze\s/          " 00:00 00:00
 
-syn match achieverTagMainwork /\s\<mainwork\>:\($\|\s\)/ " mainwork:
-syn match achieverTagSidework /\s\<sidework\>:\($\|\s\)/ " sidework:
-syn match achieverTagAchiever /\s\<achiever\>:\($\|\s\)/ " achiever:
-syn match achieverTagWork_env /\s\<work_env\>:\($\|\s\)/ " work_env:
-syn match achieverTagLife_env /\s\<life_env\>:\($\|\s\)/ " life_env:
+syn match achieverTagWork /\s\<work\>:\($\|\s\)/ " work:
+syn match achieverTagSide /\s\<side\>:\($\|\s\)/ " side:
+syn match achieverTagLife /\s\<life\>:\($\|\s\)/ " life:
 
 syn match achieverDetail /\s\zs--\s.*\($\|\ze\s{\)/ contains=Todo,achieverFeedback  " -- detail
 syn match achieverFeedback /\s\zs{\s.\{-}\s}/                                       " { feedback }
@@ -40,11 +38,9 @@ if &background == "dark"
     hi achieverTimeClue             ctermfg=60
     hi achieverTime                 ctermfg=103
 
-    hi achieverTagMainwork          ctermfg=211
-    hi achieverTagSidework          ctermfg=175
-    " hi achieverTagAchiever          ctermfg=175
-    hi achieverTagWork_env          ctermfg=139
-    hi achieverTagLife_env          ctermfg=96
+    hi achieverTagWork              ctermfg=211
+    hi achieverTagSide              ctermfg=175
+    hi achieverTagLife              ctermfg=139
 
     hi achieverDetail               ctermfg=103
     hi achieverFeedback             ctermfg=194

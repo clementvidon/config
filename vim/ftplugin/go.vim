@@ -28,6 +28,7 @@ nn <buffer> <LocalLeader>, :write<CR>:e $DOTVIM/ftplugin/go.vim<CR>
 
 "   execute single-file
 nn <buffer> <LocalLeader>e :write<CR>:!clear && go run %<CR>
+nn <buffer> <LocalLeader>E :write<CR>:!clear && go run -race -vet -work -mod=readonly %<CR>
 
 "   execute multi-file
 nn <buffer> <LocalLeader>E :write<CR>:!clear && go run $(ls -1 *.go \| grep -v _test.go)<CR>
