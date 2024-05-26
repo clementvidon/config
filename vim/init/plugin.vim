@@ -81,8 +81,9 @@ let g:ale_linters = {
             \'typescript': ['tsserver', 'prettier'],
             \'typescriptreact': ['tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
-            \'python': ['pylint'],
             \}
+
+            " \'python': ['pylint'],
 "     "     \'go': ['golangci-lint', 'gofmt'],
 "
 "     " let g:ale_fix_on_save_ignore = 1
@@ -143,6 +144,11 @@ function! CopilotToggle()
 endfunction
 nnoremap gjct :call CopilotToggle()<CR>
 
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 " let g:user_emmet_install_global = 0
 " let g:user_emmet_leader_key = ','
 " let g:user_emmet_mode = 'i'
@@ -155,8 +161,15 @@ nnoremap gjct :call CopilotToggle()<CR>
 "     autocmd! FileType html,css,javascript,php,typescript,typescriptreact EmmetInstall
 " endif
 
+let g:go_debug_windows = {
+            \'vars':       'rightbelow 60vnew',
+            \'stack':      'rightbelow 10new',
+            \}
+
 " let g:goyo_width = 90
 " let g:goyo_height = '100%'
+
+
 
 let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = [
@@ -218,6 +231,12 @@ Plug 'prisma/vim-prisma'                        " prisma
 
 Plug 'leafOfTree/vim-svelte-plugin'
 Plug 'fatih/vim-go'
+
+
+Plug 'davidhalter/jedi-vim'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'junegunn/vim-easy-align'
+
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
 " Plug 'mattn/emmet-vim'                          " html css shortcuts

@@ -5,32 +5,32 @@
 
 export PATH=$PATH:"$HOME/bin"
 export PATH=$PATH:"$HOME/.local/bin"
-export PATH=$PATH:"$HOME/.local/script/i3"
 export PATH=$PATH:"$HOME/.local/script"
+
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
 export PATH=$PATH:/snap/bin
+
+export PATH=$HOME/.npm/bin:$PATH
+export PATH=$PATH:"$HOME/node_modules/.bin"
+
+export PATH=$PATH:"$HOME/.cargo/bin"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc
 
-######################################## Home
+######################################## Scaleway
 
-if [[ "$LOGNAME" = "clem" ]]; then
-    export GPG_TTY=$(tty)
-    export GPG_KEY=Clem9nt
-    export GNUPGHOME=$HOME/.gnupg
-    export PATH=$HOME/.npm/bin:$PATH
-    export PATH=$PATH:"$HOME/node_modules/.bin"
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        export MallocNanoZone=0
-    fi
-fi
+export VAULT_ADDR=https://vault.sec.internal.scaleway.com/
+# export VAULT_TOKEN="$(vault login -format=json -method=ldap username=cvidon | jq -r .auth.client_token)"
 
-######################################## Alacritty
+######################################## GnuPG
 
-export PATH=$PATH:"$HOME/.cargo/bin"
+export GPG_TTY=$(tty)
+export GNUPGHOME=$HOME/.gnupg
 
 ######################################## Password Store
 
@@ -55,4 +55,3 @@ fi
 if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
 fi
-. "$HOME/.local/share/dfx/env"

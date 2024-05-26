@@ -4,7 +4,11 @@
 " Maintainer: Clément Vidon
 
 function! SetNoesisFiletype()
-    setlocal filetype=noesis
+    if expand('%:t') =~# '^\(todos\.gpg\|achiever\|history\.gpg\)\.noe$'
+        setlocal filetype=noesis.achiever
+    else
+        setlocal filetype=noesis
+    endif
 endfunction
 
 autocmd BufRead,BufNewFile *.md,*.noe call SetNoesisFiletype()

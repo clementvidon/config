@@ -46,19 +46,35 @@ function! task_fix#(option)
     let dst_line = line('.')
     let dst_task = getline(dst_line)
 
-    if dst_task =~ '^- \d\{6} \d\d:\d\d\( \d\d:\d\d\)\? [^0-9]'             " 000000 00:00 or 000000 00:00 00:00
-        let task_ts_pattern = '^- \d\{6} \d\d:\d\d\( \d\d:\d\d\)\? '        " 000000 00:00 or 000000 00:00 00:00
+    " Super-tasks (bottom-top)
+    if dst_task =~ '^[-~=*] \d\{6} \d\d:\d\d\( \d\d:\d\d\)\? [^0-9]'          " 000000 00:00 or 000000 00:00 00:00
+        let task_ts_pattern = '^[-~=*] \d\{6} \d\d:\d\d\( \d\d:\d\d\)\? ' " 000000 00:00 or 000000 00:00 00:00
         let abort_pattern = '^$'
         if a:option == "time_beg"
             let step = 1
-            let src_task_pattern = '^- \d\{6} \d\d:\d\d \d\d:\d\d '         " 000000 00:00 00:00
-            let src_time_pattern = '^- \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze '   " 000000 00:00 <00:00>
-            let dst_time_pattern = '^- \d\{6} \zs\d\d:\d\d\ze '             " 000000 <00:00>
+            let src_task_pattern = '^[-~=*] \d\{6} \d\d:\d\d \d\d:\d\d '       " 000000 00:00 00:00
+            let src_time_pattern = '^[-~=*] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze ' " 000000 00:00 <00:00>
+            let dst_time_pattern = '^[-~=*] \d\{6} \zs\d\d:\d\d\ze '           " 000000 <00:00>
         elseif a:option == "time_end"
             let step = -1
-            let src_task_pattern = '^- \d\{6} \d\d:\d\d '                   " 000000 00:00
-            let src_time_pattern = '^- \d\{6} \zs\d\d:\d\d\ze '             " 000000 <00:00>
-            let dst_time_pattern = '^- \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze '   " 000000 00:00 <00:00>
+            let src_task_pattern = '^[-~=*] \d\{6} \d\d:\d\d '                 " 000000 00:00
+            let src_time_pattern = '^[-~=*] \d\{6} \zs\d\d:\d\d\ze '           " 000000 <00:00>
+            let dst_time_pattern = '^[-~=*] \d\{6} \d\d:\d\d \zs\d\d:\d\d\ze ' " 000000 00:00 <00:00>
+        endif
+    " Sub-tasks (top-bottom)
+    elseif dst_task =~ '^  [-~=*] \d\d:\d\d\( \d\d:\d\d\)\? [^0-9]'           " 00:00 or 00:00 00:00
+        let task_ts_pattern = '^  [-~=*] \d\d:\d\d\( \d\d:\d\d\)\? '        " 00:00 or 00:00 00:00
+        let abort_pattern = '\(^$\|^#\)'
+        if a:option == "time_beg"
+            let step = -1
+            let src_task_pattern = '^  [-~=*] \d\d:\d\d \d\d:\d\d '              " 00:00 00:00
+            let src_time_pattern = '^  [-~=*] \d\d:\d\d \zs\d\d:\d\d\ze '        " 00:00 <00:00>
+            let dst_time_pattern = '^  [-~=*] \zs\d\d:\d\d\ze '                  " <00:00>
+        elseif a:option == "time_end"
+            let step = 1
+            let src_task_pattern = '^  [-~=*] \d\d:\d\d '                        " 00:00
+            let src_time_pattern = '^  [-~=*] \zs\d\d:\d\d\ze '                  " <00:00>
+            let dst_time_pattern = '^  [-~=*] \d\d:\d\d \zs\d\d:\d\d\ze '        " 00:00 <00:00>
         endif
     else
         echo "task_fix: The current line is not a valid task."
@@ -84,6 +100,5 @@ function! task_fix#(option)
         call setline('.', new_curr_task)
         echom "task_fix: " . matchstr(new_curr_task, task_ts_pattern)
     endif
-
     call setpos('.', cursor_pos)
 endfunction

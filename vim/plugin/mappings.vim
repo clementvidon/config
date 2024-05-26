@@ -73,13 +73,13 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-nn <silent> sni :e $NOESIS/INDEX.noe<CR>/Lists<CR>
-nn <silent> sne :let @s=@/<CR>:e $NOESIS/Resources/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snf :let @s=@/<CR>:e $NOESIS/Resources/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snn :let @s=@/<CR>:e $NOESIS/Lists/achiever.noe<CR>G{:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0
-nn <silent> snt :e $NOESIS/Lists/todos.gpg.noe<CR>
-nn <silent> snh :e $NOESIS/Lists/history.gpg.noe<CR>
-nn <silent> snp :e $NOESIS/Lists/post-it.noe<CR>gi<Esc>
+nn <silent> sne :let @s=@/<CR>:e $NOESIS/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+nn <silent> snf :let @s=@/<CR>:e $NOESIS/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+
+nn <silent> snt :let @s=@/<CR>:e $NOESIS/todos.noe<CR>G{:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0
+nn <silent> snl :e $NOESIS/later.noe<CR>
+nn <silent> snn :e $NOESIS/notes.noe<CR>
+nn <silent> snh :e $NOESIS/history.gpg.noe<CR>
 
 "  config
 nn <silent> sc  <nop>
@@ -160,6 +160,22 @@ nn glss :StaticSearch<Space>
 nn glst :set startofline!<CR>
 nn glsy :call getsyntax#()<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
+
+
+"   gpg enc / dec
+nn glge :silent %!gpg --quiet --encrypt --armor --recipient $GPGID<CR>
+nn glgd :silent %!gpg --quiet --decrypt<CR>
+" nn glge :silent %!gpg --encrypt --armor --recipient $GPGID 2>/dev/null<CR>
+" nn glgd :silent %!gpg --decrypt 2>/dev/null<CR>
+
+"   restart
+nn glgr :silent !gpgconf --kill gpg-agent<CR>:redraw!<CR>
+
+"   gpg enc / dec selection
+vn glgs :!gpg --symmetric --armor<CR>
+vn glga :!gpg --encrypt --armor --recipient $GPGID<CR>
+vn glgd :!gpg --quiet --decrypt<CR>
+
 
 
 "   improvements

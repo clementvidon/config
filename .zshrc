@@ -6,7 +6,7 @@
 #                  vi mode                                                     #
 #------------------------------------------------------------------------------#
 
-indkey -v                                                          # enable vim keybinding ( $ bindkey -l )
+bindkey -v                                                          # enable vim keybinding ( $ bindkey -l )
 export EDITOR=vim
 export KEYTIMEOUT=1                                                 # 10ms vi MODES transition
 
@@ -25,6 +25,10 @@ autoload -Uz compinit && compinit                                   # commands c
 zstyle ':completion:*' menu select                                  # highlight suggestion
 zmodload zsh/complist                                               # <S-Tab> reverse navigation
 bindkey -M menuselect '^[[Z' reverse-menu-complete
+
+#source <(kubectl completion zsh)
+#source <(minikube completion zsh)
+# eval "$(scw autocomplete script shell=zsh)"
 
 #------------------------------------------------------------------------------#
 #                  history                                                     #
@@ -50,16 +54,6 @@ set -o ignoreeof
 # %n username %m hostname %? exitcode %~ fullcwd %1~ cwdbasename
 
 setopt PROMPT_SUBST
-
-#       [ Bash prompt ]
-
-# PROMPT='%n@%m:%~$ '
-
-#       [ Exit value ]
-
-# RPROMPT='[%?]'
-
-#       [ Zsh prompt + git branch ]
 
 autoload -Uz vcs_info && precmd() { vcs_info }                      # Load version control information
 zstyle ':vcs_info:git:*' formats ' %b '                             # Format the vcs_info_msg_0_ variable
@@ -137,6 +131,7 @@ alias mt='make test'
 
 #       [ Misc ]
 alias please='sudo'
+alias python='python3'
 
 #------------------------------------------------------------------------------#
 #                  ssh-agent at login                                          #
@@ -163,13 +158,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
-
-#------------------------------------------------------------------------------#
-#                  completions                                                 #
-#------------------------------------------------------------------------------#
-
-source <(kubectl completion zsh)
-source <(minikube completion zsh)
 
 #------------------------------------------------------------------------------#
 #                  functions                                                   #
@@ -243,6 +231,3 @@ function repl()
     fi
     find "$1" -type f -exec sed -i "s/$2/$3/g" {} +
 }
-
-# Scaleway CLI autocomplete initialization.
-eval "$(scw autocomplete script shell=zsh)"

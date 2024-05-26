@@ -20,6 +20,8 @@ syn region noesisH4 start="^#####\@!"     end="#*\s*$"
 syn region noesisH5 start="^######\@!"    end="#*\s*$"
 syn region noesisH6 start="^#######\@!"   end="#*\s*$"
 
+" syn match noesisHeader "^[a-zA-Z0-9( ):,.\-\&/]*\n^-\{3,}$"
+" syn match noesisHeader "^[A-Z0-9( ):,.\-\&/]*\n^=\{3,}$"
 syn match noesisHeader "^.*\n^-\{3,}$"
 syn match noesisHeader "^.*\n^=\{3,}$"
 syn match noesisHeader "^\s\{72}\[\d\{6}]$"
@@ -48,14 +50,6 @@ endif
 syn region noesisCode start="```" end="```" contains=@NoSpell
 
 syn keyword Todo TODO FIXME X XXX WIP
-
-" Todos
-
-syn match noesisTaskTimestamp /\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s/                " 000000 00:00 00:00
-syn match noesisTaskTimestamp /\(^\s\{0,2}-\s\)\@<=\d\d:\d\d\s\d\d:\d\d\ze\s/ " 00:00 00:00
-syn match noesisTaskPrefixWork /\s\<work\>:\($\|\s\)/ " work:
-syn match noesisTaskPrefixSide /\s\<side\>:\($\|\s\)/ " side:
-syn match noesisTaskPrefixLife /\s\<life\>:\($\|\s\)/ " life:
 
 
 "   highlight
@@ -89,13 +83,8 @@ if &background == "dark"
     hi noesisBold                     ctermfg=219 cterm=bold
     hi noesisBoldItalic               ctermfg=205
 
-    hi noesisKeywordPos               ctermfg=192
-    hi noesisKeywordNeg               ctermfg=210
-
-    hi noesisTaskTimestamp            ctermfg=103
-    hi noesisTaskPrefixWork           ctermfg=211
-    hi noesisTaskPrefixSide           ctermfg=175
-    hi noesisTaskPrefixLife           ctermfg=139
+    hi noesisKeywordPos                 ctermfg=192
+    hi noesisKeywordNeg                 ctermfg=210
 
 elseif &background == "light"
 

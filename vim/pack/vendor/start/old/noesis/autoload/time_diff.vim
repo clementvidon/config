@@ -49,3 +49,5 @@ function! time_diff#(line)
     echo "This duration: " . formatted_time_difference
     echo "All durations: " . formatted_total_difference
 endfunction
+
+nn <Space>g :call ExtractTimeRangeFromLine(getline('.'))<CR>

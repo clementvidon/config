@@ -6,9 +6,10 @@
 if $USER == 'clem' || $USER == 'perso' " at home
     let $NOESIS=$HOME . "/git/noesis"
 else " at work
-    let $NOESIS=$HOME . "/perso/noesis"
+    let $NOESIS=$HOME . "/Perso/noesis"
 endif
 
+let $GPGID="A3CE5F737DA5EDACFCF5C0B6E52CFE6FE75F6035"
 let $DOTVIM=$HOME . "/git/config/vim"
 
 if empty(glob($DOTVIM . "/.undo/vim"))  | exec 'silent !mkdir -p $DOTVIM/.undo/vim'  | endif

@@ -7,12 +7,16 @@
 
 
 runtime macros/justify.vim
-
 setlocal suffixesadd+=.noe
 setlocal suffixesadd+=.gpg.noe
-setlocal path=.,$NOESIS,$DOTVIM/pack/vendor/start/noesis/**
+setlocal path=.,
+            \$NOESIS/Lists/**,
+            \$NOESIS/Areas/**,
+            \$NOESIS/Projects/**,
+            \$NOESIS/Resources/**,
+            \$DOTVIM/pack/vendor/start/noesis/**
 setlocal foldmethod=marker
-setlocal foldmarker={{{,}}}
+setlocal foldmarker=->>>,<<<-
 let maplocalleader = "gh"
 
 
@@ -31,15 +35,6 @@ nn <silent><buffer> gwgo <nop>
 nn <silent><buffer> gwgg <nop>
 nn <buffer><silent> <Leader>e <nop>
 nn <silent><buffer> K <nop>
-
-"   info
-nn <silent><buffer> <LocalLeader>? :echo "
-            \\n
-            \================[Noesis]================\n
-            \                                      \|\n
-            \ HTML_EXPORT       : Space X          \|\n
-            \                                      \|\n
-            \"<CR>
 
 
 "   export as html TODO func
@@ -77,9 +72,19 @@ nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
             \:silent! keeppatterns /^\s\{0,4}<C-R>a$<CR>
             \zt5<C-y>
             \:let @a=''<CR>
+            " \zOzt5<C-y>
+
+"   info
+nn <silent><buffer> <LocalLeader>? :echo "
+            \\n
+            \================[Noesis]================\n
+            \                                      \|\n
+            \ HTML_EXPORT       : Space X          \|\n
+            \                                      \|\n
+            \"<CR>
 
 "   noesis grep TODO neovim support
-com! -nargs=+ Grep exec 'grep! -i --exclude="*.gpg.noe" <args> $NOESIS/*.noe' | cw
+com! -nargs=+ Grep exec 'grep! -i --exclude="*.gpg.noe" <args> $NOESIS/**/*.noe' | cw
 
 
 "   git pull
@@ -88,10 +93,22 @@ nn <silent><buffer> <LocalLeader>pl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 "   git add commit push TODO
 nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
+            \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
             \:sil cd $NOESIS/<CR>
-            \:sil !git add -f *.noe<CR>
+            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
             \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
             \:q<CR>:redr!<CR>
+
+
+"   gpg enc / dec
+nn <buffer><silent> <LocalLeader>ge :silent %!gpg --default-recipient Clem9nt -ae 2>/dev/null<CR>
+nn <buffer><silent> <LocalLeader>gd :silent %!gpg -d 2>/dev/null<CR>
+"   restart
+nn <buffer><silent> <LocalLeader>gr :silent !gpgconf --kill gpg-agent<CR>:redraw!<CR>
+"   gpg enc / dec selection
+vn <silent><buffer> <LocalLeader>gs :!gpg -ca<CR>:echo "gpg -ca # --symetric --armor"<CR>
+vn <silent><buffer> <LocalLeader>ga :!gpg -ae<CR>dd:echo "gpg -ae # --"<CR>
+vn <silent><buffer> <LocalLeader>gd :!gpg -qd<CR>:echo "gpg -qd"<CR>
 
 "   french to english
 nn <buffer><silent> <LocalLeader>len v$y:En <C-R>"<CR>
@@ -111,7 +128,11 @@ nn <buffer><silent> <LocalLeader>h1 VUo<C-O>80i=<Esc>:put=strftime('%y%m%d')<CR>
 "   string to H2
 nn <buffer><silent> <LocalLeader>h2 :s/\v<(.)(\w*)/\u\1\L\2/g<CR>o<C-O>40i-<Esc>k0
 
+"   update title time
+nn <buffer><silent> <LocalLeader>ht mm:let @t=strftime('%y%m%d')<CR>?\[\zs\d\{6}\]<CR>c6l<C-R>t<Esc>`m
+
 no <C-K>% <Nop>
+
 exec "digraphs es " . 0x2091
 exec "digraphs hs " . 0x2095
 exec "digraphs is " . 0x1D62
@@ -174,22 +195,3 @@ exec "digraphs TS " . 0x1D40
 exec "digraphs US " . 0x1D41
 exec "digraphs VS " . 0x2C7D
 exec "digraphs WS " . 0x1D42
-
-
-"   task check, fix, diff, clear
-nn <silent><buffer> <LocalLeader>k :call task_check#()<CR>
-nn <silent><buffer> <LocalLeader>F :call task_fix#("time_end")<CR>
-nn <silent><buffer> <LocalLeader>f :call task_fix#("time_beg")<CR>
-nn <buffer><silent> <LocalLeader>t :call time_diff#(getline('.'))<CR>
-nn <silent><buffer> <LocalLeader>c <Esc>
-            \
-            \:call setline('.', substitute(getline('.'), '-\zs \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '-\zs \d\d\d\d\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
-            \0
-
-
-"   abbreviations
-
-iabbr <silent><buffer> wwo - work:
-iabbr <silent><buffer> ssi - side:
-iabbr <silent><buffer> lli - life:
