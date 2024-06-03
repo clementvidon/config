@@ -16,7 +16,7 @@ setlocal foldmarker={{{,}}}
 let maplocalleader="gh"
 
 let g:gutentags_enabled = 1
-let b:surround_45='("\r");'
+let b:surround_45='("\r")'
 
 "   mappings
 
@@ -31,7 +31,8 @@ nn <buffer> <LocalLeader>e :write<CR>:!clear && go run %<CR>
 nn <buffer> <LocalLeader>E :write<CR>:!clear && go run -race -vet -work -mod=readonly %<CR>
 
 "   execute multi-file
-nn <buffer> <LocalLeader>E :write<CR>:!clear && go run $(ls -1 *.go \| grep -v _test.go)<CR>
+nn <buffer> <LocalLeader>E :write<CR>:!clear && go run .<CR>
+" nn <buffer> <LocalLeader>E :write<CR>:!clear && go run $(ls -1 *.go \| grep -v _test.go)<CR>
 
 "   test
 nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
@@ -49,7 +50,10 @@ nn <buffer> <LocalLeader>c :write<CR>
 nn <buffer> <LocalLeader>r :write<CR>:!clear && go test -race<CR>
 
 "   print template
-nn <buffer> <LocalLeader>p ofmt.Printf("\n");<Esc>==0f\i
+nn <buffer> <LocalLeader>p ofmt.Printf("\n")<Esc>==0f\i
 
 "   print wrapper
-nn <buffer> <LocalLeader>P 0<<V:norm f;Di<Esc>Ifmt.Printf("'%v'\n", <Esc>A);<Esc>==0f%l
+nn <buffer> <LocalLeader>P 0<<V:norm f;Di<Esc>Ifmt.Printf("'%v'\n", <Esc>A)<Esc>==0f%l
+
+"   list file functions
+nn <buffer> <LocalLeader>f :g/^func /#<CR>

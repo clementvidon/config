@@ -85,8 +85,8 @@ alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=a
 alias shred="shred -uzn9"
 
 if (( $+commands[nvim] )); then
-    alias vi='nvim'
-    alias iv="nvim -c 'call Private()'"
+    # alias vi='nvim'
+    # alias iv="nvim -c 'call Private()'"
 else
     alias vi='vim'
     alias iv="vim -c 'call Private()'"
@@ -132,32 +132,6 @@ alias mt='make test'
 #       [ Misc ]
 alias please='sudo'
 alias python='python3'
-
-#------------------------------------------------------------------------------#
-#                  ssh-agent at login                                          #
-#------------------------------------------------------------------------------#
-
-SSH_ENV="$HOME/.ssh/agent-environment"
-
-function start_agent {
-    echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# Source SSH settings, if applicable
-
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
-    }
-else
-    start_agent;
-fi
 
 #------------------------------------------------------------------------------#
 #                  functions                                                   #

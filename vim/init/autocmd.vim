@@ -21,6 +21,8 @@ augroup END
 
 augroup remind_me
     autocmd!
+    autocmd BufEnter todos.noe :call remindme#("Mon ", "Weekly Review")
     autocmd BufEnter todos.noe :call remindme#("Sun ", "Weekly Review")
     autocmd BufEnter todos.noe :call remindme#(" 01 ", "Monthy Review")
+    autocmd BufEnter todos.noe :call remindme#("240618", "Resilier abonnement audible")
 augroup END

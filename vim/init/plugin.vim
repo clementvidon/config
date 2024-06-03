@@ -31,11 +31,11 @@ let g:ale_virtualtext_cursor = 'disabled'
 "     let g:ale_lint_on_text_changed = 'never'
 " let ale_lsp_show_message_severity = 'error'
 "
-"     " let g:ale_completion_excluded_words = ['it', 'describe']
-"     " let g:ale_completion_delay = 0
-"     " let g:ale_completion_enabled = 1
-"     " let g:ale_completion_max_suggestions = 10
-"     " set omnifunc=ale#completion#OmniFun
+    " let g:ale_completion_excluded_words = ['it', 'describe']
+let g:ale_completion_delay = 0
+let g:ale_completion_enabled = 1
+let g:ale_completion_max_suggestions = 10
+set omnifunc=ale#completion#OmniFun
 "
 "     let g:ale_echo_msg_error_str = 'Error'
 "     let g:ale_echo_msg_format = '%linter%: %code: %%s'
@@ -81,9 +81,10 @@ let g:ale_linters = {
             \'typescript': ['tsserver', 'prettier'],
             \'typescriptreact': ['tsserver', 'prettier'],
             \'cpp': ['clang', 'clangd'],
+            \'go': ['gopls'],
             \}
 
-            " \'python': ['pylint'],
+" \'python': ['pylint'],
 "     "     \'go': ['golangci-lint', 'gofmt'],
 "
 "     " let g:ale_fix_on_save_ignore = 1
@@ -130,7 +131,7 @@ let g:copilot_filetypes = {
             \ 'zsh': v:true,
             \ }
 
-let s:copilot_enabled = 1
+let s:copilot_enabled = 0
 function! CopilotToggle()
     if s:copilot_enabled
         Copilot disable
@@ -232,10 +233,10 @@ Plug 'prisma/vim-prisma'                        " prisma
 Plug 'leafOfTree/vim-svelte-plugin'
 Plug 'fatih/vim-go'
 
-
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-fugitive'
 
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
