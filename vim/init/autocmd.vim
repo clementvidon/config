@@ -5,6 +5,7 @@
 
 augroup gpg_auto_encryption
     autocmd!
+    autocmd BufReadPre,FileReadPre *.gpg.* execute "silent! gpg --card-status" | execute "redraw!"
     autocmd BufReadPre,FileReadPre *.gpg.* setlocal viminfo="" shada=""
     autocmd BufReadPre,FileReadPre *.gpg.* setlocal noswapfile noundofile nobackup nowritebackup
     autocmd BufReadPost,FileReadPost *.gpg.* if getline('1') == '-----BEGIN PGP MESSAGE-----' |
