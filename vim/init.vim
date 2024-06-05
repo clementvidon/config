@@ -3,10 +3,10 @@
 " Updated: 230802 15:42:37 by cvidon@paul-f5Br5s5.clusters.42paris.fr
 " Maintainer: Clément Vidon
 
-if $USER == 'clem' || $USER == 'perso' " at home
-    let $NOESIS=$HOME . "/git/noesis"
-else " at work
-    let $NOESIS=$HOME . "/Perso/noesis"
+if $USER == 'clem' || $USER == 'perso'
+    let $NOESIS=$HOME . "/git/noesis" " at home
+else
+    let $NOESIS=$HOME . "/perso/noesis" " at work
 endif
 
 let $GPGID="A3CE5F737DA5EDACFCF5C0B6E52CFE6FE75F6035"
