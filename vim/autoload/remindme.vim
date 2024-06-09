@@ -8,7 +8,9 @@ function! remindme#(date, message)
 
     " The input matches the date (240526) format
     if a:date == l:current_date
+        echohl ErrorMsg
         echo a:message
+        echohl None
         return
     endif
 
@@ -16,7 +18,9 @@ function! remindme#(date, message)
     if a:date =~ '\u'
         let l:current_date = strftime("%a %d %b %Y")
         if l:current_date =~ a:date
+            echohl ErrorMsg
             echo a:message
+            echohl None
         endif
     endif
 endfunction
