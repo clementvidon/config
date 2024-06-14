@@ -36,7 +36,7 @@ endif
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:- " split separator decoration
 set guicursor=n-v-c-i:block                         " cursor style
 set shortmess=filnxtToOF                            " see ':h shortmess'
-set smartcase " ignorecase                          " searches case-sensitive if they contain an uppercase letter
+set smartcase ignorecase                            " searches case-sensitive if they contain an uppercase letter
 set noincsearch                                     " disable incremental search (neo)
 set nowrap                                          " screen line wrapping
 set norelativenumber                                  " number column
@@ -56,3 +56,4 @@ set undofile                                        " enable undo
 set directory=$DOTVIM/.swap//,/tmp//                " undo files directory
 set path=.,,$DOTVIM/init/,$DOTVIM/plugin/           " :find path
 set wildignore=.git                                 " wildmenu results to hide
+set mouse=a                                         " useful with :Termdebug
