@@ -10,59 +10,41 @@
 nn gj <nop>
 
 let g:ale_enabled = 0
-"     " let g:ale_pattern_options = {'\.go$': {'ale_enabled': 0}}
+" let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
+let g:ale_virtualtext_cursor = 'all'
+let ale_lsp_show_message_severity = 'information'
+
+" let g:ale_completion_delay = 0
+" let g:ale_completion_enabled = 0
+" let g:ale_completion_max_suggestions = 10
+" let g:ale_completion_excluded_words = ['it', 'describe']
+" set omnifunc=ale#completion#OmniFun
+
+" let g:ale_echo_msg_error_str = 'Error'
+" let g:ale_echo_msg_format = '%linter%: %code: %%s'
+
+" let g:ale_keep_list_window_open = 0
+" let g:ale_list_window_size = 10
+" let g:ale_loclist_msg_format = '%linter%: %code: %%s'
+" let g:ale_set_loclist = 1
+" let g:ale_set_quickfix = 1
 "
-"     let g:ale_set_signs = 0
-"     let g:ale_sign_column_always = 0
+" let g:ale_lsp_show_message_format = '%severity%:%linter%: %s'
 "
-"     " let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
-"     let b:ale_exclude_highlights = ['eslint: prettier/prettier: Delete']
-let g:ale_virtualtext_cursor = 'disabled'
-"     let g:ale_virtualtext_delay = 0
-"     let g:ale_virtualtext_prefix = ""
-"
-"     " let g:ale_linters_explicit = 1
-"     " let g:ale_linters_ignore = {}
-"     let g:ale_lint_delay = 0
-"     let g:ale_lint_on_enter = 0
-"     let g:ale_lint_on_filetype_change = 0
-"     let g:ale_lint_on_insert_leave = 1
-"     let g:ale_lint_on_save = 1
-"     let g:ale_lint_on_text_changed = 'never'
-" let ale_lsp_show_message_severity = 'error'
-"
-    " let g:ale_completion_excluded_words = ['it', 'describe']
-let g:ale_completion_delay = 0
-let g:ale_completion_enabled = 1
-let g:ale_completion_max_suggestions = 10
-set omnifunc=ale#completion#OmniFun
-"
-"     let g:ale_echo_msg_error_str = 'Error'
-"     let g:ale_echo_msg_format = '%linter%: %code: %%s'
-"     let g:ale_history_enabled = 0
-"     let g:ale_history_log_output = 0
-"
-"     let g:ale_keep_list_window_open = 0
-"     let g:ale_list_window_size = 10
-"     let g:ale_loclist_msg_format = '%linter%: %code: %%s'
-"     let g:ale_set_loclist = 1
-"     let g:ale_set_quickfix = 1
-"
-"     let g:ale_lsp_show_message_format = 'TODO TODO TODO %severity%:%linter%: %s'
-"     let g:ale_set_balloons = 0 " TODO
-"
-" let g:ale_maximum_file_size = 1000
-"     let g:ale_emit_conflict_warnings = 0
-"
+let g:ale_maximum_file_size = 10000
+
 nn gja? :nn gja<CR>
-nn gjar :ALEDisable<CR>:ALEEnable<CR>
-nn gjar :ALEDisable<CR>:ALEEnable<CR>
+nn gjaa :ALEToggle<CR>
+nn gjac :ALECodeAction<CR>
+nn gjad :ALEDetail<CR>
 nn gjah :ALEHover<CR>
 nn gjai :ALEInfo<CR>
-nn gjaa :ALECodeAction<CR>
-nn gjad :ALEDetail<CR>
-nn gjat :ALEToggle<CR>
-"
+nn gjan :ALENext<CR>
+nn gjap :ALEPrevious<CR>
+nn gjaN :ALELast<CR>
+nn gjaP :ALEFirst<CR>
+nn gjaR :ALEDisable<CR>:ALEEnable<CR>
+
 "     " highlight ALEError                      ctermfg=1
 "     " highlight ALEStyleError                 ctermfg=
 "     " highlight ALEWarning                    ctermfg=
@@ -75,7 +57,7 @@ nn gjat :ALEToggle<CR>
 "     " highlight ALEVirtualTextWarning         ctermfg=218
 "     " highlight ALEVirtualTextStyleWarning    ctermfg=182
 "     " highlight ALEVirtualTextInfo            ctermfg=103
-"
+
 let g:ale_linters = {
             \'javascript': ['eslint'],
             \'typescript': ['tsserver', 'prettier'],
@@ -162,6 +144,15 @@ nmap ga <Plug>(EasyAlign)
 "     autocmd! FileType html,css,javascript,php,typescript,typescriptreact EmmetInstall
 " endif
 
+let g:gitgutter_enabled = 0
+nn gjgg :GitGutterToggle<CR>
+nn gjgG :GitGutterBufferToggle<CR>
+nn gjgn :GitGutterNextHunk<CR>
+nn gjgp :GitGutterPrevHunk<CR>
+nn gjgq :GitGutterQuickFix<CR>
+nn gjgd :GitGutterDiffOrig<CR>
+nn gjgu :GitGutterUndoHunk<CR>
+
 let g:go_debug_windows = {
             \'vars':       'rightbelow 60vnew',
             \'stack':      'rightbelow 10new',
@@ -169,8 +160,6 @@ let g:go_debug_windows = {
 
 " let g:goyo_width = 90
 " let g:goyo_height = '100%'
-
-
 
 let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = [
@@ -208,9 +197,9 @@ packadd termdebug
 " packadd justify                                 " justify selection
 
 call plug#begin('$DOTVIM/.plugged')
-Plug 'clemedon/vim-reselect-two'
+" Plug 'clemedon/vim-reselect-two'
 
-Plug 'AndrewRadev/linediff.vim'           " view applied tailwind value on element
+Plug 'AndrewRadev/linediff.vim'                 " view applied tailwind value on element
 Plug 'github/copilot.vim'
 Plug 'tpope/vim-repeat'                         " repeat extension
 Plug 'tpope/vim-surround'                       " surround operator
@@ -223,7 +212,7 @@ Plug 'junegunn/seoul256.vim'                    " colorscheme
 " Plug 'neovim/nvim-lspconfig'
 "
 Plug 'w0rp/ale'                                 " lsp config TODO
-Plug 'prisma/vim-prisma'                        " prisma
+" Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'peitalin/vim-jsx-typescript'              " typescriptreact indent
 
 " https://github.com/bryley/neoai.nvim
@@ -231,13 +220,15 @@ Plug 'prisma/vim-prisma'                        " prisma
 " https://github.com/nvim-lua/completion-nvim
 " https://github.com/jackmort/chat-gpt.nvim
 
-Plug 'leafOfTree/vim-svelte-plugin'
+" Plug 'leafOfTree/vim-svelte-plugin'
 Plug 'fatih/vim-go'
 
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-scripts/indentpython.vim'
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
+
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
