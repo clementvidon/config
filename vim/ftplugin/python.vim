@@ -14,6 +14,7 @@ let maplocalleader="gh"
 "   mappings
 
 
+nn <silent><buffer> <Space>= <nop>
 nn <silent><buffer> <LocalLeader> <nop>
 
 "   format

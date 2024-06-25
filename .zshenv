@@ -55,3 +55,5 @@ fi
 if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
 fi
+
+source ~/.env
