@@ -57,6 +57,7 @@ syn match noesisTaskPrefixWork /\s\<work\>:\($\|\s\)/ " work:
 syn match noesisTaskPrefixSide /\s\<side\>:\($\|\s\)/ " side:
 syn match noesisTaskPrefixLife /\s\<life\>:\($\|\s\)/ " life:
 
+syn match noesisDetail /\s\zs--\s.*\($\|\ze\s{\)/ contains=Todo " -- detail
 
 "   highlight
 
@@ -96,6 +97,8 @@ if &background == "dark"
     hi noesisTaskPrefixWork           ctermfg=211
     hi noesisTaskPrefixSide           ctermfg=175
     hi noesisTaskPrefixLife           ctermfg=139
+
+    hi noesisDetail                   ctermfg=103
 
 elseif &background == "light"
 

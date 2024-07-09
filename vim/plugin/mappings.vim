@@ -15,9 +15,6 @@ nn sT <nop>
 nn sh <nop>
 nn sv <nop>
 
-nn sw :echohl WarningMsg \| echo "Nop!" \| echohl None<CR>
-nn sq :echohl WarningMsg \| echo "Nop!" \| echohl None<CR>
-
 "   write / quit
 no mw  :write<CR>
 nn mvv :write !sudo tee %<CR>

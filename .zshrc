@@ -26,10 +26,6 @@ zstyle ':completion:*' menu select                                  # highlight 
 zmodload zsh/complist                                               # <S-Tab> reverse navigation
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 
-#source <(kubectl completion zsh)
-#source <(minikube completion zsh)
-# eval "$(scw autocomplete script shell=zsh)"
-
 #------------------------------------------------------------------------------#
 #                  history                                                     #
 #------------------------------------------------------------------------------#
@@ -143,6 +139,8 @@ alias gsh="git show"
 alias gst="git status -s --show-stash --ignore-submodules=untracked"
 alias gsw="git switch"
 
+alias rebase="git fetch && git rebase origin/master && git push --force-with-lease"
+
 #       [ Make ]
 alias mm='make'
 alias mc='make clean'
@@ -231,3 +229,14 @@ function repl()
     fi
     find "$1" -type f -exec sed -i "s/$2/$3/g" {} +
 }
+
+#------------------------------------------------------------------------------#
+#                  functions                                                   #
+#------------------------------------------------------------------------------#
+
+# source <(kubectl completion zsh)
+# source <(minikube completion zsh)
+# eval "$(scw autocomplete script shell=zsh)"
+
+alias pcu='cd ~/git/scw/pcu/'
+alias k='kubectl'

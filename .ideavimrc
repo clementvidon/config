@@ -1,0 +1,130 @@
+let mapleader = " "
+
+" Vim settings
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+" Extensions
+
+set highlightedyank
+let g:highlightedyank_highlight_duration = "5000"
+let g:highlightedyank_highlight_color = "rgba(150, 255, 200, 255)"
+set surround
+set commentary
+set argtextobj " cia → change inside arguments
+set quickscope " fFtT helper
+set sneak "  sS → a fFtT with 2 chars
+" set which-key
+
+"--------- NAV ---------"
+
+" split window
+no <space>w <C-w>
+no <Leader>wM <C-W>_\|<C-W><BAR>
+no <space>wH <Action>(MoveTabLeft)
+no <space>wJ <Action>(MoveTabDown)
+no <space>wK <Action>(MoveTabUp)
+no <space>wL <Action>(MoveTabRight)
+" TODO
+nn <space>w1 <Action>(MoveEditorToOppositeTabGroup)
+nn <space>w2 <Action>(MaximizeEditorInSplit)
+nn <C-3> <Action>(Back)
+nn <C-8> <Action>(Forward)
+
+
+
+"" Choosing handlers in conflicting Intellij/IdeaVim keymaps =======
+
+sethandler <C-w> n-v-i:vim
+
+sethandler <C-r> n-v-i:vim
+sethandler <C-t> n-v-i:vim
+
+sethandler <C-i> n-v-i:vim
+sethandler <C-o> n-v-i:vim
+
+sethandler <C-]> n-v-i:vim
+sethandler <C-[> n-v-i:vim
+sethandler <C-u> n-v-i:vim
+sethandler <C-d> n-v-i:vim
+
+sethandler <C-e> n-v-i:vim
+sethandler <C-y> n-v-i:vim
+
+sethandler <C-v> n-v-i:vim
+
+" misc
+no mw  :write<CR>
+no mq  :quit<CR>
+no mQ  :quitall<CR>
+no md  :bn\|bd#<CR>
+no gmd :bn!\|bd! #<CR>
+nn sb :ls<CR>:b<Space>
+nn sp :e #<CR>
+nn st :tag /
+
+nn glhl :set hls!<CR>
+nn glcc :set cursorcolumn!<CR>
+nn glcl :set cursorline!<CR>
+nn glso :source ~/.ideavimrc<cr>
+
+" refactor
+no <leader>gen <Action>(Generate)
+no <leader>rcs <Action>(ChangeSignature)
+no <leader>ref <Action>(Refactorings.QuickListPopupAction)
+no <leader>rfo <Action>(ReformatCode)
+no <leader>ric <Action>(IntroduceConstant)
+no <leader>ril <Action>(Inline)
+no <leader>rip <Action>(ReplaceInPath)
+no <leader>riv <Action>(IntroduceVariable)
+no <leader>rre <Action>(RenameElement)
+no <leader>rrf <Action>(RenameFile)
+no <leader>rsw <Action>(SurroundWith)
+no <leader>rxi <Action>(ExtractInterface)
+no <leader>rxm <Action>(ExtractMethod)
+
+" info
+no <leader>ich <Action>(CallHierarchy)
+no <leader>ico <Action>(EditorContextInfo)
+no <leader>ido <Action>(QuickJavaDoc)
+no <leader>ifs <Action>(FileStructurePopup)
+no <leader>iim <Action>(QuickImplementations)
+no <leader>ipa <Action>(ParameterInfo)
+no <leader>isu <Action>(ShowUsages)
+no <leader>ith <Action>(TypeHierarchy)
+no <leader>ity <Action>(QuickTypeDefinition)
+
+
+" find
+no <leader>fin <Action>(Find)
+no <leader>fip <Action>(FindInPath)
+no <leader>fus <Action>(FindUsages)
+
+" goto
+no <leader>gac <Action>(GotoAction)
+no <leader>gcl <Action>(GotoClass)
+no <leader>gde <Action>(GotoDeclaration)
+no <leader>gfi <Action>(GotoFile)
+no <leader>gim <Action>(GotoImplementation)
+no <leader>gsu <Action>(GotoSuperMethod)
+no <leader>gsy <Action>(GotoSymbol)
+
+" nav
+nn ]b <Action>(GotoNextBookmark)
+nn [b <Action>(GotoPreviousBookmark)
+nn ]c <Action>(VcsShowNextChangeMarker)
+nn [c <Action>(VcsShowPrevChangeMarker)
+nn ]e <Action>(GotoNextError)
+nn [e <Action>(GotoPreviousError)
+no <leader>grf <Action>(RecentFiles)
+no <leader>grl <Action>(RecentLocations)
+
+" debug
+no <leader>db <Action>(ToggleLineBreakpoint)
+no <leader>dr <Action>(RunToCursor)
+no <leader>ds <Action>(StepOver)
+no <leader>dx <Action>(EvaluateExpression)
+no <leader>dq <Action>(Stop)

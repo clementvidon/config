@@ -18,6 +18,7 @@ fi
 
 if command -v zsh &> /dev/null; then
     {
+        ln -fsv "$HOME/git/config/.ideavim"                   "$HOME/.ideavim"
         ln -fsv "$HOME/git/config/.zshrc"                     "$HOME/.zshrc"
         ln -fsv "$HOME/git/config/.zshenv"                    "$HOME/.zshenv"
         mkdir -pv "$HOME/.local/script"

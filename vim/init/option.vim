@@ -44,6 +44,8 @@ set showmatch                                       " set showmatch
 set spellfile=$DOTVIM/.spell/custom.utf-8.add       " dictionary location
 set spelllang=en,fr                                 " lang for spellcheck
 set dictionary=spell,/usr/share/dict/words          " dictionary completion C-X C-K
+set completeopt=menu,preview                        " c-n c-p to complete with closest match
+set dictionary=spell,/usr/share/dict/words          " dictionary completion C-X C-K
 set autoindent                                      " auto indent
 set expandtab                                       " insert spaces instead tab
 set formatoptions=tcrqjnp                           " see ':h fo-table'
@@ -56,4 +58,4 @@ set undofile                                        " enable undo
 set directory=$DOTVIM/.swap//,/tmp//                " undo files directory
 set path=.,,$DOTVIM/init/,$DOTVIM/plugin/           " :find path
 set wildignore=.git                                 " wildmenu results to hide
-set mouse=a                                         " useful with :Termdebug
+set mouse=                                          " useful with :Termdebug
