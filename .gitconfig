@@ -43,6 +43,15 @@
     pu = push
     re = reset
     ss = status -sb
+    push = "!f() { \
+        branch=$(git symbolic-ref --short HEAD); \
+        if [ \"$branch\" = \"master\" ]; then \
+            echo 'You are on master branch! Push aborted.'; \
+            exit 1; \
+        else \
+            git push \"$@\"; \
+        fi \
+    }; f"
 [commit]
 	template = "~/.gitmessage"
 [credential]

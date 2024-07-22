@@ -146,6 +146,7 @@ nmap ga <Plug>(EasyAlign)
 
 let g:gitgutter_enabled = 0
 nn gjgg :GitGutterToggle<CR>
+nn gjgr :GitGutterDisable<CR>:GitGutterEnable<CR>
 nn gjgG :GitGutterBufferToggle<CR>
 nn gjgn :GitGutterNextHunk<CR>
 nn gjgp :GitGutterPrevHunk<CR>

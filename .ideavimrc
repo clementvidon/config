@@ -24,15 +24,15 @@ set sneak "  sS → a fFtT with 2 chars
 " split window
 no <space>w <C-w>
 no <Leader>wM <C-W>_\|<C-W><BAR>
-no <space>wH <Action>(MoveTabLeft)
-no <space>wJ <Action>(MoveTabDown)
-no <space>wK <Action>(MoveTabUp)
-no <space>wL <Action>(MoveTabRight)
+nnoremap <space>wH :action MoveTabLeft<CR>
+nnoremap <space>wJ :action MoveTabDown<CR>
+nnoremap <space>wK :action MoveTabUp<CR>
+nnoremap <space>wL :action MoveTabRight<CR>
 " TODO
-nn <space>w1 <Action>(MoveEditorToOppositeTabGroup)
-nn <space>w2 <Action>(MaximizeEditorInSplit)
-nn <C-3> <Action>(Back)
-nn <C-8> <Action>(Forward)
+nnoremap <space>w1 :action MoveEditorToOppositeTabGroup<CR>
+nnoremap <space>w2 :action MaximizeEditorInSplit<CR>
+nnoremap <C-3> :action Back<CR>
+nnoremap <C-8> :action Forward<CR>
 
 
 
@@ -71,60 +71,62 @@ nn glcc :set cursorcolumn!<CR>
 nn glcl :set cursorline!<CR>
 nn glso :source ~/.ideavimrc<cr>
 
+nnoremap <Leader>f :action ShowNavBar<CR>
+
 " refactor
-no <leader>gen <Action>(Generate)
-no <leader>rcs <Action>(ChangeSignature)
-no <leader>ref <Action>(Refactorings.QuickListPopupAction)
-no <leader>rfo <Action>(ReformatCode)
-no <leader>ric <Action>(IntroduceConstant)
-no <leader>ril <Action>(Inline)
-no <leader>rip <Action>(ReplaceInPath)
-no <leader>riv <Action>(IntroduceVariable)
-no <leader>rre <Action>(RenameElement)
-no <leader>rrf <Action>(RenameFile)
-no <leader>rsw <Action>(SurroundWith)
-no <leader>rxi <Action>(ExtractInterface)
-no <leader>rxm <Action>(ExtractMethod)
+nnoremap <leader>gen :action Generate<CR>
+nnoremap <leader>rcs :action ChangeSignature<CR>
+nnoremap <leader>ref :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>rfo :action ReformatCode<CR>
+nnoremap <leader>ric :action IntroduceConstant<CR>
+nnoremap <leader>ril :action Inline<CR>
+nnoremap <leader>rip :action ReplaceInPath<CR>
+nnoremap <leader>riv :action IntroduceVariable<CR>
+nnoremap <leader>rre :action RenameElement<CR>
+nnoremap <leader>rrf :action RenameFile<CR>
+nnoremap <leader>rsw :action SurroundWith<CR>
+nnoremap <leader>rxi :action ExtractInterface<CR>
+nnoremap <leader>rxm :action ExtractMethod<CR>
 
 " info
-no <leader>ich <Action>(CallHierarchy)
-no <leader>ico <Action>(EditorContextInfo)
-no <leader>ido <Action>(QuickJavaDoc)
-no <leader>ifs <Action>(FileStructurePopup)
-no <leader>iim <Action>(QuickImplementations)
-no <leader>ipa <Action>(ParameterInfo)
-no <leader>isu <Action>(ShowUsages)
-no <leader>ith <Action>(TypeHierarchy)
-no <leader>ity <Action>(QuickTypeDefinition)
+nnoremap <leader>ich :action CallHierarchy<CR>
+nnoremap <leader>ico :action EditorContextInfo<CR>
+nnoremap <leader>ido :action QuickJavaDoc<CR>
+nnoremap <leader>ifs :action FileStructurePopup<CR>
+nnoremap <leader>iim :action QuickImplementations<CR>
+nnoremap <leader>ipa :action ParameterInfo<CR>
+nnoremap <leader>isu :action ShowUsages<CR>
+nnoremap <leader>ith :action TypeHierarchy<CR>
+nnoremap <leader>ity :action QuickTypeDefinition<CR>
 
 
 " find
-no <leader>fin <Action>(Find)
-no <leader>fip <Action>(FindInPath)
-no <leader>fus <Action>(FindUsages)
+nnoremap <leader>fin :action Find<CR>
+nnoremap <leader>fip :action FindInPath<CR>
+nnoremap <leader>fus :action FindUsages<CR>
 
 " goto
-no <leader>gac <Action>(GotoAction)
-no <leader>gcl <Action>(GotoClass)
-no <leader>gde <Action>(GotoDeclaration)
-no <leader>gfi <Action>(GotoFile)
-no <leader>gim <Action>(GotoImplementation)
-no <leader>gsu <Action>(GotoSuperMethod)
-no <leader>gsy <Action>(GotoSymbol)
+nnoremap <leader>gac :action GotoAction<CR>
+nnoremap <leader>gcl :action GotoClass<CR>
+nnoremap <leader>gde :action GotoDeclaration<CR>
+nnoremap <leader>gfi :action GotoFile<CR>
+nnoremap <leader>gim :action GotoImplementation<CR>
+nnoremap <leader>gsu :action GotoSuperMethod<CR>
+nnoremap <leader>gsy :action GotoSymbol<CR>
 
 " nav
-nn ]b <Action>(GotoNextBookmark)
-nn [b <Action>(GotoPreviousBookmark)
-nn ]c <Action>(VcsShowNextChangeMarker)
-nn [c <Action>(VcsShowPrevChangeMarker)
-nn ]e <Action>(GotoNextError)
-nn [e <Action>(GotoPreviousError)
-no <leader>grf <Action>(RecentFiles)
-no <leader>grl <Action>(RecentLocations)
+nnoremap ]b :action GotoNextBookmark<CR>
+nnoremap [b :action GotoPreviousBookmark<CR>
+nnoremap ]c :action VcsShowNextChangeMarker<CR>
+nnoremap [c :action VcsShowPrevChangeMarker<CR>
+nnoremap ]e :action GotoNextError<CR>
+nnoremap [e :action GotoPreviousError<CR>
+nnoremap <leader>grf :action RecentFiles<CR>
+nnoremap <leader>grl :action RecentLocations<CR>
 
 " debug
-no <leader>db <Action>(ToggleLineBreakpoint)
-no <leader>dr <Action>(RunToCursor)
-no <leader>ds <Action>(StepOver)
-no <leader>dx <Action>(EvaluateExpression)
-no <leader>dq <Action>(Stop)
+nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+nnoremap <leader>dr :action RunToCursor<CR>
+nnoremap <leader>ds :action StepOver<CR>
+nnoremap <leader>dx :action EvaluateExpression<CR>
+nnoremap <leader>dq :action Stop<CR>

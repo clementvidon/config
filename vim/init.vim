@@ -9,7 +9,7 @@ else
     let $NOESIS=$HOME . "/perso/noesis" " at work
 endif
 
-let $GPGID="A3CE5F737DA5EDACFCF5C0B6E52CFE6FE75F6035"
+let $GPGID="B8AE5479C3DE72D291F1E923B32613620A074922"
 let $DOTVIM=$HOME . "/git/config/vim"
 
 if empty(glob($DOTVIM . "/.undo/vim"))  | exec 'silent !mkdir -p $DOTVIM/.undo/vim'  | endif

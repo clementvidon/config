@@ -239,3 +239,14 @@ ino fj <Esc>
 
 "   prevent cmdline c-u deletion
 cno <C-U> <Nop>
+
+
+no <space>p "+p
+
+no <space>z <C-z>
+no <space>r <C-r>
+no <space>o <C-o>
+no <space>i <C-i>
+no <space>v <C-v>
+no <space>u <C-u>
+no <space>d <C-d>

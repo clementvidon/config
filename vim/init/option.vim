@@ -40,7 +40,7 @@ set smartcase ignorecase                            " searches case-sensitive if
 set noincsearch                                     " disable incremental search (neo)
 set nowrap                                          " screen line wrapping
 set norelativenumber                                  " number column
-set showmatch                                       " set showmatch
+"et showmatch                                       " set showmatch
 set spellfile=$DOTVIM/.spell/custom.utf-8.add       " dictionary location
 set spelllang=en,fr                                 " lang for spellcheck
 set dictionary=spell,/usr/share/dict/words          " dictionary completion C-X C-K
@@ -59,3 +59,4 @@ set directory=$DOTVIM/.swap//,/tmp//                " undo files directory
 set path=.,,$DOTVIM/init/,$DOTVIM/plugin/           " :find path
 set wildignore=.git                                 " wildmenu results to hide
 set mouse=                                          " useful with :Termdebug
+set updatetime=1000
