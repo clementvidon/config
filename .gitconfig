@@ -2,14 +2,10 @@
 # @brief    Git configuration file.
 # @author   clemedon (Clément Vidon)
 
-[user]
-	name = Clément VIDON
-	email = cvidon@student.42.fr
-	username = clemedon
 [init]
     defaultBranch = main
 [core]
-	editor = nvim
+	editor = vim
 	excludesfile = ~/.gitignore
 	pager = less
 [color "status"]
@@ -26,7 +22,7 @@
     colorMoved = zebra
     tool = vimdiff
 [merge]
-	tool = nvim
+	tool = vim
 [alias]
     aa = add --all
     ap = add -p
@@ -43,22 +39,16 @@
     pu = push
     re = reset
     ss = status -sb
-    push = "!f() { \
-        branch=$(git symbolic-ref --short HEAD); \
-        if [ \"$branch\" = \"master\" ]; then \
-            echo 'You are on master branch! Push aborted.'; \
-            exit 1; \
-        else \
-            git push \"$@\"; \
-        fi \
-    }; f"
 [commit]
 	template = "~/.gitmessage"
 [credential]
 	helper = cache
 [url "git@gitlab.infra.online.net:"]
 	insteadOf = https://gitlab.infra.online.net/
-[mergetool "nvim"]
-	cmd = nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+[mergetool "vim"]
+	cmd = vim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 [mergetool]
 	keepBackup = false
+[user]
+	email = cvidon@student.42.fr
+	name = Clement VIDON
