@@ -86,7 +86,7 @@ nn <silent> scC :e $HOME/git/config/vim/init/command.vim<CR>gi<Esc>
 nn <silent> scO :e $HOME/git/config/vim/init/option.vim<CR>gi<Esc>
 nn <silent> scP :e $HOME/git/config/vim/init/plugin.vim<CR>gi<Esc>
 nn <silent> scM :e $HOME/git/config/vim/plugin/mappings.vim<CR>gi<Esc>
-nn <silent> sca :e $HOME/.config/alacritty/alacritty.yml<CR>gi<Esc>
+nn <silent> sca :e $HOME/.config/alacritty/alacritty.toml<CR>gi<Esc>
 nn <silent> scz :e $HOME/.zshrc<CR>gi<Esc>
 nn <silent> sce :e $HOME/.zshenv<CR>gi<Esc>
 nn <silent> sct :e $HOME/.tmux.conf<CR>gi<Esc>
@@ -134,27 +134,27 @@ nn <Leader>gst :!clear && git status -s --show-stash --ignore-submodules=untrack
 nn gl <nop>
 nn glbc V:!bc<CR>
 nn glbn :call toggle_nav#(":bnext", ":bprev")<CR>
-nn glcc :set cursorcolumn!<CR>
+nn glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nn glcd :cd %:h<CR>
-nn glcl :set cursorline!<CR>
+nn glcl :set cursorline!<CR>:set cursorline?<CR>
 nn glco :call colorswitch#('seoul256-light', 'nord')<CR>
 nn glen :En<Space>
 nn glex :exe getline(".")<CR>
 nn glfr :Fr<Space>
-nn glhl :set hls!<CR>
+nn glhl :set hls!<CR>:set hls?<CR>
 nn gllc :lc %:h<CR>
-nn glli :set list!<CR>
+nn glli :set list!<CR>:set list?<CR>
 nn glve :set virtualedit=all
 nn glln :call toggle_nav#(":lnext", ":lprev")<CR>
-nn glnu :set number!<CR>
+nn glnu :set number!<CR>:set number?<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
 nn glqn :call toggle_nav#(":cnext", ":cprev")<CR>
-nn glrn :set relativenumber!<CR>
-nn glsb :set scrollbind!<CR>
+nn glrn :set relativenumber!<CR>:set relativenumber?<CR>
+nn glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nn glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
-nn glsp :set spell!<CR>
+nn glsp :set spell!<CR>:set spell?<CR>
 nn glss :StaticSearch<Space>
-nn glst :set startofline!<CR>
+nn glst :set startofline!<CR>:set startofline?<CR>
 nn glsy :call getsyntax#()<CR>
 nn glts :put=strftime('%y%m%d%H%M%S')<CR>
 
