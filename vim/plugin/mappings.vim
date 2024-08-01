@@ -76,7 +76,8 @@ nn <silent> snf :let @s=@/<CR>:e $NOESIS/french.noe<CR>?##  Voca<CR>:let @/=@s<C
 nn <silent> snt :let @s=@/<CR>:e $NOESIS/todos.noe<CR>G{:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0
 nn <silent> snl :e $NOESIS/later.noe<CR>
 nn <silent> snn :e $NOESIS/notes.noe<CR>
-nn <silent> snh :e $NOESIS/history.gpg.noe<CR>
+nn <silent> snj :e $NOESIS/journal.gpg.noe<CR>
+nn <silent> snh :echo "NOP try snj"<CR>
 
 "  config
 nn <silent> sc  <nop>
