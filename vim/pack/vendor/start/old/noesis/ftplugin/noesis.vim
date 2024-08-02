@@ -95,7 +95,7 @@ nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
             \:sil !rm $DOTVIM/.swp/*%*.swp<CR>
             \:sil cd $NOESIS/<CR>
-            \:sil !git add -f INDEX.noe Lists Areas Projects Resources Archives<CR>
+            \:sil !git add -f .<CR>
             \:sil !git commit -m "Push"<CR>:sil !git push origin main<CR>
             \:q<CR>:redr!<CR>
 

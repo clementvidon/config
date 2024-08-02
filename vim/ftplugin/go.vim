@@ -32,11 +32,29 @@ nn <buffer> <LocalLeader>E :write<CR>:!clear && go run -race -vet -work -mod=rea
 
 "   execute multi-file
 nn <buffer> <LocalLeader>E :write<CR>:!clear && go run .<CR>
-" nn <buffer> <LocalLeader>E :write<CR>:!clear && go run $(ls -1 *.go \| grep -v _test.go)<CR>
 
 "   test
 nn <buffer> <LocalLeader>t :write<CR>:!clear && go test<CR>
 nn <buffer> <LocalLeader>T :write<CR>:!clear && go test -v<CR>
+
+if !exists("*ToggleGoTestFile")
+function! ToggleGoTestFile()
+  let l:current_file = expand('%:t')
+  if l:current_file =~ '_test\.go$'
+    let l:srcs_file = substitute(l:current_file, '_test\.go$', '.go', '')
+    execute 'edit ' . l:srcs_file
+    echo l:srcs_file
+  else
+    let l:test_file = substitute(l:current_file, '\.go$', '_test.go', '')
+    execute 'edit ' . l:test_file
+    echo l:test_file
+  endif
+endfunction
+endif
+
+" Map the function to <LocalLeader>s in normal mode for the current buffer
+nnoremap <buffer> <LocalLeader>s :call ToggleGoTestFile()<CR>
+
 
 "   benchmark
 nn <buffer> <LocalLeader>b :write<CR>:!clear && go test -bench=.<CR>

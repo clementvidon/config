@@ -70,8 +70,8 @@ nn sg :grep -r<Space>
 
 "   noesis
 nn <silent> sn  <nop>
-nn <silent> sne :let @s=@/<CR>:e $NOESIS/english.noe<CR>?##  Voca<CR>:let @/=@s<CR>
-nn <silent> snf :let @s=@/<CR>:e $NOESIS/french.noe<CR>?##  Voca<CR>:let @/=@s<CR>
+nn <silent> sne :let @s=@/<CR>:e $NOESIS/english.noe<CR>?##  Voca<CR>zt:let @/=@s<CR>
+nn <silent> snf :let @s=@/<CR>:e $NOESIS/french.noe<CR>?##  Voca<CR>zt:let @/=@s<CR>
 
 nn <silent> snt :let @s=@/<CR>:e $NOESIS/todos.noe<CR>G{:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0
 nn <silent> snl :e $NOESIS/later.noe<CR>
