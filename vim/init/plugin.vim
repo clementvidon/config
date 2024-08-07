@@ -212,7 +212,7 @@ Plug 'junegunn/seoul256.vim'                    " colorscheme
 "             \ {'do': ':TSUpdate'}
 " Plug 'neovim/nvim-lspconfig'
 "
-Plug 'w0rp/ale'                                 " lsp config TODO
+Plug 'w0rp/ale'                                   " lsp config TODO
 " Plug 'prisma/vim-prisma'                        " prisma
 " Plug 'peitalin/vim-jsx-typescript'              " typescriptreact indent
 
@@ -230,6 +230,7 @@ Plug 'vim-scripts/indentpython.vim'
 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'APZelos/blamer.nvim'
 
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
