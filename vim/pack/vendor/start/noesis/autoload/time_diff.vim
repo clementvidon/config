@@ -7,9 +7,10 @@
 "            up the results to 's:total_difference_seconds' and print the sum at
 "            each use.
 "
-"   @Usage   Run ':call ExtractTimeRangeFromLine(getline('.'))' with the cursor
-"            on a line that comprise a time in this format: 'HH:MM HH:MM', like:
-"            'I am a valid10:58 03:09input.'
+"   @Usage   Run ':call time_diff#(getline('.'))' with the cursor on a line that
+"            contain a time range in this format: 'HH:MM HH:MM'.
+"
+"   @Example 'I am a valid range 10:58 03:09:)' gives 'This duration: 16:11'
 
 let s:total_difference_seconds = 0
 

@@ -240,4 +240,5 @@ function repl()
 # eval "$(scw autocomplete script shell=zsh)"
 
 alias pcu='cd ~/git/scw/pcu/'
+alias cur='cd /home/pro/git/scw/pcu/product-catalog/cmd/producer-cron'
 alias k='kubectl'

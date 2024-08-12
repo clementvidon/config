@@ -18,27 +18,27 @@ nn sv <nop>
 "   write / quit
 no mw  :write<CR>
 nn mvv :write !sudo tee %<CR>
-no gmw :write!<CR>
+no mmw :write!<CR>
 no mW  :wall<CR>
-no gmW :wall!<CR>
+no mmW :wall!<CR>
 no mq  :quit<CR>
-no gmq :quit!<CR>
+no mmq :quit!<CR>
 no mQ  :quitall<CR>
-no gmQ :quitall!<CR>
+no mmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
-no gmd :bn!\|bd! #<CR>
+no mmd :bn!\|bd! #<CR>
 no <silent> mso :let view = winsaveview() \| write \| source $HOME/.vimrc\|e \| call winrestview(view)<CR>
 
 "   find
 nn sf  :fin<Space>
-nn gsf :fin!<Space>
+nn ssf :fin!<Space>
 nn sTf :tabf<Space>
 nn shf :sf<Space>
 nn svf :vert sf<Space>
 
 "   edit
 nn se  :e<Space>
-nn gse :e!<Space>
+nn sse :e!<Space>
 nn sTe :tabe<Space>
 nn she :sp<Space>
 nn sve :vert<Space>
@@ -51,7 +51,7 @@ nn svp :vert #<CR>
 
 "   cwd edit
 nn s.  :lc %:h<CR>:e<Space>
-nn gs. :lc %:h<CR>:e!<Space>
+nn ss. :lc %:h<CR>:e!<Space>
 nn sT. :lc %:h<CR>:tabe<Space>
 nn sh. :lc %:h<CR>:sp<Space>
 nn sv. :lc %:h<CR>:vert<Space>
