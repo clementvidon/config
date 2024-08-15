@@ -35,6 +35,7 @@ export GNUPGHOME=$HOME/.gnupg
 ######################################## Password Store
 
 if (( $+commands[pass] )); then
+    export PASSWORD_STORE_DIR=pass
     export PASSWORD_STORE_CLIP_TIME=10
     export PASSWORD_STORE_CLIPBOARD=primary
     export PASSWORD_STORE_GENERATED_LENGTH=32
@@ -55,5 +56,3 @@ fi
 if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
 fi
-
-source ~/.env
