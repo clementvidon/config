@@ -21,7 +21,13 @@ bindkey -M vicmd 'j' history-beginning-search-forward-end
 #                  completion                                                  #
 #------------------------------------------------------------------------------#
 
-autoload -Uz compinit && compinit                                   # commands completion
+skip_global_compinit=1
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
 zstyle ':completion:*' menu select                                  # highlight suggestion
 zmodload zsh/complist                                               # <S-Tab> reverse navigation
 bindkey -M menuselect '^[[Z' reverse-menu-complete
@@ -55,32 +61,6 @@ autoload -Uz vcs_info && precmd() { vcs_info }                      # Load versi
 zstyle ':vcs_info:git:*' formats ' %b '                             # Format the vcs_info_msg_0_ variable
 
 PROMPT='%n@%m%{%F{102}%}${vcs_info_msg_0_}%{%F{none}%}%# '
-
-#------------------------------------------------------------------------------#
-#                  ssh-agent at login                                          #
-#------------------------------------------------------------------------------#
-
-SSH_ENV="$HOME/.ssh/agent-environment"
-
-function start_agent {
-    echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# Source SSH settings, if applicable
-
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
-    }
-else
-    start_agent;
-fi
 
 #------------------------------------------------------------------------------#
 #                  aliases                                                     #

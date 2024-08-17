@@ -2,7 +2,7 @@
 
 # @author       clemedon (Clément Vidon)
 # @brief        Rename my phone pictures YYMMDD_DayCount.HEIC
-#
+# TODO YYMMDD_DayCount_tag.HEIC
 # Also generate a hidden undo script in the target directory.
 #
 # @param[in]    a directory that contains the files to rename

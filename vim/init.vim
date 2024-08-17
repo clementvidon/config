@@ -3,14 +3,14 @@
 " Updated: 230802 15:42:37 by cvidon@paul-f5Br5s5.clusters.42paris.fr
 " Maintainer: Clément Vidon
 
-if $USER == 'clem' || $USER == 'perso'
-    let $NOESIS=$HOME . "/git/noesis" " at home
+if $USER == 'clem'
+    let $NOESIS=$HOME . "/noesis" " at home
 else
     let $NOESIS=$HOME . "/perso/noesis" " at work
 endif
 
 let $GPGID="B8AE5479C3DE72D291F1E923B32613620A074922"
-let $DOTVIM=$HOME . "/git/config/vim"
+let $DOTVIM=$HOME . "/config/vim"
 
 if empty(glob($DOTVIM . "/.undo/vim"))  | exec 'silent !mkdir -p $DOTVIM/.undo/vim'  | endif
 if empty(glob($DOTVIM . "/.undo/nvim")) | exec 'silent !mkdir -p $DOTVIM/.undo/nvim' | endif

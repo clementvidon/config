@@ -6,7 +6,7 @@
 #!/bin/zsh
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-	VIMPATH="git/config/vim"
+	VIMPATH="config/vim"
 else
 	VIMPATH=$(realpath --relative-to="$HOME" $(dirname -- "${BASH_SOURCE:-$0}"))
 fi
