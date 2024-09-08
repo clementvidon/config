@@ -246,8 +246,14 @@ no <space>p "+p
 
 no <space>z <C-z>
 no <space>r <C-r>
-no <space>o <C-o>
-no <space>i <C-i>
+" no <space>o <C-o>
+" no <space>i <C-i>
 no <space>v <C-v>
 no <space>u <C-u>
 no <space>d <C-d>
+
+"   edition gi
+
+"   move the rest of the line down
+nn <space>o i<CR><Esc><S-j>
+
