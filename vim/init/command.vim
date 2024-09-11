@@ -12,12 +12,12 @@ command! W :execute ':silent w !sudo tee %>/dev/null' | :edit!
 "   bufonly
 command! BufOnly execute '%bdelete | edit # | normal `"'
 
-"   translate
+"   translate https://www.soimort.org/translate-shell/
 command! -nargs=+ -bar Fr execute 'silent read !trans "<args>" -from en -to fr -brief 2> /dev/null'
 command! -nargs=+ -bar En execute 'silent read !trans "<args>" -from fr -to en -brief 2> /dev/null'
 command! -nargs=+ -bar Au execute 'silent !clear; trans "<args>" -from fr -to en -brief 2> /dev/null -play'
 
-"   synonym (X4s8FmmkYqgU1LIcjEBA)
+"   synonym https://github.com/smallwat3r/synonym#K4f8SzzxLdtH1YVpwRON
 command! -nargs=+ -bar Sy execute 'silent !clear' | execute '!synonym "<args>"'
 
 "   tmux sendkey

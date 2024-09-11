@@ -139,9 +139,9 @@ nn glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nn glcd :cd %:h<CR>
 nn glcl :set cursorline!<CR>:set cursorline?<CR>
 nn glco :call colorswitch#('seoul256-light', 'nord')<CR>
-nn glen :En<Space>
+vn glen :'<,'>!trans -b :fr
 nn glex :exe getline(".")<CR>
-nn glfr :Fr<Space>
+vn glfr :'<,'>!trans -b :en
 nn glhl :set hls!<CR>:set hls?<CR>
 nn gllc :lc %:h<CR>
 nn glli :set list!<CR>:set list?<CR>
