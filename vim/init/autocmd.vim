@@ -1,6 +1,6 @@
 " init/autocmd
 " Created: 230524 19:44:57 by clem9nt@imac
-" Updated: 230524 19:44:57 by clem9nt@imac
+" Updated: 240911 16:09:02 by clem@spectre
 " Maintainer: Clément Vidon
 
 augroup gpg_auto_encryption

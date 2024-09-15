@@ -53,11 +53,15 @@ syn keyword Todo TODO FIXME X XXX WIP
 
 syn match noesisTaskTimestamp /\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s/                " 000000 00:00 00:00
 syn match noesisTaskTimestamp /\(^\s\{0,2}-\s\)\@<=\d\d:\d\d\s\d\d:\d\d\ze\s/ " 00:00 00:00
-syn match noesisTaskPrefixWork /\s\<work\>:\($\|\s\)/ " work:
+syn match noesisTaskPrefixWork /\s\<main\>:\($\|\s\)/ " work:
 syn match noesisTaskPrefixSide /\s\<side\>:\($\|\s\)/ " side:
 syn match noesisTaskPrefixLife /\s\<life\>:\($\|\s\)/ " life:
 
 syn match noesisDetail /\s\zs--\s.*\($\|\ze\s{\)/ contains=Todo " -- detail
+
+" TODO https://www.reddit.com/r/vim/comments/1fg7v9j/comment/ln04n8g/?context=3
+" syn match noesisTaskEstimate /\s\<\(main\|side\|life\)\>:\s\d\d\d\d\ze\s/       " 0000
+" hi noesisTaskEstimate             ctermfg=240
 
 "   highlight
 
