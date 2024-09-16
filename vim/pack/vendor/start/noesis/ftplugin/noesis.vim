@@ -190,6 +190,6 @@ nn <silent><buffer> <LocalLeader>c <Esc>
 
 "   abbreviations
 
-iabbr <silent><buffer> wwo - main: 0000
-iabbr <silent><buffer> ssi - side: 0000
-iabbr <silent><buffer> lli - life: 0000
+iabbr <silent><buffer> mma - main: 0000<Esc>viW
+iabbr <silent><buffer> ssi - side: 0000<Esc>viW
+iabbr <silent><buffer> lli - life: 0000<Esc>viW

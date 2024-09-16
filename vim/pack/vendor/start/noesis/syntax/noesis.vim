@@ -51,17 +51,30 @@ syn keyword Todo TODO FIXME X XXX WIP
 
 " Todos
 
-syn match noesisTaskTimestamp /\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s/                " 000000 00:00 00:00
-syn match noesisTaskTimestamp /\(^\s\{0,2}-\s\)\@<=\d\d:\d\d\s\d\d:\d\d\ze\s/ " 00:00 00:00
-syn match noesisTaskPrefixWork /\s\<main\>:\($\|\s\)/ " work:
-syn match noesisTaskPrefixSide /\s\<side\>:\($\|\s\)/ " side:
-syn match noesisTaskPrefixLife /\s\<life\>:\($\|\s\)/ " life:
+" syn match noesisTaskTimestamp /\s\d\{6}\(\s\d\d:\d\d\)\{1,2}\ze\s/                " 000000 00:00 00:00
+" syn match noesisTaskPrefixWork /\s\<main\>:\($\|\s\)/ " work:
+" syn match noesisTaskPrefixSide /\s\<side\>:\($\|\s\)/ " side:
+" syn match noesisTaskPrefixLife /\s\<life\>:\($\|\s\)/ " life:
+" syn match noesisDetail /\s\zs--\s.*\($\|\ze\s{\)/ contains=Todo " -- detail
 
-syn match noesisDetail /\s\zs--\s.*\($\|\ze\s{\)/ contains=Todo " -- detail
+syn match noesisTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/               " ' <000000 00:00> '
+syn match noesisTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/   " ' 000000 00:00 <00:00> '
+syn match noesisTaskPrefixWork /\(\smain:\s\)/ " ' <main:> '
+syn match noesisTaskPrefixSide /\(\sside:\s\)/ " ' <side:> '
+syn match noesisTaskPrefixLife /\(\slife:\s\)/ " ' <life:> '
+syn match noesisTaskEstimate /\(\s\(main\|side\|life\):\s\)\@<=\(\d\d\d\d\|\/\/\/\/\)\s/ " ' main: <0000> '
+syn match noesisTaskDetail /\(\s\a\a\a\a:\s\(\d\d\d\d\|\/\/\/\/\)\s.*\)\@<=\(\s--\s.*$\)/
+syn match noesisTaskDetail /\(\s\a\a\a\a:\s\(\d\d\d\d\|\/\/\/\/\)\s.*$\n\)\@<=\(\(\s\s.*$\n\)\{1,10}\)\ze/   " ' 000000 00:00 <00:00> '
+
+
+syn match Test /\(FOO\n\)\@<=\(BAR\)/ " BAR under FOO
+syn match Test /\(BAR\)\ze\(\nFOO\)/  " BAR above FOO
+syn match Test /\(BAR\)\ze\(FOO\)/    " BAR right FOO
+syn match Test /\(FOO\)\@<=\(BAR\)/   " BAR left  FOO
+hi Test ctermfg=red guibg=red
+
 
 " TODO https://www.reddit.com/r/vim/comments/1fg7v9j/comment/ln04n8g/?context=3
-" syn match noesisTaskEstimate /\s\<\(main\|side\|life\)\>:\s\d\d\d\d\ze\s/       " 0000
-" hi noesisTaskEstimate             ctermfg=240
 
 "   highlight
 
@@ -101,8 +114,8 @@ if &background == "dark"
     hi noesisTaskPrefixWork           ctermfg=211
     hi noesisTaskPrefixSide           ctermfg=175
     hi noesisTaskPrefixLife           ctermfg=139
-
-    hi noesisDetail                   ctermfg=103
+    hi noesisTaskEstimate             ctermfg=103
+    hi noesisTaskDetail               ctermfg=146
 
 elseif &background == "light"
 
