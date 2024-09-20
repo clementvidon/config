@@ -7,7 +7,7 @@ syntax on
 filetype plugin indent on
 
 try
-    color nord | set bg=dark
+    color seoul256-light | set bg=light
 catch /^Vim\%((\a\+)\)\=:E185/
     echo "Colorscheme not installed."
 endtry

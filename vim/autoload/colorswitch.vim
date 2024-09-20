@@ -17,13 +17,13 @@ function colorswitch#(clight, cdark)
             execute 'silent set bg=light'
             execute 'colors ' . a:clight
             execute 'highlight Normal ctermbg=NONE'
-            execute 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.yml ~/.config/alacritty/colors.yml'
+            execute 'silent !cp ~/.config/alacritty/colors/' . a:clight .'.toml ~/.config/alacritty/colors.toml'
         elseif &background ==# "light"
             execute 'silent !sed -i --follow-symlinks "s/   color .*/   color ' . a:cdark . ' | set bg=dark/g" $DOTVIM/init/option.vim'
             execute 'silent set bg=dark'
             execute 'colors ' . a:cdark
             execute 'highlight Normal ctermbg=NONE'
-            execute 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.yml ~/.config/alacritty/colors.yml'
+            execute 'silent !cp ~/.config/alacritty/colors/'. a:cdark .'.toml ~/.config/alacritty/colors.toml'
         endif
     endif
 endfunction

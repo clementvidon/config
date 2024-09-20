@@ -59,12 +59,12 @@ syn keyword Todo TODO FIXME X XXX WIP
 
 syn match noesisTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/               " ' <000000 00:00> '
 syn match noesisTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/   " ' 000000 00:00 <00:00> '
-syn match noesisTaskPrefixWork /\(\smain:\s\)/ " ' <main:> '
-syn match noesisTaskPrefixSide /\(\sside:\s\)/ " ' <side:> '
-syn match noesisTaskPrefixLife /\(\slife:\s\)/ " ' <life:> '
+syn match noesisTaskPrefixWork /\(^-.*\)\@<=\(\smain:\s\)/ " ' <main:> '
+syn match noesisTaskPrefixSide /\(^-.*\)\@<=\(\sside:\s\)/ " ' <side:> '
+syn match noesisTaskPrefixLife /\(^-.*\)\@<=\(\slife:\s\)/ " ' <life:> '
 syn match noesisTaskEstimate /\(\s\(main\|side\|life\):\s\)\@<=\(\d\d\d\d\|\/\/\/\/\)\s/ " ' main: <0000> '
-syn match noesisTaskDetail /\(\s\a\a\a\a:\s\(\d\d\d\d\|\/\/\/\/\)\s.*\)\@<=\(\s--\s.*$\)/
-syn match noesisTaskDetail /\(\s\a\a\a\a:\s\(\d\d\d\d\|\/\/\/\/\)\s.*$\n\)\@<=\(\(\s\s.*$\n\)\{1,10}\)\ze/   " ' 000000 00:00 <00:00> '
+syn match noesisTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/ " ' main: foobar <-- bar>'
+syn match noesisTaskDetail /\(^-.*\s\a\a\a\a:\s.*$\n\)\@<=\(\(\s\s.*$\n\)\{1,10}\)\ze/   " ' 000000 00:00 <00:00> '
 
 
 syn match Test /\(FOO\n\)\@<=\(BAR\)/ " BAR under FOO
@@ -107,9 +107,6 @@ if &background == "dark"
     hi noesisBold                     ctermfg=219 cterm=bold
     hi noesisBoldItalic               ctermfg=205
 
-    hi noesisKeywordPos               ctermfg=192
-    hi noesisKeywordNeg               ctermfg=210
-
     hi noesisTaskTimestamp            ctermfg=103
     hi noesisTaskPrefixWork           ctermfg=211
     hi noesisTaskPrefixSide           ctermfg=175
@@ -119,20 +116,33 @@ if &background == "dark"
 
 elseif &background == "light"
 
-    hi noesisH1                       ctermfg=27
-    hi noesisH2                       ctermfg=27
-    hi noesisH3                       ctermfg=27
-    hi noesisH4                       ctermfg=27
-    hi noesisH5                       ctermfg=27
-    hi noesisH6                       ctermfg=27
+    hi Folded                         ctermfg=105 ctermbg=NONE cterm=italic
 
-    hi noesisUrl cterm=underline      ctermfg=147
-    hi noesisLink                     ctermfg=105
+    hi noesisH1                       ctermfg=20
+    hi noesisH2                       ctermfg=20
+    hi noesisH3                       ctermfg=20
+    hi noesisH4                       ctermfg=20
+    hi noesisH5                       ctermfg=20
+    hi noesisH6                       ctermfg=20
 
-    hi noesisCode                     ctermbg=230
-    hi noesisItalic                   cterm=italic
-    hi noesisBold                     cterm=bold
-    hi noesisBoldItalic               ctermbg=195
+    hi noesisHeader                   ctermfg=232
+
+    hi noesisUrl                      ctermfg=138 cterm=underline
+    hi noesisLink                     ctermfg=33
+
+    hi noesisBlockquote               ctermfg=171
+
+    hi noesisCode                     ctermfg=65  cterm=italic
+    hi noesisItalic                   ctermfg=88  cterm=italic
+    hi noesisBold                     ctermfg=160 cterm=bold
+    hi noesisBoldItalic               ctermfg=196
+
+    hi noesisTaskTimestamp            ctermfg=103
+    hi noesisTaskPrefixWork           ctermfg=205
+    hi noesisTaskPrefixSide           ctermfg=170
+    hi noesisTaskPrefixLife           ctermfg=134
+    hi noesisTaskEstimate             ctermfg=103
+    hi noesisTaskDetail               ctermfg=146
 
 endif
 
