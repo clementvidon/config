@@ -22,11 +22,6 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 [ -r $HOME/.zshrc ] && source $HOME/.zshrc
 
-######################################## Scaleway
-
-export VAULT_ADDR=https://vault.sec.internal.scaleway.com/
-# export VAULT_TOKEN="$(vault login -format=json -method=ldap username=cvidon | jq -r .auth.client_token)"
-
 ######################################## GnuPG
 
 export GPG_TTY=$(tty)
@@ -56,3 +51,4 @@ fi
 if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
 fi
+. "$HOME/.cargo/env"

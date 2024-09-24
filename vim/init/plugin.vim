@@ -192,7 +192,7 @@ let g:seoul256_background = 256
 "   plug manager
 
 
-packadd termdebug
+" packadd termdebug
 " packadd cfilter                                 " filter qf content
 " packadd matchit                                 " closing tag match
 " packadd justify                                 " justify selection

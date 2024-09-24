@@ -27,5 +27,5 @@ args = ["-l", "-c", "tmux attach || tmux;clear"]
 program = "/bin/zsh"
 
 [window.dimensions]
-columns = 67
-lines = 30
+columns = 80
+lines = 24
