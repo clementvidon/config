@@ -15,6 +15,7 @@ endtry
 highlight LineNr ctermbg=NONE
 highlight CursorLine gui=underline cterm=underline ctermbg=NONE
 highlight Comment ctermfg=103
+highlight Visual ctermbg=0 ctermfg=NONE
 
 
 if has('nvim')
