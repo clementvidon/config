@@ -78,7 +78,11 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
 fi
 
 if ! (( $+commands[ag] )); then
-    alias ag='grep -r --color=auto'
+    alias ag='grep -rI --color=auto'
+    alias agc='grep -rI -c --color=auto'
+else
+    alias ag='ag --hidden'
+    alias agc='ag -c --hidden'
 fi
 
 alias dush="du -h --max-depth=1 . | sort -rh"

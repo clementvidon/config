@@ -54,20 +54,6 @@ if command -v alacritty &> /dev/null; then
     echo "alacritty    OK"
 fi
 
-#if command -v i3 &> /dev/null; then
-#    {
-#        ln -fsv "$HOME/config/.xinitrc"                   "$HOME/.xinitrc"
-#        ln -fsv "$HOME/config/.Xresources"                "$HOME/.Xresources"
-#        mkdir -pv "$HOME/.config/i3/"
-#        ln -fsv "$HOME/config/i3/config"                  "$HOME/.config/i3/"
-#        mkdir -pv "$HOME/.local/script/i3"
-#        ln -fsv "$HOME/config/.local/script/i3/"*         "$HOME/.local/script/i3/"
-#        mkdir -pv "$HOME/.icons"
-#        ln -fsv "$HOME/config/.icons/"*                   "$HOME/.icons/"
-#    } 1>/dev/null
-#    echo "i3           OK"
-#fi
-
 if command -v vim &> /dev/null || command -v nvim &> /dev/null; then
     {
         bash vim/vimrc_gen.sh
@@ -76,15 +62,4 @@ if command -v vim &> /dev/null || command -v nvim &> /dev/null; then
     echo "vim          OK"
 fi
 
-#if command -v clang-format &> /dev/null; then
-#    {
-#        echo "1"
-#        mkdir -pv "$HOME/.config/clang-format/"
-#        echo "2"
-#        ln -fsv "$HOME/config/clang-format/".clang-format-* "$HOME/.config/clang-format/"
-#        echo "3"
-#        echo "clang-format OK"
-#        echo "4"
-#    } 1>/dev/null
-#fi
 echo "Installation DONE"

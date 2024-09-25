@@ -1,14 +1,9 @@
-# i3/toggle_touchpad
-# Created: 230828 16:40:27 by clem@spectre
-# Updated: 230828 16:40:27 by clem@spectre
-# Maintainer: Clément Vidon
+#  script/toggle_touchpad
+#  Created: 230828 16:40:27 by clem@spectre
+#  Updated: 240925 14:46:41 by clem@spectre
+#  Maintainer: Clément Vidon (clemedon)
 
 #!/bin/bash
-
-# Toggle Touchpad
-# Add it to i3:
-#
-#   echo "bindsym $mod+Shift+t exec ~/.local/script/i3/toggle_touchpad" >> i3/config
 
 TOUCHPAD_ID=$(xinput list | grep -i touchpad | grep -o 'id=[0-9]*' | cut -d= -f2)
 TOUCHPAD_STATE=$(xinput list-props "$TOUCHPAD_ID" | grep "Device Enabled" | grep -o "[01]$")

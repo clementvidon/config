@@ -37,15 +37,6 @@ if (( $+commands[pass] )); then
     export EDITOR="/bin/vim"
 fi
 
-######################################## i3-wm
-
-if (( $+commands[i3] )); then
-    if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-        export GDK_SCALE=2
-        startx
-    fi
-fi
-
 ######################################## Internet Computer
 
 if (( $+commands[dfx] )); then

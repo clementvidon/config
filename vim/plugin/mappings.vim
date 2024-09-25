@@ -91,7 +91,6 @@ nn <silent> sca :e $HOME/.config/alacritty/alacritty.toml<CR>gi<Esc>
 nn <silent> scz :e $HOME/.zshrc<CR>gi<Esc>
 nn <silent> sce :e $HOME/.zshenv<CR>gi<Esc>
 nn <silent> sct :e $HOME/.tmux.conf<CR>gi<Esc>
-nn <silent> sci :e $HOME/.config/i3/config<CR>gi<Esc>
 
 
 "   git
