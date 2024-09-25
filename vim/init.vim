@@ -14,8 +14,8 @@ let $DOTVIM=$HOME . "/config/vim"
 
 if empty(glob($DOTVIM . "/.undo/vim"))  | exec 'silent !mkdir -p $DOTVIM/.undo/vim'  | endif
 if empty(glob($DOTVIM . "/.undo/nvim")) | exec 'silent !mkdir -p $DOTVIM/.undo/nvim' | endif
-if empty(glob($DOTVIM . "/.spell")) | exec 'silent !mkdir $DOTVIM/.spell' | endif
 if empty(glob($DOTVIM . "/.swap"))  | exec 'silent !mkdir $DOTVIM/.swap'  | endif
+if empty(glob($DOTVIM . "/spell")) | exec 'silent !mkdir $DOTVIM/spell' | endif
 
 set runtimepath^=$DOTVIM
 set runtimepath+=$DOTVIM/after

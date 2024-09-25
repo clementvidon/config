@@ -39,13 +39,11 @@ set shortmess=filnxtToOF                            " see ':h shortmess'
 set smartcase ignorecase                            " searches case-sensitive if they contain an uppercase letter
 set noincsearch                                     " disable incremental search (neo)
 set nowrap                                          " screen line wrapping
-set norelativenumber                                  " number column
-"et showmatch                                       " set showmatch
-set spellfile=$DOTVIM/.spell/custom.utf-8.add       " dictionary location
+set norelativenumber                                " number column
 set spelllang=en,fr                                 " lang for spellcheck
+set spellfile=/home/clem/config/vim/spell/custom.utf-8.add       " dictionary location
 set dictionary=spell,/usr/share/dict/words          " dictionary completion C-X C-K
 set completeopt=menu,preview                        " c-n c-p to complete with closest match
-set dictionary=spell,/usr/share/dict/words          " dictionary completion C-X C-K
 set autoindent                                      " auto indent
 set expandtab                                       " insert spaces instead tab
 set formatoptions=tcrqjnp                           " see ':h fo-table'
