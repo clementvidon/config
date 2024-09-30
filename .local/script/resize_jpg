@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Prerequisites: imagemagick
+
+# Check if the maximum side size and at least one image are provided
+if [ "$#" -lt 2 ]; then
+  echo "Usage: $0 <max_size> <image1> [<image2> ...]"
+  exit 1
+fi
+
+# Get the maximum size from the first argument
+max_size=$1
+shift # Remove the max_size argument from the list of arguments
+
+# Loop through all the remaining arguments (image files)
+for img in "$@"; do
+  # Check if the file exists and is a JPG/JPEG file
+  if [ -f "$img" ] && [[ "$img" == *.JPG || "$img" == *.jpg || "$img" == *.jpeg ]]; then
+    echo -n "Resizing $img.."
+
+    # Get the directory and filename separately
+    dir=$(dirname "$img")
+    filename=$(basename "$img")
+
+    # Use ImageMagick's convert to resize the image
+    # Resize the image so that the largest dimension matches max_size and the aspect ratio is maintained
+    convert "$img" -resize "${max_size}x${max_size}>" "$dir/small_$filename"
+
+    echo ". DONE"
+  else
+    echo "File $img not found or is not a JPG/JPEG file"
+  fi
+done
+
+echo "Resizing process completed"
