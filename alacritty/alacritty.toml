@@ -1,4 +1,4 @@
-import = ["~/.config/alacritty/colors.toml", "~/.config/alacritty/fonts.toml"]
+general.import = ["~/.config/alacritty/colors.toml", "~/.config/alacritty/fonts.toml"]
 
 [colors]
 draw_bold_text_with_bright_colors = true
@@ -22,9 +22,9 @@ mods = "None"
 [scrolling]
 history = 10000
 
-[shell]
-args = ["-l", "-c", "tmux attach || tmux;clear"]
-program = "/bin/zsh"
+[terminal.shell]
+program = "/bin/bash"
+args = ["-l", "-c", "tmux attach || tmux new-session; clear"]
 
 [window.dimensions]
 columns = 80

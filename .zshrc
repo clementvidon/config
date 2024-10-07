@@ -122,6 +122,7 @@ alias grm="git rm"
 alias grs="git reset"
 alias gsh="git show"
 alias gst="git status -s --show-stash --ignore-submodules=untracked"
+alias gs="git status"
 alias gsw="git switch"
 
 alias rebase="git fetch && git rebase origin/master && git push --force-with-lease"

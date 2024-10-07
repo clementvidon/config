@@ -16,6 +16,7 @@
 	reflogExpire = 1.month.ago
 [pull]
     rebase = true
+    autosquash = true
 [fetch]
     prune = true
 [diff]
