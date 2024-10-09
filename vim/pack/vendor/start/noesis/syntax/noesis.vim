@@ -49,20 +49,6 @@ syn region noesisCode start="```" end="```" contains=@NoSpell
 
 syn keyword Todo TODO FIXME X XXX WIP
 
-" Todos
-
-syn match noesisTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/               " ' <000000 00:00> '
-syn match noesisTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/   " ' 000000 00:00 <00:00> '
-syn match noesisTaskPrefixWork /\(^-.*\)\@<=\(\smain:\s\)/ " ' <main:> '
-syn match noesisTaskPrefixSide /\(^-.*\)\@<=\(\sside:\s\)/ " ' <side:> '
-syn match noesisTaskPrefixLife /\(^-.*\)\@<=\(\slife:\s\)/ " ' <life:> '
-syn match noesisTaskEstimate /\(\s\(main\|side\|life\):\s\)\@<=\(\d\d\d\d\|\/\/\/\/\)\s/    " ' main: <0000> '
-syn match noesisTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                       " ' main: foobar <-- bar>'
-syn match noesisTaskDetail /\(^-.*\s\a\a\a\a:\s.*$\n\)\@<=\(\(\s\s.*$\n\)\{1,10}\)\ze/      " '  line above is a task'
-
-
-" TODO https://www.reddit.com/r/vim/comments/1fg7v9j/comment/ln04n8g/?context=3
-
 "   highlight
 
 
@@ -94,13 +80,6 @@ if &background == "dark"
     hi noesisBold                     ctermfg=219 cterm=bold
     hi noesisBoldItalic               ctermfg=205
 
-    hi noesisTaskTimestamp            ctermfg=103
-    hi noesisTaskPrefixWork           ctermfg=211
-    hi noesisTaskPrefixSide           ctermfg=175
-    hi noesisTaskPrefixLife           ctermfg=139
-    hi noesisTaskEstimate             ctermfg=103
-    hi noesisTaskDetail               ctermfg=146
-
 elseif &background == "light"
 
     hi Folded                         ctermfg=105 ctermbg=NONE cterm=italic
@@ -123,13 +102,6 @@ elseif &background == "light"
     hi noesisItalic                   ctermfg=88  cterm=italic
     hi noesisBold                     ctermfg=160 cterm=bold
     hi noesisBoldItalic               ctermfg=196
-
-    hi noesisTaskTimestamp            ctermfg=103
-    hi noesisTaskPrefixWork           ctermfg=205
-    hi noesisTaskPrefixSide           ctermfg=170
-    hi noesisTaskPrefixLife           ctermfg=134
-    hi noesisTaskEstimate             ctermfg=103
-    hi noesisTaskDetail               ctermfg=146
 
 endif
 

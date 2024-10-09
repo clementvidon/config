@@ -1,0 +1,143 @@
+*achiever.txt*    Achiever Vim Plugin
+
+Author: Clément Vidon <cvidon@student.42.fr>
+Version: 1.0
+Date: October 8, 2024
+License: MIT License
+
+==============================================================================
+CONTENTS                                                     *achiever-contents*
+
+1. Introduction..............................................|achiever-intro|
+2. Installation..............................................|achiever-install|
+3. Configuration.............................................|achiever-config|
+   3.1 Custom Local Leader Key...............................|achiever-leader|
+   3.2 Custom File Name......................................|achiever-filename|
+4. Usage.....................................................|achiever-usage|
+5. Mappings..................................................|achiever-mappings|
+6. Functions.................................................|achiever-functions|
+7. Abbreviations.............................................|achiever-abbreviations|
+8. License...................................................|achiever-license|
+
+==============================================================================
+
+1. Introduction                                                 *achiever-intro*
+
+The *Achiever* Vim plugin adds custom mappings and functions to any file named 'achiever', regardless of its extension. It enhances productivity without altering the original filetype, ensuring that syntax highlighting and other settings remain intact.
+
+==============================================================================
+
+2. Installation                                               *achiever-install*
+
+Use your preferred Vim plugin manager.
+
+Example using **vim-plug**:
+
+    Plug 'clementvidon/achiever'
+
+After adding the plugin to your `.vimrc` or `init.vim`, run `:PlugInstall` in Vim.
+
+==============================================================================
+
+3. Configuration                                               *achiever-config*
+
+The plugin provides two global variables for customization.
+
+3.1 Custom Local Leader Key                                    *achiever-leader*
+
+Set `g:achiever_local_leader` to customize the local leader key for the plugin's mappings.
+
+Default is `'gh'`.
+
+Example:
+
+    let g:achiever_local_leader = ','
+
+3.2 Custom File Name                                         *achiever-filename*
+
+Set `g:achiever_filename` to specify which file the plugin should target.
+
+Default is `'achiever'`.
+
+Example:
+
+    let g:achiever_filename = 'achiever'
+
+TIP: 'todo_*' will match all files whose name begins with 'todo_' such as 'todo_tomorrow' and 'todo_today'.
+
+3.3 Custom Mappings                                          *achiever-mappings*
+
+Customize or extend the default mappings by setting `g:achiever_mappings`.
+
+**Default:**
+
+    let g:achiever_mappings = {
+        \ 'k': 'task#check()',
+        \ 'c': 'task#clear()',
+        \ 'F': 'task#fix("time_end")',
+        \ 'f': 'task#fix("time_beg")',
+        \ 't': 'task#duration(getline("."))',
+        \ }
+
+**Example:**
+
+    let g:achiever_mappings = {
+        \ 's': 'task#start()',
+        \ 'e': 'task#end()',
+        \ }
+
+==============================================================================
+
+4. Usage                                                        *achiever-usage*
+
+When you open a file matching the `g:achiever_filename`, the plugin will:
+
+- Add custom mappings using your specified `g:achiever_local_leader`.
+- Provide additional settings (such as syntax highlighting) specific to 'achiever' files.
+- Preserve the original filetype settings.
+
+==============================================================================
+
+5. Mappings                                                  *achiever-mappings*
+
+The following mappings are available in 'achiever' files:
+
+- `<LocalLeader>k`: Calls `task_check#check()`.
+- `<LocalLeader>F`: Calls `task_fix#fix("time_end")`.
+- `<LocalLeader>f`: Calls `task_fix#fix("time_beg")`.
+- `<LocalLeader>t`: Calls `time_diff#diff(getline('.'))`.
+- `<LocalLeader>c`: Performs custom substitutions on the current line.
+
+Remember, `<LocalLeader>` is set via `g:achiever_local_leader`.
+
+==============================================================================
+
+6. Functions                                                *achiever-functions*
+
+The plugin provides the following autoload functions:
+
+- `task_check#check()`: Checks tasks within the 'achiever' file.
+- `task_fix#fix(arg)`: Fixes tasks based on the argument (`"time_beg"` or `"time_end"`).
+- `time_diff#diff(line)`: Calculates time differences from the provided line.
+
+These functions are autoloaded and only loaded when called.
+
+==============================================================================
+
+7. Abbreviations                                        *achiever-abbreviations*
+
+In insert mode, the following abbreviations are available:
+
+- `mma`: Expands to `- main:`
+- `ssi`: Expands to `- side:`
+- `lli`: Expands to `- life:`
+
+==============================================================================
+
+8. License                                                    *achiever-license*
+
+MIT License
+
+==============================================================================
+
+vim:tw=78:ts=8:ft=help:norl:

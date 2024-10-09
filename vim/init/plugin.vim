@@ -9,6 +9,9 @@
 
 nn gj <nop>
 
+let g:achiever_filename = 'achiever\(.gpg\|\).noe'
+let g:achiever_leader = 'gh'
+
 let g:ale_enabled = 0
 " let b:ale_exclude_highlights = ['line too long', 'foo.*bar']
 let g:ale_virtualtext_cursor = 'all'

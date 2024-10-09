@@ -1,6 +1,6 @@
 " ftplugin/noesis
 " Created: 230524 20:45:19 by clem9nt@imac
-" Updated: 230601 14:58:07 by cvidon@e2r3p15.clusters.42paris.fr
+" Updated: 241008 12:26:23 by clem@spectre
 " Maintainer: Clément Vidon
 
 "   options
@@ -78,14 +78,14 @@ nn <silent><buffer> <LocalLeader>i :let @a=trim(getline('.'))<CR>
             \zt5<C-y>
             \:let @a=''<CR>
 
-"   noesis grep TODO neovim support
+"   noesis grep
 com! -nargs=+ Grep exec 'grep! -i --exclude="*.gpg.noe" <args> $NOESIS/*.noe' | cw
 
 
 "   git pull
 nn <silent><buffer> <LocalLeader>pl :cd %:h\|sil !git pull<CR>:redraw!<CR>
 
-"   git add commit push TODO
+"   git add commit push
 nn <silent><buffer> <LocalLeader>ps :echo "Push"<CR>:w\|lc %:h<CR>
             \
             \:sil cd $NOESIS/<CR>
@@ -105,13 +105,15 @@ vn <buffer><silent> <LocalLeader>lfr y:Fr <C-R>"<CR>
 vn <buffer><silent> <LocalLeader>sy y:Sy <C-R>"<CR>
 
 "   string to H1
-nn <buffer><silent> <LocalLeader>h1 VUo<C-O>80i=<Esc>:put=strftime('%y%m%d')<CR>
-            \73i<Space><Esc>r[A]<Esc>2k0
+nn <buffer><silent> <LocalLeader>h1 o<Esc>80i=<Esc>
 
 "   string to H2
-nn <buffer><silent> <LocalLeader>h2 :s/\v<(.)(\w*)/\u\1\L\2/g<CR>o<C-O>40i-<Esc>k0
+nn <buffer><silent> <LocalLeader>h2 o<Esc>40i-<Esc>
+
+" digraphs
 
 no <C-K>% <Nop>
+
 exec "digraphs es " . 0x2091
 exec "digraphs hs " . 0x2095
 exec "digraphs is " . 0x1D62
@@ -174,22 +176,3 @@ exec "digraphs TS " . 0x1D40
 exec "digraphs US " . 0x1D41
 exec "digraphs VS " . 0x2C7D
 exec "digraphs WS " . 0x1D42
-
-
-"   task check, fix, diff, clear
-nn <silent><buffer> <LocalLeader>k :call task_check#()<CR>
-nn <silent><buffer> <LocalLeader>F :call task_fix#("time_end")<CR>
-nn <silent><buffer> <LocalLeader>f :call task_fix#("time_beg")<CR>
-nn <buffer><silent> <LocalLeader>t :call time_diff#(getline('.'))<CR>
-nn <silent><buffer> <LocalLeader>c <Esc>
-            \
-            \:call setline('.', substitute(getline('.'), '-\zs \d\d\d\d\d\d \d\d:\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
-            \:call setline('.', substitute(getline('.'), '-\zs \d\d\d\d\d\d \d\d:\d\d\ze.', '', 'e'))<CR>
-            \0
-
-
-"   abbreviations
-
-iabbr <silent><buffer> mma - main:
-iabbr <silent><buffer> ssi - side:
-iabbr <silent><buffer> lli - life:
