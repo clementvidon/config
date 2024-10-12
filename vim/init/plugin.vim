@@ -9,7 +9,7 @@
 
 nn gj <nop>
 
-let g:achiever_filename = 'achiever\(.gpg\|\).noe'
+let g:achiever_filenames = [ 'todos.noe', '.todos_history.gpg.noe', 'achiever.noe', '.achiever_history.gpg.noe' ]
 let g:achiever_leader = 'gh'
 
 let g:ale_enabled = 0

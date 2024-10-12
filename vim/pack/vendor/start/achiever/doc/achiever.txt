@@ -12,7 +12,7 @@ CONTENTS                                                     *achiever-contents*
 2. Installation..............................................|achiever-install|
 3. Configuration.............................................|achiever-config|
    3.1 Custom Local Leader Key...............................|achiever-leader|
-   3.2 Custom File Name......................................|achiever-filename|
+   3.2 Custom File Name......................................|achiever-filenames|
 4. Usage.....................................................|achiever-usage|
 5. Mappings..................................................|achiever-mappings|
 6. Functions.................................................|achiever-functions|
@@ -53,17 +53,15 @@ Example:
 
     let g:achiever_local_leader = ','
 
-3.2 Custom File Name                                         *achiever-filename*
+3.2 Custom File Name                                         *achiever-filenames*
 
-Set `g:achiever_filename` to specify which file the plugin should target.
+Set `g:achiever_filenames` to specify which files the plugin should target.
 
-Default is `'achiever'`.
+Default is `'achiever'` and `'.achiever_history'`.
 
 Example:
 
-    let g:achiever_filename = 'achiever'
-
-TIP: 'todo_*' will match all files whose name begins with 'todo_' such as 'todo_tomorrow' and 'todo_today'.
+    let g:achiever_filenames = [ 'achiever', '.achiever_history' ]
 
 3.3 Custom Mappings                                          *achiever-mappings*
 
@@ -90,7 +88,7 @@ Customize or extend the default mappings by setting `g:achiever_mappings`.
 
 4. Usage                                                        *achiever-usage*
 
-When you open a file matching the `g:achiever_filename`, the plugin will:
+When you open a file matching the `g:achiever_filenames`, the plugin will:
 
 - Add custom mappings using your specified `g:achiever_local_leader`.
 - Provide additional settings (such as syntax highlighting) specific to 'achiever' files.

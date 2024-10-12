@@ -42,8 +42,5 @@ augroup END
 
 augroup remind_me
     autocmd!
-    autocmd VimEnter * :call remindme#("Mon ", "Weekly Review")
-    autocmd VimEnter * :call remindme#("Sun ", "Weekly Review")
-    autocmd VimEnter * :call remindme#(" 01 ", "Monthy Review")
-    autocmd VimEnter * :call remindme#("240618", "Resilier abonnement audible")
+    autocmd VimEnter * :call remindme#("Thu ", "BACKUP DATA")
 augroup END

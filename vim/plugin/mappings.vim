@@ -73,10 +73,10 @@ nn <silent> sn  <nop>
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/english.noe<CR>?##  Voca<CR>zt:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/french.noe<CR>?##  Voca<CR>zt:let @/=@s<CR>
 
-nn <silent> snt :let @s=@/<CR>:e $NOESIS/todos.noe<CR>G{:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0
-nn <silent> snl :e $NOESIS/later.noe<CR>
-nn <silent> snn :e $NOESIS/notes.noe<CR>
+nn <silent> snt :let @s=@/<CR>:e $NOESIS/todos.noe<CR>:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0zz
+nn <silent> snh :e $NOESIS/.todos_history.gpg.noe<CR>
 nn <silent> snj :e $NOESIS/journal.gpg.noe<CR>
+nn <silent> snn :e $NOESIS/notes.noe<CR>
 nn <silent> snh :echo "NOP try snj"<CR>
 
 "  config
@@ -256,3 +256,53 @@ no <space>d <C-d>
 "   move the rest of the line down
 nn <space>o i<CR><Esc><S-j>
 
+
+nn <space>sq Q
+nn <space>sw W
+nn <space>se E
+nn <space>sr R
+nn <space>st T
+nn <space>sy Y
+nn <space>su U
+nn <space>si I
+nn <space>so O
+nn <space>sp P
+nn <space>sa A
+nn <space>ss S
+nn <space>sd D
+nn <space>sf F
+nn <space>sg G
+nn <space>sh H
+nn <space>sj J
+nn <space>sk K
+nn <space>sl L
+nn <space>sz Z
+nn <space>sx X
+nn <space>sc C
+nn <space>sv V
+nn <space>sb B
+nn <space>sn N
+nn <space>sm M
+
+nn <space>s` ~
+nn <space>s1 !
+nn <space>s2 @
+nn <space>s3 #
+nn <space>s4 $
+nn <space>s5 %
+nn <space>s6 ^
+nn <space>s7 &
+nn <space>s8 *
+nn <space>s9 (
+nn <space>s0 )
+nn <space>s- _
+nn <space>s= +
+
+nn <space>s[ {
+nn <space>s] }
+nn <space>s<BS> <BAR>
+nn <space>s; :
+nn <space>s' "
+nn <space>s, <
+nn <space>s. >
+nn <space>s/ ?

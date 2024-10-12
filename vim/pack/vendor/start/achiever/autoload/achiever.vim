@@ -224,3 +224,62 @@ function! s:FormatSeconds(seconds) abort
     let minutes = (a:seconds % 3600) / 60
     return printf('%02d:%02d', hours, minutes)
 endfunction
+
+" TASK DETAILS WRAP TOGGLE
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   @Brief   TODO
+"
+"   @Usage   TODO
+"
+"   @Example TODO
+
+function! achiever#task_details() abort
+    " Get the current line and line number
+    let l:current_line = getline('.')
+    let l:lnum = line('.')
+
+    " Check if the line contains 'life:' or 'side:'
+    if l:current_line =~ 'life:' || l:current_line =~ 'side:'
+        " Check if the current line contains at least two ' -- '
+        if len(split(l:current_line, ' -- ')) > 2
+            " Split the line into parts based on ' -- '
+            let l:parts = split(l:current_line, ' -- ')
+
+            " Replace the current line with the first part
+            call setline(l:lnum, l:parts[0])
+
+            " Add each detail part as a new line below with '  -- ' prefix
+            if len(l:parts) > 1
+                call append(l:lnum, map(l:parts[1:], {_, val -> '  -- ' . val}))
+            endif
+        else
+            " Otherwise, check if there are multiline details below
+            let l:next_lines = []
+            let l:current_lnum = l:lnum + 1
+            let l:start_delete = l:current_lnum
+
+            " Loop through the following lines until a non '  -- ' line is found
+            while getline(l:current_lnum) =~ '^\s\+--\s'
+                call add(l:next_lines, substitute(getline(l:current_lnum), '^\s\+--\s', '', ''))
+                let l:current_lnum += 1
+            endwhile
+
+            let l:end_delete = l:current_lnum - 1
+
+            " Delete the lines from l:start_delete to l:end_delete
+            if l:end_delete >= l:start_delete
+                call deletebufline('', l:start_delete, l:end_delete)
+            endif
+
+            " Join the details and append them to the current task line
+            if len(l:next_lines) > 0
+                let l:joined = ' -- ' . join(l:next_lines, ' -- ')
+                call setline(l:lnum, l:current_line . l:joined)
+            endif
+
+        endif
+    endif
+endfunction
+
+" Bind the function to a key mapping (example with '<Leader>t')
+nnoremap <Leader>t :call ToggleTaskDetails()<CR>

@@ -1,7 +1,6 @@
 " plugin/achiever
-" Created: 230524 20:45:19 by clem9nt@imac
-" Updated: 241008 16:36:57 by clem@spectre
 " Maintainer: Clément Vidon
+" Version: 1.0
 
 if exists('g:loaded_achiever')
     finish
@@ -13,9 +12,9 @@ if !exists('g:achiever_localleader')
     let g:achiever_localleader = 'gh'
 endif
 
-" Set default achiever file name
-if !exists('g:achiever_filename')
-    let g:achiever_filename = 'achiever'
+" Set default achiever filenames
+if !exists('g:achiever_filenames')
+    let g:achiever_filenames = [ 'achiever', '.achiever_history' ]
 endif
 
 " Set default achiever mappings
@@ -26,12 +25,14 @@ if !exists('g:achiever_mappings')
                 \ 'F': 'achiever#task_fix("time_end")',
                 \ 'f': 'achiever#task_fix("time_beg")',
                 \ 't': 'achiever#task_duration(getline("."))',
+                \ 'x': 'achiever#task_details()',
                 \ }
 endif
 
 augroup achiever_settings
     autocmd!
-    execute 'autocmd BufRead,BufNewFile ' . g:achiever_filename . ' call s:AchieverInit()'
+    let s:achiever_filenames = join(map(g:achiever_filenames, 'fnameescape(v:val)'), ',')
+    execute 'autocmd BufRead,BufNewFile ' . s:achiever_filenames . ' call s:AchieverInit()'
 augroup END
 
 function! s:AchieverInit() abort
@@ -79,28 +80,25 @@ endfunction
 
 function! s:AchieverSyntax() abort
 
-    syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/               " ' <000000 00:00> '
-    syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/   " ' 000000 00:00 <00:00> '
-    syn match achieverTaskPrefixWork /\(^-.*\)\@<=\(\smain:\s\)/                                  " ' <main:> '
-    syn match achieverTaskPrefixSide /\(^-.*\)\@<=\(\sside:\s\)/                                  " ' <side:> '
-    syn match achieverTaskPrefixLife /\(^-.*\)\@<=\(\slife:\s\)/                                  " ' <life:> '
-    syn match achieverTaskEstimate /\(\s\(main\|side\|life\):\s\)\@<=\(\d\d\d\d\|\/\/\/\/\)\s/    " ' main: <0000> '
-    syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                       " ' main: foobar <-- bar>'
-    syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*$\n\)\@<=\(\(\s\s--\s.*$\n\)\{1,10}\)\ze/  " '  line above is a task'
+    syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/             " ' <000000 00:00> '
+    syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/ " ' 000000 00:00 <00:00> '
+    syn match achieverTaskPrefixWork /\(\smain:\s\)/                                            " ' <main:> '
+    syn match achieverTaskPrefixSide /\(\sside:\s\)/                                            " ' <side:> '
+    syn match achieverTaskPrefixLife /\(\slife:\s\)/                                            " ' <life:> '
+    syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                     " ' main: foobar <-- bar>'
+    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                          " '  line above is a task'
 
     if &background ==# 'dark'
         highlight achieverTaskTimestamp      ctermfg=103
         highlight achieverTaskPrefixWork     ctermfg=211
         highlight achieverTaskPrefixSide     ctermfg=175
         highlight achieverTaskPrefixLife     ctermfg=139
-        highlight achieverTaskEstimate       ctermfg=103
         highlight achieverTaskDetail         ctermfg=146
     elseif &background ==# 'dark'
         highlight achieverTaskTimestamp      ctermfg=103
         highlight achieverTaskPrefixWork     ctermfg=205
         highlight achieverTaskPrefixSide     ctermfg=170
         highlight achieverTaskPrefixLife     ctermfg=134
-        highlight achieverTaskEstimate       ctermfg=103
         highlight achieverTaskDetail         ctermfg=146
     endif
 endfunction
