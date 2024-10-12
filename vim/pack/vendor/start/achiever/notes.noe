@@ -1,0 +1,33 @@
+There are 3 families of tasks:
+
+- 'main' refers to the primary project. Ideally, there should be one main
+  project (though multiple are allowed). It’s the project that should receive
+  most of your focus.
+
+  Ex. Your company.
+
+- 'side' encompasses side work, such as side projects or any tasks that
+  indirectly support your main project. It includes anything that isn’t
+  categorized as 'main' or 'life.'
+
+  Ex. A language you are learning, a topic you are studying, a side project you
+  are building, a tool configuration you are refining.
+
+- 'life' includes all essential life-related tasks life family, friends,
+  health, finances.
+
+- main: @project_name category action -- details
+- main: @achiever method update -- semantic definition
+  -- for a given project, define in advance its set of categories with their actions
+  -- don't be afraid to develop in details
+  -- details supports up to 10 lines
+
+- side: @project_name category action -- details
+- side: work_target category action -- details
+- side: iphone settings update -- wallpaper
+  -- the project '@' is reserved to actual side projects name
+
+- life: no semantic, keep it less than 2-4 words and -- develop in details
+
+In addition: ( date / estimates ) and { feedbacks }
+
