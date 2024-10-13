@@ -25,7 +25,6 @@ There are 3 families of tasks:
 - main: @achiever method update -- semantic definition
   -- each project must have its own set of categories with their actions
   -- don't be afraid to develop in details
-  -- details supports up to 10 lines
 
 - side: @project_name category action -- details
 - side: work_target category action -- details
@@ -65,7 +64,6 @@ There are 3 families of tasks:
 - main: @achiever method update -- semantic definition
   -- each project must have its own set of categories with their actions
   -- don't be afraid to develop in details
-  -- details supports up to 10 lines
 
 - side: @project_name category action -- details
 
@@ -112,7 +110,6 @@ There are 3 families of tasks:
 - life: action [category] target -- details
   -- the task's body should not be longer than 3 words
   -- don't be afraid to develop in details
-  -- details supports up to 10 lines
 
 - life: visit movie theater -- beetlejuice with innraz
 - side: update phone config -- wallpaper

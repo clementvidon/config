@@ -1,5 +1,8 @@
 " plugin/achiever
-" Maintainer: Clément Vidon
+" Created: 210101 01:01:01 by clem@spectre
+" Updated: 241013 16:24:19 by clem@spectre
+" Maintainer: Clément Vidon (clemedon)
+" Description: The most efficient and simple to-do framework for Vim users.
 " Version: 1.0
 
 if exists('g:loaded_achiever')
@@ -80,25 +83,32 @@ endfunction
 
 function! s:AchieverSyntax() abort
 
-    syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/             " ' <000000 00:00> '
-    syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/ " ' 000000 00:00 <00:00> '
-    syn match achieverTaskPrefixWork /\(\smain:\s\)/                                            " ' <main:> '
-    syn match achieverTaskPrefixSide /\(\sside:\s\)/                                            " ' <side:> '
-    syn match achieverTaskPrefixLife /\(\slife:\s\)/                                            " ' <life:> '
-    syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                     " ' main: foobar <-- bar>'
-    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                          " '  line above is a task'
+    syn match achieverTaskNamespaceSign /\(\s\a\a\a\a:\s\)\@<=\(@\)/                                    " TODO
+    syn match achieverTaskNamespace /\(\s\a\a\a\a:\s@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)/   " TODO
+    syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/                 " ' <000000 00:00> '
+    syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/     " ' 000000 00:00 <00:00> '
+    syn match achieverTaskPrefixMain /\(\smain:\s\)/                                                " ' <main:> '
+    syn match achieverTaskPrefixSide /\(\sside:\s\)/                                                " ' <side:> '
+    syn match achieverTaskPrefixLife /\(\slife:\s\)/                                                " ' <life:> '
+    syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                         " ' main: foobar <-- bar>'
+    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                              " '  line above is a task'
 
     if &background ==# 'dark'
-        highlight achieverTaskTimestamp      ctermfg=103
-        highlight achieverTaskPrefixWork     ctermfg=211
-        highlight achieverTaskPrefixSide     ctermfg=175
-        highlight achieverTaskPrefixLife     ctermfg=139
-        highlight achieverTaskDetail         ctermfg=146
-    elseif &background ==# 'dark'
-        highlight achieverTaskTimestamp      ctermfg=103
-        highlight achieverTaskPrefixWork     ctermfg=205
-        highlight achieverTaskPrefixSide     ctermfg=170
-        highlight achieverTaskPrefixLife     ctermfg=134
-        highlight achieverTaskDetail         ctermfg=146
+        highlight default achieverTaskNamespaceSign     ctermfg=105
+        highlight default achieverTaskNamespace         ctermfg=141
+
+        highlight default achieverTaskTimestamp         ctermfg=103
+        highlight default achieverTaskPrefixMain        ctermfg=211
+        highlight default achieverTaskPrefixSide        ctermfg=175
+        highlight default achieverTaskPrefixLife        ctermfg=139
+        highlight default achieverTaskDetail            ctermfg=146
+    elseif &background ==# 'light'
+        " highlight default achieverTaskNamespaceSign     ctermfg=TODO
+        " highlight default achieverTaskNamespace         ctermfg=TODO
+        highlight default achieverTaskTimestamp         ctermfg=103
+        highlight default achieverTaskPrefixMain        ctermfg=205
+        highlight default achieverTaskPrefixSide        ctermfg=170
+        highlight default achieverTaskPrefixLife        ctermfg=134
+        highlight default achieverTaskDetail            ctermfg=146
     endif
 endfunction

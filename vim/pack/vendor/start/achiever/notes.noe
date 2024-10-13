@@ -20,7 +20,6 @@ There are 3 families of tasks:
 - main: @achiever method update -- semantic definition
   -- for a given project, define in advance its set of categories with their actions
   -- don't be afraid to develop in details
-  -- details supports up to 10 lines
 
 - side: @project_name category action -- details
 - side: work_target category action -- details

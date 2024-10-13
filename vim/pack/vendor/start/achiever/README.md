@@ -1,4 +1,4 @@
-# Achiever
+# Achiever - the most efficient and simple to-do framework for Vim users.
 
 This plugin adds custom mappings and functionality to files named "achiever", without altering their original filetypes.
 The plugin is designed to be non-intrusive and efficient.
