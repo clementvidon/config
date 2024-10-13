@@ -20,6 +20,11 @@ if !exists('g:achiever_filenames')
     let g:achiever_filenames = [ 'achiever', '.achiever_history' ]
 endif
 
+" Set default achiever details' prefix
+if !exists('g:achiever_task_detail_prefix')
+    let g:achiever_task_detail_prefix = '--'
+endif
+
 " Set default achiever mappings
 if !exists('g:achiever_mappings')
     let g:achiever_mappings = {
@@ -28,7 +33,7 @@ if !exists('g:achiever_mappings')
                 \ 'F': 'achiever#task_fix("time_end")',
                 \ 'f': 'achiever#task_fix("time_beg")',
                 \ 't': 'achiever#task_duration(getline("."))',
-                \ 'x': 'achiever#task_details()',
+                \ 'x': 'achiever#task_detail_toggle_view("' . g:achiever_task_detail_prefix . '")',
                 \ }
 endif
 
@@ -45,6 +50,9 @@ function! s:AchieverInit() abort
         if !exists('b:achiever_localleader')
             let b:achiever_localleader = get(g:, 'achiever_localleader')
         endif
+        if !exists('b:achiever_task_detail_prefix')
+            let b:achiever_task_detail_prefix = get(g:, 'achiever_task_detail_prefix')
+        endif
         if !exists('b:achiever_mappings')
             let b:achiever_mappings = get(g:, 'achiever_mappings')
         endif
@@ -58,12 +66,15 @@ function! s:AchieverInit() abort
         setlocal shiftwidth=2
         setlocal softtabstop=2
         setlocal tabstop=2
+        setlocal spellcapcheck=
 
         " Set mappings
         nnoremap <silent><buffer> <LocalLeader> <Nop>
         for [key, cmd] in items(b:achiever_mappings)
             execute 'nnoremap <silent><buffer> <LocalLeader>' . key . ' :call ' . cmd . '<CR>'
         endfor
+        execute 'nnoremap <silent><buffer> o o<Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
+        execute 'inoremap <silent><buffer> <CR> <CR><Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
 
         " Abbreviations
         iabbrev <silent><buffer> mma - main:
@@ -83,15 +94,27 @@ endfunction
 
 function! s:AchieverSyntax() abort
 
-    syn match achieverTaskNamespaceSign /\(\s\a\a\a\a:\s\)\@<=\(@\)/                                    " TODO
-    syn match achieverTaskNamespace /\(\s\a\a\a\a:\s@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)/   " TODO
+    " Append 'achiever' to the existing filetype TODO
+
+    " let s:current_ft = &l:filetype
+    " if s:current_ft == ''
+    "     setlocal filetype=achiever
+    " elseif s:current_ft !~# '\<achiever\>'
+    "     let s:new_ft = s:current_ft . '.achiever'
+    "     execute 'setlocal filetype=' . s:new_ft
+    " endif
+
+    " Or without the use of a filetype ? TODO
+
+    syn match achieverTaskNamespaceSign /\(\s\a\a\a\a:\s\)\@<=\(@\)/                                " TODO
+    syn match achieverTaskNamespace /\(\s\a\a\a\a:\s@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)/       " TODO
     syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/                 " ' <000000 00:00> '
     syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/     " ' 000000 00:00 <00:00> '
     syn match achieverTaskPrefixMain /\(\smain:\s\)/                                                " ' <main:> '
     syn match achieverTaskPrefixSide /\(\sside:\s\)/                                                " ' <side:> '
     syn match achieverTaskPrefixLife /\(\slife:\s\)/                                                " ' <life:> '
     syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                         " ' main: foobar <-- bar>'
-    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                              " '  line above is a task'
+    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                                " '  line above is a task'
 
     if &background ==# 'dark'
         highlight default achieverTaskNamespaceSign     ctermfg=105

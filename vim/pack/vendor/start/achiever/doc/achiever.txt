@@ -1,3 +1,5 @@
+TODO Configuration/Custom Mappings should go after Mappings, and both can not be tagged 'achiever-Mappings'
+
 *achiever.txt*    Achiever Vim Plugin
 
 Author: Clément Vidon <cvidon@student.42.fr>
@@ -6,13 +8,14 @@ Date: October 8, 2024
 License: MIT License
 
 ==============================================================================
-CONTENTS                                                     *achiever-contents*
+CONTENTS                                                   *achiever-contents*
 
 1. Introduction..............................................|achiever-intro|
 2. Installation..............................................|achiever-install|
 3. Configuration.............................................|achiever-config|
    3.1 Custom Local Leader Key...............................|achiever-leader|
    3.2 Custom File Name......................................|achiever-filenames|
+   3.3 Custom Mappings.......................................|achiever-mappings|
 4. Usage.....................................................|achiever-usage|
 5. Mappings..................................................|achiever-mappings|
 6. Functions.................................................|achiever-functions|
@@ -21,13 +24,13 @@ CONTENTS                                                     *achiever-contents*
 
 ==============================================================================
 
-1. Introduction                                                 *achiever-intro*
+1. Introduction                                               *achiever-intro*
 
 The *Achiever* Vim plugin adds custom mappings and functions to any file named 'achiever', regardless of its extension. It enhances productivity without altering the original filetype, ensuring that syntax highlighting and other settings remain intact.
 
 ==============================================================================
 
-2. Installation                                               *achiever-install*
+2. Installation                                             *achiever-install*
 
 Use your preferred Vim plugin manager.
 
@@ -39,11 +42,11 @@ After adding the plugin to your `.vimrc` or `init.vim`, run `:PlugInstall` in Vi
 
 ==============================================================================
 
-3. Configuration                                               *achiever-config*
+3. Configuration                                             *achiever-config*
 
 The plugin provides two global variables for customization.
 
-3.1 Custom Local Leader Key                                    *achiever-leader*
+3.1 Custom Local Leader Key                                  *achiever-leader*
 
 Set `g:achiever_local_leader` to customize the local leader key for the plugin's mappings.
 
@@ -53,7 +56,7 @@ Example:
 
     let g:achiever_local_leader = ','
 
-3.2 Custom File Name                                         *achiever-filenames*
+3.2 Custom File Name                                       *achiever-filenames*
 
 Set `g:achiever_filenames` to specify which files the plugin should target.
 
@@ -63,7 +66,7 @@ Example:
 
     let g:achiever_filenames = [ 'achiever', '.achiever_history' ]
 
-3.3 Custom Mappings                                          *achiever-mappings*
+3.3 Custom Mappings                                        *achiever-mappings*
 
 Customize or extend the default mappings by setting `g:achiever_mappings`.
 
@@ -86,7 +89,7 @@ Customize or extend the default mappings by setting `g:achiever_mappings`.
 
 ==============================================================================
 
-4. Usage                                                        *achiever-usage*
+4. Usage                                                      *achiever-usage*
 
 When you open a file matching the `g:achiever_filenames`, the plugin will:
 
@@ -94,9 +97,15 @@ When you open a file matching the `g:achiever_filenames`, the plugin will:
 - Provide additional settings (such as syntax highlighting) specific to 'achiever' files.
 - Preserve the original filetype settings.
 
+Example usage:
+
+1. Open your 'achiever' file.
+2. Place the cursor on a task line.
+3. Press `<LocalLeader>k` to check the task.
+
 ==============================================================================
 
-5. Mappings                                                  *achiever-mappings*
+5. Mappings                                                *achiever-mappings*
 
 The following mappings are available in 'achiever' files:
 
@@ -110,7 +119,7 @@ Remember, `<LocalLeader>` is set via `g:achiever_local_leader`.
 
 ==============================================================================
 
-6. Functions                                                *achiever-functions*
+6. Functions                                              *achiever-functions*
 
 The plugin provides the following autoload functions:
 
@@ -122,7 +131,7 @@ These functions are autoloaded and only loaded when called.
 
 ==============================================================================
 
-7. Abbreviations                                        *achiever-abbreviations*
+7. Abbreviations                                      *achiever-abbreviations*
 
 In insert mode, the following abbreviations are available:
 
@@ -132,7 +141,7 @@ In insert mode, the following abbreviations are available:
 
 ==============================================================================
 
-8. License                                                    *achiever-license*
+8. License                                                  *achiever-license*
 
 MIT License
 

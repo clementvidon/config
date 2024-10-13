@@ -25,7 +25,7 @@ syn match noesisHeader "^.*\n^=\{3,}$"
 syn match noesisHeader "^\s\{72}\[\d\{6}]$"
 
 syn match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
-syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\|\ze#\|\ze,\)"
+syn match noesisLink "\(\s@\|^@\|(@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)"
 
 syn match noesisBlockquote "^\s\{0,5}>\{1,2}\s"
 syn match noesisBlockquote "^\s\{0,5}>$"

@@ -9,6 +9,8 @@
 " achiever#task_clear() to clear a task from its timestamp
 " achiever#task_fix() to link a task timestamp to a sibling's one
 " achiever#task_duration() to print the duration of a task
+" achiever#task_detail#toogle_view() wrap/unwrap the task details
+" achiever#task_detail#add_prefix() auto-prefix new line from task detail
 
 " TASK CHECK
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -225,32 +227,29 @@ function! s:FormatSeconds(seconds) abort
     return printf('%02d:%02d', hours, minutes)
 endfunction
 
-" TASK DETAILS WRAP TOGGLE
+" TASK DETAIL TOGGLE VIEW
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"   @Brief   TODO
-"
-"   @Usage   TODO
-"
-"   @Example TODO
+"   @Brief   Wrap/Unwrap the tasks' details.
 
-function! achiever#task_details() abort
+function! achiever#task_detail_toggle_view(prefix) abort
     " Get the current line and line number
     let l:current_line = getline('.')
     let l:lnum = line('.')
 
     " Check if the line contains 'life:' or 'side:'
     if l:current_line =~ 'main:' || l:current_line =~ 'side:' || l:current_line =~ 'life:'
-        " Check if the current line contains at least two ' -- '
-        if len(split(l:current_line, ' -- ')) > 2
-            " Split the line into parts based on ' -- '
-            let l:parts = split(l:current_line, ' -- ')
+        " Check if the current line contains at least two details prefixes
+
+        if len(split(l:current_line, ' ' . a:prefix . ' ')) > 2
+            " Split the line into parts based on 'prefix'
+            let l:parts = split(l:current_line, ' ' . a:prefix . ' ')
 
             " Replace the current line with the first part
             call setline(l:lnum, l:parts[0])
 
-            " Add each detail part as a new line below with '  -- ' prefix
+            " Add each detail part as a new line below with a prefix
             if len(l:parts) > 1
-                call append(l:lnum, map(l:parts[1:], {_, val -> '  -- ' . val}))
+                call append(l:lnum, map(l:parts[1:], {_, val -> '  ' . a:prefix . ' ' . val}))
             endif
         else
             " Otherwise, check if there are multiline details below
@@ -258,9 +257,9 @@ function! achiever#task_details() abort
             let l:current_lnum = l:lnum + 1
             let l:start_delete = l:current_lnum
 
-            " Loop through the following lines until a non '  -- ' line is found
-            while getline(l:current_lnum) =~ '^\s\+--\s'
-                call add(l:next_lines, substitute(getline(l:current_lnum), '^\s\+--\s', '', ''))
+            " Loop through the following lines until a non prefixed line is found
+            while getline(l:current_lnum) =~ '^\s\+'. a:prefix . ' '
+                call add(l:next_lines, substitute(getline(l:current_lnum), '^\s\+' . a:prefix . ' ', '', ''))
                 let l:current_lnum += 1
             endwhile
 
@@ -281,5 +280,13 @@ function! achiever#task_details() abort
     endif
 endfunction
 
-" Bind the function to a key mapping (example with '<Leader>t')
-nnoremap <Leader>t :call ToggleTaskDetails()<CR>
+" TASK DETAIL ADD PREFIX
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   @Brief   Auto-prefix new line from task detail.
+
+function! achiever#task_detail_add_prefix(prefix) abort
+    let l:line = getline(line('.') - 1)
+    if l:line =~ ' ' . a:prefix . ' '
+        call setline('.', '  ' . a:prefix . ' ')
+    endif
+endfunction
