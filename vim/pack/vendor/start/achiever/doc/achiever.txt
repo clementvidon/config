@@ -1,5 +1,3 @@
-TODO Configuration/Custom Mappings should go after Mappings, and both can not be tagged 'achiever-Mappings'
-
 *achiever.txt*    Achiever Vim Plugin
 
 Author: Clément Vidon <cvidon@student.42.fr>
@@ -60,11 +58,11 @@ Example:
 
 Set `g:achiever_filenames` to specify which files the plugin should target.
 
-Default is `'achiever'` and `'.achiever_history'`.
+Default is `'todo'` and `'done'`.
 
 Example:
 
-    let g:achiever_filenames = [ 'achiever', '.achiever_history' ]
+    let g:achiever_filenames = [ 'todo.noe', 'done.gpg.noe', 'achiever.md' ]
 
 3.3 Custom Mappings                                        *achiever-mappings*
 

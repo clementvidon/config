@@ -58,6 +58,22 @@ git clone https://github.com/vim/vim.git && cd vim
 make && sudo make install
 ```
 
+Install Synonym and Translator tools
+
+```bash
+sudo apt update
+sudo apt install translate-shell
+sudo wget https://raw.githubusercontent.com/smallwat3r/synonym/master/synonym \
+    -P /usr/local/bin && sudo chmod 755 /usr/local/bin/synonym
+```
+
+Clone pass and noesis
+
+```
+git clone git@github.com:me/noesis.git
+git clone git@github.com:me/pass.git
+```
+
 ## Usage
 
 ```bash

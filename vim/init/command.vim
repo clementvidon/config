@@ -13,6 +13,7 @@ command! W :execute ':silent w !sudo tee %>/dev/null' | :edit!
 command! BufOnly execute '%bdelete | edit # | normal `"'
 
 "   translate https://www.soimort.org/translate-shell/
+" sudo apt install translate-shell
 command! -nargs=+ -bar Fr execute 'silent read !trans "<args>" -from en -to fr -brief 2> /dev/null'
 command! -nargs=+ -bar En execute 'silent read !trans "<args>" -from fr -to en -brief 2> /dev/null'
 command! -nargs=+ -bar Au execute 'silent !clear; trans "<args>" -from fr -to en -brief 2> /dev/null -play'

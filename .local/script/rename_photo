@@ -4,6 +4,8 @@
 # @brief        Rename pictures based on their creation date and file size
 #
 # Also generate a hidden undo script in the target directory.
+#
+# Depends on: exiftool
 
 # @param[in]    a directory that contains the files to rename
 # @see http://mywiki.wooledge.org/ParsingLs
@@ -26,7 +28,7 @@ echo "#!/bin/bash" > "$undo_script"
 chmod +x "$undo_script"
 
 # Regex pattern to match files that start with "CV", 12 digits, an underscore, 8 digits, and an underscore
-pattern="^CV_[0-9]{12}_[0-9]{8}_"
+pattern="^CV_[0-9]{12}_[0-9]{8}\."
 
 # Rename files based on their EXIF DateTimeOriginal and size
 for f in "$1"/*; do
@@ -52,7 +54,7 @@ for f in "$1"/*; do
 
         # Define the new filename prefixed with "CV"
         ext="${f##*.}"
-        newfile="$1/CV_${exif_date}_${id}_tag.$ext"
+        newfile="$1/CV_${exif_date}_${id}.$ext"
 
         # Rename the file and log the undo command
         mv -vn "$f" "$newfile"

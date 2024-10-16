@@ -17,7 +17,7 @@ endif
 
 " Set default achiever filenames
 if !exists('g:achiever_filenames')
-    let g:achiever_filenames = [ 'achiever', '.achiever_history' ]
+    let g:achiever_filenames = [ 'achiever_todo', 'achiever_done', 'achiever.md' ]
 endif
 
 " Set default achiever details' prefix
@@ -73,13 +73,16 @@ function! s:AchieverInit() abort
         for [key, cmd] in items(b:achiever_mappings)
             execute 'nnoremap <silent><buffer> <LocalLeader>' . key . ' :call ' . cmd . '<CR>'
         endfor
-        execute 'nnoremap <silent><buffer> o o<Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
+        " execute 'nnoremap <silent><buffer> o o<Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
         execute 'inoremap <silent><buffer> <CR> <CR><Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
 
         " Abbreviations
         iabbrev <silent><buffer> mma - main:
         iabbrev <silent><buffer> ssi - side:
         iabbrev <silent><buffer> lli - life:
+
+        " TODO handle the case if there is no filetype to the file
+        " TODO of ft not loaded yet like for md?
 
         " Set syntax after filetype syntax has been loaded
         augroup achiever_syntax
@@ -126,8 +129,8 @@ function! s:AchieverSyntax() abort
         highlight default achieverTaskPrefixLife        ctermfg=139
         highlight default achieverTaskDetail            ctermfg=146
     elseif &background ==# 'light'
-        " highlight default achieverTaskNamespaceSign     ctermfg=TODO
-        " highlight default achieverTaskNamespace         ctermfg=TODO
+        highlight default achieverTaskNamespaceSign     ctermfg=138
+        highlight default achieverTaskNamespace         ctermfg=102
         highlight default achieverTaskTimestamp         ctermfg=103
         highlight default achieverTaskPrefixMain        ctermfg=205
         highlight default achieverTaskPrefixSide        ctermfg=170

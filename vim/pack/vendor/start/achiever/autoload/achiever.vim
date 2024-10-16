@@ -237,7 +237,7 @@ function! achiever#task_detail_toggle_view(prefix) abort
     let l:lnum = line('.')
 
     " Check if the line contains 'life:' or 'side:'
-    if l:current_line =~ 'main:' || l:current_line =~ 'side:' || l:current_line =~ 'life:'
+    if l:current_line =~ " main: " || l:current_line =~ " side: " || l:current_line =~ " life: "
         " Check if the current line contains at least two details prefixes
 
         if len(split(l:current_line, ' ' . a:prefix . ' ')) > 2
