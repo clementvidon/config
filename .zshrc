@@ -90,13 +90,9 @@ alias grep='grep --color=auto'
 alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
 alias shred="shred -uzn9"
 
-if (( $+commands[nvim] )); then
-    # alias vi='nvim'
-    # alias iv="nvim -c 'call Private()'"
-else
-    alias vi='vim'
-    alias iv="vim -c 'call Private()'"
-fi
+alias nv='nvim'
+alias vi='vim'
+alias iv="vim -c 'call Private()'"
 
 #       [ git ]
 alias gad="git add"
@@ -227,3 +223,7 @@ function repl()
 alias pcu='cd ~/git/scw/pcu/'
 alias cur='cd /home/pro/git/scw/pcu/product-catalog/cmd/producer-cron'
 alias k='kubectl'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

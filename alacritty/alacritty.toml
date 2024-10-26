@@ -26,6 +26,9 @@ history = 10000
 program = "/bin/bash"
 args = ["-l", "-c", "tmux attach || tmux new-session; clear"]
 
+[window]
+opacity = 1.0
+
 [window.dimensions]
 columns = 80
 lines = 24

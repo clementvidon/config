@@ -109,6 +109,8 @@ function! s:AchieverSyntax() abort
 
     " Or without the use of a filetype ? TODO
 
+    syn keyword Todo TODO FIXME X XXX WIP
+
     syn match achieverTaskNamespaceSign /\(\s\a\a\a\a:\s\)\@<=\(@\)/                                " TODO
     syn match achieverTaskNamespace /\(\s\a\a\a\a:\s@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)/       " TODO
     syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/                 " ' <000000 00:00> '
@@ -116,13 +118,12 @@ function! s:AchieverSyntax() abort
     syn match achieverTaskPrefixMain /\(\smain:\s\)/                                                " ' <main:> '
     syn match achieverTaskPrefixSide /\(\sside:\s\)/                                                " ' <side:> '
     syn match achieverTaskPrefixLife /\(\slife:\s\)/                                                " ' <life:> '
-    syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                         " ' main: foobar <-- bar>'
-    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                                " '  line above is a task'
+    syn match achieverTaskDetail /\(\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/ contains=TODO               " ' main: foobar <-- bar>'
+    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/ contains=TODO                                " '  line above is a task'
 
     if &background ==# 'dark'
         highlight default achieverTaskNamespaceSign     ctermfg=105
         highlight default achieverTaskNamespace         ctermfg=141
-
         highlight default achieverTaskTimestamp         ctermfg=103
         highlight default achieverTaskPrefixMain        ctermfg=211
         highlight default achieverTaskPrefixSide        ctermfg=175

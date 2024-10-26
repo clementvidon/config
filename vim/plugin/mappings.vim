@@ -27,6 +27,8 @@ no mQ  :quitall<CR>
 no mmQ :quitall!<CR>
 no md  :bn\|bd#<CR>
 no mmd :bn!\|bd! #<CR>
+no me  :e<CR>
+no mme :e!<CR>
 no <silent> mso :let view = winsaveview() \| write \| source $HOME/.vimrc\|e \| call winrestview(view)<CR>
 
 "   find

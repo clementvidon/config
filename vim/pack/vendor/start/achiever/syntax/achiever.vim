@@ -10,7 +10,7 @@ syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\
 syn match achieverTaskPrefixMain /\(\smain:\s\)/                                                " ' <main:> '
 syn match achieverTaskPrefixSide /\(\sside:\s\)/                                                " ' <side:> '
 syn match achieverTaskPrefixLife /\(\slife:\s\)/                                                " ' <life:> '
-syn match achieverTaskDetail /\(^-.*\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                         " ' main: foobar <-- bar>'
+syn match achieverTaskDetail /\(\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/                         " ' main: foobar <-- bar>'
 syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/                                              " '  line above is a task'
 
 if &background ==# 'dark'

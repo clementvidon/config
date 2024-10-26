@@ -28,7 +28,7 @@ TODO doc/ Configuration/Custom Mappings should go after Mappings, and both can n
 - side: @achiever update -- turn into a repository and add as a plugin
 
 Done {{{
-- 241014 16:00 16:10 side: @achiever DISPERSION update feature -- add light background color for projects @namespace
+- 241014 16:00 16:10 side: @achiever DEVIATION update feature -- add light background color for projects @namespace
 - 241014 11:15 11:40 side: @achiever update methodology -- task semantic definition
 - 241013 19:55 21:05 side: @achiever update feature -- task detail prefix can be modified
 - 241013 19:10 19:55 side: @achiever add feature -- auto-prefix new line from task detail
@@ -51,7 +51,7 @@ Method
 Task
 ----------------------------------------
 
-In addition: ( date / estimates ), OBLIGATION, DISPERSION, { feedbacks }
+In addition: ( date / estimates ), DIVERSION, DEVIATION, { feedbacks }
 
 For ease, but also the relevance to the purpose of a to-do list, I never use
 upper-cases in an 'achiever' file.
