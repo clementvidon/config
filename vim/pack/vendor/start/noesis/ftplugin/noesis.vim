@@ -9,6 +9,7 @@
 runtime macros/justify.vim
 
 setlocal suffixesadd+=.noe
+setlocal commentstring=
 setlocal suffixesadd+=.gpg.noe
 setlocal path=.,$NOESIS,$DOTVIM/pack/vendor/start/noesis/**
 setlocal foldmethod=marker
@@ -64,7 +65,7 @@ nn <silent><buffer> <LocalLeader>I :let @a=''<CR>zR
             \
             \:silent! keeppatterns g/^\nINDEX\n=*\n{{{/norm V}}jd<CR>
             \:silent! keeppatterns g/^\(-\\|=\)\{40,80}/-1y A<CR>
-            \3G"apo<CR>INDEX<CR><Esc>80i=<Esc>o<Esc>0O{{{<Esc>}}o}}}}<Esc>kk
+            \go"apo<CR>INDEX<CR><Esc>80i=<Esc>o<Esc>0O{{{<Esc>}}o}}}}<Esc>kk
             \:let @a=""<CR>
             \vip>gv:g/[a-z][a-z]\C/norm >><CR>
             \:let @/=""<CR>
@@ -108,6 +109,10 @@ nn <buffer><silent> <LocalLeader>h1 o<Esc>80i=<Esc>
 
 "   string to H2
 nn <buffer><silent> <LocalLeader>h2 o<Esc>40i-<Esc>
+
+"   put timestamp
+
+nn <buffer><silent> <LocalLeader>ts :put=strftime('%a %d %b %Y at %H:%M')<CR>
 
 " digraphs
 

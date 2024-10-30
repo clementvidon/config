@@ -9,7 +9,7 @@
 " achiever#task_clear() to clear a task from its timestamp
 " achiever#task_fix() to link a task timestamp to a sibling's one
 " achiever#task_duration() to print the duration of a task
-" achiever#task_detail#toogle_view() wrap/unwrap the task details
+" achiever#task_detail#toggle_view() wrap/unwrap the task details
 " achiever#task_detail#add_prefix() auto-prefix new line from task detail
 
 " TASK CHECK
@@ -245,11 +245,11 @@ function! achiever#task_detail_toggle_view(prefix) abort
             let l:parts = split(l:current_line, ' ' . a:prefix . ' ')
 
             " Replace the current line with the first part
-            call setline(l:lnum, l:parts[0])
+            call setline(l:lnum, l:parts[0] . ' -- ' . l:parts[1])
 
             " Add each detail part as a new line below with a prefix
             if len(l:parts) > 1
-                call append(l:lnum, map(l:parts[1:], {_, val -> '  ' . a:prefix . ' ' . val}))
+                call append(l:lnum, map(l:parts[2:], {_, val -> '  ' . a:prefix . ' ' . val}))
             endif
         else
             " Otherwise, check if there are multiline details below

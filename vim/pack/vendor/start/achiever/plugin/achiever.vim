@@ -32,7 +32,7 @@ if !exists('g:achiever_mappings')
                 \ 'c': 'achiever#task_clear()',
                 \ 'F': 'achiever#task_fix("time_end")',
                 \ 'f': 'achiever#task_fix("time_beg")',
-                \ 't': 'achiever#task_duration(getline("."))',
+                \ 'd': 'achiever#task_duration(getline("."))',
                 \ 'x': 'achiever#task_detail_toggle_view("' . g:achiever_task_detail_prefix . '")',
                 \ }
 endif
@@ -61,12 +61,13 @@ function! s:AchieverInit() abort
         let g:maplocalleader = b:achiever_localleader
 
         " Set indentation
-        setlocal textwidth=0
+        setlocal commentstring=
         setlocal expandtab
         setlocal shiftwidth=2
         setlocal softtabstop=2
-        setlocal tabstop=2
         setlocal spellcapcheck=
+        setlocal tabstop=2
+        setlocal textwidth=0
 
         " Set mappings
         nnoremap <silent><buffer> <LocalLeader> <Nop>

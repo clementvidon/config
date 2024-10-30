@@ -24,7 +24,7 @@ bindkey -M vicmd 'j' history-beginning-search-forward-end
 skip_global_compinit=1
 autoload -Uz compinit
 for dump in ~/.zcompdump(N.mh+24); do
-  compinit
+    compinit
 done
 compinit -C
 
@@ -224,6 +224,8 @@ alias pcu='cd ~/git/scw/pcu/'
 alias cur='cd /home/pro/git/scw/pcu/product-catalog/cmd/producer-cron'
 alias k='kubectl'
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+start_nvm() {
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
