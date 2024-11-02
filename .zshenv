@@ -1,31 +1,28 @@
-#  clem/.zshenv
-#  Created: 230828 14:48:02 by clem@spectre
-#  Updated: 230828 14:48:02 by clem@spectre
+#  ~/.zshenv
 #  Maintainer: Clément Vidon
 
-export PATH=$PATH:"$HOME/bin"
-export PATH=$PATH:"$HOME/.local/bin"
-export PATH=$PATH:"$HOME/.local/script"
+######################################## Go
 
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
-export PATH=$PATH:/snap/bin
-
-export PATH=$HOME/.npm/bin:$PATH
-export PATH=$PATH:"$HOME/node_modules/.bin"
-
-export PATH=$PATH:"$HOME/.cargo/bin"
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-
-[ -r $HOME/.zshrc ] && source $HOME/.zshrc
-
 ######################################## GnuPG
 
 export GPG_TTY=$(tty)
 export GNUPGHOME=$HOME/.gnupg
+
+######################################## NVM & Node
+
+export NVM_DIR="$HOME/.nvm"
+export PATH=$HOME/.npm/bin:$PATH
+export PATH=$PATH:"$HOME/node_modules/.bin"
+
+######################################## Snap
+
+if (( $+commands[snap] )); then
+    export PATH=$PATH:/snap/bin
+fi
 
 ######################################## Password Store
 
@@ -42,3 +39,5 @@ fi
 if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
 fi
+
+# [ -r $HOME/.zshrc ] && source $HOME/.zshrc TODO

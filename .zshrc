@@ -1,10 +1,7 @@
-# @file     .zshrc
-# @brief    Zsh configuration file.
-# @author   clemedon (Clément Vidon)
+#  ~/.zshrc
+#  Maintainer: Clément Vidon
 
-#------------------------------------------------------------------------------#
-#                  vi mode                                                     #
-#------------------------------------------------------------------------------#
+######################################## Vi mode
 
 bindkey -v                                                          # enable vim keybinding ( $ bindkey -l )
 export EDITOR=vim
@@ -17,9 +14,7 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey -M vicmd 'k' history-beginning-search-backward-end
 bindkey -M vicmd 'j' history-beginning-search-forward-end
 
-#------------------------------------------------------------------------------#
-#                  completion                                                  #
-#------------------------------------------------------------------------------#
+######################################## Completion
 
 skip_global_compinit=1
 autoload -Uz compinit
@@ -32,9 +27,7 @@ zstyle ':completion:*' menu select                                  # highlight 
 zmodload zsh/complist                                               # <S-Tab> reverse navigation
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 
-#------------------------------------------------------------------------------#
-#                  history                                                     #
-#------------------------------------------------------------------------------#
+######################################## History
 
 bindkey "^R" history-incremental-search-backward                    # enable Ctrl-R i-search-bck
 export HISTSIZE=9999
@@ -43,15 +36,11 @@ export HISTFILE=$HOME/.zsh_history
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 
-#------------------------------------------------------------------------------#
-#                  Ctrl-D                                                      #
-#------------------------------------------------------------------------------#
+######################################## Ctrl-D
 
 set -o ignoreeof
 
-#------------------------------------------------------------------------------#
-#                  prompt                                                      #
-#------------------------------------------------------------------------------#
+######################################## Prompt
 
 # %n username %m hostname %? exitcode %~ fullcwd %1~ cwdbasename
 
@@ -62,9 +51,7 @@ zstyle ':vcs_info:git:*' formats ' %b '                             # Format the
 
 PROMPT='%n@%m%{%F{102}%}${vcs_info_msg_0_}%{%F{none}%}%# '
 
-#------------------------------------------------------------------------------#
-#                  aliases                                                     #
-#------------------------------------------------------------------------------#
+######################################## Aliases
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls="ls -G"
@@ -74,7 +61,6 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
     alias ls="ls --color=auto"
     alias la="ls --color=auto -la"
     alias latr="ls --color=auto -latr"
-    alias wifi="nmcli device wifi list --rescan yes && nmcli device wifi connect iPhone"
 fi
 
 if ! (( $+commands[ag] )); then
@@ -87,14 +73,14 @@ fi
 
 alias dush="du -h --max-depth=1 . | sort -rh"
 alias grep='grep --color=auto'
-alias val="valgrind -q --trace-children=yes --leak-check=yes --show-leak-kinds=all"
 alias shred="shred -uzn9"
 
+# Vim
 alias nv='nvim'
 alias vi='vim'
 alias iv="vim -c 'call Private()'"
 
-#       [ git ]
+# Git
 alias gad="git add"
 alias gap="git add --patch"
 alias gau="git add --update"
@@ -123,38 +109,12 @@ alias gsw="git switch"
 
 alias rebase="git fetch && git rebase origin/master && git push --force-with-lease"
 
-#       [ Make ]
-alias mm='make'
-alias mc='make clean'
-alias mf='make fclean'
-alias mr='make re'
-
-alias ms='make sure'
-alias ma='make asan'
-alias ml='make leak'
-alias me='make exec'
-alias mt='make test'
-
-#       [ Misc ]
-alias please='sudo'
+# Misc
 alias python='python3'
 
-#------------------------------------------------------------------------------#
-#                  functions                                                   #
-#------------------------------------------------------------------------------#
+######################################## Functions
 
-# @brief        Kill a process by giving its name
-# @param[in]    proc the name of the proc to kill.
-
-function    k()
-{
-    proc=$1
-    kill -9 $(pgrep $proc)
-}
-
-# @brief        Copy the given file content to clipboard.
-# @param[in]    file a file
-
+# Copy the given file content to clipboard.
 function    copy()
 {
     file=$1
@@ -165,67 +125,60 @@ function    copy()
     fi
 }
 
-# @brief        Git add-commit-push an update.
-# @param[in]    message a message that suffixes "Update…"
-
+# Git add-commit-push an update.
 function    gup()
 {
-    message=$@
+    custom_message=$@
+    default_message="Update"
     if [[ "$message" == "" ]]; then
         git status -s --show-stash --ignore-submodules=untracked
         git add -u
-        git commit
+        git commit -m "$default_message"
         git push
         git status
     else
         git status -s --show-stash --ignore-submodules=untracked
         git add -u
-        git commit -m "$message"
+        git commit -m "$custom_message"
         git push
         git status
     fi
 }
 
-# @brief        Change to the next / prev directory in parent folder
-
-function cdn()
+# Change to next directory in parent folder (cd next)
+cdn()
 {
     local next_dir=$(ls -1 .. | grep -A 1 "$(basename "$(pwd)")$" | tail -n 1)
     cd "../${next_dir}"
     pwd
 }
 
-function cdp()
+# Change to prev directory in parent folder (cd prev)
+cdp()
 {
     local next_dir=$(ls -1 .. | grep -B 1 "$(basename "$(pwd)")$" | head -n 1)
     cd "../${next_dir}"
     pwd
 }
 
-function repl()
+# Replace all occurrences of string recursively
+replace_all()
 {
     if [[ "$1" == "" ]]; then
         echo "Replace all 'old' into 'new' for all the files found in the 'path' tree."
-        echo "Usage: repl path old new"
+        echo "Usage: replace PATH OLD NEW"
         return
     fi
     find "$1" -type f -exec sed -i "s/$2/$3/g" {} +
 }
 
-#------------------------------------------------------------------------------#
-#                  functions                                                   #
-#------------------------------------------------------------------------------#
+set_kub() {
+    alias k='kubectl'
+    source <(kubectl completion zsh)
+    source <(minikube completion zsh)
+}
 
-# source <(kubectl completion zsh)
-# source <(minikube completion zsh)
-# eval "$(scw autocomplete script shell=zsh)"
-
-alias pcu='cd ~/git/scw/pcu/'
-alias cur='cd /home/pro/git/scw/pcu/product-catalog/cmd/producer-cron'
-alias k='kubectl'
-
-start_nvm() {
-    export NVM_DIR="$HOME/.nvm"
+set_nvm() {
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 }
