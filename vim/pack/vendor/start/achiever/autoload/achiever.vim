@@ -284,6 +284,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "   @Brief   Auto-prefix new line from task detail.
 
+"   TODO handle case of a CR from the middle of a task detail.
+
 function! achiever#task_detail_add_prefix(prefix) abort
     let l:line = getline(line('.') - 1)
     if l:line =~ ' ' . a:prefix . ' '
