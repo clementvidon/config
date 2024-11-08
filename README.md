@@ -70,8 +70,8 @@ sudo wget https://raw.githubusercontent.com/smallwat3r/synonym/master/synonym \
 Clone pass and noesis
 
 ```
-git clone git@github.com:me/noesis.git
-git clone git@github.com:me/pass.git
+git clone git@github.com:clementvidon/noesis.git
+git clone git@github.com:clementvidon/pass.git
 ```
 
 ## Usage
