@@ -172,13 +172,13 @@ replace_all()
     find "$1" -type f -exec sed -i "s/$2/$3/g" {} +
 }
 
-set_kub() {
+start_kub() {
     alias k='kubectl'
     source <(kubectl completion zsh)
     source <(minikube completion zsh)
 }
 
-set_nvm() {
+start_nvm() {
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 }
