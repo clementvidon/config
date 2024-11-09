@@ -8,13 +8,19 @@
 #
 # Depends on: exiftool
 
+# Check for the presence of exiftool
+if ! command -v exiftool &> /dev/null; then
+    echo "exiftool is required but not installed. Please install it and try again."
+    exit 1
+fi
+
 # Detect the operating system and set the appropriate stat command
 if [[ "$(uname)" == "Darwin" ]]; then
-    # macOS settings
     STAT_CMD="stat -f%z"
+    FILE_DATE_CMD="stat -f%B"
 elif [[ "$(uname)" == "Linux" ]]; then
-    # Linux settings
     STAT_CMD="stat -c%s"
+    FILE_DATE_CMD="stat -c%W"
 else
     echo "Unsupported operating system."
     exit 1
@@ -41,24 +47,45 @@ undo_script="$target_dir/.undo_$(date +"%y%m%d%H%M%S").sh"
 echo "#!/bin/bash" > "$undo_script"
 chmod +x "$undo_script"
 
-# Regex pattern to match the new format with the specified prefix
-pattern="^${prefix}[0-9]{2}_[0-9]{4}_[0-9]{6}_[0-9]{8}\.[A-Z0-9]{3,4}$"
+# Regex pattern for date validation (YYMMDDHHMMSS)
+date_pattern="^[0-9]{12}$"
+# Regex pattern to match the desired file naming format
+filename_pattern="^${prefix}[0-9]{2}_[0-9]{4}_[0-9]{6}_[0-9]{8}\.[A-Z0-9]{3,4}$"
+         pattern="^${prefix}[0-9]{2}_[0-9]{4}_[0-9]{6}_[0-9]{8}\.[A-Z0-9]{3,4}$"
 
-# Rename files based on their EXIF DateTimeOriginal and size
+# Iterate over files in the target directory
 for f in "$target_dir"/*; do
-    if [ -f "$f" ]; then
-        # Skip files that already match the pattern
+    # Check if it's a non-empty file
+    if [ -f "$f" ] && [ -s "$f" ]; then
         basename_f=$(basename "$f")
-        if [[ "$basename_f" =~ $pattern ]]; then
+
+        # Skip files that already match the pattern
+        if [[ "$basename_f" =~ $filename_pattern ]]; then
             echo "Skipping already renamed file: $f"
             continue
         fi
 
-        # Get the creation date from EXIF metadata in YYMMDDHHMMSS format
-        exif_date=$(exiftool -DateTimeOriginal -d "%y%m%d%H%M%S" "$f" | awk -F': ' '{print $2}')
+        # Attempt to get the creation date from multiple EXIF tags
+        date_tags=("DateTimeOriginal" "CreateDate" "MediaCreateDate" "FileCreateDate" "ModifyDate")
+        exif_date=""
 
+        # Iterate through each date tag and validate the extracted date
+        for tag in "${date_tags[@]}"; do
+            exif_date=$(exiftool -m -s3 -$tag -d "%y%m%d%H%M%S" "$f")
+
+            # Check if the date is valid
+            if [[ "$exif_date" =~ $date_pattern ]]; then
+                echo "Valid date found using $tag: $exif_date"
+                break
+            else
+                echo "Invalid or empty date using $tag, trying next..."
+                exif_date=""
+            fi
+        done
+
+        # If no valid date was found, skip the file
         if [ -z "$exif_date" ]; then
-            echo "No DateTimeOriginal found for $f, skipping..."
+            echo "No valid date found for $f, skipping..."
             continue
         fi
 
@@ -75,11 +102,13 @@ for f in "$target_dir"/*; do
         ext="${f##*.}"
         ext=$(echo "$ext" | tr '[:lower:]' '[:upper:]')
 
-        # Define the new filename with the specified prefix
-        newfile="$target_dir/${prefix}${year}_${month}${day}_${time}_${bytes}.${ext}"
+		# Define the new filename with the specified prefix
+		newfile="$target_dir/${prefix}${year}_${month}${day}_${time}_${bytes}.${ext}"
 
         # Rename the file and log the undo command
         mv -vn "$f" "$newfile"
         echo "mv -v \"$newfile\" \"$f\"" >> "$undo_script"
+    else
+        echo "Skipping non-file or empty file: $f"
     fi
 done
