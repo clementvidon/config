@@ -1,6 +1,9 @@
 #  ~/.zshenv
 #  Maintainer: Clément Vidon
 
+export PATH=$PATH:"$HOME/.local/bin"
+export PATH=$PATH:"$HOME/.local/script"
+
 ######################################## Go
 
 export GOROOT=/usr/local/go
