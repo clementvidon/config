@@ -97,6 +97,7 @@ alias gds="git diff --staged"
 alias gfe="git fetch origin"
 alias glo="git log --oneline -10"
 alias gpl="git pull"
+alias gpl="git pull"
 alias gps="git push"
 alias grb="git rebase --interactive"
 alias gre="git restore"
@@ -108,6 +109,7 @@ alias gs="git status"
 alias gsw="git switch"
 
 alias rebase="git fetch && git rebase origin/master && git push --force-with-lease"
+alias pullboth="git fetch origin; git fetch gitlab; git merge origin; git merge gitlab"
 
 # Misc
 alias python='python3'
