@@ -2,7 +2,7 @@
 #  Maintainer: Clément Vidon
 
 export PATH=$PATH:"$HOME/.local/bin"
-export PATH=$PATH:"$HOME/.local/script"
+export PATH=$PATH:"$HOME/bin"
 
 ######################################## Go
 

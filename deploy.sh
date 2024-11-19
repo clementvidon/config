@@ -24,8 +24,8 @@ deploy_zsh() {
             sudo chsh -s /usr/bin/zsh clem
             ln -fsv "$HOME/config/.zshrc"                     "$HOME/.zshrc"
             ln -fsv "$HOME/config/.zshenv"                    "$HOME/.zshenv"
-            mkdir -pv "$HOME/.local/script"
-            ln -fsv "$HOME/config/.local/script/"*            "$HOME/.local/script/"
+            mkdir -pv "$HOME/.local/bin"
+            ln -fsv "$HOME/config/.local/bin/"*               "$HOME/.local/bin/"
         } 1>/dev/null
         echo "zsh          OK"
     fi
