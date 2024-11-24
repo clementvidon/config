@@ -74,8 +74,7 @@ function! s:AchieverInit() abort
         for [key, cmd] in items(b:achiever_mappings)
             execute 'nnoremap <silent><buffer> <LocalLeader>' . key . ' :call ' . cmd . '<CR>'
         endfor
-        " execute 'nnoremap <silent><buffer> o o<Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
-        execute 'inoremap <silent><buffer> <CR> <CR><Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>A'
+        " execute 'inoremap <silent><buffer> <CR> <CR><Esc>:call achiever#task_detail_add_prefix("' . b:achiever_task_detail_prefix . '")<CR>'
 
         " Abbreviations
         iabbrev <silent><buffer> mma - main:

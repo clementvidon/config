@@ -14,6 +14,8 @@ setlocal suffixesadd+=.gpg.noe
 setlocal path=.,$NOESIS,$DOTVIM/pack/vendor/start/noesis/**
 setlocal foldmethod=marker
 setlocal foldmarker={{{,}}}
+setlocal wildignore=.git,**/old/**,**/tools/**
+
 let maplocalleader = "gh"
 
 
@@ -65,7 +67,7 @@ nn <silent><buffer> <LocalLeader>I :let @a=''<CR>zR
             \
             \:silent! keeppatterns g/^INDEX\n=*\n{{{/norm V}}jd<CR>
             \:silent! keeppatterns g/^\(-\\|=\)\{40,80}/-1y A<CR>
-            \go"apoINDEX<CR><Esc>80i=<Esc>o<Esc>0O{{{<Esc>}}o}}}}<Esc>kk
+            \go"apoINDEX<CR><Esc>80i=<Esc>o<Esc>0O{{{<Esc>}}o}}}<Esc>kk
             \:let @a=""<CR>
             \vip>gv:g/[a-z][a-z]\C/norm >><CR>
             \:let @/=""<CR>

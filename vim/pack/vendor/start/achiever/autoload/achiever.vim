@@ -286,9 +286,12 @@ endfunction
 
 "   TODO handle case of a CR from the middle of a task detail.
 
-function! achiever#task_detail_add_prefix(prefix) abort
-    let l:line = getline(line('.') - 1)
-    if l:line =~ ' ' . a:prefix . ' '
-        call setline('.', '  ' . a:prefix . ' ')
-    endif
-endfunction
+" function! achiever#task_detail_add_prefix(prefix) abort
+"     let l:current_line = getline('.')
+"     if l:current_line =~ " main: " || l:current_line =~ " side: " || l:current_line =~ " life: "
+"         let l:line = getline(line('.') - 1)
+"         if l:line =~ ' ' . a:prefix . ' '
+"             call setline('.', '  ' . a:prefix . ' ')
+"         endif
+"     endif
+" endfunction
