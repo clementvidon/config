@@ -20,10 +20,10 @@ echo "~/.vimrc created:"
 cat $HOME/.vimrc
 
 # nvim
-if [ -f $HOME/.config/nvim/init.vim ]; then
-	rm -i $HOME/.config/nvim/init.vim
-fi
-mkdir -p $HOME/.config/nvim
-echo "source \$HOME/$VIMPATH/init.vim" > $HOME/.config/nvim/init.vim
-echo "~/.config/nvim/init.vim created:"
-cat $HOME/.config/nvim/init.vim
+# if [ -f $HOME/.config/nvim/init.vim ]; then
+# 	rm -i $HOME/.config/nvim/init.vim
+# fi
+# mkdir -p $HOME/.config/nvim
+# echo "source \$HOME/$VIMPATH/init.vim" > $HOME/.config/nvim/init.vim
+# echo "~/.config/nvim/init.vim created:"
+# cat $HOME/.config/nvim/init.vim

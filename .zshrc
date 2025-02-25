@@ -79,6 +79,7 @@ alias shred="shred -uzn9"
 alias nv='nvim'
 alias vi='vim'
 alias iv="vim -c 'call Private()'"
+alias nano="vim"
 
 # Git
 alias gad="git add"
@@ -113,6 +114,9 @@ alias pullboth="git fetch origin; git fetch gitlab; git merge origin; git merge 
 
 # Misc
 alias python='python3'
+
+# Locations
+alias ricoh="cd ~/Documents/Images/RicohGR/ && pwd"
 
 ######################################## Functions
 
@@ -180,7 +184,16 @@ start_kub() {
     source <(minikube completion zsh)
 }
 
-start_nvm() {
+start_node() {
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    node --version
 }
+
+# pnpm
+export PNPM_HOME="/home/clem/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

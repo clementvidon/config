@@ -99,43 +99,45 @@ function! s:AchieverSyntax() abort
 
     " Append 'achiever' to the existing filetype TODO
 
-    " let s:current_ft = &l:filetype
-    " if s:current_ft == ''
-    "     setlocal filetype=achiever
-    " elseif s:current_ft !~# '\<achiever\>'
-    "     let s:new_ft = s:current_ft . '.achiever'
-    "     execute 'setlocal filetype=' . s:new_ft
-    " endif
-
-    " Or without the use of a filetype ? TODO
-
-    syn keyword Todo TODO FIXME X XXX WIP
-
-    syn match achieverTaskNamespaceSign /\(\s\a\a\a\a:\s\)\@<=\(@\)/                                " TODO
-    syn match achieverTaskNamespace /\(\s\a\a\a\a:\s@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)/       " TODO
-    syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/                 " ' <000000 00:00> '
-    syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/     " ' 000000 00:00 <00:00> '
-    syn match achieverTaskPrefixMain /\(\smain:\s\)/                                                " ' <main:> '
-    syn match achieverTaskPrefixSide /\(\sside:\s\)/                                                " ' <side:> '
-    syn match achieverTaskPrefixLife /\(\slife:\s\)/                                                " ' <life:> '
-    syn match achieverTaskDetail /\(\s\a\a\a\a:\s.*\)\@<=\(\s--\s.*$\)/ contains=TODO               " ' main: foobar <-- bar>'
-    syn match achieverTaskDetail /\(^\s\s--\s.*$\)\ze/ contains=TODO                                " '  line above is a task'
-
-    if &background ==# 'dark'
-        highlight default achieverTaskNamespaceSign     ctermfg=105
-        highlight default achieverTaskNamespace         ctermfg=141
-        highlight default achieverTaskTimestamp         ctermfg=103
-        highlight default achieverTaskPrefixMain        ctermfg=211
-        highlight default achieverTaskPrefixSide        ctermfg=175
-        highlight default achieverTaskPrefixLife        ctermfg=139
-        highlight default achieverTaskDetail            ctermfg=146
-    elseif &background ==# 'light'
-        highlight default achieverTaskNamespaceSign     ctermfg=138
-        highlight default achieverTaskNamespace         ctermfg=102
-        highlight default achieverTaskTimestamp         ctermfg=103
-        highlight default achieverTaskPrefixMain        ctermfg=205
-        highlight default achieverTaskPrefixSide        ctermfg=170
-        highlight default achieverTaskPrefixLife        ctermfg=134
-        highlight default achieverTaskDetail            ctermfg=146
+    let s:current_ft = &l:filetype
+    if s:current_ft == ''
+        setlocal filetype=achiever
+    elseif s:current_ft !~# '\<achiever\>'
+        let s:new_ft = s:current_ft . '.achiever'
+        execute 'setlocal filetype=' . s:new_ft
     endif
+
+    " " Or without the use of a filetype ? TODO
+
+    " syn keyword Todo TODO FIXME X XXX WIP
+
+    " syn match achieverTaskNamespaceSign /\(\s\a\a\a\a:\s\)\@<=\(@\)/                                " TODO
+    " syn match achieverTaskNamespace /\(\s\a\a\a\a:\s@\)\@<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)/       " TODO
+    " syn match achieverTaskTimestamp /\(\s\)\zs\(\d\d\d\d\d\d\s\d\d:\d\d\)\ze\(\s\)/                 " ' <000000 00:00> '
+    " syn match achieverTaskTimestamp /\(\s\d\d\d\d\d\d\s\d\d:\d\d\s\)\@<=\(\d\d:\d\d\)\ze\(\s\)/     " ' 000000 00:00 <00:00> '
+    " syn match achieverTaskPrefixMain /\(\smain:\s\)/                                                " ' <main:> '
+    " syn match achieverTaskPrefixSide /\(\sside:\s\)/                                                " ' <side:> '
+    " syn match achieverTaskPrefixLife /\(\slife:\s\)/                                                " ' <life:> '
+    " syntax match achieverTaskDetail /\(\s\a\a\a\a:\s.*\)\@<=(\s.\{-}\s)/
+    " syntax match achieverTaskFeedback /\(\s\a\a\a\a:\s.*\)\@<={\s.\{-}\s}/
+
+    " if &background ==# 'dark'
+    "     highlight default achieverTaskNamespaceSign     ctermfg=105
+    "     highlight default achieverTaskNamespace         ctermfg=141
+    "     highlight default achieverTaskTimestamp         ctermfg=103
+    "     highlight default achieverTaskPrefixMain        ctermfg=211
+    "     highlight default achieverTaskPrefixSide        ctermfg=175
+    "     highlight default achieverTaskPrefixLife        ctermfg=139
+    "     highlight default achieverTaskDetail            ctermfg=146
+    "     highlight default achieverTaskFeedback          ctermfg=190
+    " elseif &background ==# 'light'
+    "     highlight default achieverTaskNamespaceSign     ctermfg=138
+    "     highlight default achieverTaskNamespace         ctermfg=102
+    "     highlight default achieverTaskTimestamp         ctermfg=103
+    "     highlight default achieverTaskPrefixMain        ctermfg=205
+    "     highlight default achieverTaskPrefixSide        ctermfg=170
+    "     highlight default achieverTaskPrefixLife        ctermfg=134
+    "     highlight default achieverTaskDetail            ctermfg=146
+    "     highlight default achieverTaskFeedback          ctermfg=146
+    " endif
 endfunction
