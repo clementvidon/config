@@ -40,7 +40,7 @@ set shortmess=filnxtToOF                            " see ':h shortmess'
 set smartcase ignorecase                            " searches case-sensitive if they contain an uppercase letter
 set noincsearch                                     " disable incremental search (neo)
 set nowrap                                          " screen line wrapping
-set relativenumber                                  " number column
+" set relativenumber                                  " number column
 set spelllang=en,fr                                 " lang for spellcheck
 set spellfile=/home/clem/config/vim/spell/custom.utf-8.add       " dictionary location
 set dictionary=spell,/usr/share/dict/words          " dictionary completion C-X C-K

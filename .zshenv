@@ -43,4 +43,13 @@ if (( $+commands[dfx] )); then
     export PATH=$PATH:"$(dfx cache show)"
 fi
 
+######################################## Android Studio
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export ANDROID_EMU_GPU_MODE=host
+export ANDROID_EMU_VULKAN=1
+
 # [ -r $HOME/.zshrc ] && source $HOME/.zshrc TODO
