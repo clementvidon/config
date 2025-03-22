@@ -27,6 +27,7 @@ augroup gpg_auto_encryption
     autocmd BufWritePost,FileWritePost *.gpg.* execute "normal! u" |
                 \ call winrestview(g:view) |
                 \ let strtime = strftime('%y%m%d at %H:%M:%S', getftime(expand('%'))) |
+                \ execute "silent! normal zo" |
                 \ setlocal title titlestring=Last\ ENCRYPTION\ on\ %{strtime}
 
     " Change title when leaving or entering buffers
