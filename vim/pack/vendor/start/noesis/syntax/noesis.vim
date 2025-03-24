@@ -33,8 +33,8 @@ syn match noesisBlockquote "^\s\{0,5}>$"
 syn match noesisBlockquote "^\s\{0,5}>$"
 
 if has("conceal")
-    set conceallevel=2
-    set concealcursor=n
+    set conceallevel=3
+    set concealcursor=vn
     syn region noesisCode       concealends matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`" contains=@NoSpell
     syn region noesisItalic     concealends matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
     syn region noesisBold       concealends matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
