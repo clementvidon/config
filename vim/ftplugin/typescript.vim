@@ -26,11 +26,11 @@ nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!tsc --target es6 %<CR>:!clea
 nn <silent><buffer> <LocalLeader>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
 
 "   format
-nn <silent><buffer> <LocalLeader>f :w<CR>:! prettier --write %<CR>:e<CR>
+nn <silent><buffer> <LocalLeader>f :w<CR>:!npx prettier --write <C-R>=expand('%:p')<CR><CR>:e<CR>
 nn <silent><buffer> <LocalLeader>F :w<CR>:! npm run format<CR>:e<CR>
 
 "   lint
-nn <silent><buffer> <LocalLeader>l :w<CR>:! eslint % --fix<CR>:e<CR>
+nn <silent><buffer> <LocalLeader>l :w<CR>:! npx eslint <C-R>=expand('%:p')<CR> --fix<CR>:e<CR>
 nn <silent><buffer> <LocalLeader>L :w<CR>:! npm run lint<CR>:e<CR>
 
 "   print
