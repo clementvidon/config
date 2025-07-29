@@ -1,23 +1,14 @@
 
-#                       [Commits conventions]
-#
-#       <TYPE>(<OPTIONAL_SCOPE>): <TITLE>
-#
-#       <BODY>
-#       <BODY>
-#
+#                       [Commits conventions]    ↑50                   ↑72
 # TITLE:
-#
+#       50 characters max------------------------>
 #       Summary, IMPERATIVE, start UPPER CASE, don't end with a period.
-#       50 characters max----------------------->#
 #
 # BODY:
-#
-#       WHAT and WHY (NOT HOW). 72 characters max--------------------->#
+#       WHAT and WHY (NOT HOW). 72 characters max---------------------->
 #
 # TYPE:
-#
-#       style:      changes that doesnt affect the code (typo, norm...)
+#       style:      changes that doesnt affect the code (typo, format…)
 #       docs:       changes to the documentation
 #       build:      changes to the build
 #       chore:      changes that dont involve production code change (config)
@@ -27,14 +18,3 @@
 #       test:       creation of tests
 #       fix:        fix a bug
 #       refactor:   code changes that doesnt fix or bring a new feature
-#
-# OPTIONAL SCOPE:
-#
-#       Anything RELEVANT.
-#
-# EXAMPLE:
-#
-# build(Makefile): Add test rules using valgrind
-#
-# - test_custom for test/custom.sh
-# - test_all for test/all.sh

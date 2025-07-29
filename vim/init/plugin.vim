@@ -235,6 +235,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'APZelos/blamer.nvim'
 
+" Plug 'vuciv/golf'
+
 " Plug 'andrewradev/tagalong.vim'                 " html auto-rename second tag
 " Plug 'gregsexton/matchtag'                      " html highlight second tag
 " Plug 'mattn/emmet-vim'                          " html css shortcuts
