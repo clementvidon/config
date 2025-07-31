@@ -1,20 +1,22 @@
 
-#                       [Commits conventions]    ↑50                   ↑72
+# COMMIT CONVENTIONS:                                ↑                 ↑
+#                                                 max: 50           max: 72
 # TITLE:
-#       50 characters max------------------------>
-#       Summary, IMPERATIVE, start UPPER CASE, don't end with a period.
+#       Max 50 chars → imperative, starts with a capital, no period
 #
 # BODY:
-#       WHAT and WHY (NOT HOW). 72 characters max---------------------->
+#       Optional. Explain WHAT and WHY (not HOW). Wrap at 72 chars max.
 #
 # TYPE:
-#       style:      changes that doesnt affect the code (typo, format…)
-#       docs:       changes to the documentation
-#       build:      changes to the build
-#       chore:      changes that dont involve production code change (config)
-#
-#       wip:        work in progress
-#       feat:       creation of a new feature
-#       test:       creation of tests
-#       fix:        fix a bug
-#       refactor:   code changes that doesnt fix or bring a new feature
+#       feat:      new feature (and its tests)
+#       fix:       bug fix
+#       chore:     misc (configs, scripts, cleanup)
+#       docs:      update documentation only
+#       refactor:  internal code change (no bug/feature)
+#       test:      add or update tests
+#       style:     formatting, white-space, etc.
+#       build:     tooling, build system, deps
+#       ci:        CI/CD pipeline changes
+#       perf:      performance improvement
+#       wip:       temporary work in progress (should be rebased)
+#       revert:    revert a previous commit
