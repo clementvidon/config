@@ -1,55 +1,61 @@
 # @file     .gitconfig
-# @brief    Git configuration file.
+# @brief    Git configuration file (safe default for pro use).
 # @author   clemedon (Clément Vidon)
 
 [init]
     defaultBranch = main
+
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore
-	pager = less
+    editor = vim
+    pager = less
+
 [color "status"]
-	added = green bold
-	changed = yellow bold
-	untracked = red bold
+    added = green bold
+    changed = yellow bold
+    untracked = red bold
+
 [gc]
-	reflogExpire = 1.month.ago
-[pull]
-    rebase = true
-    autosquash = true
-[fetch]
-    prune = true
+    reflogExpire = 1.month.ago
+
+#[pull]
+#    rebase = true
+#    autosquash = true
+
+# [fetch]
+#     prune = true
+
 [diff]
     colorMoved = zebra
     tool = vimdiff
+
 [merge]
-	tool = vim
-[alias]
-    aa = add --all
-    ap = add -p
-    ##########
-    ca = commit --amend
-    cm = commit -m
-    cp = commit -p
-    cv = commit -v
-    ##########
-    di = diff
-    ds = diff --staged
-    ##########
-    lp = log --pretty=format:"%an %cr : %s" --stat --graph -2
-    pu = push
-    re = reset
-    ss = status -sb
+    tool = vim
+
+#[alias]
+#    aa = add --all
+#    ap = add -p
+#    ca = commit --amend
+#    cm = commit -m
+#    cp = commit -p
+#    cv = commit -v
+#    di = diff
+#    ds = diff --staged
+#    lp = log --pretty=format:"%an %cr : %s" --stat --graph -2
+#    pu = push
+#    re = reset
+#    ss = status -sb
+
 [commit]
-	template = "~/.gitmessage"
-[credential]
-	helper = cache
+    template = ~/.gitmessage
+
 [url "git@gitlab.infra.online.net:"]
-	insteadOf = https://gitlab.infra.online.net/
+    insteadOf = https://gitlab.infra.online.net/
+
 [mergetool "vim"]
-	cmd = vim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+    cmd = vim -d -c "wincmd l" -c "norm ]c" "$LOCAL" "$MERGED" "$REMOTE"
+
 [mergetool]
-	keepBackup = false
+    keepBackup = false
 [user]
-	email = cvidon@student.42.fr
-	name = Clement VIDON
+	email = cvidon@42.student.fr
+	name = cvidon
