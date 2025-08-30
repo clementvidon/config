@@ -100,8 +100,7 @@ alias glo="git log --oneline -10"
 alias gpl="git pull"
 alias gps="git push"
 alias grb="git rebase --interactive"
-alias gre="git restore"
-alias grs="git reset"
+alias gre="git reset"
 alias gsh="git show"
 alias gs="git status -s --show-stash --ignore-submodules=untracked"
 alias gst="git status"
@@ -196,3 +195,11 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+######################################## VSCode
+
+if [ "$TERM_PROGRAM" = "vscode" ]; then
+  export GIT_EDITOR="code --wait"
+else
+  export GIT_EDITOR="vim"
+fi

@@ -22,6 +22,8 @@ nn <buffer> sf :fin *
 "   execute
 nn <silent><buffer> <LocalLeader>x :w\|lcd %:h<CR>:!tsc --target es6 %<CR>:!clear; node %:r.js && rm %:r.js<CR>
 
+nn <silent><buffer> <LocalLeader>x :w<bar>lcd %:h<CR>:!clear; tsx %<CR>
+
 "   clear
 nn <silent><buffer> <LocalLeader>= Mmmgo=G:silent! :%s/\s\+$//e<CR>`mzz3<C-O>
 
@@ -34,10 +36,10 @@ nn <silent><buffer> <LocalLeader>l :w<CR>:! npx eslint <C-R>=expand('%:p')<CR> -
 nn <silent><buffer> <LocalLeader>L :w<CR>:! npm run lint<CR>:e<CR>
 
 "   print
-nn <silent><buffer> <LocalLeader>p oconsole.log()<Esc>==f)i
+nn <silent><buffer> <LocalLeader>p oconsole.log()<Esc>==f)
 
 "   print wrap
-nn <silent><buffer> <LocalLeader>w 0<<V:norm f;Di<Esc>Iconsole.log(<Esc>A);<Esc>==f)h
+nn <silent><buffer> <LocalLeader>P 0<<V:norm f;Di<Esc>Iconsole.log(<Esc>A);<Esc>==f)h
 
 "   put expr value
 nn <silent><buffer> <LocalLeader>e :lcd %:h<CR>

@@ -14,9 +14,10 @@
 #       docs:      update documentation only
 #       refactor:  internal code change (no bug/feature)
 #       test:      add or update tests
-#       style:     formatting, white-space, etc.
+#       style:     code formatting only (e.g. indentation, spacing)
+#       ui:        visual/styling changes (e.g. CSS, layout, colors)
 #       build:     tooling, build system, deps
 #       ci:        CI/CD pipeline changes
 #       perf:      performance improvement
 #       wip:       temporary work in progress (should be rebased)
-#       revert:    revert a previous commit
+#       revert:    undo a commit
