@@ -6,8 +6,8 @@
     defaultBranch = main
 
 [core]
-    editor = vim
     pager = less
+	editor = vim -u NONE -N
 
 [color "status"]
     added = green bold
@@ -57,5 +57,5 @@
 [mergetool]
     keepBackup = false
 [user]
-	email = cvidon@42.student.fr
+	email = cvidon@student.42.fr
 	name = cvidon

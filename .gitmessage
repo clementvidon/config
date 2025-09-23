@@ -1,6 +1,6 @@
 
-# COMMIT CONVENTIONS:                                ↑                 ↑
-#                                                 max: 50           max: 72
+# COMMIT CONVENTIONS:                            ^                     ^
+#                                             max: 50               max: 72
 # TITLE:
 #       Max 50 chars → imperative, starts with a capital, no period
 #
@@ -10,12 +10,12 @@
 # TYPE:
 #       feat:      new feature (and its tests)
 #       fix:       bug fix
-#       chore:     misc (configs, scripts, cleanup)
-#       docs:      update documentation only
+#       chore:     misc tasks that don't modify src or test files
+#       docs:      add or update documentation
 #       refactor:  internal code change (no bug/feature)
 #       test:      add or update tests
-#       style:     code formatting only (e.g. indentation, spacing)
-#       ui:        visual/styling changes (e.g. CSS, layout, colors)
+#       style:     code formatting (indentation, spacing)
+#       ui:        visual/styling changes (CSS, layout, colors)
 #       build:     tooling, build system, deps
 #       ci:        CI/CD pipeline changes
 #       perf:      performance improvement
