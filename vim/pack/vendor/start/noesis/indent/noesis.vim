@@ -6,7 +6,7 @@
 "   options
 
 
-setlocal textwidth=0
+setlocal textwidth=100
 setlocal expandtab
 setlocal shiftwidth=2
 setlocal softtabstop=2

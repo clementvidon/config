@@ -11,10 +11,16 @@ runtime macros/justify.vim
 setlocal suffixesadd+=.noe
 setlocal commentstring=
 setlocal suffixesadd+=.gpg.noe
-setlocal path=.,$NOESIS,$DOTVIM/pack/vendor/start/noesis/**
+" setlocal path=.,$NOESIS/**,$DOTVIM/pack/vendor/start/noesis/**
+setlocal path=.
+setlocal path+=$NOESIS/Achiever/**
+setlocal path+=$NOESIS/Areas/**
+setlocal path+=$NOESIS/Projects/**
+setlocal path+=$NOESIS/Resources/**
+setlocal path+=$DOTVIM/pack/vendor/start/noesis/**
 setlocal foldmethod=marker
 setlocal foldmarker={{{,}}}
-setlocal wildignore=.git,**/old/**,**/tools/**
+setlocal linebreak breakindent
 
 let maplocalleader = "gh"
 
@@ -33,6 +39,10 @@ nn <silent><buffer> gwG <nop>
 nn <silent><buffer> gwgo <nop>
 nn <silent><buffer> gwgg <nop>
 nn <silent><buffer> K <nop>
+nn <silent><expr> j v:count ? 'j' : 'gj'
+nn <silent><expr> k v:count ? 'k' : 'gk'
+vn <silent><expr> j v:count ? 'j' : 'gj'
+vn <silent><expr> k v:count ? 'k' : 'gk'
 
 "   info
 nn <silent><buffer> <LocalLeader>? :echo "

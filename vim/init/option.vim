@@ -56,6 +56,7 @@ set secure                                          " disables shell access
 set undofile                                        " enable undo
 set directory=$DOTVIM/.swap//,/tmp//                " undo files directory
 set path=.,,$DOTVIM/init/,$DOTVIM/plugin/           " :find path
-set wildignore=.git,**/old/**                       " wildmenu results to hide
+set wildignore=.git
+
 set mouse=                                          " useful with :Termdebug
 set updatetime=1000

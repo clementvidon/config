@@ -236,8 +236,8 @@ function! achiever#task_detail_toggle_view(prefix) abort
     let l:current_line = getline('.')
     let l:lnum = line('.')
 
-    " Check if the line contains 'life:' or 'side:'
-    if l:current_line =~ " main: " || l:current_line =~ " side: " || l:current_line =~ " life: "
+    " Check if the line contains 'life:' or 'work:'
+    if l:current_line =~ " work: " || l:current_line =~ " life: "
         " Check if the current line contains at least two details prefixes
 
         if len(split(l:current_line, ' ' . a:prefix . ' ')) > 2
@@ -288,7 +288,7 @@ endfunction
 
 " function! achiever#task_detail_add_prefix(prefix) abort
 "     let l:current_line = getline('.')
-"     if l:current_line =~ " main: " || l:current_line =~ " side: " || l:current_line =~ " life: "
+"     l:current_line =~ " work: " || l:current_line =~ " life: "
 "         let l:line = getline(line('.') - 1)
 "         if l:line =~ ' ' . a:prefix . ' '
 "             call setline('.', '  ' . a:prefix . ' ')

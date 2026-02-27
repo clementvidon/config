@@ -75,7 +75,7 @@ nn <silent> sn  <nop>
 nn <silent> sne :let @s=@/<CR>:e $NOESIS/english.noe<CR>?##  Voca<CR>zt:let @/=@s<CR>
 nn <silent> snf :let @s=@/<CR>:e $NOESIS/french.noe<CR>?##  Voca<CR>zt:let @/=@s<CR>
 
-nn <silent> snt :let @s=@/<CR>:e $NOESIS/todos.noe<CR>go:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0zz
+nn <silent> snt :let @s=@/<CR>:e $NOESIS/Achiever/todos.noe<CR>go:silent! /\s\d\{6}\s<CR>:let @/=@s<CR>0zz
 nn <silent> snh :e $NOESIS/.todos.gpg.noe<CR>
 nn <silent> snj :e $NOESIS/journal.gpg.noe<CR>
 nn <silent> snn :e $NOESIS/notes.noe<CR>
