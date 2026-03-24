@@ -33,6 +33,7 @@ if !exists('g:achiever_mappings')
                 \ 'F': 'achiever#task_fix("time_end")',
                 \ 'f': 'achiever#task_fix("time_beg")',
                 \ 'd': 'achiever#task_duration(getline("."))',
+                \ 'a': 'achiever#project_verb_actions_from_cursor()',
                 \ 'x': 'achiever#task_detail_toggle_view("' . g:achiever_task_detail_prefix . '")',
                 \ }
 endif

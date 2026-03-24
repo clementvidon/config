@@ -29,6 +29,7 @@ let maplocalleader = "gh"
 
 
 nn <buffer><silent> <LocalLeader> <nop>
+nn <silent><buffer> <LocalLeader>a :call achiever#project_verb_actions_from_cursor()<CR>
 nn <silent><buffer> <space>= <nop>
 vn <silent><buffer> <space>= <nop>
 vn <silent><buffer> = <nop>

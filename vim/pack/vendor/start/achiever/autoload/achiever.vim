@@ -227,6 +227,68 @@ function! s:FormatSeconds(seconds) abort
     return printf('%02d:%02d', hours, minutes)
 endfunction
 
+" PROJECT VERB-ACTIONS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   @brief  Count verb_object occurrences for a given project in the current
+"           buffer and display them sorted by descending frequency.
+
+function! achiever#project_verb_actions(project) abort
+    if a:project !~# '^@[a-z][a-z_]*$'
+        echo 'project_verb_actions: invalid project name'
+        return []
+    endif
+
+    let l:counts = {}
+
+    for l:line in getline(1, '$')
+        let l:tokens = split(l:line)
+        let l:index = index(l:tokens, a:project)
+
+        if l:index >= 0 && l:index + 1 < len(l:tokens)
+            let l:verb_object = l:tokens[l:index + 1]
+
+            if l:verb_object =~# '^[a-z][a-z_]*$'
+                let l:counts[l:verb_object] = get(l:counts, l:verb_object, 0) + 1
+            endif
+        endif
+    endfor
+
+    if empty(l:counts)
+        echo 'project_verb_actions: no match for ' . a:project
+        return []
+    endif
+
+    let l:items = items(l:counts)
+    call sort(l:items, function('s:CompareProjectVerbActions'))
+
+    let l:result = map(
+                \ l:items,
+                \ { _, item -> item[0] . ':' . item[1] }
+                \ )
+
+    echo join(l:result, "\n")
+    return l:result
+endfunction
+
+function! achiever#project_verb_actions_from_cursor() abort
+    let l:project = expand('<cWORD>')
+
+    if l:project !~# '^@[a-z][a-z_]*$'
+        echo 'project_verb_actions: cursor is not on a project name'
+        return []
+    endif
+
+    return achiever#project_verb_actions(l:project)
+endfunction
+
+function! s:CompareProjectVerbActions(left, right) abort
+    if a:left[1] == a:right[1]
+        return a:left[0] ==# a:right[0] ? 0 : (a:left[0] <# a:right[0] ? -1 : 1)
+    endif
+
+    return a:left[1] > a:right[1] ? -1 : 1
+endfunction
+
 " TASK DETAIL TOGGLE VIEW
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "   @Brief   Wrap/Unwrap the tasks' details.
