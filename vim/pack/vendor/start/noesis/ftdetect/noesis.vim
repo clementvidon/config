@@ -7,4 +7,4 @@ function! SetNoesisFiletype()
     setlocal filetype=noesis
 endfunction
 
-autocmd BufRead,BufNewFile *.noe call SetNoesisFiletype()
+autocmd BufRead,BufNewFile *.noe,*.md call SetNoesisFiletype()

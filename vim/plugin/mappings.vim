@@ -148,7 +148,7 @@ nn gllc :lc %:h<CR>
 nn glli :set list!<CR>:set list?<CR>
 nn glve :set virtualedit=all
 nn glln :call toggle_nav#(":lnext", ":lprev")<CR>
-nn glnu :set number!<CR>:set number?<CR>
+nn glnu :set relativenumber!<CR>:set relativenumber?<CR>
 nn glpd :put=strftime('%a %d %b %Y')<CR>
 nn glqn :call toggle_nav#(":cnext", ":cprev")<CR>
 nn glrn :set relativenumber!<CR>:set relativenumber?<CR>
