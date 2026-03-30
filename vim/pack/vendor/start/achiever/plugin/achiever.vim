@@ -38,6 +38,51 @@ if !exists('g:achiever_mappings')
                 \ }
 endif
 
+if !exists('g:achiever_project_verbs')
+    let g:achiever_project_verbs = {
+                \ 'photo': [
+                \   'study_topic',
+                \   'explore_ideas',
+                \   'explore_resources',
+                \   'explore_tools',
+                \   'explore_markets',
+                \   'plan_shoot',
+                \   'prepare_shoot',
+                \   'setup_gear',
+                \   'capture_images',
+                \   'select_images',
+                \   'edit_images',
+                \   'create_series',
+                \   'create_content',
+                \   'publish_content',
+                \   'promote_work',
+                \   'organize_library',
+                \   'cleanup_notes',
+                \   'update_portfolio',
+                \   'design_workflow',
+                \   'optimize_workflow',
+                \   'build_tools'
+                \ ],
+                \ 'devbarometer': [
+                \   'add_feature',
+                \   'fix_bug',
+                \   'refactor_code',
+                \   'add_tests',
+                \   'write_docs',
+                \   'deploy_app',
+                \   'design_archi',
+                \   'review_code',
+                \   'study_topic',
+                \   'verify_output',
+                \   'update_config',
+                \   'automate_task',
+                \   'update_backlog',
+                \   'cleanup_notes',
+                \   'plan_work'
+                \ ]
+                \ }
+endif
+
 augroup achiever_settings
     autocmd!
     let s:achiever_filenames = join(map(g:achiever_filenames, 'fnameescape(v:val)'), ',')
@@ -69,6 +114,7 @@ function! s:AchieverInit() abort
         setlocal spellcapcheck=
         setlocal tabstop=2
         setlocal textwidth=0
+        setlocal completefunc=achiever#project_complete
 
         " Set mappings
         nnoremap <silent><buffer> <LocalLeader> <Nop>

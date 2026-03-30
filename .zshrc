@@ -82,7 +82,6 @@ alias iv="vim -c 'call Private()'"
 alias nano="vim"
 
 # Git
-
 alias gad="git add"
 alias gap="git add --patch"
 alias gau="git add --update"
@@ -112,6 +111,7 @@ alias pullboth="git fetch origin; git fetch gitlab; git merge origin; git merge 
 
 # Misc
 alias python='python3'
+alias tf='terraform'
 
 # Locations
 alias ricoh="cd ~/Documents/Images/RicohGR/ && pwd"

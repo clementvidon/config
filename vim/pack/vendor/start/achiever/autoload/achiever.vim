@@ -270,6 +270,29 @@ function! achiever#project_verb_actions(project) abort
     return l:result
 endfunction
 
+function! achiever#project_complete(findstart, base) abort
+    if a:findstart
+        let l:line = getline('.')
+        let l:col = col('.') - 1
+
+        while l:col > 0 && l:line[l:col - 1] =~# '\k'
+            let l:col -= 1
+        endwhile
+
+        return l:col
+    endif
+
+    let l:line = getline('.')
+    let l:project = matchstr(l:line, '@\zs\w\+')
+    let l:verbs = get(g:, 'achiever_project_verbs', {})
+
+    if has_key(l:verbs, l:project)
+        return filter(copy(l:verbs[l:project]), 'v:val =~# "^" . escape(a:base, "\\")')
+    endif
+
+    return []
+endfunction
+
 function! achiever#project_verb_actions_from_cursor() abort
     let l:project = expand('<cWORD>')
 

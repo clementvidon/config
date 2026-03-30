@@ -47,7 +47,7 @@ Done {{{
 
 Method
 ================================================================================
-
+Deprecated Method 260224 {{{
 Task
 ----------------------------------------
 
@@ -153,3 +153,156 @@ Tasks details
 Don't hesitate to develop.
 Multi-line support.
 Wrap-unwrap details.
+}}}
+
+TASK FORMAT GUIDELINE
+----------------------------------------
+
+FORMAT
+- work: @project... verb_object [> scope...] [( nature )] [-- execution]
+
+LANGUAGE
+- all tasks must be written in english
+- applies to: verb_object, >, (), --
+
+REDUNDANCY RULE
+
+- do not repeat information already present in the verb_object
+- do not duplicate information between verb_object, >, and ()
+- avoid duplicating domain in:
+  - drill-down (>)
+  - commit scope
+
+Examples:
+
+- reorganize_docs > docs
+  → redundant (docs already in verb_object)
+
+- docs(docs): ...
+  → redundant (type and scope duplicate information)
+
+- reorganize_docs ( structure )
+  → correct
+
+- docs: reorganize documentation tree
+  → correct
+
+---
+
+VERB_OBJECT
+- snake_case, imperative
+- represents a stable, reusable intention
+- do not include technical details
+- use a fixed canonical set
+
+RULES
+- do not create new verbs if an existing one fits
+- specialize with '>' (never with the verb)
+- choose the most appropriate existing verb; avoid defaulting to generic verbs like refactor_code
+
+CANONICAL SET
+- can be defined per project/context
+
+---
+
+DIMENSIONS
+- @project : context
+- verb_object : main intention
+- > : scope (where)
+- () : execution nature (how)
+- -- : concrete action
+
+---
+
+PROJECTS
+- multiple @project allowed
+- order is significant: LEFT → RIGHT defines hierarchy
+- from most abstract → most concrete
+
+- leftmost @ = global context (WHY)
+- next @ = project or execution context (WHERE)
+- optional deeper levels allowed if useful
+
+RULES
+- never reorder @ randomly
+- always keep consistent ordering across all entries
+
+ex:
+@employment @devbarometer
+→ employment context → devbarometer project
+
+---
+
+DRILL-DOWN (>)
+- used only for scope (never action)
+- generic → specific
+- non-exhaustive, only if useful
+- do not use '>' if the scope is already implied by the verb_object
+
+ex:
+refactor_code > api
+refactor_code > backend > api
+
+---
+
+NATURE ()
+- describes execution context (paradigm, constraint, environment, artifact, mode)
+- free-form, not an action
+- must be meaningful and add contextual precision
+- must include a space after '(' and before ')'
+
+ex:
+( client/server + iac )
+( async batch )
+( readme )
+
+---
+
+EXECUTION (--)
+- concrete task or commit (See: `./docs/convention/commit_message_convention.md`)
+- source of truth for actual work (most precise level)
+- MUST contain the most specific and actionable description
+
+ex:
+-- feat(api): add endpoint
+-- write tradeoffs
+
+---
+
+RULES
+- 1 line = 1 main intention
+- verb_object + > = stable frame
+- verb_object defines the umbrella intention (not every -- line)
+- -- = exact action
+- do not duplicate action in '>'
+
+---
+
+GOOD EXAMPLE
+work: @devbarometer refactor_code > api ( client_server + iac )
+  -- feat(api): add topic read endpoint
+  -- docs: write tradeoffs
+
+---
+
+ANTI-PATTERNS
+- refactor_code ( backend api )
+  → mixing scope and nature
+
+- refactor > api
+  → invalid verb
+
+- refactor_code > api ( fix bug )
+  → action inside ()
+
+- refactor_code -- improve code
+  → too vague
+
+---
+
+MENTAL MODEL
+@ → context
+verb_object → intention
+> → where
+() → how
+-- → action

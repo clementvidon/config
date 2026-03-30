@@ -22,3 +22,5 @@ alias grep='grep --color=auto'
 alias ag='grep -r --color=auto'
 alias nt="vim -c 'call Notrace()'"
 alias dush="du -sh * | grep \"M\|G\" | sort -h; du -sh .* | grep \"M\|G\" | sort -h"
+
+complete -C /usr/bin/terraform terraform
