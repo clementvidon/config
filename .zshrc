@@ -29,12 +29,27 @@ bindkey -M menuselect '^[[Z' reverse-menu-complete
 
 ######################################## History
 
+# Load pinned commands
+if [ -f ~/.zsh_history_pinned ]; then
+  fc -R ~/.zsh_history_pinned
+fi
+
+# Pin command
+pin() {
+  echo "$*" >> ~/.zsh_history_pinned
+  print -s "$*"
+}
+
 bindkey "^R" history-incremental-search-backward                    # enable Ctrl-R i-search-bck
-export HISTSIZE=9999
+
+export HISTSIZE=1000
 export SAVEHIST=$HISTSIZE
 export HISTFILE=$HOME/.zsh_history
+
 setopt hist_ignore_all_dups
-setopt hist_ignore_space
+# setopt hist_ignore_space
+# setopt hist_reduce_blanks
+setopt append_history
 
 ######################################## Ctrl-D
 
@@ -95,7 +110,19 @@ alias gcv="git commit -v"
 alias gdi="git diff"
 alias gds="git diff --staged"
 alias gfe="git fetch origin"
-alias glo="git log --oneline -10"
+# alias glo="git log --oneline -10"
+glo() {
+  [[ "$1" =~ ^-[0-9]+$ ]] || set -- -12 "$@"
+  git -c color.ui=always log "$@" \
+  --pretty=format:"%C(yellow)%h%Creset %Cgreen(%cd)%Creset %C(cyan)%s%Creset" \
+  --date=format:"%Y-%m-%d %H:%M" \
+  --shortstat \
+  | awk 'NF==0{next} /files? changed/ {
+      match($0, /[0-9]+ file[s]? changed/)
+      print prev " | " substr($0, RSTART, RLENGTH)
+    } {prev=$0}'
+}
+alias glov='git log -12 --date=format:"%Y-%m-%d %H:%M" --pretty=format:"%C(yellow)%h%Creset %Cgreen(%cd)%Creset %C(cyan)%s%Creset%n%C(dim white)%b%Creset"'
 alias gpl="git pull"
 alias gps="git push"
 alias grb="git rebase --interactive"

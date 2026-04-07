@@ -15,7 +15,7 @@ syn match achieverTaskPrefixLife /\(\slife:\s\)/                                
 syntax match achieverTaskLifeText /\(\slife:\s\)\@<=.\{-}\ze\(\s& work: \|\s& life: \|\s+ work: \|\s+ life: \|$\)/
 " syntax match achieverTaskDetail /\(\s\a\a\a\a:\s.*\)\@<=(\s.\{-}\s)/
 " syntax match achieverTaskFeedback /\(\s\a\a\a\a:\s.*\)\@<={\s.\{-}\s}/
-syntax match achieverTaskTempComment /--\s.*/
+syn region achieverTaskTempComment start="--\s" end="\(\\\|$\)"
 
 if &background ==# 'dark'
     highlight default achieverTaskLifeText          ctermfg=103
