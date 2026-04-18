@@ -1,0 +1,368 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_NAME="$(basename "$0")"
+
+ALL=false
+INTERACTIVE=false
+EXCLUDE_RAW=""
+TARGET_PATH=""
+OUTPUT_FILE=""
+
+declare -a EXCLUDED_EXTENSIONS=()
+
+usage() {
+  cat <<EOF
+Usage:
+  $SCRIPT_NAME [options] /path/to/project
+
+Description:
+  Convertit un dossier projet en un fichier texte structuré, utile comme contexte pour un LLM.
+
+Options:
+  -a, --all                  Inclut les fichiers et dossiers masqués
+  -x, --exclude=ext1,ext2    Ignore les extensions données (ex: --exclude=ts,sh)
+  -i, --interactive          Demande confirmation avant d'inclure chaque fichier dans "## 2. Content"
+  -o, --output FILE          Nom du fichier de sortie (optionnel)
+  -h, --help                 Affiche cette aide
+
+Exemples:
+  $SCRIPT_NAME ./mon-projet
+  $SCRIPT_NAME --all --exclude=ts,sh ./mon-projet
+  $SCRIPT_NAME --interactive -o contexte.txt ./mon-projet
+EOF
+}
+
+log() {
+  printf '[INFO] %s\n' "$*" >&2
+}
+
+error() {
+  printf '[ERROR] %s\n' "$*" >&2
+  exit 1
+}
+
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -a|--all)
+        ALL=true
+        shift
+        ;;
+      -i|--interactive)
+        INTERACTIVE=true
+        shift
+        ;;
+      -x=*|--exclude=*)
+        EXCLUDE_RAW="${1#*=}"
+        shift
+        ;;
+      -o|--output)
+        [[ $# -ge 2 ]] || error "Option $1 attend un argument."
+        OUTPUT_FILE="$2"
+        shift 2
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      -*)
+        error "Option inconnue: $1"
+        ;;
+      *)
+        if [[ -n "$TARGET_PATH" ]]; then
+          error "Un seul dossier cible est autorisé."
+        fi
+        TARGET_PATH="$1"
+        shift
+        ;;
+    esac
+  done
+
+  [[ -n "$TARGET_PATH" ]] || error "Tu dois fournir un dossier pour l'output."
+  [[ -d "$TARGET_PATH" ]] || error "Le chemin fourni n'est pas un dossier: $TARGET_PATH"
+}
+
+normalize_path() {
+  local path="$1"
+  cd "$path" >/dev/null 2>&1 && pwd -P
+}
+
+parse_excluded_extensions() {
+  local raw="$1"
+  local item
+
+  [[ -z "$raw" ]] && return 0
+
+  IFS=',' read -r -a EXCLUDED_EXTENSIONS <<< "$raw"
+
+  for i in "${!EXCLUDED_EXTENSIONS[@]}"; do
+    item="${EXCLUDED_EXTENSIONS[$i]}"
+    item="${item#"${item%%[![:space:]]*}"}"
+    item="${item%"${item##*[![:space:]]}"}"
+    item="${item#.}"
+    item="${item,,}"
+    [[ -n "$item" ]] || continue
+    EXCLUDED_EXTENSIONS[$i]="$item"
+  done
+}
+
+build_default_output_file() {
+  local root="$1"
+  local base
+  base="$(basename "$root")"
+  OUTPUT_FILE="$root/${base}_context.txt"
+}
+
+get_relative_path() {
+  local root="$1"
+  local file="$2"
+
+  if [[ "$file" == "$root" ]]; then
+    printf '.\n'
+  else
+    printf '%s\n' "${file#"$root"/}"
+  fi
+}
+
+get_extension_lower() {
+  local file="$1"
+  local base ext
+
+  base="$(basename "$file")"
+  if [[ "$base" != *.* ]]; then
+    printf '\n'
+    return
+  fi
+
+  ext="${base##*.}"
+  printf '%s\n' "${ext,,}"
+}
+
+is_hidden_path() {
+  local root="$1"
+  local file="$2"
+  local rel
+
+  rel="$(get_relative_path "$root" "$file")"
+  [[ "$rel" == .* ]] && return 0
+  [[ "$rel" == */.* ]] && return 0
+  return 1
+}
+
+is_excluded_extension() {
+  local file="$1"
+  local ext
+  ext="$(get_extension_lower "$file")"
+
+  [[ -n "$ext" ]] || return 1
+
+  for excluded in "${EXCLUDED_EXTENSIONS[@]}"; do
+    [[ -n "$excluded" ]] || continue
+    if [[ "$ext" == "$excluded" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+is_output_file() {
+  local file="$1"
+  [[ "$file" == "$OUTPUT_FILE" ]]
+}
+
+is_text_file() {
+  local file="$1"
+
+  if command_exists file; then
+    file --mime "$file" | grep -qi 'charset=.*binary' && return 1
+    return 0
+  fi
+
+  grep -Iq . "$file"
+}
+
+should_include_file() {
+  local root="$1"
+  local file="$2"
+
+  if is_output_file "$file"; then
+    return 1
+  fi
+
+  if ! $ALL && is_hidden_path "$root" "$file"; then
+    return 1
+  fi
+
+  if is_excluded_extension "$file"; then
+    return 1
+  fi
+
+  if ! is_text_file "$file"; then
+    return 1
+  fi
+
+  return 0
+}
+
+prompt_include_file() {
+  local root="$1"
+  local file="$2"
+  local rel answer
+
+  if [[ ! -r /dev/tty ]]; then
+    printf '[WARN] Mode interactif indisponible: pas de terminal.\n' >&2
+    return 0
+  fi
+
+  rel="$(get_relative_path "$root" "$file")"
+
+  printf '\n============================================================\n' > /dev/tty
+  printf 'Fichier: %s\n' "$rel" > /dev/tty
+  printf -- '--- head -10 ---\n' > /dev/tty
+  head -n 10 "$file" > /dev/tty || true
+  printf -- '----------------\n' > /dev/tty
+
+  while true; do
+    read -r -p "Inclure ce fichier ? [y]es / [n]o: " answer < /dev/tty || return 1
+    answer="${answer,,}"
+
+    case "$answer" in
+      y|yes) return 0 ;;
+      n|no)  return 1 ;;
+      *)     printf 'Réponse invalide. Tape y/yes ou n/no.\n' > /dev/tty ;;
+    esac
+  done
+}
+
+build_tree_ignore_pattern() {
+  local patterns=()
+
+  if [[ -n "$OUTPUT_FILE" ]]; then
+    patterns+=("$(basename "$OUTPUT_FILE")")
+  fi
+
+  for ext in "${EXCLUDED_EXTENSIONS[@]}"; do
+    [[ -n "$ext" ]] || continue
+    patterns+=("*.${ext}")
+  done
+
+  if [[ ${#patterns[@]} -eq 0 ]]; then
+    printf '\n'
+    return
+  fi
+
+  local IFS='|'
+  printf '%s\n' "${patterns[*]}"
+}
+
+write_structure_section() {
+  local root="$1"
+  local tree_ignore
+  tree_ignore="$(build_tree_ignore_pattern)"
+
+  {
+    printf '## 1. Structure\n'
+    printf '\n'
+  } >> "$OUTPUT_FILE"
+
+  if command_exists tree; then
+    if $ALL; then
+      if [[ -n "$tree_ignore" ]]; then
+        tree -a -I "$tree_ignore" "$root" >> "$OUTPUT_FILE"
+      else
+        tree -a "$root" >> "$OUTPUT_FILE"
+      fi
+    else
+      if [[ -n "$tree_ignore" ]]; then
+        tree -I "$tree_ignore" "$root" >> "$OUTPUT_FILE"
+      else
+        tree "$root" >> "$OUTPUT_FILE"
+      fi
+    fi
+  else
+    {
+      printf '[tree non disponible, fallback sur find]\n'
+      if $ALL; then
+        find "$root" | sed "s#^$root#.#"
+      else
+        find "$root" \( -path '*/.*' -o -name '.*' \) -prune -o -print | sed "s#^$root#.#"
+      fi
+    } >> "$OUTPUT_FILE"
+  fi
+
+  printf '\n' >> "$OUTPUT_FILE"
+}
+
+collect_files() {
+  local root="$1"
+
+  while IFS= read -r -d '' file; do
+    if should_include_file "$root" "$file"; then
+      printf '%s\0' "$file"
+    fi
+  done < <(find "$root" -type f -print0 | sort -z)
+}
+
+write_content_section() {
+  local root="$1"
+  local file rel
+
+  {
+    printf '## 2. Content\n'
+    printf '\n'
+  } >> "$OUTPUT_FILE"
+
+  while IFS= read -r -d '' file; do
+    if $INTERACTIVE; then
+      if ! prompt_include_file "$root" "$file"; then
+        continue
+      fi
+    fi
+
+    rel="$(get_relative_path "$root" "$file")"
+
+    {
+      printf '%s\n' "$rel"
+      printf '"""""\n'
+      cat "$file"
+      printf '\n"""""\n\n'
+    } >> "$OUTPUT_FILE"
+  done < <(collect_files "$root")
+}
+
+main() {
+  parse_args "$@"
+  parse_excluded_extensions "$EXCLUDE_RAW"
+
+  TARGET_PATH="$(normalize_path "$TARGET_PATH")"
+
+  if [[ -z "$OUTPUT_FILE" ]]; then
+    build_default_output_file "$TARGET_PATH"
+  else
+    case "$OUTPUT_FILE" in
+      /*) ;;
+      *) OUTPUT_FILE="$PWD/$OUTPUT_FILE" ;;
+    esac
+  fi
+
+  : > "$OUTPUT_FILE"
+
+  log "Dossier cible : $TARGET_PATH"
+  log "Fichier de sortie : $OUTPUT_FILE"
+  log "Inclure masqués : $ALL"
+  log "Mode interactif : $INTERACTIVE"
+  log "Extensions exclues : ${EXCLUDED_EXTENSIONS[*]:-(aucune)}"
+
+  write_structure_section "$TARGET_PATH"
+  write_content_section "$TARGET_PATH"
+
+  log "Terminé."
+}
+
+main "$@"

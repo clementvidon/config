@@ -3,11 +3,17 @@
 # @brief    Configuration deployment script.
 # @author   clemedon (Clément Vidon)
 
-echo "Before to continue, make sure that 'config/' is located in your home directory."
-read -p "Continue? y/n " choice
-if [[ "$choice" == "n" ]]; then
-    exit 0
-fi
+prereq() {
+    echo "Before to continue, make sure that 'config/' is located in your home directory."
+    read -p "Continue? y/n " choice
+    if [[ "$choice" == "n" ]]; then
+        exit 0
+    fi
+}
+
+usage() {
+    echo "Usage: $0 {all|bash|zsh|scripts|git|tmux|alacritty|vim}"
+}
 
 deploy_bash() {
     if command -v bash &> /dev/null; then
@@ -24,10 +30,24 @@ deploy_zsh() {
             sudo chsh -s /usr/bin/zsh clem
             ln -fsv "$HOME/config/.zshrc"                     "$HOME/.zshrc"
             ln -fsv "$HOME/config/.zshenv"                    "$HOME/.zshenv"
-            mkdir -pv "$HOME/.local/bin"
-            ln -fsv "$HOME/config/.local/bin/"*               "$HOME/.local/bin/"
         } 1>/dev/null
         echo "zsh          OK"
+    fi
+}
+
+deploy_scripts() {
+    if command -v zsh &> /dev/null; then
+        {
+            mkdir -pv "$HOME/.local/bin"
+            for file in "$HOME"/config/.local/bin/*; do
+                if [ -f "$file" ]; then
+                    chmod +x "$file"
+                    target="$HOME/.local/bin/$(basename "$file")"
+                    ln -fsv "$(realpath "$file")" "$target"
+                fi
+            done
+        } 1>/dev/null
+        echo "scripts      OK"
     fi
 }
 
@@ -74,39 +94,59 @@ deploy_vim() {
     fi
 }
 
-if [[ $# -eq 0 ]]; then
+deploy_all() {
     deploy_bash
     deploy_zsh
+    deploy_scripts
     deploy_git
     deploy_tmux
     deploy_alacritty
     deploy_vim
-else
-    case "$1" in
-        bash)
-            deploy_bash
-            ;;
-        zsh)
-            deploy_zsh
-            ;;
-        git)
-            deploy_git
-            ;;
-        tmux)
-            deploy_tmux
-            ;;
-        alacritty)
-            deploy_alacritty
-            ;;
-        vim)
-            deploy_vim
-            ;;
-        *)
-            echo "Invalid option: $1"
-            echo "Usage: $0 {bash|zsh|git|tmux|alacritty|vim}"
-            exit 1
-            ;;
-    esac
+}
+
+if [[ $# -eq 0 || -z "$1" ]]; then
+    usage
+    exit 1
 fi
+
+case "$1" in
+    all)
+        prereq
+        deploy_all
+        ;;
+    bash)
+        prereq
+        deploy_bash
+        ;;
+    zsh)
+        prereq
+        deploy_zsh
+        ;;
+    scripts)
+        prereq
+        deploy_scripts
+        ;;
+    git)
+        prereq
+        deploy_git
+        ;;
+    tmux)
+        prereq
+        deploy_tmux
+        ;;
+    alacritty)
+        prereq
+        deploy_alacritty
+        ;;
+    vim)
+        prereq
+        deploy_vim
+        ;;
+    *)
+        echo "Invalid option: $1"
+        usage
+        exit 1
+        ;;
+esac
 
 echo "Installation DONE"

@@ -14,6 +14,7 @@ setlocal suffixesadd+=.gpg.noe
 " setlocal path=.,$NOESIS/**,$DOTVIM/pack/vendor/start/noesis/**
 setlocal path=.
 setlocal path+=$NOESIS/Achiever/**
+setlocal path+=$NOESIS/Inbox/**
 setlocal path+=$NOESIS/Systems/**
 setlocal path+=$NOESIS/Knowledge/**
 setlocal path+=$NOESIS/Projects/**
