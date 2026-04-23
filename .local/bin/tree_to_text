@@ -5,11 +5,13 @@ SCRIPT_NAME="$(basename "$0")"
 
 ALL=false
 INTERACTIVE=false
-EXCLUDE_RAW=""
+EXCLUDE_EXT_RAW=""
+EXCLUDE_DIR_RAW=""
 TARGET_PATH=""
 OUTPUT_FILE=""
 
 declare -a EXCLUDED_EXTENSIONS=()
+declare -a EXCLUDED_DIRS=()
 
 usage() {
   cat <<EOF
@@ -20,16 +22,18 @@ Description:
   Convertit un dossier projet en un fichier texte structuré, utile comme contexte pour un LLM.
 
 Options:
-  -a, --all                  Inclut les fichiers et dossiers masqués
-  -x, --exclude=ext1,ext2    Ignore les extensions données (ex: --exclude=ts,sh)
-  -i, --interactive          Demande confirmation avant d'inclure chaque fichier dans "## 2. Content"
-  -o, --output FILE          Nom du fichier de sortie (optionnel)
-  -h, --help                 Affiche cette aide
+  -a, --all                     Inclut les fichiers et dossiers masqués
+  -X, --exclude-ext=ext1,ext2   Ignore les extensions
+  -D, --exclude-dir=dir1,dir2   Ignore les dossiers
+  -i, --interactive             Demande confirmation pour chaque fichier avant de l'inclure dans "## 2. Content"
+  -o, --output FILE             Nom du fichier de sortie (optionnel)
+  -h, --help                    Affiche cette aide
 
 Exemples:
-  $SCRIPT_NAME ./mon-projet
-  $SCRIPT_NAME --all --exclude=ts,sh ./mon-projet
-  $SCRIPT_NAME --interactive -o contexte.txt ./mon-projet
+  tree_to_text ./mon-projet
+  tree_to_text --all --exclude_ext=ts,sh ./mon-projet
+  tree_to_text --interactive -o contexte.txt ./mon-projet
+  tree_to_text -X=ts,log -D=node_modules,.git,dist .
 EOF
 }
 
@@ -57,8 +61,12 @@ parse_args() {
         INTERACTIVE=true
         shift
         ;;
-      -x=*|--exclude=*)
-        EXCLUDE_RAW="${1#*=}"
+      -X=*|--exclude-ext=*)
+        EXCLUDE_EXT_RAW="${1#*=}"
+        shift
+        ;;
+      -D=*|--exclude-dir=*)
+        EXCLUDE_DIR_RAW="${1#*=}"
         shift
         ;;
       -o|--output)
@@ -108,6 +116,24 @@ parse_excluded_extensions() {
     item="${item,,}"
     [[ -n "$item" ]] || continue
     EXCLUDED_EXTENSIONS[$i]="$item"
+  done
+}
+
+parse_excluded_dirs() {
+  local raw="$1"
+  local item
+
+  [[ -z "$raw" ]] && return 0
+
+  IFS=',' read -r -a EXCLUDED_DIRS <<< "$raw"
+
+  for i in "${!EXCLUDED_DIRS[@]}"; do
+    item="${EXCLUDED_DIRS[$i]}"
+    item="${item#"${item%%[![:space:]]*}"}"
+    item="${item%"${item##*[![:space:]]}"}"
+    item="${item,,}"
+    [[ -n "$item" ]] || continue
+    EXCLUDED_DIRS[$i]="$item"
   done
 }
 
@@ -171,6 +197,23 @@ is_excluded_extension() {
   return 1
 }
 
+is_excluded_dir() {
+  local root="$1"
+  local file="$2"
+  local rel dir
+
+  rel="$(get_relative_path "$root" "$file")"
+
+  for dir in "${EXCLUDED_DIRS[@]}"; do
+    [[ -n "$dir" ]] || continue
+    if [[ "$rel" == "$dir" || "$rel" == "$dir"/* || "$rel" == */"$dir" || "$rel" == */"$dir"/* ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 is_output_file() {
   local file="$1"
   [[ "$file" == "$OUTPUT_FILE" ]]
@@ -200,6 +243,10 @@ should_include_file() {
   fi
 
   if is_excluded_extension "$file"; then
+    return 1
+  fi
+
+  if is_excluded_dir "$root" "$file"; then
     return 1
   fi
 
@@ -252,6 +299,11 @@ build_tree_ignore_pattern() {
     patterns+=("*.${ext}")
   done
 
+  for dir in "${EXCLUDED_DIRS[@]}"; do
+    [[ -n "$dir" ]] || continue
+    patterns+=("$dir")
+  done
+
   if [[ ${#patterns[@]} -eq 0 ]]; then
     printf '\n'
     return
@@ -302,11 +354,24 @@ write_structure_section() {
 collect_files() {
   local root="$1"
 
+  local find_cmd=(find "$root")
+
+  if [[ ${#EXCLUDED_DIRS[@]} -gt 0 ]]; then
+    find_cmd+=( \( )
+    for dir in "${EXCLUDED_DIRS[@]}"; do
+      find_cmd+=( -path "*/$dir" -o )
+    done
+    unset 'find_cmd[${#find_cmd[@]}-1]'
+    find_cmd+=( \) -prune -o )
+  fi
+
+  find_cmd+=( -type f -print0 )
+
   while IFS= read -r -d '' file; do
     if should_include_file "$root" "$file"; then
       printf '%s\0' "$file"
     fi
-  done < <(find "$root" -type f -print0 | sort -z)
+  done < <("${find_cmd[@]}" | sort -z)
 }
 
 write_content_section() {
@@ -338,7 +403,8 @@ write_content_section() {
 
 main() {
   parse_args "$@"
-  parse_excluded_extensions "$EXCLUDE_RAW"
+  parse_excluded_extensions "$EXCLUDE_EXT_RAW"
+  parse_excluded_dirs "$EXCLUDE_DIR_RAW"
 
   TARGET_PATH="$(normalize_path "$TARGET_PATH")"
 
@@ -358,6 +424,7 @@ main() {
   log "Inclure masqués : $ALL"
   log "Mode interactif : $INTERACTIVE"
   log "Extensions exclues : ${EXCLUDED_EXTENSIONS[*]:-(aucune)}"
+  log "Dossiers exclus : ${EXCLUDED_DIRS[*]:-(aucun)}"
 
   write_structure_section "$TARGET_PATH"
   write_content_section "$TARGET_PATH"
