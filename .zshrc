@@ -40,16 +40,29 @@ pin() {
   print -s "$*"
 }
 
-bindkey "^R" history-incremental-search-backward                    # enable Ctrl-R i-search-bck
+bindkey "^R" history-incremental-search-backward
 
 export HISTSIZE=1000
 export SAVEHIST=$HISTSIZE
 export HISTFILE=$HOME/.zsh_history
 
 setopt hist_ignore_all_dups
-# setopt hist_ignore_space
-# setopt hist_reduce_blanks
+setopt hist_ignore_space
 setopt append_history
+
+# Never store LLM commands in shell history.
+_llm_history_filter() {
+  local line="${1%%$'\n'}"
+
+  if [[ "$line" =~ '(^|[[:space:];|&()])(llm|ref|toe|tof|syn|ant|lex|equ|_llm_words|_llm_input)([[:space:];|&()]|$)' ]]; then
+    return 1
+  fi
+
+  return 0
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook zshaddhistory _llm_history_filter
 
 ######################################## Ctrl-D
 
@@ -111,7 +124,7 @@ alias gdi="git diff"
 alias gds="git diff --staged"
 alias gfe="git fetch origin"
 # alias glo="git log --oneline -10"
-glo() {
+glof() {
   [[ "$1" =~ ^-[0-9]+$ ]] || set -- -12 "$@"
   git -c color.ui=always log "$@" \
   --pretty=format:"%C(yellow)%h%Creset %Cgreen(%cd)%Creset %C(cyan)%s%Creset" \
@@ -122,7 +135,13 @@ glo() {
       print prev " | " substr($0, RSTART, RLENGTH)
     } {prev=$0}'
 }
-alias glov='git log -12 --date=format:"%Y-%m-%d %H:%M" --pretty=format:"%C(yellow)%h%Creset %Cgreen(%cd)%Creset %C(cyan)%s%Creset%n%C(dim white)%b%Creset"'
+glo() {
+  [[ "$1" =~ ^-[0-9]+$ ]] || set -- -12 "$@"
+
+  git -c color.ui=always log "$@" \
+    --pretty=format:"%C(yellow)%h%Creset %Cgreen(%cd)%Creset %C(cyan)%s%Creset" \
+    --date=format:"%Y-%m-%d %H:%M"
+}
 alias gpl="git pull"
 alias gps="git push"
 alias grb="git rebase --interactive"
@@ -139,22 +158,14 @@ alias pullboth="git fetch origin; git fetch gitlab; git merge origin; git merge 
 # Misc
 alias python='python3'
 alias tf='terraform'
+alias refresh='hash -r'
+alias types="find . -maxdepth 1 -type f | sed 's/.*\.//' | sort -u"
+alias magick='convert'
 
 # Locations
 alias ricoh="cd ~/Documents/Images/RicohGR/ && pwd"
 
 ######################################## Functions
-
-# Copy the given file content to clipboard.
-function    copy()
-{
-    file=$1
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        pbcopy < $file
-    elif [[ "$OSTYPE" == "linux"* ]]; then
-        cat $file | xclip -selection clipboard
-    fi
-}
 
 # Git add-commit-push an update.
 function    gup()
@@ -222,6 +233,88 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+######################################## LLM Helpers
+
+_llm_input() {
+  if [[ $# -gt 0 ]]; then
+    printf '%s' "$*"
+  else
+    cat
+  fi
+}
+
+_llm_words() {
+  local kind="$1"
+  shift
+
+  local n=10
+
+  # Usage: syn -5 word
+  if [[ "$1" =~ ^-[0-9]+$ ]]; then
+    n="${1#-}"
+    shift
+  fi
+
+  _llm_input "$@" | llm \
+    -m gpt-5.4-nano \
+    -o reasoning_effort none \
+    -s "Given the input word or expression, return up to $n $kind.
+Return only the words or expressions, one per line.
+No numbering, bullets, explanations, or introductory text.
+Use the same language as the input."
+}
+
+ref() {
+  _llm_input "$@" | llm \
+    -m gpt-5.4-nano \
+    -o reasoning_effort none \
+    -s "Refine the input text with the smallest possible changes.
+Fix spelling, grammar, punctuation, and awkward phrasing only when necessary.
+Preserve the original meaning, tone, vocabulary, structure, and level of formality as much as possible.
+Make the text clear, natural, digestible, and acceptable.
+Do not embellish, rewrite stylistically, or add information.
+Return only the refined text."
+}
+
+toe() {
+  _llm_input "$@" | llm \
+    -m gpt-5.4-nano \
+    -o reasoning_effort none \
+    -s "Translate the input to natural English.
+Preserve the meaning, tone, and level of formality.
+Return only the translation."
+}
+
+
+tof() {
+  _llm_input "$@" | llm \
+    -m gpt-5.4-nano \
+    -o reasoning_effort none \
+    -s "Translate the input to natural French.
+Preserve the meaning, tone, and level of formality.
+Return only the translation."
+}
+
+
+syn() {
+  _llm_words "synonyms" "$@"
+}
+
+
+ant() {
+  _llm_words "antonyms" "$@"
+}
+
+
+lex() {
+  _llm_words "words or expressions from the lexical field surrounding the input" "$@"
+}
+
+
+equ() {
+  _llm_words "close equivalents or alternative expressions with a similar meaning" "$@"
+}
 
 ######################################## VSCode
 

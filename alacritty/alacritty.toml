@@ -27,7 +27,8 @@ program = "/bin/bash"
 args = ["-l", "-c", "tmux attach || tmux new-session; clear"]
 
 [window]
-opacity = 1.0
+opacity = 1
+# opacity = 0.5
 
 [window.dimensions]
 columns = 80
