@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: copy FILE [FILE ...]" >&2
+  exit 1
+fi
+
+copy_to_clipboard() {
+  if command -v pbcopy >/dev/null 2>&1; then
+    pbcopy
+  elif command -v xclip >/dev/null 2>&1; then
+    xclip -selection clipboard
+  elif command -v wl-copy >/dev/null 2>&1; then
+    wl-copy
+  else
+    echo "copy: no clipboard tool found. Install pbcopy, xclip, or wl-copy." >&2
+    exit 1
+  fi
+}
+
+{
+  for file in "$@"; do
+    if [[ ! -f "$file" ]]; then
+      echo "copy: not a file: $file" >&2
+      exit 1
+    fi
+
+    abs_path="$(realpath "$file")"
+
+    printf '===== %s =====\n\n' "$abs_path"
+    cat -- "$file"
+    printf '\n\n'
+  done
+} | copy_to_clipboard
