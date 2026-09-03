@@ -161,6 +161,7 @@ alias tf='terraform'
 alias refresh='hash -r'
 alias types="find . -maxdepth 1 -type f | sed 's/.*\.//' | sort -u"
 alias magick='convert'
+alias awake='systemd-inhibit --what=idle:sleep:handle-lid-switch:sleep --mode=block --who="Clément" --why="Computer is working" sleep infinity'
 
 # Locations
 alias ricoh="cd ~/Documents/Images/RicohGR/ && pwd"
