@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#
+# Purpose: Send one literal command followed by Enter to a tmux pane.
+
+set -Eeuo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: sendkey [-h|--help] PANE COMMAND
+
+Send COMMAND literally to the selected tmux PANE, then send the Enter key.
+Quote commands containing spaces so they remain one argument.
+
+Options:
+  -h, --help  Show this help
+
+Example:
+  sendkey app:0.1 'make test'
+EOF
+}
+
+die() {
+  printf '[ERROR] %s\n' "$*" >&2
+  exit 1
+}
+
+main() {
+  if [[ $# -eq 1 && ("$1" == '-h' || "$1" == '--help') ]]; then
+    usage
+    exit 0
+  fi
+
+  [[ $# -eq 2 ]] || die 'A pane and exactly one command argument are required'
+
+  local pane="$1"
+  local command_text="$2"
+
+  [[ -n "$pane" ]] || die 'The pane must not be empty'
+  [[ -n "$command_text" ]] || die 'The command must not be empty'
+  command -v tmux >/dev/null 2>&1 || die 'tmux is not installed'
+  tmux display-message -p -t "$pane" '#{pane_id}' >/dev/null 2>&1 \
+    || die "Tmux pane not found: $pane"
+
+  tmux send-keys -l -t "$pane" -- "$command_text"
+  tmux send-keys -t "$pane" Enter
+}
+
+main "$@"
