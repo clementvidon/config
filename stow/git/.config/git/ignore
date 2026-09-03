@@ -1,3 +1,5 @@
+# ~/.config/git/ignore
+
 # Editors
 *.swo
 *.swp
@@ -17,6 +19,3 @@
 .env.*
 !.env.example
 !.env.sample
-
-# Generated context
-/out

@@ -1,0 +1,29 @@
+name: Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  config:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install checks on macOS
+        if: runner.os == 'macOS'
+        run: brew install shellcheck stow tmux
+
+      - name: Install checks on Ubuntu
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y shellcheck stow tmux zsh
+
+      - name: Run checks
+        run: ./install.sh check

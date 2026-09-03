@@ -1,2 +1,3 @@
-© Clément VIDON. All rights reserved.
-All files in this directory and its subdirectories are covered by this copyright notice.
+© Clément VIDON. All rights reserved for original work in this repository.
+Third-party fonts, themes, dictionaries and vendored code remain covered by
+their respective authors' licenses.

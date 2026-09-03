@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# =============================================================================
+# Configuration
+# =============================================================================
+
+ROOT="${1:-.}"
+
+# Maximum content copied for one file.
+MAX_FILE_BYTES="${MAX_FILE_BYTES:-100000}"
+
+# Maximum number of lines for one file.
+MAX_FILE_LINES="${MAX_FILE_LINES:-2000}"
+
+# Maximum total output size.
+MAX_TOTAL_BYTES="${MAX_TOTAL_BYTES:-1500000}"
+
+CONTEXT_IGNORE=".contextignore"
+
+
+# =============================================================================
+# Helpers
+# =============================================================================
+
+die() {
+  echo "ctx: $*" >&2
+  exit 1
+}
+
+is_binary() {
+  local file="$1"
+
+  # grep -I treats binary files as non-text.
+  ! LC_ALL=C grep -Iq . "$file"
+}
+
+is_context_ignored() {
+  local path="$1"
+  local pattern
+
+  [[ -f "$ROOT/$CONTEXT_IGNORE" ]] || return 1
+
+  while IFS= read -r pattern || [[ -n "$pattern" ]]; do
+    # Ignore empty lines and comments.
+    [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+
+    # Shell glob matching.
+    if [[ "$path" == $pattern ]]; then
+      return 0
+    fi
+  done < "$ROOT/$CONTEXT_IGNORE"
+
+  return 1
+}
+
+
+# =============================================================================
+# Project
+# =============================================================================
+
+ROOT="$(cd "$ROOT" && pwd)"
+
+cd "$ROOT"
+
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 ||
+  die "$ROOT is not inside a Git repository"
+
+files=()
+
+while IFS= read -r -d '' file; do
+  files+=("$file")
+done < <(
+  git ls-files \
+    --cached \
+    --others \
+    --exclude-standard \
+    -z
+)
+
+# =============================================================================
+# Filter project files
+# =============================================================================
+
+selected=()
+
+for file in "${files[@]}"; do
+  [[ -f "$file" ]] || continue
+
+  if is_context_ignored "$file"; then
+    continue
+  fi
+
+  selected+=("$file")
+done
+
+
+# =============================================================================
+# Tree
+# =============================================================================
+
+printf '===== PROJECT =====\n\n'
+printf 'Root: %s\n\n' "$ROOT"
+
+printf '===== PROJECT TREE =====\n\n'
+
+for file in "${selected[@]}"; do
+  printf '%s\n' "$file"
+done
+
+printf '\n'
+
+
+# =============================================================================
+# File contents
+# =============================================================================
+
+total_bytes=0
+included=0
+skipped_binary=0
+skipped_large=0
+skipped_budget=0
+
+for file in "${selected[@]}"; do
+  if is_binary "$file"; then
+    printf '===== %s =====\n' "$file"
+    printf '[SKIPPED: binary file]\n\n'
+
+    ((skipped_binary += 1))
+    continue
+  fi
+
+  bytes="$(wc -c < "$file" | tr -d ' ')"
+  lines="$(wc -l < "$file" | tr -d ' ')"
+
+  if (( bytes > MAX_FILE_BYTES || lines > MAX_FILE_LINES )); then
+    printf '===== %s =====\n' "$file"
+    printf '[SKIPPED: too large — %s bytes, %s lines]\n\n' "$bytes" "$lines"
+
+    ((skipped_large += 1))
+    continue
+  fi
+
+  if (( total_bytes + bytes > MAX_TOTAL_BYTES )); then
+    printf '===== %s =====\n' "$file"
+    printf '[SKIPPED: total context budget reached]\n\n'
+
+    ((skipped_budget += 1))
+    continue
+  fi
+
+  printf '===== %s =====\n\n' "$file"
+  cat < "$file"
+  printf '\n\n'
+
+  ((total_bytes += bytes))
+  ((included += 1))
+done
+
+
+# =============================================================================
+# Summary
+# =============================================================================
+
+printf '===== CONTEXT SUMMARY =====\n\n'
+printf 'Included files:        %d\n' "$included"
+printf 'Skipped binaries:      %d\n' "$skipped_binary"
+printf 'Skipped large files:   %d\n' "$skipped_large"
+printf 'Skipped by budget:     %d\n' "$skipped_budget"
+printf 'Content bytes:         %d\n' "$total_bytes"
+printf 'Maximum file bytes:    %d\n' "$MAX_FILE_BYTES"
+printf 'Maximum file lines:    %d\n' "$MAX_FILE_LINES"
+printf 'Maximum context bytes: %d\n' "$MAX_TOTAL_BYTES"

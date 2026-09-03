@@ -1,0 +1,117 @@
+let mapleader = " "
+
+" Search
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+" Extensions
+set highlightedyank
+let g:highlightedyank_highlight_duration = "5000"
+let g:highlightedyank_highlight_color = "rgba(150, 255, 200, 255)"
+set surround
+set commentary
+set argtextobj
+set quickscope
+set sneak
+
+" Windows
+nnoremap <leader>w <C-w>
+nnoremap <leader>wM <C-W>_<C-W><Bar>
+nmap <leader>wH <Action>(MoveTabLeft)
+nmap <leader>wJ <Action>(MoveTabDown)
+nmap <leader>wK <Action>(MoveTabUp)
+nmap <leader>wL <Action>(MoveTabRight)
+nmap <leader>w1 <Action>(MoveEditorToOppositeTabGroup)
+nmap <leader>w2 <Action>(MaximizeEditorInSplit)
+nmap <C-3> <Action>(Back)
+nmap <C-8> <Action>(Forward)
+
+" Shortcut ownership
+sethandler <C-w> n-v-i:vim
+sethandler <C-r> n-v-i:vim
+sethandler <C-t> n-v-i:vim
+sethandler <C-i> n-v-i:vim
+sethandler <C-o> n-v-i:vim
+sethandler <C-]> n-v-i:vim
+sethandler <C-[> n-v-i:vim
+sethandler <C-u> n-v-i:vim
+sethandler <C-d> n-v-i:vim
+sethandler <C-e> n-v-i:vim
+sethandler <C-y> n-v-i:vim
+sethandler <C-v> n-v-i:vim
+
+" Buffers and files
+nnoremap mw :write<CR>
+nnoremap mq :quit<CR>
+nnoremap mQ :quitall<CR>
+nnoremap md :bnext<Bar>bdelete #<CR>
+nnoremap gmd :bnext!<Bar>bdelete! #<CR>
+nnoremap sb :ls<CR>:buffer<Space>
+nnoremap sp :edit #<CR>
+nnoremap st :tag<Space>
+
+" Interface
+nnoremap glhl :set hlsearch!<CR>
+nnoremap glcc :set cursorcolumn!<CR>
+nnoremap glcl :set cursorline!<CR>
+nnoremap glso :source ~/.ideavimrc<CR>
+nmap <leader>f <Action>(ShowNavBar)
+
+" Refactoring
+nmap <leader>gen <Action>(Generate)
+nmap <leader>rcs <Action>(ChangeSignature)
+nmap <leader>ref <Action>(Refactorings.QuickListPopupAction)
+nmap <leader>rfo <Action>(ReformatCode)
+nmap <leader>ric <Action>(IntroduceConstant)
+nmap <leader>ril <Action>(Inline)
+nmap <leader>rip <Action>(ReplaceInPath)
+nmap <leader>riv <Action>(IntroduceVariable)
+nmap <leader>rre <Action>(RenameElement)
+nmap <leader>rrf <Action>(RenameFile)
+nmap <leader>rsw <Action>(SurroundWith)
+nmap <leader>rxi <Action>(ExtractInterface)
+nmap <leader>rxm <Action>(ExtractMethod)
+
+" Information
+nmap <leader>ich <Action>(CallHierarchy)
+nmap <leader>ico <Action>(EditorContextInfo)
+nmap <leader>ido <Action>(QuickJavaDoc)
+nmap <leader>ifs <Action>(FileStructurePopup)
+nmap <leader>iim <Action>(QuickImplementations)
+nmap <leader>ipa <Action>(ParameterInfo)
+nmap <leader>isu <Action>(ShowUsages)
+nmap <leader>ith <Action>(TypeHierarchy)
+nmap <leader>ity <Action>(QuickTypeDefinition)
+
+" Find
+nmap <leader>fin <Action>(Find)
+nmap <leader>fip <Action>(FindInPath)
+nmap <leader>fus <Action>(FindUsages)
+
+" Go to
+nmap <leader>gac <Action>(GotoAction)
+nmap <leader>gcl <Action>(GotoClass)
+nmap <leader>gde <Action>(GotoDeclaration)
+nmap <leader>gfi <Action>(GotoFile)
+nmap <leader>gim <Action>(GotoImplementation)
+nmap <leader>gsu <Action>(GotoSuperMethod)
+nmap <leader>gsy <Action>(GotoSymbol)
+
+" Navigation
+nmap ]b <Action>(GotoNextBookmark)
+nmap [b <Action>(GotoPreviousBookmark)
+nmap ]c <Action>(VcsShowNextChangeMarker)
+nmap [c <Action>(VcsShowPrevChangeMarker)
+nmap ]e <Action>(GotoNextError)
+nmap [e <Action>(GotoPreviousError)
+nmap <leader>grf <Action>(RecentFiles)
+nmap <leader>grl <Action>(RecentLocations)
+
+" Debugging
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+nmap <leader>dr <Action>(RunToCursor)
+nmap <leader>ds <Action>(StepOver)
+nmap <leader>dx <Action>(EvaluateExpression)
+nmap <leader>dq <Action>(Stop)

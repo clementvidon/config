@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: copy FILE [FILE ...]" >&2
+  exit 1
+fi
+
+copy_to_clipboard() {
+  if command -v pbcopy >/dev/null 2>&1; then
+    # macOS
+    pbcopy
+  elif [[ -n "${WAYLAND_DISPLAY:-}" ]] && command -v wl-copy >/dev/null 2>&1; then
+    # Linux / Wayland
+    wl-copy
+  elif command -v xclip >/dev/null 2>&1; then
+    # Linux / X11
+    xclip -selection clipboard
+  elif command -v wl-copy >/dev/null 2>&1; then
+    wl-copy
+  else
+    echo "copy: no clipboard tool found (pbcopy, wl-copy, xclip)." >&2
+    exit 1
+  fi
+}
+
+absolute_path() {
+  local file="$1"
+
+  if command -v realpath >/dev/null 2>&1; then
+    realpath "$file"
+  else
+    local dir base
+    dir="${file%/*}"
+    base="${file##*/}"
+
+    [[ "$dir" == "$file" ]] && dir="."
+    [[ -z "$dir" ]] && dir="/"
+
+    (
+      cd "$dir"
+      printf '%s/%s\n' "$(pwd -P)" "$base"
+    )
+  fi
+}
+
+{
+  for file in "$@"; do
+    if [[ ! -f "$file" ]]; then
+      echo "copy: not a file: $file" >&2
+      exit 1
+    fi
+
+    abs_path="$(absolute_path "$file")"
+
+    printf '===== %s =====\n\n' "$abs_path"
+
+    # Plus portable que `cat -- "$file"` sur macOS.
+    cat < "$file"
+
+    printf '\n\n'
+  done
+} | copy_to_clipboard
