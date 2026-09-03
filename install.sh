@@ -249,10 +249,27 @@ install_stow_packages() {
 }
 
 remove_stow_packages() {
+  local plan links
   local -a command=(stow --dir "$STOW_DIR" --target "$TARGET" --no-folding --delete)
+  local -a preview=("${command[@]}" --simulate --verbose=2)
 
   [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
-  $DRY_RUN && command+=(--simulate)
+
+  info 'Preview Stow removal'
+  print_command "${preview[@]}" "${STOW_PACKAGES[@]}"
+  plan="$("${preview[@]}" "${STOW_PACKAGES[@]}" 2>&1)"
+  links="$(printf '%s\n' "$plan" | sed -n -E \
+    -e 's/^UNLINK: (.*)$/  would remove ~\/\1/p' \
+    -e 's/^--- removing link owned by [^:]+: (.*) => .*$/  would remove ~\/\1/p' | \
+    awk '!seen[$0]++')"
+
+  if [[ -n "$links" ]]; then
+    printf '%s\n' "$links"
+  else
+    info 'No managed links need removal'
+  fi
+
+  $DRY_RUN && return 0
 
   info 'Remove Stow packages'
   print_command "${command[@]}" "${STOW_PACKAGES[@]}"
@@ -308,7 +325,7 @@ remove_font() {
     info 'Remove bundled font link'
     run unlink "$destination"
   elif [[ -e "$destination" || -L "$destination" ]]; then
-    warn "Font target is not owned by this repository: $destination"
+    info "Leave existing font unchanged (not owned by this repository): $destination"
   fi
 }
 
@@ -347,18 +364,25 @@ main() {
   detect_platform
   resolve_packages
   ensure_stow
-  run mkdir -p "$TARGET"
-
   case "$ACTION" in
     install)
+      run mkdir -p "$TARGET"
       install_stow_packages
       install_font
-      info "Installation complete ($PLATFORM -> $TARGET)"
+      if $DRY_RUN; then
+        info "Installation preview complete; no changes made ($PLATFORM -> $TARGET)"
+      else
+        info "Installation complete ($PLATFORM -> $TARGET)"
+      fi
       ;;
     remove)
       remove_stow_packages
       remove_font
-      info "Removal complete ($PLATFORM -> $TARGET)"
+      if $DRY_RUN; then
+        info "Removal preview complete; no changes made ($PLATFORM -> $TARGET)"
+      else
+        info "Removal complete ($PLATFORM -> $TARGET)"
+      fi
       ;;
   esac
 }
