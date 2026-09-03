@@ -319,9 +319,11 @@ start_node() {
   node --version
 }
 
-
 # =============================================================================
 # LLM helpers
+#
+# Requires Simon Willison's `llm` CLI:
+# https://github.com/simonw/llm
 # =============================================================================
 
 _llm_input() {

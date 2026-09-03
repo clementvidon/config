@@ -1,8 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -eq 0 ]]; then
-  echo "Usage: copy FILE [FILE ...]" >&2
+IGNORE_FILE=""
+
+usage() {
+  echo "Usage: copy [--ignore=FILE] FILE|DIR [FILE|DIR ...]" >&2
+  exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --ignore=*)
+      IGNORE_FILE="${1#--ignore=}"
+      shift
+      ;;
+    --ignore)
+      [[ $# -ge 2 ]] || usage
+      IGNORE_FILE="$2"
+      shift 2
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      usage
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+[[ $# -gt 0 ]] || usage
+
+if [[ -n "$IGNORE_FILE" && ! -f "$IGNORE_FILE" ]]; then
+  echo "copy: ignore file not found: $IGNORE_FILE" >&2
   exit 1
 fi
 
@@ -31,6 +64,7 @@ absolute_path() {
     realpath "$file"
   else
     local dir base
+
     dir="${file%/*}"
     base="${file##*/}"
 
@@ -44,20 +78,74 @@ absolute_path() {
   fi
 }
 
+is_ignored() {
+  local relative="$1"
+  local basename="${relative##*/}"
+  local pattern
+  local dir_pattern
+
+  [[ -n "$IGNORE_FILE" ]] || return 1
+
+  while IFS= read -r pattern || [[ -n "$pattern" ]]; do
+    # Ignore empty lines and comments.
+    [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+
+    if [[ "$pattern" == */ ]]; then
+      dir_pattern="${pattern%/}"
+
+      # Match a directory at the root or at any nested level.
+      if [[ "$relative" == "$dir_pattern/"* ||
+            "$relative" == */"$dir_pattern/"* ]]; then
+        return 0
+      fi
+
+    elif [[ "$pattern" == */* ]]; then
+      # Pattern relative to the copied root.
+      if [[ "$relative" == $pattern ]]; then
+        return 0
+      fi
+
+    else
+      # Simple filename/glob, at any depth.
+      if [[ "$basename" == $pattern ]]; then
+        return 0
+      fi
+    fi
+  done < "$IGNORE_FILE"
+
+  return 1
+}
+
+copy_file() {
+  local file="$1"
+  local abs_path
+
+  abs_path="$(absolute_path "$file")"
+
+  printf '===== %s =====\n\n' "$abs_path"
+  cat < "$file"
+  printf '\n\n'
+}
+
 {
-  for file in "$@"; do
-    if [[ ! -f "$file" ]]; then
-      echo "copy: not a file: $file" >&2
+  for path in "$@"; do
+    if [[ -f "$path" ]]; then
+      if ! is_ignored "${path##*/}"; then
+        copy_file "$path"
+      fi
+
+    elif [[ -d "$path" ]]; then
+      while IFS= read -r -d '' file; do
+        relative="${file#"$path"/}"
+
+        if ! is_ignored "$relative"; then
+          copy_file "$file"
+        fi
+      done < <(find "$path" -type f -print0)
+
+    else
+      echo "copy: not a file or directory: $path" >&2
       exit 1
     fi
-
-    abs_path="$(absolute_path "$file")"
-
-    printf '===== %s =====\n\n' "$abs_path"
-
-    # Plus portable que `cat -- "$file"` sur macOS.
-    cat < "$file"
-
-    printf '\n\n'
   done
 } | copy_to_clipboard

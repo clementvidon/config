@@ -13,6 +13,8 @@ TARGET_EXPLICIT=false
 PLATFORM=""
 DRY_RUN=false
 MANAGE_FONT=true
+FONT_INSTALL_ACTION="none"
+FONT_DESTINATION=""
 declare -a REQUESTED=()
 declare -a PACKAGES=()
 declare -a STOW_PACKAGES=()
@@ -310,7 +312,7 @@ font_target() {
   fi
 }
 
-install_font() {
+preflight_font() {
   local destination
 
   $MANAGE_FONT || return 0
@@ -319,6 +321,7 @@ install_font() {
   [[ -f "$FONT_SOURCE" ]] || die "Bundled font not found: $FONT_SOURCE"
 
   destination="$(font_target)"
+  FONT_DESTINATION="$destination"
 
   if [[ -L "$destination" && "$(readlink "$destination")" == "$FONT_SOURCE" ]]; then
     info "Font already linked: $destination"
@@ -335,14 +338,20 @@ install_font() {
     return 0
   fi
 
+  FONT_INSTALL_ACTION="link"
+}
+
+install_font() {
+  [[ "$FONT_INSTALL_ACTION" == "link" ]] || return 0
+
   info 'Install bundled font'
-  run mkdir -p "$(dirname "$destination")"
-  run ln -s "$FONT_SOURCE" "$destination"
+  run mkdir -p "$(dirname "$FONT_DESTINATION")"
+  run ln -s "$FONT_SOURCE" "$FONT_DESTINATION"
 
   if ! $DRY_RUN &&
      [[ "$PLATFORM" == "ubuntu" && "$TARGET" == "$HOME" ]] &&
      command -v fc-cache >/dev/null 2>&1; then
-    run fc-cache -f "$(dirname "$destination")"
+    run fc-cache -f "$(dirname "$FONT_DESTINATION")"
   fi
 }
 
@@ -399,6 +408,7 @@ main() {
 
   case "$ACTION" in
     install)
+      preflight_font
       ensure_target_directory
       install_stow_packages
       install_font

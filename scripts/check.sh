@@ -108,12 +108,47 @@ check_stale_paths() {
 }
 
 check_package_layout() {
+  local actual
   local package
+  local known
+  local -a expected=(
+    bash
+    zsh
+    git
+    tmux
+    vim
+    ideavim
+    alacritty
+    wezterm
+    karabiner
+    clang-format
+    scripts
+  )
 
   info 'Stow package layout'
-  for package in bash zsh git tmux vim ideavim alacritty wezterm karabiner clang-format scripts; do
+  for package in "${expected[@]}"; do
     [[ -d "$REPO_ROOT/stow/$package" ]] || die "Missing Stow package: $package"
+
+    if ! find "$REPO_ROOT/stow/$package" \( -type f -o -type l \) -print -quit | grep -q .; then
+      die "Empty Stow package: $package"
+    fi
   done
+
+  while IFS= read -r actual; do
+    known=false
+    for package in "${expected[@]}"; do
+      if [[ "$actual" == "$package" ]]; then
+        known=true
+        break
+      fi
+    done
+
+    $known || die "Unexpected Stow package: $actual"
+  done < <(find "$REPO_ROOT/stow" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+
+  if find "$REPO_ROOT/stow" -mindepth 1 -maxdepth 1 ! -type d -print -quit | grep -q .; then
+    die 'Only package directories may exist at the top level of stow/'
+  fi
 
   if find "$REPO_ROOT/stow" -name .git -print -quit | grep -q .; then
     die 'Nested Git repositories must not be stored in Stow packages'
@@ -194,7 +229,7 @@ check_font_ownership() {
   "$REPO_ROOT/install.sh" install --platform macos --target "$home" wezterm >/dev/null
   [[ ! -e "$font" && ! -L "$font" ]] || die 'WezTerm installation touched the bundled font'
 
-  "$REPO_ROOT/install.sh" install --platform macos --target "$home" fonts >/dev/null
+  "$REPO_ROOT/install.sh" install --platform macos --target "$home" fonts >/dev/null 2>&1
   [[ -L "$font" ]] || die 'Fonts package did not install the bundled font'
 
   "$REPO_ROOT/install.sh" remove --platform macos --target "$home" wezterm >/dev/null
@@ -205,8 +240,34 @@ check_font_ownership() {
 
   mkdir -p "$(dirname "$font")"
   printf 'user-owned font\n' > "$font"
+  "$REPO_ROOT/install.sh" install --platform macos --target "$home" fonts >/dev/null 2>&1
+  [[ "$(< "$font")" == 'user-owned font' ]] || die 'Fonts installation changed an unowned font'
+
   "$REPO_ROOT/install.sh" remove --platform macos --target "$home" fonts >/dev/null
   [[ "$(< "$font")" == 'user-owned font' ]] || die 'Fonts removal changed an unowned font'
+}
+
+check_font_preflight() {
+  local fixture="$TEST_ROOT/missing-font/repository"
+  local home="$TEST_ROOT/missing-font/home"
+
+  info 'Missing bundled font fails before Stow changes'
+  mkdir -p "$fixture/assets/fonts" "$home"
+  cp "$REPO_ROOT/install.sh" "$fixture/install.sh"
+  cp -R "$REPO_ROOT/stow" "$fixture/stow"
+
+  if "$fixture/install.sh" install --dry-run \
+    --platform macos --target "$home" >/dev/null 2>&1; then
+    die 'Installation dry run succeeded without the bundled font'
+  fi
+
+  if "$fixture/install.sh" install \
+    --platform macos --target "$home" >/dev/null 2>&1; then
+    die 'Normal installation succeeded without the bundled font'
+  fi
+
+  [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] || \
+    die 'Missing font failure happened after target HOME changes'
 }
 
 check_platform_guard() {
@@ -255,6 +316,7 @@ main() {
   check_managed_configs
 
   check_dry_run
+  check_font_preflight
   check_font_ownership
   check_platform_guard
   check_platform macos
