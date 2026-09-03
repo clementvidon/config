@@ -225,14 +225,45 @@ migrate_if_needed() {
   return 0
 }
 
+ensure_target_directory() {
+  if [[ -d "$TARGET" ]]; then
+    return 0
+  fi
+
+  [[ ! -e "$TARGET" ]] || die "Target exists but is not a directory: $TARGET"
+
+  if $DRY_RUN; then
+    die "Target directory does not exist; create it before previewing: $TARGET"
+  fi
+
+  info "Create target directory: $TARGET"
+  run mkdir -p "$TARGET"
+}
+
+report_stow_conflicts() {
+  local plan="$1"
+  local conflicts
+
+  conflicts="$(printf '%s\n' "$plan" | sed -n -E \
+    's/.*over existing target ([^ ]+) since neither a link nor a directory.*/  ~\/\1/p' | \
+    awk '!seen[$0]++')"
+  [[ -n "$conflicts" ]] || return 1
+
+  warn 'Existing unmanaged files block installation; no files were changed:'
+  printf '%s\n' "$conflicts" >&2
+  warn 'Move or back up those files, then rerun ./install.sh.'
+  warn 'Stow never overwrites unmanaged files automatically.'
+  return 0
+}
+
 install_stow_packages() {
-  local migration_pending=false
+  local migration_pending=false plan
   local -a command=(stow --dir "$STOW_DIR" --target "$TARGET" --no-folding --restow)
 
   [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
   migrate_if_needed && migration_pending=true
 
-  info 'Preflight Stow'
+  info 'Preview Stow installation'
   print_command "${command[@]}" --simulate "${STOW_PACKAGES[@]}"
 
   if $DRY_RUN && $migration_pending; then
@@ -240,7 +271,16 @@ install_stow_packages() {
     return 0
   fi
 
-  "${command[@]}" --simulate "${STOW_PACKAGES[@]}"
+  if ! plan="$("${command[@]}" --simulate "${STOW_PACKAGES[@]}" 2>&1)"; then
+    if report_stow_conflicts "$plan"; then
+      die 'Installation preview failed; existing files were left untouched'
+    fi
+
+    printf '%s\n' "$plan" >&2
+    die 'Stow installation preview failed'
+  fi
+
+  info 'Stow installation preview passed'
   $DRY_RUN && return 0
 
   info 'Apply Stow packages'
@@ -366,7 +406,7 @@ main() {
   ensure_stow
   case "$ACTION" in
     install)
-      run mkdir -p "$TARGET"
+      ensure_target_directory
       install_stow_packages
       install_font
       if $DRY_RUN; then
