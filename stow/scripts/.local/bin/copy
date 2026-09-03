@@ -1,151 +1,181 @@
 #!/usr/bin/env bash
-set -euo pipefail
+#
+# Purpose: Copy labeled file contents to the system clipboard.
+
+set -Eeuo pipefail
 
 IGNORE_FILE=""
+OUTPUT_FILE=""
 
 usage() {
-  echo "Usage: copy [--ignore=FILE] FILE|DIR [FILE|DIR ...]" >&2
+  cat <<'EOF'
+Usage: copy [options] FILE|DIR [FILE|DIR ...]
+
+Copy file contents to the system clipboard. Directories are traversed
+recursively; each file is preceded by its absolute path.
+
+Options:
+  -i, --ignore FILE  Read simple glob exclusions from FILE
+  -h, --help         Show this help
+
+Ignore patterns:
+  name.ext       Match a basename at any depth
+  path/name.ext  Match a path relative to each copied directory
+  directory/     Match a directory at any depth
+EOF
+}
+
+die() {
+  printf '[ERROR] %s\n' "$*" >&2
   exit 1
 }
 
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --ignore=*)
-      IGNORE_FILE="${1#--ignore=}"
-      shift
-      ;;
-    --ignore)
-      [[ $# -ge 2 ]] || usage
-      IGNORE_FILE="$2"
-      shift 2
-      ;;
-    --)
-      shift
-      break
-      ;;
-    -*)
-      usage
-      ;;
-    *)
-      break
-      ;;
-  esac
-done
+cleanup() {
+  if [[ -n "$OUTPUT_FILE" && -f "$OUTPUT_FILE" ]]; then
+    rm -f -- "$OUTPUT_FILE"
+  fi
+}
 
-[[ $# -gt 0 ]] || usage
-
-if [[ -n "$IGNORE_FILE" && ! -f "$IGNORE_FILE" ]]; then
-  echo "copy: ignore file not found: $IGNORE_FILE" >&2
-  exit 1
-fi
+trap cleanup EXIT
 
 copy_to_clipboard() {
   if command -v pbcopy >/dev/null 2>&1; then
-    # macOS
     pbcopy
   elif [[ -n "${WAYLAND_DISPLAY:-}" ]] && command -v wl-copy >/dev/null 2>&1; then
-    # Linux / Wayland
     wl-copy
   elif command -v xclip >/dev/null 2>&1; then
-    # Linux / X11
     xclip -selection clipboard
   elif command -v wl-copy >/dev/null 2>&1; then
     wl-copy
   else
-    echo "copy: no clipboard tool found (pbcopy, wl-copy, xclip)." >&2
-    exit 1
+    die 'No clipboard tool found (pbcopy, wl-copy, or xclip)'
   fi
 }
 
 absolute_path() {
-  local file="$1"
+  local path="$1"
+  local directory base
 
-  if command -v realpath >/dev/null 2>&1; then
-    realpath "$file"
-  else
-    local dir base
-
-    dir="${file%/*}"
-    base="${file##*/}"
-
-    [[ "$dir" == "$file" ]] && dir="."
-    [[ -z "$dir" ]] && dir="/"
-
-    (
-      cd "$dir"
-      printf '%s/%s\n' "$(pwd -P)" "$base"
-    )
+  if [[ -d "$path" ]]; then
+    (cd -- "$path" && pwd -P)
+    return
   fi
+
+  directory="${path%/*}"
+  base="${path##*/}"
+  [[ "$directory" == "$path" ]] && directory='.'
+  [[ -z "$directory" ]] && directory='/'
+  (
+    cd -- "$directory"
+    printf '%s/%s\n' "$(pwd -P)" "$base"
+  )
 }
 
 is_ignored() {
   local relative="$1"
   local basename="${relative##*/}"
-  local pattern
-  local dir_pattern
+  local pattern dir_pattern
 
   [[ -n "$IGNORE_FILE" ]] || return 1
 
   while IFS= read -r pattern || [[ -n "$pattern" ]]; do
-    # Ignore empty lines and comments.
+    pattern="${pattern%$'\r'}"
     [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+    pattern="${pattern#/}"
 
     if [[ "$pattern" == */ ]]; then
       dir_pattern="${pattern%/}"
-
-      # Match a directory at the root or at any nested level.
       if [[ "$relative" == "$dir_pattern/"* ||
-            "$relative" == */"$dir_pattern/"* ]]; then
+        "$relative" == */"$dir_pattern/"* ]]; then
         return 0
       fi
-
     elif [[ "$pattern" == */* ]]; then
-      # Pattern relative to the copied root.
       if [[ "$relative" == $pattern ]]; then
         return 0
       fi
-
-    else
-      # Simple filename/glob, at any depth.
-      if [[ "$basename" == $pattern ]]; then
-        return 0
-      fi
+    elif [[ "$basename" == $pattern ]]; then
+      return 0
     fi
-  done < "$IGNORE_FILE"
+  done <"$IGNORE_FILE"
 
   return 1
 }
 
 copy_file() {
   local file="$1"
-  local abs_path
+  local path
+  path="$(absolute_path "$file")"
 
-  abs_path="$(absolute_path "$file")"
-
-  printf '===== %s =====\n\n' "$abs_path"
-  cat < "$file"
+  printf '===== %s =====\n\n' "$path"
+  cat -- "$file"
   printf '\n\n'
 }
 
-{
-  for path in "$@"; do
+main() {
+  local path root file relative
+  local -a paths=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -i | --ignore)
+        [[ $# -ge 2 ]] || die "$1 expects a file"
+        IGNORE_FILE="$2"
+        shift 2
+        ;;
+      --ignore=*)
+        IGNORE_FILE="${1#*=}"
+        [[ -n "$IGNORE_FILE" ]] || die '--ignore expects a file'
+        shift
+        ;;
+      -h | --help)
+        usage
+        exit 0
+        ;;
+      --)
+        shift
+        paths+=("$@")
+        break
+        ;;
+      -*)
+        die "Unknown option: $1"
+        ;;
+      *)
+        paths+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  [[ ${#paths[@]} -gt 0 ]] || die 'At least one file or directory is required'
+  [[ -z "$IGNORE_FILE" || -r "$IGNORE_FILE" ]] \
+    || die "Ignore file not found or not readable: $IGNORE_FILE"
+
+  for path in "${paths[@]}"; do
+    [[ -f "$path" || -d "$path" ]] || die "Not a file or directory: $path"
+    [[ -r "$path" ]] || die "Not readable: $path"
+  done
+
+  OUTPUT_FILE="$(mktemp "${TMPDIR:-/tmp}/copy.XXXXXX")"
+
+  for path in "${paths[@]}"; do
     if [[ -f "$path" ]]; then
       if ! is_ignored "${path##*/}"; then
-        copy_file "$path"
+        copy_file "$path" >>"$OUTPUT_FILE"
       fi
-
-    elif [[ -d "$path" ]]; then
-      while IFS= read -r -d '' file; do
-        relative="${file#"$path"/}"
-
-        if ! is_ignored "$relative"; then
-          copy_file "$file"
-        fi
-      done < <(find "$path" -type f -print0)
-
     else
-      echo "copy: not a file or directory: $path" >&2
-      exit 1
+      root="$(absolute_path "$path")"
+      [[ "$root" == '/' ]] || root="${root%/}"
+
+      while IFS= read -r -d '' file; do
+        relative="${file#"$root"/}"
+        if ! is_ignored "$relative"; then
+          copy_file "$file" >>"$OUTPUT_FILE"
+        fi
+      done < <(find -H "$root" -type f -print0)
     fi
   done
-} | copy_to_clipboard
+
+  copy_to_clipboard <"$OUTPUT_FILE"
+}
+
+main "$@"

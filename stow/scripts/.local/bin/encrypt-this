@@ -1,10 +1,28 @@
 #!/usr/bin/env bash
-set -euo pipefail
+#
+# Purpose: Create and verify an age-encrypted tar archive of one path.
 
-age_key_path=""
+set -Eeuo pipefail
+
+AGE_KEY_PATH=""
 
 usage() {
-  echo "Usage: encrypt-this [--path-to-age-key=<pass-path>] <file-or-directory>" >&2
+  cat <<'EOF'
+Usage: encrypt-this [options] FILE|DIRECTORY
+
+Create a dated .tar.age archive in the current directory, verify that it can
+be decrypted and listed, then atomically publish it. Password encryption is
+used unless an age identity stored in pass is selected.
+
+Options:
+  -k, --path-to-age-key PASS_PATH  Use an age identity stored in pass
+  -h, --help                       Show this help
+EOF
+}
+
+die() {
+  printf '[ERROR] %s\n' "$*" >&2
+  exit 1
 }
 
 beep() {
@@ -16,134 +34,139 @@ beep() {
 }
 
 action_required() {
+  [[ -r /dev/tty ]] || die 'Interactive terminal required to unlock the age identity'
   beep
-  echo
-  echo "Action required: press Enter"
+  printf '\nAction required: press Enter\n'
   read -r _ </dev/tty
-  echo "Action required: unlock age key"
+  printf 'Action required: unlock age key\n'
 }
 
-while [ "$#" -gt 0 ]; do
-  case "$1" in
-    --path-to-age-key=*)
-      age_key_path="${1#--path-to-age-key=}"
-      shift
-      ;;
-    --path-to-age-key)
-      echo "Error: use --path-to-age-key=<pass-path>" >&2
-      exit 1
-      ;;
-    -*)
-      echo "Error: unknown option: $1" >&2
-      usage
-      exit 1
-      ;;
-    *)
-      break
-      ;;
-  esac
-done
+absolute_path() {
+  local path="$1"
+  local directory base
 
-if [ "$#" -ne 1 ]; then
-  usage
-  exit 1
-fi
-
-target="${1%/}"
-
-if [ ! -e "$target" ]; then
-  echo "Error: not found: $target" >&2
-  exit 1
-fi
-
-if ! command -v age >/dev/null 2>&1; then
-  echo "Error: age is not installed." >&2
-  exit 1
-fi
-
-if [ -n "$age_key_path" ]; then
-  if ! command -v pass >/dev/null 2>&1; then
-    echo "Error: pass is not installed." >&2
-    exit 1
+  if [[ -d "$path" ]]; then
+    (cd -- "$path" && pwd -P)
+    return
   fi
 
-  if ! command -v age-keygen >/dev/null 2>&1; then
-    echo "Error: age-keygen is not installed." >&2
-    exit 1
+  directory="${path%/*}"
+  base="${path##*/}"
+  [[ "$directory" == "$path" ]] && directory='.'
+  [[ -z "$directory" ]] && directory='/'
+  (
+    cd -- "$directory"
+    printf '%s/%s\n' "$(pwd -P)" "$base"
+  )
+}
+
+main() {
+  local target target_abs workdir parent base archive tmp recipient=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -k | --path-to-age-key)
+        [[ $# -ge 2 ]] || die "$1 expects a pass path"
+        AGE_KEY_PATH="$2"
+        shift 2
+        ;;
+      --path-to-age-key=*)
+        AGE_KEY_PATH="${1#*=}"
+        [[ -n "$AGE_KEY_PATH" ]] || die '--path-to-age-key expects a pass path'
+        shift
+        ;;
+      -h | --help)
+        usage
+        exit 0
+        ;;
+      --)
+        shift
+        break
+        ;;
+      -*)
+        die "Unknown option: $1"
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  [[ $# -eq 1 ]] || die 'Exactly one file or directory is required'
+
+  target="${1%/}"
+  [[ -n "$target" ]] || target='/'
+  [[ -e "$target" ]] || die "Not found: $target"
+  [[ -r "$target" ]] || die "Not readable: $target"
+
+  command -v age >/dev/null 2>&1 || die 'age is not installed'
+  command -v tar >/dev/null 2>&1 || die 'tar is not installed'
+
+  if [[ -n "$AGE_KEY_PATH" ]]; then
+    command -v pass >/dev/null 2>&1 || die 'pass is not installed'
+    command -v age-keygen >/dev/null 2>&1 || die 'age-keygen is not installed'
+
+    action_required
+    pass ls "$AGE_KEY_PATH" >/dev/null 2>&1 \
+      || die "Age key not found in pass: $AGE_KEY_PATH"
+
+    action_required
+    recipient="$(pass show "$AGE_KEY_PATH" | age-keygen -y /dev/stdin)"
+    [[ -n "$recipient" ]] || die 'Could not derive the age recipient'
   fi
 
-  action_required
-  if ! pass ls "$age_key_path" >/dev/null 2>&1; then
-    echo "Error: age key not found in pass: $age_key_path" >&2
-    exit 1
+  workdir="$(pwd -P)"
+  target_abs="$(absolute_path "$target")"
+  [[ "$target_abs" != '/' ]] || die 'Refusing to archive the filesystem root'
+  [[ "$target_abs" != *$'\n'* ]] || die 'Target path must not contain a newline'
+  parent="$(dirname -- "$target_abs")"
+  base="$(basename -- "$target_abs")"
+  archive="$workdir/$base-$(date +%y%m%d).tar.age"
+  tmp="$archive.tmp"
+
+  [[ ! -e "$archive" && ! -L "$archive" ]] || die "Archive already exists: $archive"
+  [[ ! -e "$tmp" && ! -L "$tmp" ]] || die "Temporary archive already exists: $tmp"
+
+  printf 'Archive: %s\n' "$archive"
+
+  if [[ -n "$AGE_KEY_PATH" ]]; then
+    if ! tar -cf - -C "$parent" \
+      --exclude="$base/$base-*.tar.age" \
+      --exclude="$base/$base-*.tar.age.tmp" \
+      -- "$base" | age -r "$recipient" >"$tmp"; then
+      rm -f -- "$tmp"
+      die 'Archive creation failed'
+    fi
+  else
+    if ! tar -cf - -C "$parent" \
+      --exclude="$base/$base-*.tar.age" \
+      --exclude="$base/$base-*.tar.age.tmp" \
+      -- "$base" | age -p >"$tmp"; then
+      rm -f -- "$tmp"
+      die 'Archive creation failed'
+    fi
   fi
 
-  action_required
-  recipient="$(pass show "$age_key_path" | age-keygen -y /dev/stdin)"
-fi
-
-workdir="$(pwd -P)"
-target_abs="$(realpath "$target")"
-parent="$(dirname "$target_abs")"
-base="$(basename "$target_abs")"
-
-archive="$workdir/$base-$(date +%y%m%d).tar.age"
-tmp="$archive.tmp"
-
-if [ -e "$archive" ] || [ -e "$tmp" ]; then
-  echo "Error: archive already exists:" >&2
-  echo "$archive" >&2
-  exit 1
-fi
-
-echo "Archive: $archive"
-
-if [ -n "$age_key_path" ]; then
-  if ! tar -cf - -C "$parent" \
-    --exclude="$base/$base-*.tar.age" \
-    --exclude="$base/$base-*.tar.age.tmp" \
-    "$base" \
-  | age -r "$recipient" > "$tmp"; then
-    rm -f "$tmp"
-    echo "Error: archive creation failed." >&2
-    exit 1
+  if [[ ! -s "$tmp" ]]; then
+    rm -f -- "$tmp"
+    die 'Archive was not created or is empty'
   fi
-else
-  if ! tar -cf - -C "$parent" \
-    --exclude="$base/$base-*.tar.age" \
-    --exclude="$base/$base-*.tar.age.tmp" \
-    "$base" \
-  | age -p > "$tmp"; then
-    rm -f "$tmp"
-    echo "Error: archive creation failed." >&2
-    exit 1
+
+  printf 'Verifying...\n'
+
+  if [[ -n "$AGE_KEY_PATH" ]]; then
+    action_required
+    if ! age -d -i <(pass show "$AGE_KEY_PATH") "$tmp" | tar -tf - >/dev/null; then
+      rm -f -- "$tmp"
+      die 'Archive verification failed'
+    fi
+  elif ! age -d "$tmp" | tar -tf - >/dev/null; then
+    rm -f -- "$tmp"
+    die 'Archive verification failed'
   fi
-fi
 
-if [ ! -s "$tmp" ]; then
-  rm -f "$tmp"
-  echo "Error: archive was not created or is empty." >&2
-  exit 1
-fi
+  mv -- "$tmp" "$archive"
+  printf 'OK\n'
+}
 
-echo "Verifying..."
-
-if [ -n "$age_key_path" ]; then
-  action_required
-
-  if ! age -d -i <(pass show "$age_key_path") "$tmp" | tar -tf - > /dev/null; then
-    rm -f "$tmp"
-    echo "Error: archive verification failed." >&2
-    exit 1
-  fi
-else
-  if ! age -d "$tmp" | tar -tf - > /dev/null; then
-    rm -f "$tmp"
-    echo "Error: archive verification failed." >&2
-    exit 1
-  fi
-fi
-
-mv "$tmp" "$archive"
-
-echo "OK"
+main "$@"

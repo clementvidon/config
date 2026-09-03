@@ -1,10 +1,24 @@
 #!/usr/bin/env bash
+#
+# Purpose: Validate repository structure, shell scripts, and Stow installation.
 
 set -Eeuo pipefail
 
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 readonly REPO_ROOT
 TEST_ROOT=""
+
+usage() {
+  cat <<'EOF'
+Usage: check.sh [-h|--help]
+
+Run syntax, interface, configuration, and isolated installation checks for
+this dotfiles repository.
+
+Options:
+  -h, --help  Show this help
+EOF
+}
 
 info() {
   printf '[CHECK] %s\n' "$*"
@@ -26,6 +40,20 @@ cleanup() {
 }
 
 trap cleanup EXIT
+
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h | --help)
+        usage
+        exit 0
+        ;;
+      *)
+        die "Unknown argument: $1"
+        ;;
+    esac
+  done
+}
 
 check_shell_syntax() {
   local script
@@ -55,6 +83,166 @@ check_shell_syntax() {
       "$REPO_ROOT/stow/scripts/.local/bin/"*
   else
     skip 'ShellCheck validation (shellcheck is unavailable)'
+  fi
+}
+
+check_script_interfaces() {
+  local script header
+  local -a scripts=("$REPO_ROOT/install.sh")
+
+  info 'Script headers and help interfaces'
+
+  while IFS= read -r -d '' script; do
+    scripts+=("$script")
+  done < <(find "$REPO_ROOT/scripts" -maxdepth 1 -type f -name '*.sh' -print0)
+
+  while IFS= read -r -d '' script; do
+    scripts+=("$script")
+  done < <(find "$REPO_ROOT/stow/scripts/.local/bin" -type f -print0)
+
+  for script in "${scripts[@]}"; do
+    [[ -x "$script" ]] || die "Script is not executable: $script"
+    [[ "$(sed -n '1p' "$script")" == '#!/usr/bin/env bash' ]] \
+      || die "Script does not use the standard Bash shebang: $script"
+
+    header="$(sed -n '3p' "$script")"
+    [[ "$header" == '# Purpose: '* ]] || die "Script has no purpose header: $script"
+
+    "$script" -h | grep -q '^Usage:' || die "Script -h help failed: $script"
+    "$script" --help | grep -q '^Usage:' || die "Script --help failed: $script"
+  done
+
+  if command -v shfmt >/dev/null 2>&1; then
+    info 'shfmt validation'
+    shfmt -d -i 2 -ci -bn "${scripts[@]}"
+  else
+    skip 'shfmt validation (shfmt is unavailable)'
+  fi
+}
+
+check_script_behaviors() {
+  local fixture="$TEST_ROOT/script-behaviors"
+  local stub_bin="$fixture/bin"
+  local source="$fixture/source"
+  local clipboard="$fixture/clipboard.txt"
+  local tmux_log="$fixture/tmux.log"
+  local archive_output="$fixture/archive-output"
+  local backup_destination="$fixture/backup-destination"
+  local ssh_environment="$fixture/ssh-agent.env"
+  local copy_script="$REPO_ROOT/stow/scripts/.local/bin/copy"
+  local encrypt_script="$REPO_ROOT/stow/scripts/.local/bin/encrypt-this"
+  local backup_script="$REPO_ROOT/stow/scripts/.local/bin/backup-all"
+  local sendkey_script="$REPO_ROOT/stow/scripts/.local/bin/sendkey"
+  local sshagent_script="$REPO_ROOT/stow/scripts/.local/bin/sshagent"
+  local tjm_script="$REPO_ROOT/stow/scripts/.local/bin/tjm"
+  local agent_output reused_output agent_socket agent_pid tjm_output
+
+  info 'Script behavior regressions'
+  mkdir -p "$stub_bin" "$source/nested"
+
+  # These single-quoted strings are literal source code for test doubles.
+  # shellcheck disable=SC2016
+  printf '%s\n' \
+    '#!/usr/bin/env bash' \
+    'cat >"$COPY_CAPTURE"' >"$stub_bin/pbcopy"
+  chmod +x "$stub_bin/pbcopy"
+
+  printf 'keep\n' >"$source/nested/keep.txt"
+  printf 'drop\n' >"$source/nested/drop.txt"
+  printf 'nested/drop.txt\n' >"$fixture/ignore"
+
+  PATH="$stub_bin:/usr/bin:/bin" COPY_CAPTURE="$clipboard" \
+    "$copy_script" --ignore "$fixture/ignore" "$source/"
+
+  grep -q 'keep' "$clipboard" || die 'copy omitted a non-ignored file'
+  if grep -q 'drop' "$clipboard"; then
+    die 'copy did not apply a root-relative ignore with a trailing slash source'
+  fi
+
+  rm -f -- "$clipboard"
+  if PATH="$stub_bin:/usr/bin:/bin" COPY_CAPTURE="$clipboard" \
+    "$copy_script" "$source/nested/keep.txt" "$fixture/missing" >/dev/null 2>&1; then
+    die 'copy accepted a missing source'
+  fi
+  [[ ! -e "$clipboard" ]] || die 'copy changed the clipboard before validating every source'
+
+  # shellcheck disable=SC2016
+  printf '%s\n' \
+    '#!/usr/bin/env bash' \
+    'printf "<%s>\\n" "$@" >>"$TMUX_LOG"' \
+    'exit 0' >"$stub_bin/tmux"
+  chmod +x "$stub_bin/tmux"
+
+  PATH="$stub_bin:/usr/bin:/bin" TMUX_LOG="$tmux_log" \
+    "$sendkey_script" 'app:0.1' 'printf "%s" "$HOME"'
+
+  grep -Fxq '<printf "%s" "$HOME">' "$tmux_log" \
+    || die 'sendkey did not preserve the command literally'
+  [[ "$(grep -Fxc '<send-keys>' "$tmux_log")" -eq 2 ]] \
+    || die 'sendkey did not emit exactly two send-keys calls'
+
+  tjm_output="$("$tjm_script" 3000)"
+  [[ "$tjm_output" == *'TJM:      280'* && "$tjm_output" == *'THM:      35'* ]] \
+    || die 'tjm returned an unexpected estimate'
+  if "$tjm_script" 'not-a-number' >/dev/null 2>&1; then
+    die 'tjm accepted an invalid amount'
+  fi
+
+  # shellcheck disable=SC2016
+  printf '%s\n' \
+    '#!/usr/bin/env bash' \
+    'if [[ "${1:-}" == "-d" ]]; then' \
+    '  for argument in "$@"; do archive="$argument"; done' \
+    '  cat -- "$archive"' \
+    'else' \
+    '  cat' \
+    'fi' >"$stub_bin/age"
+  chmod +x "$stub_bin/age"
+
+  mkdir -p "$archive_output"
+  (
+    cd -- "$archive_output"
+    PATH="$stub_bin:/usr/bin:/bin" "$encrypt_script" "$source/nested/keep.txt" >/dev/null
+  )
+  [[ -s "$archive_output/keep.txt-$(date +%y%m%d).tar.age" ]] \
+    || die 'encrypt-this did not create a verified archive'
+
+  # shellcheck disable=SC2016
+  printf '%s\n' \
+    '#!/usr/bin/env bash' \
+    'for argument in "$@"; do target="$argument"; done' \
+    'base="${target##*/}"' \
+    'printf "archive for %s\\n" "$target" >"$base-$(date +%y%m%d).tar.age"' \
+    >"$stub_bin/encrypt-this"
+  chmod +x "$stub_bin/encrypt-this"
+  mkdir -p "$backup_destination"
+
+  PATH="$stub_bin:/usr/bin:/bin" BACKUP_ENCRYPT_COMMAND="$stub_bin/encrypt-this" \
+    "$backup_script" --destination "$backup_destination" "$source" >/dev/null
+
+  [[ -s "$backup_destination/backup-$(date +%y%m%d)/SHA256SUMS.txt" ]] \
+    || die 'backup-all did not publish a checksummed backup'
+
+  if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; then
+    agent_output="$(SSH_AGENT_ENV_FILE="$ssh_environment" SSH_AUTH_SOCK= SSH_AGENT_PID= \
+      "$sshagent_script" --no-add)"
+    agent_socket="$(printf '%s\n' "$agent_output" | sed -n 's/^export SSH_AUTH_SOCK=//p')"
+    agent_pid="$(printf '%s\n' "$agent_output" | sed -n 's/^export SSH_AGENT_PID=//p')"
+
+    if ! reused_output="$(
+      unset SSH_AGENT_PID
+      SSH_AGENT_ENV_FILE="$ssh_environment" SSH_AUTH_SOCK="$agent_socket" \
+        "$sshagent_script" --no-add
+    )"; then
+      SSH_AUTH_SOCK="$agent_socket" SSH_AGENT_PID="$agent_pid" ssh-agent -k >/dev/null
+      die 'sshagent did not reuse an agent without a local PID'
+    fi
+
+    SSH_AUTH_SOCK="$agent_socket" SSH_AGENT_PID="$agent_pid" ssh-agent -k >/dev/null
+    [[ "$reused_output" == *'unset SSH_AGENT_PID'* ]] \
+      || die 'sshagent emitted a stale PID for a forwarded agent'
+  else
+    skip 'sshagent behavior (OpenSSH client tools are unavailable)'
   fi
 }
 
@@ -180,13 +368,13 @@ check_platform() {
 
   if [[ "$platform" == "ubuntu" ]]; then
     [[ -L "$home/.config/wezterm/wezterm.lua" ]] || die 'Ubuntu did not install WezTerm configuration'
-    [[ ! -e "$home/.config/karabiner/karabiner.json" ]] || \
-      die 'Ubuntu unexpectedly installed Karabiner configuration'
+    [[ ! -e "$home/.config/karabiner/karabiner.json" ]] \
+      || die 'Ubuntu unexpectedly installed Karabiner configuration'
     [[ -L "$home/.local/share/fonts/iosevka-semibold.ttc" ]] || die 'Ubuntu font target is wrong'
   else
     [[ -L "$home/.config/wezterm/wezterm.lua" ]] || die 'macOS did not install WezTerm configuration'
-    [[ -L "$home/.config/karabiner/karabiner.json" ]] || \
-      die 'macOS did not install Karabiner configuration'
+    [[ -L "$home/.config/karabiner/karabiner.json" ]] \
+      || die 'macOS did not install Karabiner configuration'
     [[ -L "$home/Library/Fonts/iosevka-semibold.ttc" ]] || die 'macOS font target is wrong'
   fi
 
@@ -213,10 +401,10 @@ check_dry_run() {
     --platform macos \
     --target "$home")"
 
-  [[ "$output" == *'Stow installation preview passed'* ]] || \
-    die 'Dry run did not reach the Stow preflight'
-  [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] || \
-    die 'Dry run changed the target HOME'
+  [[ "$output" == *'Stow installation preview passed'* ]] \
+    || die 'Dry run did not reach the Stow preflight'
+  [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] \
+    || die 'Dry run changed the target HOME'
 }
 
 check_font_ownership() {
@@ -239,12 +427,12 @@ check_font_ownership() {
   [[ ! -e "$font" && ! -L "$font" ]] || die 'Fonts package did not remove its font link'
 
   mkdir -p "$(dirname "$font")"
-  printf 'user-owned font\n' > "$font"
+  printf 'user-owned font\n' >"$font"
   "$REPO_ROOT/install.sh" install --platform macos --target "$home" fonts >/dev/null 2>&1
-  [[ "$(< "$font")" == 'user-owned font' ]] || die 'Fonts installation changed an unowned font'
+  [[ "$(<"$font")" == 'user-owned font' ]] || die 'Fonts installation changed an unowned font'
 
   "$REPO_ROOT/install.sh" remove --platform macos --target "$home" fonts >/dev/null
-  [[ "$(< "$font")" == 'user-owned font' ]] || die 'Fonts removal changed an unowned font'
+  [[ "$(<"$font")" == 'user-owned font' ]] || die 'Fonts removal changed an unowned font'
 }
 
 check_font_preflight() {
@@ -266,8 +454,8 @@ check_font_preflight() {
     die 'Normal installation succeeded without the bundled font'
   fi
 
-  [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] || \
-    die 'Missing font failure happened after target HOME changes'
+  [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] \
+    || die 'Missing font failure happened after target HOME changes'
 }
 
 check_platform_guard() {
@@ -292,7 +480,7 @@ check_conflict_protection() {
 
   info 'Refuse to overwrite an unmanaged file'
   mkdir -p "$home"
-  printf '%s\n' "$marker" > "$home/.bashrc"
+  printf '%s\n' "$marker" >"$home/.bashrc"
 
   if "$REPO_ROOT/install.sh" install \
     --platform macos \
@@ -302,15 +490,19 @@ check_conflict_protection() {
     die 'Installer unexpectedly overwrote an unmanaged .bashrc'
   fi
 
-  [[ "$(< "$home/.bashrc")" == "$marker" ]] || die 'Conflict test changed the unmanaged .bashrc'
+  [[ "$(<"$home/.bashrc")" == "$marker" ]] || die 'Conflict test changed the unmanaged .bashrc'
 }
 
 main() {
+  parse_args "$@"
+
   command -v stow >/dev/null 2>&1 || die 'GNU Stow is required'
 
   TEST_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/config-check.XXXXXX")"
 
   check_shell_syntax
+  check_script_interfaces
+  check_script_behaviors
   check_stale_paths
   check_package_layout
   check_managed_configs

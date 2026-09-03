@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# Purpose: Install, remove, list, or validate this repository's Stow packages.
 
 set -Eeuo pipefail
 
@@ -67,7 +69,7 @@ run() {
 parse_args() {
   if [[ $# -gt 0 ]]; then
     case "$1" in
-      install|remove|check|list)
+      install | remove | check | list)
         ACTION="$1"
         shift
         ;;
@@ -80,11 +82,11 @@ parse_args() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -n|--dry-run)
+      -n | --dry-run)
         DRY_RUN=true
         shift
         ;;
-      -t|--target)
+      -t | --target)
         [[ $# -ge 2 ]] || die "$1 expects a directory"
         TARGET="$2"
         TARGET_EXPLICIT=true
@@ -99,7 +101,7 @@ parse_args() {
         MANAGE_FONT=false
         shift
         ;;
-      -h|--help)
+      -h | --help)
         usage
         exit 0
         ;;
@@ -127,8 +129,8 @@ parse_args() {
 
 detect_platform() {
   if [[ -n "$PLATFORM" ]]; then
-    [[ "$PLATFORM" == "macos" || "$PLATFORM" == "ubuntu" ]] || \
-      die "Unsupported platform: $PLATFORM"
+    [[ "$PLATFORM" == "macos" || "$PLATFORM" == "ubuntu" ]] \
+      || die "Unsupported platform: $PLATFORM"
     return
   fi
 
@@ -140,8 +142,8 @@ detect_platform() {
       [[ -r /etc/os-release ]] || die 'Cannot identify this Linux distribution'
       # shellcheck disable=SC1091
       . /etc/os-release
-      [[ "${ID:-}" == "ubuntu" ]] || \
-        die "Supported Linux distribution: Ubuntu (found ${ID:-unknown})"
+      [[ "${ID:-}" == "ubuntu" ]] \
+        || die "Supported Linux distribution: Ubuntu (found ${ID:-unknown})"
       PLATFORM="ubuntu"
       ;;
     *)
@@ -180,8 +182,8 @@ resolve_packages() {
 
     [[ -d "$STOW_DIR/$package" ]] || die "Unknown package: $package"
 
-    [[ "$package" != "karabiner" || "$PLATFORM" == "macos" ]] || \
-      die 'Package karabiner is only supported on macOS'
+    [[ "$package" != "karabiner" || "$PLATFORM" == "macos" ]] \
+      || die 'Package karabiner is only supported on macOS'
 
     STOW_PACKAGES+=("$package")
   done
@@ -222,8 +224,8 @@ report_stow_conflicts() {
   local conflicts
 
   conflicts="$(printf '%s\n' "$plan" | sed -n -E \
-    's/.*over existing target ([^ ]+) since neither a link nor a directory.*/  ~\/\1/p' | \
-    awk '!seen[$0]++')"
+    's/.*over existing target ([^ ]+) since neither a link nor a directory.*/  ~\/\1/p' \
+    | awk '!seen[$0]++')"
 
   [[ -n "$conflicts" ]] || return 1
 
@@ -288,8 +290,8 @@ remove_stow_packages() {
 
   links="$(printf '%s\n' "$plan" | sed -n -E \
     -e 's/^UNLINK: (.*)$/  would remove ~\/\1/p' \
-    -e 's/^--- removing link owned by [^:]+: (.*) => .*$/  would remove ~\/\1/p' | \
-    awk '!seen[$0]++')"
+    -e 's/^--- removing link owned by [^:]+: (.*) => .*$/  would remove ~\/\1/p' \
+    | awk '!seen[$0]++')"
 
   if [[ -n "$links" ]]; then
     printf '%s\n' "$links"
@@ -348,9 +350,9 @@ install_font() {
   run mkdir -p "$(dirname "$FONT_DESTINATION")"
   run ln -s "$FONT_SOURCE" "$FONT_DESTINATION"
 
-  if ! $DRY_RUN &&
-     [[ "$PLATFORM" == "ubuntu" && "$TARGET" == "$HOME" ]] &&
-     command -v fc-cache >/dev/null 2>&1; then
+  if ! $DRY_RUN \
+    && [[ "$PLATFORM" == "ubuntu" && "$TARGET" == "$HOME" ]] \
+    && command -v fc-cache >/dev/null 2>&1; then
     run fc-cache -f "$(dirname "$FONT_DESTINATION")"
   fi
 }

@@ -1,55 +1,77 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# Purpose: Estimate a gross daily and hourly rate from a monthly net target.
 
-NET_MONTH="$1"
-WORKDAY_PER_MONTH=15
-WORKHOUR_PER_DAY=8
-PCT_COTISATIONS_SOCIALES=22 # not 80!!!
-EUR_MUTUELLE_TNS=50
-EUR_ASSURANCE_CHOMAGE=90
-EUR_ASSURANCE_RS=30
-PCT_FRAIS_FONCTIONNEMENT=10
+set -Eeuo pipefail
 
-# Check if the script received exactly one argument
-if [ "$#" -ne 1 ]; then
-    echo "Usage: tjm <salaire net désiré>"
-    exit 1
-fi
+readonly WORKDAYS_PER_MONTH=15
+readonly WORKHOURS_PER_DAY=8
+readonly SOCIAL_CONTRIBUTIONS_PERCENT=22
+readonly HEALTH_INSURANCE_EUR=50
+readonly UNEMPLOYMENT_INSURANCE_EUR=90
+readonly LIABILITY_INSURANCE_EUR=30
+readonly OPERATING_COSTS_PERCENT=10
 
-# Check if the argument is a valid number
-if ! [[ $1 =~ ^[0-9]+$ ]]; then
-    echo "Error: The argument must be a valid number."
-    exit 1
-fi
+usage() {
+  cat <<'EOF'
+Usage: tjm [-h|--help] MONTHLY_NET_EUR
 
-# Compute the TJM based on the NET Salary
-echo "$NET_MONTH + cotisations sociales $PCT_COTISATIONS_SOCIALES PCT"
-TJM=$(($NET_MONTH + ($NET_MONTH * $PCT_COTISATIONS_SOCIALES / 100)))
+Estimate gross monthly, yearly, daily (TJM), and hourly (THM) amounts from a
+monthly net income target. The assumptions are constants near the top of the
+script and the result uses integer arithmetic.
 
-echo "$TJM + contrat de mutuelle TNS $EUR_MUTUELLE_TNS EUR"
-TJM=$(($TJM + $EUR_MUTUELLE_TNS))
+Options:
+  -h, --help  Show this help
+EOF
+}
 
-echo "$TJM + assurance chomage $EUR_ASSURANCE_CHOMAGE EUR"
-TJM=$(($TJM + $EUR_ASSURANCE_CHOMAGE))
+die() {
+  printf '[ERROR] %s\n' "$*" >&2
+  exit 1
+}
 
-echo "$TJM + assurance responsabilite civile pro $EUR_ASSURANCE_RS EUR"
-TJM=$(($TJM + $EUR_ASSURANCE_RS))
+main() {
+  if [[ $# -eq 1 && ("$1" == '-h' || "$1" == '--help') ]]; then
+    usage
+    exit 0
+  fi
 
-echo "$TJM + frais de fonctionnement $PCT_FRAIS_FONCTIONNEMENT PCT"
-TJM=$(($TJM + ($TJM * $PCT_FRAIS_FONCTIONNEMENT / 100)))
+  [[ $# -eq 1 ]] || die 'Exactly one monthly net amount is required'
+  [[ "$1" =~ ^[0-9]{1,9}$ ]] \
+    || die 'The monthly net amount must be an integer from 0 to 999999999'
 
-BRUT_MONTH=$TJM
+  local net_month=$((10#$1))
+  local gross_month daily_rate hourly_rate gross_year net_year
 
-TJM=$(($TJM/$WORKDAY_PER_MONTH))
-THM=$(($TJM/$WORKHOUR_PER_DAY))
+  printf '%s + social contributions %s%%\n' "$net_month" "$SOCIAL_CONTRIBUTIONS_PERCENT"
+  gross_month=$((net_month + net_month * SOCIAL_CONTRIBUTIONS_PERCENT / 100))
 
-BRUT_YEAR=$(($BRUT_MONTH*12))
-NET_YEAR=$(($NET_MONTH*12))
+  printf '%s + health insurance %s EUR\n' "$gross_month" "$HEALTH_INSURANCE_EUR"
+  gross_month=$((gross_month + HEALTH_INSURANCE_EUR))
 
-echo "-- NET --"
-echo "YEAR:     $NET_YEAR"
-echo "MONTH:    $NET_MONTH"
-echo "-- BRUT --"
-echo "YEAR      $BRUT_YEAR"
-echo "MONTH     $BRUT_MONTH"
-echo "TJM BRUT: $TJM"
-echo "THM BRUT: $THM"
+  printf '%s + unemployment insurance %s EUR\n' "$gross_month" "$UNEMPLOYMENT_INSURANCE_EUR"
+  gross_month=$((gross_month + UNEMPLOYMENT_INSURANCE_EUR))
+
+  printf '%s + professional liability insurance %s EUR\n' \
+    "$gross_month" "$LIABILITY_INSURANCE_EUR"
+  gross_month=$((gross_month + LIABILITY_INSURANCE_EUR))
+
+  printf '%s + operating costs %s%%\n' "$gross_month" "$OPERATING_COSTS_PERCENT"
+  gross_month=$((gross_month + gross_month * OPERATING_COSTS_PERCENT / 100))
+
+  daily_rate=$((gross_month / WORKDAYS_PER_MONTH))
+  hourly_rate=$((daily_rate / WORKHOURS_PER_DAY))
+  gross_year=$((gross_month * 12))
+  net_year=$((net_month * 12))
+
+  printf '%s\n' '-- NET --'
+  printf 'YEAR:     %s\n' "$net_year"
+  printf 'MONTH:    %s\n' "$net_month"
+  printf '%s\n' '-- GROSS --'
+  printf 'YEAR:     %s\n' "$gross_year"
+  printf 'MONTH:    %s\n' "$gross_month"
+  printf 'TJM:      %s\n' "$daily_rate"
+  printf 'THM:      %s\n' "$hourly_rate"
+}
+
+main "$@"

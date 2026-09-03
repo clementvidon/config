@@ -63,6 +63,19 @@ Common packages are `bash`, `zsh`, `git`, `tmux`, `vim`, `ideavim`,
 `alacritty`, `wezterm`, `clang-format` and `scripts`. The `karabiner` package
 is deployed only on macOS.
 
+The `scripts` package installs these personal commands in `~/.local/bin`:
+
+| Command | Purpose |
+| --- | --- |
+| `backup-all` | Build and publish verified encrypted backups |
+| `copy` | Copy labeled file contents to the clipboard |
+| `encrypt-this` | Create and verify one age-encrypted archive |
+| `sendkey` | Send one literal command to a tmux pane |
+| `sshagent` | Reuse or start a persistent SSH agent |
+| `tjm` | Estimate gross freelance daily and hourly rates |
+
+Every command supports `-h` and `--help`.
+
 The default deployment includes the `fonts` package, which links the bundled
 font into `~/Library/Fonts` on macOS and
 `~/.local/share/fonts` on Ubuntu.
