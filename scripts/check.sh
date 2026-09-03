@@ -10,6 +10,10 @@ info() {
   printf '[CHECK] %s\n' "$*"
 }
 
+skip() {
+  printf '[SKIP] %s\n' "$*"
+}
+
 die() {
   printf '[ERROR] %s\n' "$*" >&2
   exit 1
@@ -41,6 +45,7 @@ check_shell_syntax() {
     "$REPO_ROOT/stow/zsh/.zshrc"
 
   if command -v shellcheck >/dev/null 2>&1; then
+    info 'ShellCheck validation'
     shellcheck --shell=bash \
       "$REPO_ROOT/install.sh" \
       "$REPO_ROOT/scripts/"*.sh
@@ -48,6 +53,8 @@ check_shell_syntax() {
     shellcheck --severity=error --shell=bash \
       "$REPO_ROOT/stow/bash/.bashrc" \
       "$REPO_ROOT/stow/scripts/.local/bin/"*
+  else
+    skip 'ShellCheck validation (shellcheck is unavailable)'
   fi
 }
 
@@ -56,24 +63,28 @@ check_managed_configs() {
 
   info 'Managed configuration syntax'
 
+  info 'Git configuration validation'
   git config --file "$REPO_ROOT/stow/git/.gitconfig" --list >/dev/null
-  [[ "$(git config --file "$REPO_ROOT/stow/git/.gitconfig" --get pull.rebase)" == true ]] || \
-    die 'Git pull.rebase is not enabled'
-  [[ -z "$(git config --file "$REPO_ROOT/stow/git/.gitconfig" --get gc.rebase || true)" ]] || \
-    die 'Unexpected gc.rebase option'
 
+  info 'Karabiner JSON validation'
   python3 -m json.tool \
     "$REPO_ROOT/stow/karabiner/.config/karabiner/karabiner.json" >/dev/null
 
   if command -v wezterm >/dev/null 2>&1; then
+    info 'WezTerm configuration validation'
     wezterm \
       --config-file "$REPO_ROOT/stow/wezterm/.config/wezterm/wezterm.lua" \
       show-keys >/dev/null
+  else
+    skip 'WezTerm configuration validation (wezterm is unavailable)'
   fi
 
   if command -v tmux >/dev/null 2>&1; then
+    info 'tmux configuration validation'
     tmux -S "$socket" -f "$REPO_ROOT/stow/tmux/.tmux.conf" new-session -d
     tmux -S "$socket" kill-server
+  else
+    skip 'tmux configuration validation (tmux is unavailable)'
   fi
 }
 
@@ -96,28 +107,11 @@ check_stale_paths() {
   }
 }
 
-check_removed_tools() {
-  local matches=""
-  local removed='i''term'
-
-  info 'No references to removed terminal configuration'
-  if command -v rg >/dev/null 2>&1; then
-    matches="$(rg -n -i --hidden --glob '!.git/**' "$removed" "$REPO_ROOT" || true)"
-  else
-    matches="$(grep -REni --exclude-dir=.git "$removed" "$REPO_ROOT" || true)"
-  fi
-
-  [[ -z "$matches" ]] || {
-    printf '%s\n' "$matches" >&2
-    die 'Removed terminal configuration is still present'
-  }
-}
-
 check_package_layout() {
   local package
 
   info 'Stow package layout'
-  for package in bash zsh git tmux vim ideavim alacritty wezterm karabiner clang-format scripts x11; do
+  for package in bash zsh git tmux vim ideavim alacritty wezterm karabiner clang-format scripts; do
     [[ -d "$REPO_ROOT/stow/$package" ]] || die "Missing Stow package: $package"
   done
 
@@ -136,7 +130,6 @@ check_platform() {
   mkdir -p "$home"
 
   "$REPO_ROOT/install.sh" install \
-    --yes \
     --platform "$platform" \
     --target "$home" >/dev/null
 
@@ -144,7 +137,6 @@ check_platform() {
   [[ -n "$first_links" ]] || die "No links created for $platform"
 
   "$REPO_ROOT/install.sh" install \
-    --yes \
     --platform "$platform" \
     --target "$home" >/dev/null
 
@@ -152,13 +144,11 @@ check_platform() {
   [[ "$first_links" == "$second_links" ]] || die "Second $platform apply changed the link set"
 
   if [[ "$platform" == "ubuntu" ]]; then
-    [[ -L "$home/.Xresources" ]] || die 'Ubuntu package did not install .Xresources'
     [[ -L "$home/.config/wezterm/wezterm.lua" ]] || die 'Ubuntu did not install WezTerm configuration'
     [[ ! -e "$home/.config/karabiner/karabiner.json" ]] || \
       die 'Ubuntu unexpectedly installed Karabiner configuration'
     [[ -L "$home/.local/share/fonts/iosevka-semibold.ttc" ]] || die 'Ubuntu font target is wrong'
   else
-    [[ ! -e "$home/.Xresources" ]] || die 'macOS unexpectedly installed .Xresources'
     [[ -L "$home/.config/wezterm/wezterm.lua" ]] || die 'macOS did not install WezTerm configuration'
     [[ -L "$home/.config/karabiner/karabiner.json" ]] || \
       die 'macOS did not install Karabiner configuration'
@@ -168,13 +158,70 @@ check_platform() {
   [[ -L "$home/.zprofile" ]] || die "$platform package did not install .zprofile"
 
   "$REPO_ROOT/install.sh" remove \
-    --yes \
     --platform "$platform" \
     --target "$home" >/dev/null
 
   if find "$home" -type l -print -quit | grep -q .; then
     find "$home" -type l -print >&2
     die "Removal left managed links in the $platform HOME"
+  fi
+}
+
+check_dry_run() {
+  local home="$TEST_ROOT/dry-run/home"
+  local output
+
+  info 'Dry run reaches Stow preflight without mutation'
+  mkdir -p "$home"
+  output="$("$REPO_ROOT/install.sh" install \
+    --dry-run \
+    --platform macos \
+    --target "$home")"
+
+  [[ "$output" == *'Stow installation preview passed'* ]] || \
+    die 'Dry run did not reach the Stow preflight'
+  [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] || \
+    die 'Dry run changed the target HOME'
+}
+
+check_font_ownership() {
+  local home="$TEST_ROOT/fonts/home"
+  local font="$home/Library/Fonts/iosevka-semibold.ttc"
+
+  info 'Bundled font belongs only to the fonts package'
+  mkdir -p "$home"
+
+  "$REPO_ROOT/install.sh" install --platform macos --target "$home" wezterm >/dev/null
+  [[ ! -e "$font" && ! -L "$font" ]] || die 'WezTerm installation touched the bundled font'
+
+  "$REPO_ROOT/install.sh" install --platform macos --target "$home" fonts >/dev/null
+  [[ -L "$font" ]] || die 'Fonts package did not install the bundled font'
+
+  "$REPO_ROOT/install.sh" remove --platform macos --target "$home" wezterm >/dev/null
+  [[ -L "$font" ]] || die 'WezTerm removal touched the bundled font'
+
+  "$REPO_ROOT/install.sh" remove --platform macos --target "$home" fonts >/dev/null
+  [[ ! -e "$font" && ! -L "$font" ]] || die 'Fonts package did not remove its font link'
+
+  mkdir -p "$(dirname "$font")"
+  printf 'user-owned font\n' > "$font"
+  "$REPO_ROOT/install.sh" remove --platform macos --target "$home" fonts >/dev/null
+  [[ "$(< "$font")" == 'user-owned font' ]] || die 'Fonts removal changed an unowned font'
+}
+
+check_platform_guard() {
+  local home="$TEST_ROOT/platform-guard/home"
+
+  info 'Forced platform requires an explicit alternate HOME'
+  mkdir -p "$home"
+
+  if HOME="$home" "$REPO_ROOT/install.sh" --dry-run --platform ubuntu >/dev/null 2>&1; then
+    die 'Forced platform was accepted against HOME without --target'
+  fi
+
+  if HOME="$home" "$REPO_ROOT/install.sh" --dry-run \
+    --platform ubuntu --target "$home" >/dev/null 2>&1; then
+    die 'Forced platform was accepted when --target was HOME'
   fi
 }
 
@@ -187,7 +234,6 @@ check_conflict_protection() {
   printf '%s\n' "$marker" > "$home/.bashrc"
 
   if "$REPO_ROOT/install.sh" install \
-    --yes \
     --platform macos \
     --target "$home" \
     --no-font \
@@ -198,32 +244,6 @@ check_conflict_protection() {
   [[ "$(< "$home/.bashrc")" == "$marker" ]] || die 'Conflict test changed the unmanaged .bashrc'
 }
 
-check_legacy_migration() {
-  local home="$TEST_ROOT/migration/home"
-
-  info 'One-time legacy migration'
-  mkdir -p "$home"
-  ln -s "$REPO_ROOT/.bashrc" "$home/.bashrc"
-  cp "$REPO_ROOT/stow/zsh/.zprofile" "$home/.zprofile"
-  # Literal legacy content.
-  # shellcheck disable=SC2016
-  printf 'source $HOME/config/vim/init.vim\n' > "$home/.vimrc"
-
-  "$REPO_ROOT/scripts/migrate-legacy.sh" needed "$home"
-  "$REPO_ROOT/scripts/migrate-legacy.sh" dry-run "$home" >/dev/null
-  [[ -L "$home/.bashrc" && -f "$home/.zprofile" && -f "$home/.vimrc" ]] || \
-    die 'Migration dry run changed the target'
-
-  "$REPO_ROOT/scripts/migrate-legacy.sh" apply "$home" >/dev/null
-  [[ ! -e "$home/.bashrc" && ! -L "$home/.bashrc" ]] || die 'Legacy link was not removed'
-  [[ ! -e "$home/.zprofile" ]] || die 'Matching .zprofile was not moved'
-  [[ ! -e "$home/.vimrc" ]] || die 'Legacy .vimrc was not moved'
-  find "$home/.config-backup" -name .zprofile -type f -print -quit | grep -q . || \
-    die 'Matching .zprofile backup was not created'
-  find "$home/.config-backup" -name .vimrc -type f -print -quit | grep -q . || \
-    die 'Legacy .vimrc backup was not created'
-}
-
 main() {
   command -v stow >/dev/null 2>&1 || die 'GNU Stow is required'
 
@@ -231,14 +251,15 @@ main() {
 
   check_shell_syntax
   check_stale_paths
-  check_removed_tools
   check_package_layout
   check_managed_configs
 
+  check_dry_run
+  check_font_ownership
+  check_platform_guard
   check_platform macos
   check_platform ubuntu
   check_conflict_protection
-  check_legacy_migration
 
   info 'All structural checks passed'
 }

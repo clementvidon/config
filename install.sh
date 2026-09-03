@@ -6,13 +6,12 @@ REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly REPO_ROOT
 readonly STOW_DIR="$REPO_ROOT/stow"
 readonly FONT_SOURCE="$REPO_ROOT/assets/fonts/iosevka-semibold.ttc"
-readonly MIGRATION_SCRIPT="$REPO_ROOT/scripts/migrate-legacy.sh"
 
 ACTION="install"
 TARGET="$HOME"
+TARGET_EXPLICIT=false
 PLATFORM=""
 DRY_RUN=false
-ASSUME_YES=false
 MANAGE_FONT=true
 declare -a REQUESTED=()
 declare -a PACKAGES=()
@@ -28,11 +27,10 @@ Usage:
 
 Packages:
   all (default), bash, zsh, git, tmux, vim, ideavim, alacritty,
-  wezterm, karabiner, clang-format, scripts, x11, fonts
+  wezterm, karabiner, clang-format, scripts, fonts
 
 Options:
   -n, --dry-run              Show what would change
-  -y, --yes                  Install GNU Stow without confirmation if missing
   -t, --target DIR           Target HOME (mainly for tests)
       --platform PLATFORM    Force macos or ubuntu (mainly for tests)
       --no-font              Do not manage the bundled font
@@ -64,15 +62,6 @@ run() {
   $DRY_RUN || "$@"
 }
 
-confirm() {
-  local answer
-
-  $ASSUME_YES && return 0
-  [[ -t 0 ]] || die 'GNU Stow is missing; rerun with --yes to install it'
-  read -r -p 'GNU Stow is missing. Install it now? [y/N] ' answer
-  [[ "$answer" == [yY] || "$answer" == [yY][eE][sS] ]]
-}
-
 parse_args() {
   if [[ $# -gt 0 ]]; then
     case "$1" in
@@ -93,13 +82,10 @@ parse_args() {
         DRY_RUN=true
         shift
         ;;
-      -y|--yes)
-        ASSUME_YES=true
-        shift
-        ;;
       -t|--target)
         [[ $# -ge 2 ]] || die "$1 expects a directory"
         TARGET="$2"
+        TARGET_EXPLICIT=true
         shift 2
         ;;
       --platform)
@@ -131,6 +117,10 @@ parse_args() {
   done
 
   [[ "$TARGET" == /* ]] || die "Target must be an absolute path: $TARGET"
+
+  if [[ -n "$PLATFORM" ]] && { ! $TARGET_EXPLICIT || [[ "$TARGET" == "$HOME" ]]; }; then
+    die '--platform requires --target set to a directory other than HOME'
+  fi
 }
 
 detect_platform() {
@@ -148,7 +138,8 @@ detect_platform() {
       [[ -r /etc/os-release ]] || die 'Cannot identify this Linux distribution'
       # shellcheck disable=SC1091
       . /etc/os-release
-      [[ "${ID:-}" == "ubuntu" ]] || die "Supported Linux distribution: Ubuntu (found ${ID:-unknown})"
+      [[ "${ID:-}" == "ubuntu" ]] || \
+        die "Supported Linux distribution: Ubuntu (found ${ID:-unknown})"
       PLATFORM="ubuntu"
       ;;
     *)
@@ -161,12 +152,21 @@ resolve_packages() {
   local package
 
   if [[ ${#REQUESTED[@]} -eq 0 || "${REQUESTED[0]}" == "all" ]]; then
-    PACKAGES=(bash zsh git tmux vim ideavim alacritty wezterm clang-format scripts fonts)
-    if [[ "$PLATFORM" == "macos" ]]; then
-      PACKAGES+=(karabiner)
-    else
-      PACKAGES+=(x11)
-    fi
+    PACKAGES=(
+      bash
+      zsh
+      git
+      tmux
+      vim
+      ideavim
+      alacritty
+      wezterm
+      clang-format
+      scripts
+      fonts
+    )
+
+    [[ "$PLATFORM" == "macos" ]] && PACKAGES+=(karabiner)
   else
     PACKAGES=("${REQUESTED[@]}")
   fi
@@ -175,11 +175,12 @@ resolve_packages() {
     if [[ "$package" == "fonts" ]]; then
       continue
     fi
+
     [[ -d "$STOW_DIR/$package" ]] || die "Unknown package: $package"
+
     [[ "$package" != "karabiner" || "$PLATFORM" == "macos" ]] || \
       die 'Package karabiner is only supported on macOS'
-    [[ "$package" != "x11" || "$PLATFORM" == "ubuntu" ]] || \
-      die 'Package x11 is only supported on Ubuntu'
+
     STOW_PACKAGES+=("$package")
   done
 }
@@ -191,38 +192,12 @@ package_selected() {
   for package in "${PACKAGES[@]}"; do
     [[ "$package" == "$expected" ]] && return 0
   done
+
   return 1
 }
 
-ensure_stow() {
-  command -v stow >/dev/null 2>&1 && return 0
-  $DRY_RUN && die 'GNU Stow is required for a dry run'
-  confirm || die 'GNU Stow is required'
-
-  case "$PLATFORM" in
-    macos)
-      command -v brew >/dev/null 2>&1 || die 'Install Homebrew first: https://brew.sh'
-      run brew install stow
-      ;;
-    ubuntu)
-      command -v apt-get >/dev/null 2>&1 || die 'apt-get is required on Ubuntu'
-      run sudo apt-get update
-      run sudo apt-get install -y stow
-      ;;
-  esac
-
-  command -v stow >/dev/null 2>&1 || die 'GNU Stow installation failed'
-}
-
-migrate_if_needed() {
-  "$MIGRATION_SCRIPT" needed "$TARGET" || return 1
-
-  if $DRY_RUN; then
-    "$MIGRATION_SCRIPT" dry-run "$TARGET"
-  else
-    "$MIGRATION_SCRIPT" apply "$TARGET"
-  fi
-  return 0
+require_stow() {
+  command -v stow >/dev/null 2>&1 || die 'GNU Stow is required'
 }
 
 ensure_target_directory() {
@@ -247,29 +222,31 @@ report_stow_conflicts() {
   conflicts="$(printf '%s\n' "$plan" | sed -n -E \
     's/.*over existing target ([^ ]+) since neither a link nor a directory.*/  ~\/\1/p' | \
     awk '!seen[$0]++')"
+
   [[ -n "$conflicts" ]] || return 1
 
   warn 'Existing unmanaged files block installation; no files were changed:'
   printf '%s\n' "$conflicts" >&2
   warn 'Move or back up those files, then rerun ./install.sh.'
   warn 'Stow never overwrites unmanaged files automatically.'
+
   return 0
 }
 
 install_stow_packages() {
-  local migration_pending=false plan
-  local -a command=(stow --dir "$STOW_DIR" --target "$TARGET" --no-folding --restow)
+  local plan
+  local -a command=(
+    stow
+    --dir "$STOW_DIR"
+    --target "$TARGET"
+    --no-folding
+    --restow
+  )
 
   [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
-  migrate_if_needed && migration_pending=true
 
   info 'Preview Stow installation'
   print_command "${command[@]}" --simulate "${STOW_PACKAGES[@]}"
-
-  if $DRY_RUN && $migration_pending; then
-    info 'Stow preflight will run after the one-time migration shown above'
-    return 0
-  fi
 
   if ! plan="$("${command[@]}" --simulate "${STOW_PACKAGES[@]}" 2>&1)"; then
     if report_stow_conflicts "$plan"; then
@@ -289,15 +266,24 @@ install_stow_packages() {
 }
 
 remove_stow_packages() {
-  local plan links
-  local -a command=(stow --dir "$STOW_DIR" --target "$TARGET" --no-folding --delete)
+  local plan
+  local links
+  local -a command=(
+    stow
+    --dir "$STOW_DIR"
+    --target "$TARGET"
+    --no-folding
+    --delete
+  )
   local -a preview=("${command[@]}" --simulate --verbose=2)
 
   [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
 
   info 'Preview Stow removal'
   print_command "${preview[@]}" "${STOW_PACKAGES[@]}"
+
   plan="$("${preview[@]}" "${STOW_PACKAGES[@]}" 2>&1)"
+
   links="$(printf '%s\n' "$plan" | sed -n -E \
     -e 's/^UNLINK: (.*)$/  would remove ~\/\1/p' \
     -e 's/^--- removing link owned by [^:]+: (.*) => .*$/  would remove ~\/\1/p' | \
@@ -328,18 +314,22 @@ install_font() {
   local destination
 
   $MANAGE_FONT || return 0
-  package_selected fonts || package_selected alacritty || package_selected wezterm || return 0
+  package_selected fonts || return 0
+
   [[ -f "$FONT_SOURCE" ]] || die "Bundled font not found: $FONT_SOURCE"
+
   destination="$(font_target)"
 
   if [[ -L "$destination" && "$(readlink "$destination")" == "$FONT_SOURCE" ]]; then
     info "Font already linked: $destination"
     return 0
   fi
+
   if [[ -e "$destination" ]] && cmp -s "$FONT_SOURCE" "$destination"; then
     info "Identical font already installed: $destination"
     return 0
   fi
+
   if [[ -e "$destination" || -L "$destination" ]]; then
     warn "Font target already exists and is left unchanged: $destination"
     return 0
@@ -349,7 +339,9 @@ install_font() {
   run mkdir -p "$(dirname "$destination")"
   run ln -s "$FONT_SOURCE" "$destination"
 
-  if ! $DRY_RUN && [[ "$PLATFORM" == "ubuntu" && "$TARGET" == "$HOME" ]] && command -v fc-cache >/dev/null 2>&1; then
+  if ! $DRY_RUN &&
+     [[ "$PLATFORM" == "ubuntu" && "$TARGET" == "$HOME" ]] &&
+     command -v fc-cache >/dev/null 2>&1; then
     run fc-cache -f "$(dirname "$destination")"
   fi
 }
@@ -358,7 +350,8 @@ remove_font() {
   local destination
 
   $MANAGE_FONT || return 0
-  package_selected fonts || package_selected alacritty || package_selected wezterm || return 0
+  package_selected fonts || return 0
+
   destination="$(font_target)"
 
   if [[ -L "$destination" && "$(readlink "$destination")" == "$FONT_SOURCE" ]]; then
@@ -384,7 +377,6 @@ karabiner        macos
 clang-format     common
 scripts          common
 fonts            platform-specific destination
-x11              ubuntu
 EOF
 }
 
@@ -403,12 +395,14 @@ main() {
 
   detect_platform
   resolve_packages
-  ensure_stow
+  require_stow
+
   case "$ACTION" in
     install)
       ensure_target_directory
       install_stow_packages
       install_font
+
       if $DRY_RUN; then
         info "Installation preview complete; no changes made ($PLATFORM -> $TARGET)"
       else
@@ -418,6 +412,7 @@ main() {
     remove)
       remove_stow_packages
       remove_font
+
       if $DRY_RUN; then
         info "Removal preview complete; no changes made ($PLATFORM -> $TARGET)"
       else
