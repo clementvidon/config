@@ -3,6 +3,14 @@
 *.swp
 *.tmp
 *~
+*.tmp
+
+# Vim runtime state and downloaded plugins
+.plugged/
+.swap/
+.undo/
+.shada
+.viminfo
 
 # macOS
 .DS_Store
