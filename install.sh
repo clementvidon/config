@@ -30,8 +30,7 @@ Usage:
   ./install.sh list
 
 Packages:
-  all (default), bash, zsh, git, tmux, vim, ideavim, alacritty,
-  wezterm, karabiner, clang-format, scripts, fonts
+  all (default), any Stow package in stow/, or fonts
 
 Options:
   -n, --dry-run              Show what would change
@@ -156,21 +155,11 @@ resolve_packages() {
   local package
 
   if [[ ${#REQUESTED[@]} -eq 0 || "${REQUESTED[0]}" == "all" ]]; then
-    PACKAGES=(
-      bash
-      zsh
-      git
-      tmux
-      vim
-      ideavim
-      alacritty
-      wezterm
-      clang-format
-      scripts
-      fonts
-    )
-
-    [[ "$PLATFORM" == "macos" ]] && PACKAGES+=(karabiner)
+    while IFS= read -r package; do
+      [[ "$package" == "karabiner" && "$PLATFORM" != "macos" ]] && continue
+      PACKAGES+=("$package")
+    done < <(find "$STOW_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+    PACKAGES+=(fonts)
   else
     PACKAGES=("${REQUESTED[@]}")
   fi
@@ -374,21 +363,15 @@ remove_font() {
 }
 
 list_packages() {
-  cat <<'EOF'
-PACKAGE          SCOPE
-bash             common
-zsh              common
-git              common
-tmux             common
-vim              common
-ideavim          common
-alacritty        common
-wezterm          common
-karabiner        macos
-clang-format     common
-scripts          common
-fonts            platform-specific destination
-EOF
+  local package scope
+
+  printf '%-16s %s\n' PACKAGE SCOPE
+  while IFS= read -r package; do
+    scope=common
+    [[ "$package" == "karabiner" ]] && scope=macos
+    printf '%-16s %s\n' "$package" "$scope"
+  done < <(find "$STOW_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+  printf '%-16s %s\n' fonts 'platform-specific destination'
 }
 
 main() {

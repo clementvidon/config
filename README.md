@@ -59,22 +59,12 @@ stow/alacritty/.config/alacritty/alacritty.toml
        ~/.config/alacritty/alacritty.toml
 ```
 
-Common packages are `bash`, `zsh`, `git`, `tmux`, `vim`, `ideavim`,
-`alacritty`, `wezterm`, `clang-format` and `scripts`. The `karabiner` package
+The installer discovers Stow packages automatically. The `karabiner` package
 is deployed only on macOS.
 
-The `scripts` package installs these personal commands in `~/.local/bin`:
-
-| Command | Purpose |
-| --- | --- |
-| `backup-all` | Build and publish verified encrypted backups |
-| `copy` | Copy labeled file contents to the clipboard |
-| `encrypt-this` | Create and verify one age-encrypted archive |
-| `sendkey` | Send one literal command to a tmux pane |
-| `sshagent` | Reuse or start a persistent SSH agent |
-| `tjm` | Estimate gross freelance daily and hourly rates |
-
-Every command supports `-h` and `--help`.
+The `scripts` package contains small personal commands deployed in
+`~/.local/bin`. Checks cover their Stow deployment, not their interfaces or
+behavior.
 
 The default deployment includes the `fonts` package, which links the bundled
 font into `~/Library/Fonts` on macOS and
@@ -84,8 +74,7 @@ font into `~/Library/Fonts` on macOS and
 
 1. Create `stow/<tool>/`.
 2. Mirror the exact destination path below it.
-3. Add the package to the package lists in `install.sh` and to the checks.
-4. Run `./install.sh check` and `./install.sh --dry-run`.
+3. Run `./install.sh check` and `./install.sh --dry-run`.
 
 Do not store caches, secrets, generated state or downloaded plugin clones in
 `stow/`.

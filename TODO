@@ -1,8 +1,0 @@
-""
-🟠 12   scripts/backup-all  moyen/mauvais   correct dépendances/hardcodes incohérents
-🟠 13   scripts/sshagent    moyen   mauvais shell legacy fragile
-🟠 14   scripts/sendkey mauvais moyen   quasiment aucune validation
-🟠 15   scripts/copy    moyen   correct version actuelle contient encore le problème de / final
-""
-
-Review all my scripts, fix them, clean them up so they are all formatted the same way (with a usage -h --help flag, and a lightweight purpose documentation header as well)
