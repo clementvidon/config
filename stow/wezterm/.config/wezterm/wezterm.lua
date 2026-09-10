@@ -3,6 +3,8 @@ local config = wezterm.config_builder()
 
 -- Terminal
 config.term = "xterm-256color"
+config.audible_bell = "Disabled"
+
 config.default_prog = {
   "/bin/bash",
   "-lc",
