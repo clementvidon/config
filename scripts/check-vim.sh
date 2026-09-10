@@ -4,6 +4,9 @@
 
 set -Eeuo pipefail
 
+# Headless Vim helpers such as :TOhtml still inspect terminal capabilities.
+export TERM="${TERM:-dumb}"
+
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 readonly REPO_ROOT
 CHECK_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/vim-check.XXXXXX")"

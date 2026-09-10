@@ -121,7 +121,12 @@ set belloff=all
 set tags=./tags;,tags;
 if executable('rg')
   " Search project dotfiles while excluding VCS, dependency, and build trees.
-  set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --glob='!.git/**'\ --glob='!node_modules/**'\ --glob='!dist/**'\ --glob='!build/**'\ --glob='!vendor/**'
+  let &grepprg = shellescape(exepath('rg')) . ' --vimgrep --smart-case --hidden'
+        \ . ' --glob ' . shellescape('!.git/**')
+        \ . ' --glob ' . shellescape('!node_modules/**')
+        \ . ' --glob ' . shellescape('!dist/**')
+        \ . ' --glob ' . shellescape('!build/**')
+        \ . ' --glob ' . shellescape('!vendor/**')
   set grepformat=%f:%l:%c:%m
 endif
 
@@ -146,6 +151,13 @@ endfunction
 command! -nargs=+ -bar StaticSearch let @/ = <q-args> | set hlsearch | redraw!
 command! W call <SID>WriteAsRoot()
 command! BufOnly execute '%bdelete | edit # | normal `"'
+
+"   autocommands
+
+augroup personal_config
+  autocmd!
+  autocmd ColorScheme * call <SID>Highlights()
+augroup END
 
 "   mappings
 
