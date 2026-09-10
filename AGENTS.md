@@ -21,6 +21,13 @@ This repository manages personal macOS and Ubuntu configuration with GNU Stow.
 - Prefer examples and discovery commands over lists that must be maintained.
 - Document real platform exceptions close to the code that implements them.
 
+## Commits
+
+- Use Conventional Commits: `type(scope): short imperative description`.
+- Use the affected configuration package as the scope, or `repo` for
+  repository-wide changes; for example, `feat(vim): set JSON indentation` or
+  `fix(zsh): correct prompt initialization`.
+
 ## Checks
 
 - Check configuration syntax, repository structure, and generic Stow behavior:
