@@ -45,6 +45,12 @@ environment and reports explicit skips for optional tools. CI installs the
 security-regression dependencies and the plugin commits declared by Vim, then
 runs the same entry point, including the GPG security suite.
 
+Enable the repository's pre-commit checks once after cloning:
+
+```bash
+git config core.hooksPath .githooks
+```
+
 ## Layout
 
 ```text

@@ -1,0 +1,14 @@
+#!/bin/sh
+# Reject commits that fail the repository's structural or whitespace checks.
+
+set -eu
+
+repository_root=$(git rev-parse --show-toplevel)
+cd "$repository_root"
+
+# A commit exports repository-local variables such as GIT_INDEX_FILE. The
+# checks create isolated Git repositories, which must discover their own state.
+unset $(git rev-parse --local-env-vars)
+
+./install.sh check
+git diff --cached --check
