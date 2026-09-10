@@ -1,0 +1,34 @@
+# Editors
+*.swo
+*.swp
+*.tmp
+*~
+
+# Vim runtime state and downloaded plugins
+.plugged/
+plugged/
+.swap/
+.undo/
+.shada
+.viminfo
+.local/share/vim/spell/*.spl
+.local/share/vim/spell/*.sug
+.vim/spell/
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Local secrets
+.zsecret
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Generated context
+/out
+/ignoreme

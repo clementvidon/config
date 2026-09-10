@@ -1,0 +1,21 @@
+# ~/.config/git/ignore
+
+# Editors
+*.swo
+*.swp
+*.tmp
+*~
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Local secrets
+.zsecret
+.env
+.env.*
+!.env.example
+!.env.sample

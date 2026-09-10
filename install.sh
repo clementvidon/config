@@ -1,0 +1,575 @@
+#!/usr/bin/env bash
+#
+# Purpose: Install, remove, list, or validate this repository's Stow packages.
+
+set -Eeuo pipefail
+
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+readonly REPO_ROOT
+readonly STOW_DIR="$REPO_ROOT/stow"
+readonly FONT_SOURCE="$REPO_ROOT/assets/fonts/iosevka-semibold.ttc"
+readonly KARABINER_SOURCE="$STOW_DIR/karabiner/.config/karabiner/karabiner.json"
+
+ACTION="install"
+TARGET="$HOME"
+TARGET_EXPLICIT=false
+PLATFORM=""
+DRY_RUN=false
+MANAGE_FONT=true
+FONT_INSTALL_ACTION="none"
+FONT_DESTINATION=""
+KARABINER_INSTALL_ACTION="none"
+KARABINER_DESTINATION=""
+KARABINER_STATE=""
+declare -a REQUESTED=()
+declare -a PACKAGES=()
+declare -a STOW_PACKAGES=()
+
+usage() {
+  cat <<'EOF'
+Usage:
+  ./install.sh [install] [options] [package ...]
+  ./install.sh remove [options] [package ...]
+  ./install.sh check
+  ./install.sh list
+
+Packages:
+  all (default), any Stow package in stow/, or fonts
+
+Options:
+  -n, --dry-run              Show what would change
+  -t, --target DIR           Target HOME (mainly for tests)
+      --platform PLATFORM    Force macos or ubuntu (mainly for tests)
+      --no-font              Do not manage the bundled font
+  -h, --help                 Show this help
+EOF
+}
+
+info() {
+  printf '[INFO] %s\n' "$*"
+}
+
+warn() {
+  printf '[WARN] %s\n' "$*" >&2
+}
+
+die() {
+  printf '[ERROR] %s\n' "$*" >&2
+  exit 1
+}
+
+print_command() {
+  printf '  '
+  printf '%q ' "$@"
+  printf '\n'
+}
+
+run() {
+  print_command "$@"
+  $DRY_RUN || "$@"
+}
+
+parse_args() {
+  if [[ $# -gt 0 ]]; then
+    case "$1" in
+      install | remove | check | list)
+        ACTION="$1"
+        shift
+        ;;
+      all)
+        REQUESTED+=(all)
+        shift
+        ;;
+    esac
+  fi
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -n | --dry-run)
+        DRY_RUN=true
+        shift
+        ;;
+      -t | --target)
+        [[ $# -ge 2 ]] || die "$1 expects a directory"
+        TARGET="$2"
+        TARGET_EXPLICIT=true
+        shift 2
+        ;;
+      --platform)
+        [[ $# -ge 2 ]] || die "$1 expects macos or ubuntu"
+        PLATFORM="$2"
+        shift 2
+        ;;
+      --no-font)
+        MANAGE_FONT=false
+        shift
+        ;;
+      -h | --help)
+        usage
+        exit 0
+        ;;
+      --)
+        shift
+        REQUESTED+=("$@")
+        break
+        ;;
+      -*)
+        die "Unknown option: $1"
+        ;;
+      *)
+        REQUESTED+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  [[ "$TARGET" == /* ]] || die "Target must be an absolute path: $TARGET"
+
+  if [[ -n "$PLATFORM" ]] && { ! $TARGET_EXPLICIT || [[ "$TARGET" == "$HOME" ]]; }; then
+    die '--platform requires --target set to a directory other than HOME'
+  fi
+}
+
+detect_platform() {
+  if [[ -n "$PLATFORM" ]]; then
+    [[ "$PLATFORM" == "macos" || "$PLATFORM" == "ubuntu" ]] \
+      || die "Unsupported platform: $PLATFORM"
+    return
+  fi
+
+  case "$(uname -s)" in
+    Darwin)
+      PLATFORM="macos"
+      ;;
+    Linux)
+      [[ -r /etc/os-release ]] || die 'Cannot identify this Linux distribution'
+      # shellcheck disable=SC1091
+      . /etc/os-release
+      [[ "${ID:-}" == "ubuntu" ]] \
+        || die "Supported Linux distribution: Ubuntu (found ${ID:-unknown})"
+      PLATFORM="ubuntu"
+      ;;
+    *)
+      die 'Supported operating systems: macOS and Ubuntu'
+      ;;
+  esac
+}
+
+resolve_packages() {
+  local package
+
+  if [[ ${#REQUESTED[@]} -eq 0 || "${REQUESTED[0]}" == "all" ]]; then
+    while IFS= read -r package; do
+      [[ "$package" == "karabiner" && "$PLATFORM" != "macos" ]] && continue
+      PACKAGES+=("$package")
+    done < <(find "$STOW_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+    PACKAGES+=(fonts)
+  else
+    PACKAGES=("${REQUESTED[@]}")
+  fi
+
+  for package in "${PACKAGES[@]}"; do
+    if [[ "$package" == "fonts" ]]; then
+      continue
+    fi
+
+    [[ -d "$STOW_DIR/$package" ]] || die "Unknown package: $package"
+
+    [[ "$package" != "karabiner" || "$PLATFORM" == "macos" ]] \
+      || die 'Package karabiner is only supported on macOS'
+
+    [[ "$package" == "karabiner" ]] || STOW_PACKAGES+=("$package")
+  done
+}
+
+package_selected() {
+  local expected="$1"
+  local package
+
+  for package in "${PACKAGES[@]}"; do
+    [[ "$package" == "$expected" ]] && return 0
+  done
+
+  return 1
+}
+
+require_stow() {
+  [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
+  command -v stow >/dev/null 2>&1 || die 'GNU Stow is required'
+}
+
+ensure_target_directory() {
+  if [[ -d "$TARGET" ]]; then
+    return 0
+  fi
+
+  [[ ! -e "$TARGET" ]] || die "Target exists but is not a directory: $TARGET"
+
+  if $DRY_RUN; then
+    die "Target directory does not exist; create it before previewing: $TARGET"
+  fi
+
+  info "Create target directory: $TARGET"
+  run mkdir -p "$TARGET"
+}
+
+report_stow_conflicts() {
+  local plan="$1"
+  local conflicts
+
+  conflicts="$(printf '%s\n' "$plan" | sed -n -E \
+    's/.*over existing target ([^ ]+) since neither a link nor a directory.*/  ~\/\1/p' \
+    | awk '!seen[$0]++')"
+
+  [[ -n "$conflicts" ]] || return 1
+
+  warn 'Existing unmanaged files block installation; no files were changed:'
+  printf '%s\n' "$conflicts" >&2
+  warn 'Move or back up those files, then rerun ./install.sh.'
+  warn 'Stow never overwrites unmanaged files automatically.'
+
+  return 0
+}
+
+install_stow_packages() {
+  local plan
+  local -a command=(
+    stow
+    --dir "$STOW_DIR"
+    --target "$TARGET"
+    --no-folding
+    --restow
+  )
+
+  [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
+
+  info 'Preview Stow installation'
+  print_command "${command[@]}" --simulate "${STOW_PACKAGES[@]}"
+
+  if ! plan="$("${command[@]}" --simulate "${STOW_PACKAGES[@]}" 2>&1)"; then
+    if report_stow_conflicts "$plan"; then
+      die 'Installation preview failed; existing files were left untouched'
+    fi
+
+    printf '%s\n' "$plan" >&2
+    die 'Stow installation preview failed'
+  fi
+
+  info 'Stow installation preview passed'
+  $DRY_RUN && return 0
+
+  info 'Apply Stow packages'
+  print_command "${command[@]}" "${STOW_PACKAGES[@]}"
+  "${command[@]}" "${STOW_PACKAGES[@]}"
+}
+
+remove_stow_packages() {
+  local plan
+  local links
+  local -a command=(
+    stow
+    --dir "$STOW_DIR"
+    --target "$TARGET"
+    --no-folding
+    --delete
+  )
+  local -a preview=("${command[@]}" --simulate --verbose=2)
+
+  [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
+
+  info 'Preview Stow removal'
+  print_command "${preview[@]}" "${STOW_PACKAGES[@]}"
+
+  plan="$("${preview[@]}" "${STOW_PACKAGES[@]}" 2>&1)"
+
+  links="$(printf '%s\n' "$plan" | sed -n -E \
+    -e 's/^UNLINK: (.*)$/  would remove ~\/\1/p' \
+    -e 's/^--- removing link owned by [^:]+: (.*) => .*$/  would remove ~\/\1/p' \
+    | awk '!seen[$0]++')"
+
+  if [[ -n "$links" ]]; then
+    printf '%s\n' "$links"
+  else
+    info 'No managed links need removal'
+  fi
+
+  $DRY_RUN && return 0
+
+  info 'Remove Stow packages'
+  print_command "${command[@]}" "${STOW_PACKAGES[@]}"
+  "${command[@]}" "${STOW_PACKAGES[@]}"
+}
+
+preflight_karabiner() {
+  package_selected karabiner || return 0
+
+  [[ -f "$KARABINER_SOURCE" ]] \
+    || die "Karabiner configuration not found: $KARABINER_SOURCE"
+
+  KARABINER_DESTINATION="$TARGET/.config/karabiner/karabiner.json"
+  KARABINER_STATE="$TARGET/.local/state/config-installer/karabiner.json"
+
+  if [[ -e "$KARABINER_STATE" || -L "$KARABINER_STATE" ]]; then
+    [[ -f "$KARABINER_STATE" && ! -L "$KARABINER_STATE" ]] \
+      || die "Karabiner ownership record is not a regular file: $KARABINER_STATE"
+  fi
+
+  if [[ -L "$KARABINER_DESTINATION" ]] \
+    && [[ "$KARABINER_DESTINATION" -ef "$KARABINER_SOURCE" ]]; then
+    KARABINER_INSTALL_ACTION="migrate"
+    return
+  fi
+
+  if [[ ! -e "$KARABINER_DESTINATION" && ! -L "$KARABINER_DESTINATION" ]]; then
+    KARABINER_INSTALL_ACTION="install"
+    return
+  fi
+
+  [[ -f "$KARABINER_DESTINATION" && ! -L "$KARABINER_DESTINATION" ]] \
+    || die "Unmanaged Karabiner configuration blocks installation: $KARABINER_DESTINATION"
+
+  if cmp -s "$KARABINER_SOURCE" "$KARABINER_DESTINATION"; then
+    if [[ -f "$KARABINER_STATE" ]] \
+      && cmp -s "$KARABINER_SOURCE" "$KARABINER_STATE"; then
+      info "Karabiner configuration is current: $KARABINER_DESTINATION"
+    else
+      KARABINER_INSTALL_ACTION="record"
+    fi
+    return
+  fi
+
+  if [[ -f "$KARABINER_STATE" ]] \
+    && cmp -s "$KARABINER_STATE" "$KARABINER_DESTINATION"; then
+    KARABINER_INSTALL_ACTION="update"
+    return
+  fi
+
+  die "Modified or unmanaged Karabiner configuration blocks installation: $KARABINER_DESTINATION"
+}
+
+install_karabiner() {
+  local destination_directory state_directory temporary state_temporary
+
+  [[ "$KARABINER_INSTALL_ACTION" != "none" ]] || return 0
+
+  info 'Install Karabiner configuration as an application-owned regular file'
+  if $DRY_RUN; then
+    info "Would copy $KARABINER_SOURCE to $KARABINER_DESTINATION"
+    return
+  fi
+
+  destination_directory="$(dirname "$KARABINER_DESTINATION")"
+  state_directory="$(dirname "$KARABINER_STATE")"
+  mkdir -p "$destination_directory" "$state_directory"
+
+  if [[ "$KARABINER_INSTALL_ACTION" != "record" ]]; then
+    temporary="$(mktemp "$destination_directory/.karabiner.json.XXXXXX")"
+    if ! cp "$KARABINER_SOURCE" "$temporary" || ! chmod 0600 "$temporary"; then
+      rm -f -- "$temporary"
+      die 'Could not stage the Karabiner configuration'
+    fi
+
+    case "$KARABINER_INSTALL_ACTION" in
+      install)
+        if [[ -e "$KARABINER_DESTINATION" || -L "$KARABINER_DESTINATION" ]]; then
+          rm -f -- "$temporary"
+          die 'Karabiner destination appeared during installation'
+        fi
+        if ! ln "$temporary" "$KARABINER_DESTINATION"; then
+          rm -f -- "$temporary"
+          die 'Karabiner destination appeared during installation'
+        fi
+        rm -f -- "$temporary"
+        temporary=""
+        ;;
+      migrate)
+        if [[ ! -L "$KARABINER_DESTINATION" ]] \
+          || [[ ! "$KARABINER_DESTINATION" -ef "$KARABINER_SOURCE" ]]; then
+          rm -f -- "$temporary"
+          die 'Karabiner destination changed during legacy-link migration'
+        fi
+        ;;
+      update)
+        if [[ ! -f "$KARABINER_STATE" ]] \
+          || ! cmp -s "$KARABINER_STATE" "$KARABINER_DESTINATION"; then
+          rm -f -- "$temporary"
+          die 'Karabiner destination changed during installation'
+        fi
+        ;;
+    esac
+
+    if [[ -n "$temporary" ]] \
+      && ! mv "$temporary" "$KARABINER_DESTINATION"; then
+      rm -f -- "$temporary"
+      die 'Could not publish the Karabiner configuration'
+    fi
+  else
+    cmp -s "$KARABINER_SOURCE" "$KARABINER_DESTINATION" \
+      || die 'Karabiner destination changed during installation'
+  fi
+
+  state_temporary="$(mktemp "$state_directory/.karabiner.json.XXXXXX")"
+  if ! cp "$KARABINER_SOURCE" "$state_temporary" \
+    || ! chmod 0600 "$state_temporary" \
+    || ! mv "$state_temporary" "$KARABINER_STATE"; then
+    rm -f -- "$state_temporary"
+    die 'Could not record Karabiner configuration ownership'
+  fi
+}
+
+remove_karabiner() {
+  local remove_state=false
+
+  package_selected karabiner || return 0
+  KARABINER_DESTINATION="$TARGET/.config/karabiner/karabiner.json"
+  KARABINER_STATE="$TARGET/.local/state/config-installer/karabiner.json"
+
+  if [[ -L "$KARABINER_DESTINATION" ]] \
+    && [[ "$KARABINER_DESTINATION" -ef "$KARABINER_SOURCE" ]]; then
+    info 'Remove legacy Karabiner configuration link'
+    run unlink "$KARABINER_DESTINATION"
+    remove_state=true
+  elif [[ -f "$KARABINER_DESTINATION" && ! -L "$KARABINER_DESTINATION" ]] \
+    && [[ -f "$KARABINER_STATE" && ! -L "$KARABINER_STATE" ]] \
+    && cmp -s "$KARABINER_DESTINATION" "$KARABINER_STATE"; then
+    info 'Remove managed Karabiner configuration copy'
+    run unlink "$KARABINER_DESTINATION"
+    remove_state=true
+  elif [[ -e "$KARABINER_DESTINATION" || -L "$KARABINER_DESTINATION" ]]; then
+    info "Leave modified or unmanaged Karabiner configuration unchanged: $KARABINER_DESTINATION"
+  else
+    remove_state=true
+  fi
+
+  if $remove_state && [[ -f "$KARABINER_STATE" && ! -L "$KARABINER_STATE" ]]; then
+    info 'Remove Karabiner ownership record'
+    run unlink "$KARABINER_STATE"
+  fi
+}
+
+font_target() {
+  if [[ "$PLATFORM" == "macos" ]]; then
+    printf '%s/Library/Fonts/iosevka-semibold.ttc\n' "$TARGET"
+  else
+    printf '%s/.local/share/fonts/iosevka-semibold.ttc\n' "$TARGET"
+  fi
+}
+
+preflight_font() {
+  local destination
+
+  $MANAGE_FONT || return 0
+  package_selected fonts || return 0
+
+  [[ -f "$FONT_SOURCE" ]] || die "Bundled font not found: $FONT_SOURCE"
+
+  destination="$(font_target)"
+  FONT_DESTINATION="$destination"
+
+  if [[ -L "$destination" && "$(readlink "$destination")" == "$FONT_SOURCE" ]]; then
+    info "Font already linked: $destination"
+    return 0
+  fi
+
+  if [[ -e "$destination" ]] && cmp -s "$FONT_SOURCE" "$destination"; then
+    info "Identical font already installed: $destination"
+    return 0
+  fi
+
+  if [[ -e "$destination" || -L "$destination" ]]; then
+    warn "Font target already exists and is left unchanged: $destination"
+    return 0
+  fi
+
+  FONT_INSTALL_ACTION="link"
+}
+
+install_font() {
+  [[ "$FONT_INSTALL_ACTION" == "link" ]] || return 0
+
+  info 'Install bundled font'
+  run mkdir -p "$(dirname "$FONT_DESTINATION")"
+  run ln -s "$FONT_SOURCE" "$FONT_DESTINATION"
+
+  if ! $DRY_RUN \
+    && [[ "$PLATFORM" == "ubuntu" && "$TARGET" == "$HOME" ]] \
+    && command -v fc-cache >/dev/null 2>&1; then
+    run fc-cache -f "$(dirname "$FONT_DESTINATION")"
+  fi
+}
+
+remove_font() {
+  local destination
+
+  $MANAGE_FONT || return 0
+  package_selected fonts || return 0
+
+  destination="$(font_target)"
+
+  if [[ -L "$destination" && "$(readlink "$destination")" == "$FONT_SOURCE" ]]; then
+    info 'Remove bundled font link'
+    run unlink "$destination"
+  elif [[ -e "$destination" || -L "$destination" ]]; then
+    info "Leave existing font unchanged (not owned by this repository): $destination"
+  fi
+}
+
+list_packages() {
+  local package scope
+
+  printf '%-16s %s\n' PACKAGE SCOPE
+  while IFS= read -r package; do
+    scope=common
+    [[ "$package" == "karabiner" ]] && scope=macos
+    printf '%-16s %s\n' "$package" "$scope"
+  done < <(find "$STOW_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+  printf '%-16s %s\n' fonts 'platform-specific destination'
+}
+
+main() {
+  parse_args "$@"
+
+  case "$ACTION" in
+    check)
+      exec "$REPO_ROOT/scripts/check.sh"
+      ;;
+    list)
+      list_packages
+      exit 0
+      ;;
+  esac
+
+  detect_platform
+  resolve_packages
+  require_stow
+
+  case "$ACTION" in
+    install)
+      preflight_font
+      preflight_karabiner
+      ensure_target_directory
+      install_stow_packages
+      install_karabiner
+      install_font
+
+      if $DRY_RUN; then
+        info "Installation preview complete; no changes made ($PLATFORM -> $TARGET)"
+      else
+        info "Installation complete ($PLATFORM -> $TARGET)"
+      fi
+      ;;
+    remove)
+      remove_stow_packages
+      remove_karabiner
+      remove_font
+
+      if $DRY_RUN; then
+        info "Removal preview complete; no changes made ($PLATFORM -> $TARGET)"
+      else
+        info "Removal complete ($PLATFORM -> $TARGET)"
+      fi
+      ;;
+  esac
+}
+
+main "$@"
