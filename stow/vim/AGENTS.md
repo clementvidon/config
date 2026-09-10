@@ -47,12 +47,15 @@ sensitive-buffer framework.
 
 ## Testing policy
 
+- Keep general Vim checks at smoke-test level: configuration startup, reload,
+  and representative file opening without errors.
+- Do not assert individual mappings, abbreviations, commands, option values,
+  output text, tool arguments, or plugin implementation details.
 - Run `.vim/pack/local/start/gpg/test/run.sh` after changes to encrypted I/O,
   persistence protection, fingerprints, staging, write events, or
   sensitive-buffer handling.
-- Add tests only for security-sensitive, destructive, stateful, or
-  regression-prone behavior.
-- Do not add tests merely for coverage of mappings or declarative options.
+- Reserve precise behavioral regression tests for security-sensitive behavior,
+  especially GPG and plaintext-persistence protections.
 
 ## Noesis invariants
 
