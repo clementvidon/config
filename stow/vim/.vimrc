@@ -127,15 +127,6 @@ endif
 
 "   private helpers
 
-function! s:SendKeys(pane, text) abort
-  call system('tmux send-keys -l -t ' . shellescape(a:pane) . ' -- ' . shellescape(a:text))
-  if v:shell_error
-    throw 'tmux: could not send text'
-  endif
-  call system('tmux send-keys -t ' . shellescape(a:pane) . ' Enter')
-  redraw!
-endfunction
-
 function! s:WriteAsRoot() abort
   if get(b:, 'vim_sensitive_buffer', 0)
     throw 'Use :write for encrypted or sensitive files'
@@ -150,30 +141,11 @@ function! s:WriteAsRoot() abort
   edit!
 endfunction
 
-function! s:Remind(pattern, message) abort
-  let l:today = strftime(a:pattern =~# '\u' ? '%a %d %b %Y' : '%y%m%d')
-  if l:today =~# a:pattern
-    echohl ErrorMsg
-    echo a:message
-    echohl None
-  endif
-endfunction
-
 "   commands
 
 command! -nargs=+ -bar StaticSearch let @/ = <q-args> | set hlsearch | redraw!
 command! W call <SID>WriteAsRoot()
 command! BufOnly execute '%bdelete | edit # | normal `"'
-command! -nargs=+ -bar S0 call <SID>SendKeys('0', <q-args>)
-command! -nargs=+ -bar S1 call <SID>SendKeys('1', <q-args>)
-
-"   autocommands
-
-augroup personal_config
-  autocmd!
-  autocmd ColorScheme * call <SID>Highlights()
-  autocmd VimEnter * call <SID>Remind('Thu ', 'BACKUP DATA')
-augroup END
 
 "   mappings
 
