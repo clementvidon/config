@@ -107,6 +107,8 @@ if !get(b:, 'vim_sensitive_buffer', 0)
 endif
 set path=.,,~/.vim/,~/.vim/after/
 set wildignore=.git
+set wildmenu
+set wildmode=full
 set mouse=
 set updatetime=1000
 
