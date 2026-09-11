@@ -7,15 +7,17 @@ set -Eeuo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 readonly REPO_ROOT
 TEST_ROOT=""
+QUICK=false
 
 usage() {
   cat <<'EOF'
-Usage: check.sh [-h|--help]
+Usage: check.sh [--quick] [-h|--help]
 
 Run configuration and isolated installation checks for this dotfiles repository.
 
 Options:
-  -h, --help  Show this help
+      --quick  Run repository layout and configuration syntax checks only
+  -h, --help   Show this help
 EOF
 }
 
@@ -43,6 +45,10 @@ trap cleanup EXIT
 parse_args() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      --quick)
+        QUICK=true
+        shift
+        ;;
       -h | --help)
         usage
         exit 0
@@ -389,6 +395,12 @@ main() {
 
   check_package_layout
   check_managed_configs
+
+  if $QUICK; then
+    info 'All quick checks passed'
+    exit 0
+  fi
+
   info 'Vim behavior'
   bash "$REPO_ROOT/scripts/check-vim.sh"
   check_gpg_plugin

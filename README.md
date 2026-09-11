@@ -51,6 +51,10 @@ Enable the repository's pre-commit checks once after cloning:
 git config core.hooksPath .githooks
 ```
 
+The hook runs only fast whitespace, layout, and configuration syntax checks.
+It never blocks pushes. `./install.sh check` remains the complete validation
+used by CI and for manual verification of sensitive or structural changes.
+
 ## Layout
 
 ```text

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Reject commits that fail the repository's structural or whitespace checks.
+# Reject commits with whitespace, layout, or configuration syntax errors.
 
 set -eu
 
@@ -10,5 +10,5 @@ cd "$repository_root"
 # checks create isolated Git repositories, which must discover their own state.
 unset $(git rev-parse --local-env-vars)
 
-./install.sh check
 git diff --cached --check
+./scripts/check.sh --quick
