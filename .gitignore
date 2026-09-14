@@ -14,6 +14,7 @@ plugged/
 .local/share/vim/spell/*.spl
 .local/share/vim/spell/*.sug
 .vim/spell/
+/stow/vim/.local/share/vim/spell/custom.utf-8.add
 
 # macOS
 .DS_Store
