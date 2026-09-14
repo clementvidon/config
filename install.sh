@@ -514,6 +514,20 @@ remove_font() {
   fi
 }
 
+remind_login_shell() {
+  local zsh_path
+
+  $DRY_RUN && return 0
+  [[ "$TARGET" == "$HOME" ]] || return 0
+  package_selected zsh || return 0
+  command -v zsh >/dev/null 2>&1 || return 0
+
+  zsh_path="$(command -v zsh)"
+  [[ "${SHELL:-}" == "$zsh_path" ]] && return 0
+
+  info 'To use zsh as your login shell, run: ./scripts/set-login-shell.sh'
+}
+
 list_packages() {
   local package scope
 
@@ -551,6 +565,7 @@ main() {
       install_stow_packages
       install_karabiner
       install_font
+      remind_login_shell
 
       if $DRY_RUN; then
         info "Installation preview complete; no changes made ($PLATFORM -> $TARGET)"

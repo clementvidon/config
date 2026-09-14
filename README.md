@@ -32,6 +32,10 @@ Deploy or remove selected configuration packages:
 
 Existing unmanaged files are left unchanged.
 
+Installing the `zsh` package does not alter the account login shell. When zsh
+is available but not yet the login shell, the installer prints the command to
+make that explicit account-level change.
+
 Useful commands:
 
 ```bash
