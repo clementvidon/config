@@ -10,8 +10,8 @@ set fileencodings=ucs-bom,utf-8,default,latin1
 
 "   persistent state
 
-" Keep generated state out of the configuration tree. Swap and undo paths use
-" /tmp as their fallback; viminfo and the custom spellfile have one location.
+" Keep generated state out of the configuration tree. Only swap may fall back
+" to /tmp; persistent undo must stay in its private state directory.
 let s:state_home = empty($XDG_STATE_HOME)
       \ ? expand('~/.local/state')
       \ : expand($XDG_STATE_HOME)
@@ -21,7 +21,26 @@ let s:data_home = empty($XDG_DATA_HOME)
 let s:state_dir = s:state_home . '/vim'
 let g:vim_data_dir = s:data_home . '/vim'
 
-call mkdir(s:state_dir . '/undo', 'p', 0700)
+let s:undo_dir = s:state_dir . '/undo'
+let &undodir = escape(s:undo_dir . '//', '\,')
+let s:undo_ready = 0
+try
+  call mkdir(s:undo_dir, 'p', 0700)
+  let s:undo_ready = isdirectory(s:undo_dir) && filewritable(s:undo_dir) == 2
+        \ && getfperm(s:undo_dir) ==# 'rwx------'
+catch /^Vim\%((\a\+)\)\=:E739/
+  " Failure to create the directory must not enable a less private fallback.
+endtry
+if !s:undo_ready
+  " Reloads must also stop already-open buffers from writing unsafe history.
+  for s:buffer in getbufinfo()
+    call setbufvar(s:buffer.bufnr, '&undofile', 0)
+  endfor
+  unlet! s:buffer
+  echohl WarningMsg
+  echomsg 'Vim: persistent undo disabled; cannot use private directory: ' . s:undo_dir
+  echohl None
+endif
 call mkdir(s:state_dir . '/swap', 'p', 0700)
 let s:spell_dir = g:vim_data_dir . '/spell'
 call mkdir(s:spell_dir, 'p', 0700)
@@ -31,7 +50,6 @@ else
   execute 'set runtimepath+=' . fnameescape(g:vim_data_dir)
 endif
 
-let &undodir = s:state_dir . '/undo//,/tmp//'
 let &directory = s:state_dir . '/swap//,/tmp//'
 " Once plaintext has entered a session, the GPG plugin deliberately leaves
 " viminfo disabled so history and registers cannot persist it later.
@@ -100,9 +118,8 @@ set laststatus=2
 " Modelines are disabled because opening an untrusted file must not execute or
 " alter local configuration.
 set nomodeline
-if !get(b:, 'vim_sensitive_buffer', 0)
-  set undofile
-endif
+let &g:undofile = s:undo_ready
+let &l:undofile = s:undo_ready && !get(b:, 'vim_sensitive_buffer', 0)
 " Native find searches below :pwd; note ftplugins may supply their own scope.
 set path=**
 set wildignore=

@@ -96,8 +96,71 @@ endif
 qa!
 VIM
 
-# Password buffers are the only non-GPG behavior checked precisely because a
-# regression could persist secrets to disk or send them to integrations.
+# Persistence protections warrant precise checks because regressions may
+# write plaintext outside the intended private storage.
+cat >"$CHECK_ROOT/undo.vim" <<'VIM'
+set nomore hidden
+let s:undo_dir = $XDG_STATE_HOME . '/vim/undo'
+let s:vimrc = $VIM_CHECK_ROOT . '/home/.vimrc'
+call assert_equal('rwx------', getfperm(s:undo_dir))
+execute 'edit ' . fnameescape($VIM_CHECK_ROOT . '/project/undo.txt')
+call setline(1, 'persistent history')
+write
+let s:undo_file = undofile(expand('%:p'))
+call assert_true(filereadable(s:undo_file))
+call assert_equal(resolve(s:undo_dir), resolve(fnamemodify(s:undo_file, ':h')))
+let s:original = bufnr('%')
+execute 'edit ' . fnameescape($VIM_CHECK_ROOT . '/project/other.txt')
+
+" Reload must disable persistence for current and future buffers when storage
+" loses its privacy or write access, without redirecting history elsewhere.
+for s:permissions in ['rwxr-xr-x', 'r-x------']
+  call setfperm(s:undo_dir, s:permissions)
+  try
+    execute 'source ' . fnameescape(s:vimrc)
+    call assert_false(&l:undofile)
+    call assert_false(&g:undofile)
+    call assert_false(getbufvar(s:original, '&undofile'))
+    execute 'edit ' . fnameescape($VIM_CHECK_ROOT . '/project/' . s:permissions . '.txt')
+    call assert_false(&l:undofile)
+    call setline(1, 'must not persist history')
+    write
+    call assert_false(filereadable(undofile(expand('%:p'))))
+  finally
+    call setfperm(s:undo_dir, 'rwx------')
+  endtry
+endfor
+
+" A non-directory occupying the location must not abort startup or enable
+" a fallback, even if persistence was previously enabled.
+execute 'source ' . fnameescape(s:vimrc)
+call assert_true(&l:undofile)
+call rename(s:undo_dir, s:undo_dir . '.saved')
+call writefile([], s:undo_dir)
+try
+  execute 'source ' . fnameescape(s:vimrc)
+  call assert_false(&l:undofile)
+  call assert_false(&g:undofile)
+finally
+  call delete(s:undo_dir)
+  call rename(s:undo_dir . '.saved', s:undo_dir)
+endtry
+
+" Restoring storage must not re-enable history in a sensitive buffer.
+let b:vim_sensitive_buffer = 1
+execute 'source ' . fnameescape(s:vimrc)
+call assert_false(&l:undofile)
+enew
+call assert_true(&l:undofile)
+
+if !empty(v:errors)
+  call writefile(v:errors, $VIM_CHECK_ERRORS, 'a')
+  cquit 1
+endif
+qa!
+VIM
+
+# Password buffers must not persist secrets or send them to integrations.
 cat >"$CHECK_ROOT/redact.vim" <<'VIM'
 set nomore
 let s:errors = []
@@ -134,6 +197,11 @@ run_vim() {
 }
 
 if ! run_vim -S "$CHECK_ROOT/smoke.vim" +qa!; then
+  cat -- "$VIM_LOG" >&2
+  fail
+fi
+
+if ! run_vim -S "$CHECK_ROOT/undo.vim" +qa!; then
   cat -- "$VIM_LOG" >&2
   fail
 fi

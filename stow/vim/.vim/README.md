@@ -92,6 +92,16 @@ with `rg`, then opens the quickfix window. `sg` starts a free-form `rg` search.
 Searches include hidden project files such as `.github` while excluding `.git`
 and generated dependency/build directories.
 
+## Persistent undo
+
+Undo history is stored only in `$XDG_STATE_HOME/vim/undo`, defaulting to
+`~/.local/state/vim/undo`. The directory is created with mode `0700`. If it
+cannot be created, is not writable, or has different permissions at startup or
+reload, Vim warns and disables persistent undo for existing and new buffers.
+In-memory undo remains available. Fix the directory and reload to enable
+persistence again for the current and new buffers; sensitive buffers remain
+excluded. Only swap keeps a `/tmp` fallback.
+
 ## Reloading
 
 `mso` is the supported full reload command. It writes and sources the
