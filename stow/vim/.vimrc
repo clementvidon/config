@@ -122,9 +122,6 @@ let &g:undofile = s:undo_ready
 let &l:undofile = s:undo_ready && !get(b:, 'vim_sensitive_buffer', 0)
 " Native find searches below :pwd; note ftplugins may supply their own scope.
 set path=**
-set wildignore=
-set wildignore+=*/.git/*,*/node_modules/*,*/vendor/*
-set wildignore+=*/dist/*,*/build/*,*/target/*
 set wildmenu
 set wildmode=full
 " Allow command-line mappings to invoke native completion.
@@ -145,15 +142,18 @@ set belloff=all
 
 "   search and navigation
 
+" Vim and ripgrep use different glob syntax for the same directory exclusions.
+let s:ignored_directories = ['.git', 'node_modules', 'vendor', 'dist', 'build', 'target']
+let &wildignore = join(map(copy(s:ignored_directories), '"*/" . v:val . "/*"'), ',')
+
 set tags=./tags;
 if executable('rg')
   " Search project dotfiles while excluding VCS, dependency, and build trees.
   let &grepprg = shellescape(exepath('rg')) . ' --vimgrep --smart-case --hidden'
-        \ . ' --glob ' . shellescape('!.git/**')
-        \ . ' --glob ' . shellescape('!node_modules/**')
-        \ . ' --glob ' . shellescape('!dist/**')
-        \ . ' --glob ' . shellescape('!build/**')
-        \ . ' --glob ' . shellescape('!vendor/**')
+  for s:directory in s:ignored_directories
+    let &grepprg .= ' --glob ' . shellescape('!**/' . s:directory . '/**')
+  endfor
+  unlet s:directory
   set grepformat=%f:%l:%c:%m
 endif
 

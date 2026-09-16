@@ -90,7 +90,9 @@ ctags -R .
 `sgr` searches whole-word textual references for the word under the cursor
 with `rg`, then opens the quickfix window. `sg` starts a free-form `rg` search.
 Searches include hidden project files such as `.github` while excluding `.git`
-and generated dependency/build directories.
+and generated dependency/build directories. Native find and `:grep` derive
+their directory exclusions from the same list in `.vimrc`, at every depth.
+Ripgrep additionally honors project ignore files.
 
 ## Persistent undo
 
