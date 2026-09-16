@@ -24,8 +24,8 @@ let g:vim_data_dir = s:data_home . '/vim'
 call mkdir(s:state_dir . '/undo', 'p', 0700)
 call mkdir(s:state_dir . '/swap', 'p', 0700)
 let s:spell_dir = g:vim_data_dir . '/spell'
-if mkdir(s:spell_dir, 'p', 0700) == -1
-      \ || !isdirectory(s:spell_dir) || filewritable(s:spell_dir) != 2
+call mkdir(s:spell_dir, 'p', 0700)
+if !isdirectory(s:spell_dir) || filewritable(s:spell_dir) != 2
   echoerr 'Vim: cannot use spell data directory: ' . s:spell_dir
 else
   execute 'set runtimepath+=' . fnameescape(g:vim_data_dir)
@@ -79,7 +79,6 @@ call s:Highlights()
 "   editor options
 
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:-
-set guicursor=n-v-c-i:block
 set shortmess=filnxtToOF
 set smartcase ignorecase
 set noincsearch
@@ -101,7 +100,6 @@ set laststatus=2
 " Modelines are disabled because opening an untrusted file must not execute or
 " alter local configuration.
 set nomodeline
-set secure
 if !get(b:, 'vim_sensitive_buffer', 0)
   set undofile
 endif
@@ -114,13 +112,18 @@ set updatetime=1000
 
 set listchars=tab:>\ ,trail:-
 set switchbuf+=uselast
-set ttimeout ttimeoutlen=100
+set ttimeout
+if exists('$SSH_CONNECTION') || exists('$SSH_TTY') || exists('$MOSH_CONNECTION')
+  set ttimeoutlen=250
+else
+  set ttimeoutlen=0
+endif
 set history=1000
 set belloff=all
 
 "   search and navigation
 
-set tags=./tags;,tags;
+set tags=./tags;
 if executable('rg')
   " Search project dotfiles while excluding VCS, dependency, and build trees.
   let &grepprg = shellescape(exepath('rg')) . ' --vimgrep --smart-case --hidden'
@@ -148,11 +151,20 @@ function! s:WriteAsRoot() abort
   edit!
 endfunction
 
+function! s:BufOnly() abort
+  let l:current = bufnr('%')
+  for l:buffer in getbufinfo({'buflisted': 1})
+    if l:buffer.bufnr != l:current
+      execute 'bdelete ' . l:buffer.bufnr
+    endif
+  endfor
+endfunction
+
 "   commands
 
 command! -nargs=+ -bar StaticSearch let @/ = <q-args> | set hlsearch | redraw!
 command! W call <SID>WriteAsRoot()
-command! BufOnly execute '%bdelete | edit # | normal `"'
+command! BufOnly call <SID>BufOnly()
 
 "   autocommands
 
