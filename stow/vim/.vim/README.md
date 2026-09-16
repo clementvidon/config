@@ -67,6 +67,18 @@ that command to the buffer's directory. TFLint does.
 
 ## Search and tags
 
+`sf` prepares `:find *fragment*.ext`, with the cursor between the stars and
+the current file's extension filled in. Type any part of the filename, then
+use Tab to complete and cycle through matches, and Enter to open one. With
+no extension, the pattern is `*fragment*`; the suffix is always editable.
+The split and tab find mappings use the same prompt.
+
+Find searches recursively below Vim's working directory (`:pwd`). Use `:lcd`
+to narrow it to a subtree, or `:lcd %:p:h` to start from the current file's
+directory. Noesis retains its note-specific search paths. Native find uses
+`wildignore`, not `.gitignore`, and does not automatically traverse hidden
+directories. Traversal is synchronous and has no configured time limit.
+
 Native tag navigation uses `CTRL-]`, `CTRL-T`, `g]`, `:tag`, and `:tselect`.
 Generate a project `tags` file explicitly, for example with optional
 `universal-ctags`:

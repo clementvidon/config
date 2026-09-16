@@ -3,6 +3,22 @@ scriptencoding utf-8
 
 "   private helpers
 
+function! s:FindPrompt(command) abort
+  let l:extension = expand('%:e')
+  let l:suffix = empty(l:extension) ? '' : '.' . fnameescape(l:extension)
+  return ':' . a:command . ' **' . l:suffix
+        \ . repeat("\<Left>", strchars(l:suffix) + 1)
+endfunction
+
+function! s:CompleteFind() abort
+  " Completion only sees text before the cursor, including the suffix filter.
+  if getcmdtype() ==# ':' && getcmdpos() <= strlen(getcmdline())
+        \ && getcmdline() =~# '^\%(find!\?\|tabfind\|sfind\|vertical sfind\)\s'
+    return "\<End>\<Tab>"
+  endif
+  return "\<Tab>"
+endfunction
+
 function! s:ToggleNavigation(next, previous) abort
   if exists('s:navigation_mappings')
     silent! nunmap gn
@@ -129,11 +145,11 @@ nnoremap mme :e!<CR>
 nnoremap <silent> mso :call <SID>SaveReloadView()<CR>:try<CR>:write<CR>:source $HOME/.vimrc<CR>:edit<CR>:finally<CR>:call <SID>RestoreReloadView()<CR>:endtry<CR>
 
 "     find
-nnoremap sf  :fin<Space>
-nnoremap ssf :fin!<Space>
-nnoremap sTf :tabf<Space>
-nnoremap shf :sf<Space>
-nnoremap svf :vert sf<Space>
+nnoremap <expr> sf  <SID>FindPrompt('find')
+nnoremap <expr> ssf <SID>FindPrompt('find!')
+nnoremap <expr> sTf <SID>FindPrompt('tabfind')
+nnoremap <expr> shf <SID>FindPrompt('sfind')
+nnoremap <expr> svf <SID>FindPrompt('vertical sfind')
 
 "     edit
 " The vertical Ex-command prefixes intentionally stay open for Tab completion.
@@ -298,6 +314,7 @@ inoremap jf <Esc>
 inoremap fj <Esc>
 
 "     command-line guard
+cnoremap <expr> <Tab> <SID>CompleteFind()
 cnoremap <C-U> <Nop>
 
 if has('clipboard')

@@ -103,10 +103,15 @@ set nomodeline
 if !get(b:, 'vim_sensitive_buffer', 0)
   set undofile
 endif
-set path=.,,~/.vim/,~/.vim/after/
-set wildignore=.git
+" Native find searches below :pwd; note ftplugins may supply their own scope.
+set path=**
+set wildignore=
+set wildignore+=*/.git/*,*/node_modules/*,*/vendor/*
+set wildignore+=*/dist/*,*/build/*,*/target/*
 set wildmenu
 set wildmode=full
+" Allow command-line mappings to invoke native completion.
+set wildcharm=<Tab>
 set mouse=
 set updatetime=1000
 
