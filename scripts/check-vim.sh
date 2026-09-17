@@ -112,24 +112,14 @@ call assert_equal(resolve(s:undo_dir), resolve(fnamemodify(s:undo_file, ':h')))
 let s:original = bufnr('%')
 execute 'edit ' . fnameescape($VIM_CHECK_ROOT . '/project/other.txt')
 
-" Reload must disable persistence for current and future buffers when storage
-" loses its privacy or write access, without redirecting history elsewhere.
-for s:permissions in ['rwxr-xr-x', 'r-x------']
-  call setfperm(s:undo_dir, s:permissions)
-  try
-    execute 'source ' . fnameescape(s:vimrc)
-    call assert_false(&l:undofile)
-    call assert_false(&g:undofile)
-    call assert_false(getbufvar(s:original, '&undofile'))
-    execute 'edit ' . fnameescape($VIM_CHECK_ROOT . '/project/' . s:permissions . '.txt')
-    call assert_false(&l:undofile)
-    call setline(1, 'must not persist history')
-    write
-    call assert_false(filereadable(undofile(expand('%:p'))))
-  finally
-    call setfperm(s:undo_dir, 'rwx------')
-  endtry
-endfor
+" Reload repairs existing directory permissions without prompting or disabling
+" persistence in either the current buffer or buffers already open.
+call setfperm(s:undo_dir, 'rwxr-xr-x')
+execute 'source ' . fnameescape(s:vimrc)
+call assert_equal('rwx------', getfperm(s:undo_dir))
+call assert_true(&l:undofile)
+call assert_true(&g:undofile)
+call assert_true(getbufvar(s:original, '&undofile'))
 
 " A non-directory occupying the location must not abort startup or enable
 " a fallback, even if persistence was previously enabled.

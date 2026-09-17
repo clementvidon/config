@@ -97,12 +97,11 @@ Ripgrep additionally honors project ignore files.
 ## Persistent undo
 
 Undo history is stored only in `$XDG_STATE_HOME/vim/undo`, defaulting to
-`~/.local/state/vim/undo`. The directory is created with mode `0700`. If it
-cannot be created, is not writable, or has different permissions at startup or
-reload, Vim warns and disables persistent undo for existing and new buffers.
-In-memory undo remains available. Fix the directory and reload to enable
-persistence again for the current and new buffers; sensitive buffers remain
-excluded. Only swap keeps a `/tmp` fallback.
+`~/.local/state/vim/undo`. The directory is created or corrected to mode
+`0700`. If it remains unavailable, Vim silently disables persistent undo for
+existing and new buffers; in-memory undo remains available. Fix the directory
+and reload to enable persistence again for the current and new buffers;
+sensitive buffers remain excluded. Only swap keeps a `/tmp` fallback.
 
 ## Reloading
 

@@ -26,6 +26,9 @@ let &undodir = escape(s:undo_dir . '//', '\,')
 let s:undo_ready = 0
 try
   call mkdir(s:undo_dir, 'p', 0700)
+  if isdirectory(s:undo_dir) && getfperm(s:undo_dir) !=# 'rwx------'
+    call setfperm(s:undo_dir, 'rwx------')
+  endif
   let s:undo_ready = isdirectory(s:undo_dir) && filewritable(s:undo_dir) == 2
         \ && getfperm(s:undo_dir) ==# 'rwx------'
 catch /^Vim\%((\a\+)\)\=:E739/
@@ -37,9 +40,6 @@ if !s:undo_ready
     call setbufvar(s:buffer.bufnr, '&undofile', 0)
   endfor
   unlet! s:buffer
-  echohl WarningMsg
-  echomsg 'Vim: persistent undo disabled; cannot use private directory: ' . s:undo_dir
-  echohl None
 endif
 call mkdir(s:state_dir . '/swap', 'p', 0700)
 let s:spell_dir = g:vim_data_dir . '/spell'
