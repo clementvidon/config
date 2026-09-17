@@ -115,6 +115,7 @@ set shiftround
 set shiftwidth=2 softtabstop=-1
 set textwidth=0
 set laststatus=2
+set ruler showcmd
 " Modelines are disabled because opening an untrusted file must not execute or
 " alter local configuration.
 set nomodeline
