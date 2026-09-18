@@ -87,10 +87,17 @@ Generate a project `tags` file explicitly, for example with optional
 ctags -R .
 ```
 
-`sgr` searches whole-word textual references for the word under the cursor
-with `rg`, then opens the quickfix window. `sg` starts a free-form `rg` search.
-Both mappings report an error if `rg` is unavailable; `sgr` treats the word as
-literal text, not as a regular expression.
+`sg` opens a free-form `:grep` prompt with an option reminder above it. In
+Visual mode it fills in a quoted literal selection (`-F`) and puts the cursor
+just after `grep`, before the options and text. Add `-i` to ignore case, `-s`
+to respect it, or `-w` for whole words; Enter runs the search. By default,
+smart-case ignores case unless the pattern contains uppercase characters.
+`viwsg` prepares a search for the word under the cursor; `sgr` is no longer used.
+Selections must fit on one line and contain no control characters. Preparing
+the prompt preserves registers and does not trigger clipboard or yank hooks.
+
+Both modes require `rg`. After `:grep` or `:grepadd`, the quickfix window opens
+when there are valid results, including for commands typed manually.
 Searches include hidden project files such as `.github` while excluding `.git`
 and generated dependency/build directories. Native find and `:grep` derive
 their directory exclusions from the same list in `.vimrc`, at every depth.

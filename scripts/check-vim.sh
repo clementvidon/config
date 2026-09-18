@@ -114,6 +114,28 @@ for s:expression in [
   call assert_equal(0, g:calculator_side_effect)
   call assert_equal(s:expression, getline(1))
 endfor
+
+" Preparing a search must not export selected text via registers or yank hooks.
+if executable('rg')
+  call setline(1, 'private search text')
+  call cursor(1, 1)
+  let s:unnamed = getreginfo('"')
+  let s:yank = getreginfo('0')
+  let g:search_yank_hook = 0
+  augroup search_privacy_check
+    autocmd!
+    autocmd TextYankPost * let g:search_yank_hook = 1
+  augroup END
+  normal! 0v$
+  normal sg
+  call feedkeys("\<Esc>", 'nx')
+  call assert_equal(0, g:search_yank_hook)
+  call assert_equal(s:unnamed, getreginfo('"'))
+  call assert_equal(s:yank, getreginfo('0'))
+  augroup search_privacy_check
+    autocmd!
+  augroup END
+endif
 call extend(s:errors, v:errors)
 
 if !empty(s:errors)

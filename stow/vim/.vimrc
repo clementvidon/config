@@ -194,6 +194,7 @@ command! BufOnly call <SID>BufOnly()
 augroup personal_config
   autocmd!
   autocmd ColorScheme * call <SID>Highlights()
+  autocmd QuickFixCmdPost grep,grepadd cwindow
 augroup END
 
 "   mappings

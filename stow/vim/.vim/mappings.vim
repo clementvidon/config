@@ -136,15 +136,33 @@ function! s:Clipboard(action) abort
   endif
 endfunction
 
-function! s:GrepPrompt(word) abort
+function! s:GrepPrompt(visual) abort
   if !executable('rg')
     throw 'Search requires ripgrep (rg) on PATH'
   endif
-  if a:word
-    return ':grep! --fixed-strings --word-regexp -- '
-          \ . shellescape(expand('<cword>'), 1) . "\<CR>:cwindow\<CR>"
+  let l:command = ':grep '
+  if a:visual
+    let l:command .= ' -F -- ' . shellescape(s:SelectedText(), 1)
+          \ . "\<Home>" . repeat("\<Right>", 5)
   endif
-  return ':grep '
+  " Queue the prompt before echoing so the help needs no hit-enter pause.
+  call feedkeys(l:command, 'n')
+  redraw
+  if &lines < 12 || &columns < 60
+    echo '-i sans casse | -s casse | -w mot | -F littéral'
+  else
+    echo join([
+	  \ 'Default            : smartcase + hidden',
+	  \ 'Search             :grep             hello',
+	  \ 'Ignore case        :grep -i          Hello',
+	  \ 'Match case         :grep -s          hello',
+	  \ 'Whole word         :grep -w          hello',
+	  \ 'Whole word, icase  :grep -iw         hello',
+	  \ 'Literal text       :grep -F         ''hello.json''',
+	  \ 'Skip hidden        :grep --no-hidden hello',
+	  \ 'Unrestricted       :grep -u          hello',
+	  \ ], "\n")
+  endif
 endfunction
 
 "   files and buffers
@@ -211,8 +229,8 @@ nnoremap sil :ilist /
 nnoremap sis :isearch /
 
 "     search
-nnoremap <expr> sg <SID>GrepPrompt(0)
-nnoremap <expr> sgr <SID>GrepPrompt(1)
+nnoremap <silent> sg :call <SID>GrepPrompt(0)<CR>
+vnoremap <silent> sg :<C-U>call <SID>GrepPrompt(1)<CR>
 
 "   option and command helpers
 
