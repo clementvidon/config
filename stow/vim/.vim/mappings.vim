@@ -3,6 +3,35 @@ scriptencoding utf-8
 
 "   private helpers
 
+function! s:SelectedText() abort
+  let l:unnamed = getreginfo('"')
+  let l:yank = getreginfo('0')
+  let l:clipboard = &clipboard
+  let l:view = winsaveview()
+  try
+    " Extract with native selection semantics, without clipboard/yank hooks.
+    set clipboard=
+    silent noautocmd normal! gvy
+    " V and v$ may include the selected line's final newline.
+    let l:text = substitute(getreg('0'), '\n$', '', '')
+  finally
+    call setreg('0', l:yank)
+    call setreg('"', l:unnamed)
+    let &clipboard = l:clipboard
+    call winrestview(l:view)
+  endtry
+  if empty(l:text) || l:text =~# '[[:cntrl:]]'
+    throw 'Search: select text on one line, without control characters'
+  endif
+  return l:text
+endfunction
+
+function! s:StaticSearchSelection() abort
+  let @/ = '\V' . escape(s:SelectedText(), '\')
+  set hlsearch
+  redraw!
+endfunction
+
 function! s:FindPrompt(command) abort
   let l:extension = expand('%:e')
   let l:suffix = empty(l:extension) ? '' : '.' . fnameescape(l:extension)
@@ -202,6 +231,7 @@ nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nnoremap glsp :set spell!<CR>:set spell?<CR>
 nnoremap glss :StaticSearch<Space>
+vnoremap <silent> glss :<C-U>call <SID>StaticSearchSelection()<CR>
 nnoremap glst :set startofline!<CR>:set startofline?<CR>
 nnoremap glsy :call <SID>ShowSyntax()<CR>
 nnoremap glts :put=strftime('%y%m%d%H%M%S')<CR>
@@ -233,10 +263,6 @@ nnoremap x :
 
 "     eye-level cursor
 nnoremap <silent> z, :call <SID>PositionCursorAtQuarter()<CR>
-
-"     search
-nnoremap g8 *N
-nnoremap g3 #N
 
 "     paste
 vnoremap P pgvy
