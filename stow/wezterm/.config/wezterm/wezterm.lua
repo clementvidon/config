@@ -14,7 +14,7 @@ config.default_prog = {
 -- Window
 config.initial_cols = 80
 config.initial_rows = 24
-config.window_background_opacity = 0.9
+config.window_background_opacity = 1
 config.scrollback_lines = 10000
 config.enable_tab_bar = false
 config.window_decorations = "TITLE | RESIZE"
