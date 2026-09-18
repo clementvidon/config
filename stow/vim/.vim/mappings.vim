@@ -52,6 +52,15 @@ function! s:IndentBuffer() abort
   endtry
 endfunction
 
+function! s:PositionCursorAtQuarter() abort
+  " Keep the cursor near eye level in windows of any height.
+  let l:target = max([1, (winheight(0) + 3) / 4])
+  normal! zt
+  if l:target > 1
+    execute 'normal! ' . (l:target - 1) . "\<C-Y>"
+  endif
+endfunction
+
 function! s:CalculateLine() abort
   let l:expression = substitute(getline('.'), ',', '.', 'g')
   let l:number = '\%(\d\+\%(\.\d*\)\?\|\.\d\+\)\%([eE][+-]\?\d\+\)\?'
@@ -223,7 +232,7 @@ tnoremap <S-Down> <C-W>-
 nnoremap x :
 
 "     eye-level cursor
-nnoremap z, z.15<C-e>
+nnoremap <silent> z, :call <SID>PositionCursorAtQuarter()<CR>
 
 "     search
 nnoremap g8 *N
