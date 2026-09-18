@@ -112,7 +112,7 @@ set completeopt=menu,preview
 set autoindent
 set expandtab
 set shiftround
-set shiftwidth=2 softtabstop=-1
+set shiftwidth=4 softtabstop=-1 tabstop=4
 set textwidth=0
 set laststatus=2
 set ruler showcmd
