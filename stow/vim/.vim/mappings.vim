@@ -32,6 +32,16 @@ function! s:StaticSearchSelection() abort
   redraw!
 endfunction
 
+function! s:StaticSearchPrompt() abort
+  let l:pattern = input('Static search: ')
+  if empty(l:pattern)
+    return
+  endif
+  let @/ = l:pattern
+  set hlsearch
+  redraw!
+endfunction
+
 function! s:FindPrompt(command) abort
   let l:extension = expand('%:e')
   let l:suffix = empty(l:extension) ? '' : '.' . fnameescape(l:extension)
@@ -248,7 +258,7 @@ nnoremap glpd :put=strftime('%a %d %b %Y')<CR>
 nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nnoremap glsp :set spell!<CR>:set spell?<CR>
-nnoremap glss :StaticSearch<Space>
+nnoremap <silent> glss :call <SID>StaticSearchPrompt()<CR>
 vnoremap <silent> glss :<C-U>call <SID>StaticSearchSelection()<CR>
 nnoremap glst :set startofline!<CR>:set startofline?<CR>
 nnoremap glsy :call <SID>ShowSyntax()<CR>

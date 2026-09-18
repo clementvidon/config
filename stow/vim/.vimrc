@@ -185,7 +185,6 @@ endfunction
 
 "   commands
 
-command! -nargs=+ -bar StaticSearch let @/ = <q-args> | set hlsearch | redraw!
 command! W call <SID>WriteAsRoot()
 command! BufOnly call <SID>BufOnly()
 
