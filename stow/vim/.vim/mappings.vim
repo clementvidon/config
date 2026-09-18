@@ -246,7 +246,6 @@ nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap glli :set list!<CR>:set list?<CR>
 nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>
-nnoremap glpa :set paste!<CR>:set paste?<CR>
 nnoremap glpd :put=strftime('%a %d %b %Y')<CR>
 nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>

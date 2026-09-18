@@ -139,6 +139,14 @@ set mouse=
 set listchars=tab:>\ ,trail:-
 set switchbuf+=uselast
 set ttimeout
+" Older macOS terminfo lacks the capabilities Vim needs to detect pasted text.
+if !has('gui_running') && empty(&t_BE)
+      \ && &term =~# '^\%(screen\|tmux\|xterm\)'
+  let &t_BE = "\<Esc>[?2004h"
+  let &t_BD = "\<Esc>[?2004l"
+  let &t_PS = "\<Esc>[200~"
+  let &t_PE = "\<Esc>[201~"
+endif
 if exists('$SSH_CONNECTION') || exists('$SSH_TTY') || exists('$MOSH_CONNECTION')
   set ttimeoutlen=250
 else
