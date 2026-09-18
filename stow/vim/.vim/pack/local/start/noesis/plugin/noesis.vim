@@ -38,9 +38,8 @@ endfunction
 
 " These commands deliberately do not accept | as a command separator: note
 " text must remain data even when it contains Ex metacharacters.
-command! -nargs=+ Fr call noesis#translate('en', 'fr', <q-args>)
-command! -nargs=+ En call noesis#translate('fr', 'en', <q-args>)
-command! -nargs=+ Au call noesis#translate_audio(<q-args>)
+command! -nargs=+ Fr call noesis#translate('tof', <q-args>)
+command! -nargs=+ En call noesis#translate('toe', <q-args>)
 command! -nargs=+ Sy call noesis#synonym(<q-args>)
 
 "   navigation mappings

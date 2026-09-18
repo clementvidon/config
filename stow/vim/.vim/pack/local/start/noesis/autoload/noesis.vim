@@ -18,40 +18,24 @@ function! noesis#visual_text() abort
   endtry
 endfunction
 
-function! noesis#translate(from, to, text) abort
-  if !executable('trans')
-    throw 'Noesis: trans is not installed'
+function! s:RunTextTool(action, text) abort
+  if !executable('llm-text')
+    throw 'Noesis: llm-text is not installed'
   endif
-  let l:command = 'trans -from ' . shellescape(a:from)
-        \ . ' -to ' . shellescape(a:to) . ' -brief 2>/dev/null'
-  let l:translation = systemlist(l:command, a:text)
+  let l:command = shellescape(exepath('llm-text')) . ' ' . shellescape(a:action)
+  let l:output = systemlist(l:command, a:text)
   if v:shell_error
-    throw 'Noesis: trans failed'
+    throw 'Noesis: llm-text failed'
   endif
-  call append(line('.'), l:translation)
+  return l:output
 endfunction
 
-function! noesis#translate_audio(text) abort
-  if !executable('trans')
-    throw 'Noesis: trans is not installed'
-  endif
-  silent !clear
-  call system('trans -from fr -to en -brief -play 2>/dev/null', a:text)
-  if v:shell_error
-    throw 'Noesis: trans failed'
-  endif
-  redraw!
+function! noesis#translate(action, text) abort
+  call append(line('.'), s:RunTextTool(a:action, a:text))
 endfunction
 
 function! noesis#synonym(text) abort
-  if !executable('synonym')
-    throw 'Noesis: synonym is not installed'
-  endif
-  let l:output = system('synonym ' . shellescape(a:text))
-  if v:shell_error
-    throw 'Noesis: synonym failed'
-  endif
-  echo l:output
+  echo join(s:RunTextTool('syn', a:text), "\n")
 endfunction
 
 "   HTML export

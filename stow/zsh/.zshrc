@@ -68,7 +68,7 @@ pin() {
 _llm_history_filter() {
   local line="${1%%$'\n'}"
 
-  if [[ "$line" =~ '(^|[[:space:];|&()])(llm|ref|toe|tof|syn|ant|lex|equ|_llm_words|_llm_input)([[:space:];|&()]|$)' ]]; then
+  if [[ "$line" =~ '(^|[[:space:];|&()/])(llm|llm-text|ref|toe|tof|syn|ant|lex|equ)([[:space:];|&()]|$)' ]]; then
     return 1
   fi
 
@@ -322,88 +322,17 @@ start_node() {
 # =============================================================================
 # LLM helpers
 #
-# Requires Simon Willison's `llm` CLI:
+# The shared llm-text command requires Simon Willison's `llm` CLI:
 # https://github.com/simonw/llm
 # =============================================================================
 
-_llm_input() {
-  if [[ $# -gt 0 ]]; then
-    printf '%s' "$*"
-  else
-    cat
-  fi
-}
-
-_llm_words() {
-  local kind="$1"
-  local n=10
-
-  shift
-
-  # Usage: syn -5 word
-  if [[ "${1:-}" =~ ^-[0-9]+$ ]]; then
-    n="${1#-}"
-    shift
-  fi
-
-  _llm_input "$@" |
-    llm \
-      -m gpt-5.4-nano \
-      -o reasoning_effort none \
-      -s "Given the input word or expression, return up to $n $kind.
-Return only the words or expressions, one per line.
-No numbering, bullets, explanations, or introductory text.
-Use the same language as the input."
-}
-
-ref() {
-  _llm_input "$@" |
-    llm \
-      -m gpt-5.4-nano \
-      -o reasoning_effort none \
-      -s "Refine the input text with the smallest possible changes.
-Fix spelling, grammar, punctuation, and awkward phrasing only when necessary.
-Preserve the original meaning, tone, vocabulary, structure, and level of formality as much as possible.
-Make the text clear, natural, digestible, and acceptable.
-Do not embellish, rewrite stylistically, or add information.
-Return only the refined text."
-}
-
-toe() {
-  _llm_input "$@" |
-    llm \
-      -m gpt-5.4-nano \
-      -o reasoning_effort none \
-      -s "Translate the input to natural English.
-Preserve the meaning, tone, and level of formality.
-Return only the translation."
-}
-
-tof() {
-  _llm_input "$@" |
-    llm \
-      -m gpt-5.4-nano \
-      -o reasoning_effort none \
-      -s "Translate the input to natural French.
-Preserve the meaning, tone, and level of formality.
-Return only the translation."
-}
-
-syn() {
-  _llm_words "synonyms" "$@"
-}
-
-ant() {
-  _llm_words "antonyms" "$@"
-}
-
-lex() {
-  _llm_words "words or expressions from the lexical field surrounding the input" "$@"
-}
-
-equ() {
-  _llm_words "close equivalents or alternative expressions with a similar meaning" "$@"
-}
+alias ref='llm-text ref'
+alias toe='llm-text toe'
+alias tof='llm-text tof'
+alias syn='llm-text syn'
+alias ant='llm-text ant'
+alias lex='llm-text lex'
+alias equ='llm-text equ'
 
 
 # =============================================================================

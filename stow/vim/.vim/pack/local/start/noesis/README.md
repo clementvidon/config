@@ -21,11 +21,12 @@ HTML renderer can create a derived plaintext buffer.
 
 ## Language commands and privacy
 
-`:Fr`, `:En`, and `:Au` use optional `trans`; `:Sy` uses optional `synonym`.
-Translation and audio send note content to the configured translate-shell
-backend, which may be a network service. Do not send confidential note content
-unless that backend is trusted. Selected text is passed as data; Ex and shell
-metacharacters in it are not interpreted.
+`:Fr`, `:En`, and `:Sy` use the optional `llm-text` command from the scripts
+package. That wrapper uses the configured Simon Willison `llm` provider and may
+send note content over the network. Do not send confidential note content
+unless that provider is trusted. Each command remains explicitly
+user-triggered; selected text is passed as data, so Ex and shell metacharacters
+in it are not interpreted.
 
 ## Search
 

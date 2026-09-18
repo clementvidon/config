@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+"""Run the personal text helpers through the configured llm CLI."""
+
+import shutil
+import subprocess
+import sys
+
+
+MODEL = "gpt-5.4-nano"
+
+PROMPTS = {
+    "ref": """Refine the input text with the smallest possible changes.
+Fix spelling, grammar, punctuation, and awkward phrasing only when necessary.
+Preserve the original meaning, tone, vocabulary, structure, and level of
+formality as much as possible.
+Make the text clear, natural, digestible, and acceptable.
+Do not embellish, rewrite stylistically, or add information.
+Return only the refined text.""",
+    "toe": """Translate the input to natural English.
+Preserve the meaning, tone, and level of formality.
+Return only the translation.""",
+    "tof": """Translate the input to natural French.
+Preserve the meaning, tone, and level of formality.
+Return only the translation.""",
+}
+
+WORD_KINDS = {
+    "syn": "synonyms",
+    "ant": "antonyms",
+    "lex": "words or expressions from the lexical field surrounding the input",
+    "equ": "close equivalents or alternative expressions with a similar meaning",
+}
+
+
+def fail(message):
+    print(f"[ERROR] {message}", file=sys.stderr)
+    return 1
+
+
+def parse(arguments):
+    if not arguments or arguments[0] in {"-h", "--help"}:
+        print("Usage: llm-text ref|toe|tof|syn|ant|lex|equ [-N] [TEXT ...]")
+        raise SystemExit(0 if arguments else 2)
+
+    action = arguments.pop(0)
+    if action in PROMPTS:
+        return action, PROMPTS[action], arguments
+    if action not in WORD_KINDS:
+        raise ValueError(f"unknown action: {action}")
+
+    count = 10
+    if arguments and arguments[0].startswith("-") and arguments[0][1:].isdigit():
+        count = int(arguments.pop(0)[1:])
+        if count < 1:
+            raise ValueError("the requested number of results must be positive")
+
+    prompt = f"""Given the input word or expression, return up to {count} {WORD_KINDS[action]}.
+Return only the words or expressions, one per line.
+No numbering, bullets, explanations, or introductory text.
+Use the same language as the input."""
+    return action, prompt, arguments
+
+
+def main():
+    try:
+        _, prompt, arguments = parse(sys.argv[1:])
+    except ValueError as error:
+        return fail(str(error))
+
+    text = " ".join(arguments) if arguments else sys.stdin.read()
+    if not text.strip():
+        return fail("input is empty")
+
+    executable = shutil.which("llm")
+    if executable is None:
+        return fail("llm is not installed or is not on PATH")
+
+    result = subprocess.run(
+        [
+            executable,
+            "-m",
+            MODEL,
+            "-o",
+            "reasoning_effort",
+            "none",
+            "-s",
+            prompt,
+        ],
+        input=text,
+        text=True,
+        check=False,
+    )
+    return result.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

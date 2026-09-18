@@ -60,10 +60,10 @@ nnoremap <silent><buffer> <LocalLeader>i :call noesis#index_jump()<CR>
 
 "     language tools
 
-nnoremap <buffer><silent> <LocalLeader>len :call noesis#translate('fr', 'en', noesis#text_from_cursor())<CR>
-vnoremap <buffer><silent> <LocalLeader>len :<C-U>call noesis#translate('fr', 'en', noesis#visual_text())<CR>
-nnoremap <buffer><silent> <LocalLeader>lfr :call noesis#translate('en', 'fr', noesis#text_from_cursor())<CR>
-vnoremap <buffer><silent> <LocalLeader>lfr :<C-U>call noesis#translate('en', 'fr', noesis#visual_text())<CR>
+nnoremap <buffer><silent> <LocalLeader>len :call noesis#translate('toe', noesis#text_from_cursor())<CR>
+vnoremap <buffer><silent> <LocalLeader>len :<C-U>call noesis#translate('toe', noesis#visual_text())<CR>
+nnoremap <buffer><silent> <LocalLeader>lfr :call noesis#translate('tof', noesis#text_from_cursor())<CR>
+vnoremap <buffer><silent> <LocalLeader>lfr :<C-U>call noesis#translate('tof', noesis#visual_text())<CR>
 vnoremap <buffer><silent> <LocalLeader>sy :<C-U>call noesis#synonym(noesis#visual_text())<CR>
 
 "     note structure
