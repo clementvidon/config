@@ -70,18 +70,6 @@ function! s:ShowSyntax() abort
   execute 'highlight ' . l:resolved
 endfunction
 
-function! s:SaveReloadView() abort
-  let w:vim_reload_view = winsaveview()
-endfunction
-
-function! s:RestoreReloadView() abort
-  if exists('w:vim_reload_view')
-    let l:view = w:vim_reload_view
-    unlet w:vim_reload_view
-    call winrestview(l:view)
-  endif
-endfunction
-
 function! s:IndentBuffer() abort
   let l:view = winsaveview()
   try
@@ -207,8 +195,7 @@ nnoremap mmd :bn!\|bd! #<CR>
 nnoremap me  :e<CR>
 nnoremap mme :e!<CR>
 
-" Source outside the helpers so mappings.vim can redefine them during reload.
-nnoremap <silent> mso :call <SID>SaveReloadView()<CR>:try<CR>:write<CR>:source $HOME/.vimrc<CR>:edit<CR>:finally<CR>:call <SID>RestoreReloadView()<CR>:endtry<CR>
+nnoremap <silent> mso :execute 'source ' . fnameescape($MYVIMRC)<CR>
 
 "     find
 nnoremap s <nop>
