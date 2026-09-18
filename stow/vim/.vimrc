@@ -128,7 +128,6 @@ set wildmode=full
 " Allow command-line mappings to invoke native completion.
 set wildcharm=<Tab>
 set mouse=
-set updatetime=1000
 
 set listchars=tab:>\ ,trail:-
 set switchbuf+=uselast
