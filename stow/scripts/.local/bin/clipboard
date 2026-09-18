@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Purpose: Share local clipboard tools and SSH OSC 52 transport.
+
+set -Eeuo pipefail
+
+die() {
+  printf '[ERROR] %s\n' "$*" >&2
+  exit 1
+}
+
+osc52_copy() {
+  if [[ -n "${TMUX:-}" ]]; then
+    # Let tmux encode and relay to its client, including through nested tmux.
+    exec tmux load-buffer -w -
+  fi
+  local encoded
+  encoded="$(base64 | tr -d '\r\n')"
+  # Vim captures stdout from system(); the sequence must reach the terminal.
+  printf '\033]52;c;%s\a' "$encoded" >/dev/tty
+}
+
+[[ $# -eq 1 ]] || die 'Usage: clipboard copy|paste'
+case "$1" in
+  copy) mac_tool=pbcopy; wayland_tool=wl-copy ;;
+  paste) mac_tool=pbpaste; wayland_tool=wl-paste ;;
+  *) die 'Usage: clipboard copy|paste' ;;
+esac
+
+# Never silently address the remote desktop instead of the SSH client.
+if [[ -n "${SSH_CONNECTION:-}${SSH_TTY:-}${MOSH_CONNECTION:-}" ]]; then
+  [[ "$1" == copy ]] || die 'Over SSH, paste using the client terminal'
+  osc52_copy
+  exit
+fi
+
+if command -v "$mac_tool" >/dev/null 2>&1; then
+  export LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+  exec "$mac_tool"
+elif [[ -n "${WAYLAND_DISPLAY:-}" ]] && command -v "$wayland_tool" >/dev/null 2>&1; then
+  if [[ "$1" == paste ]]; then exec wl-paste --no-newline; fi
+  exec wl-copy
+elif command -v xclip >/dev/null 2>&1; then
+  if [[ "$1" == paste ]]; then exec xclip -selection clipboard -o; fi
+  exec xclip -selection clipboard
+elif command -v "$wayland_tool" >/dev/null 2>&1; then
+  if [[ "$1" == paste ]]; then exec wl-paste --no-newline; fi
+  exec wl-copy
+elif [[ "$1" == copy ]]; then
+  osc52_copy
+else
+  die 'No local clipboard reader found (pbpaste, wl-paste or xclip)'
+fi

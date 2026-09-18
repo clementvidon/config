@@ -94,6 +94,46 @@ The default deployment includes the `fonts` package, which links the bundled
 font into `~/Library/Fonts` on macOS and
 `~/.local/share/fonts` on Ubuntu.
 
+## Clipboard across local and SSH sessions
+
+Deploy the shared command with the configurations that use it:
+
+```bash
+./install.sh install scripts vim tmux
+printf 'clipboard example' | clipboard copy
+clipboard paste
+```
+
+Keep `~/.local/bin` on `PATH`, including in SSH sessions. Vim and `copy` use
+`clipboard` for raw clipboard transport. Locally it selects macOS tools,
+Wayland tools when `WAYLAND_DISPLAY` is set, X11 `xclip`, then Wayland as a
+fallback. Copy falls back to OSC 52 when no desktop provider is installed.
+
+With `SSH_CONNECTION`, `SSH_TTY` or `MOSH_CONNECTION` set, copy always targets
+the client via OSC 52, never the remote desktop. Outside tmux it uses `base64`
+and the controlling terminal; inside tmux it uses `load-buffer -w` (tmux 3.2+).
+tmux copy-mode `y`/`Y` uses native OSC 52 directly. Every intervening tmux server
+must load this configuration, and the outer terminal must accept OSC 52 writes.
+WezTerm and current Windows Terminal support this; not every terminal does.
+For tmux commands with multiple attached clients, clipboard delivery may target
+the most recently active client. Avoid this workflow for confidential text.
+
+Remote paste deliberately does not query the client's clipboard: use the
+terminal's paste action instead. OSC 52 has no delivery acknowledgement and
+terminal-dependent size limits; confirm large copies before relying on them.
+
+`set-clipboard on` allows applications inside tmux to overwrite the clipboard
+and create tmux paste buffers. Treat remote output as untrusted and inspect
+text before pasting it into a shell. This does not enable clipboard reads.
+All copying is explicit, but clipboard contents leave Vim's protection:
+`system()` may use temporary files, `copy` builds a temporary labeled document,
+and tmux retains copied text in its paste buffers. The raw `clipboard` helper
+does not create temporary files itself.
+
+After deployment, restart Vim and reload tmux with `tmux source-file ~/.tmux.conf`.
+Detach/reattach if an existing client still has stale terminal capabilities.
+No running tmux sessions need to be killed.
+
 ## Add a package
 
 1. Create `stow/<tool>/`.

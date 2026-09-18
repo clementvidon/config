@@ -38,20 +38,6 @@ cleanup() {
 
 trap cleanup EXIT
 
-copy_to_clipboard() {
-  if command -v pbcopy >/dev/null 2>&1; then
-    LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 pbcopy
-  elif [[ -n "${WAYLAND_DISPLAY:-}" ]] && command -v wl-copy >/dev/null 2>&1; then
-    wl-copy
-  elif command -v xclip >/dev/null 2>&1; then
-    xclip -selection clipboard
-  elif command -v wl-copy >/dev/null 2>&1; then
-    wl-copy
-  else
-    die 'No clipboard tool found (pbcopy, wl-copy, or xclip)'
-  fi
-}
-
 absolute_path() {
   local path="$1"
   local directory base
@@ -175,7 +161,7 @@ main() {
     fi
   done
 
-  copy_to_clipboard <"$OUTPUT_FILE"
+  clipboard copy <"$OUTPUT_FILE"
 }
 
 main "$@"
