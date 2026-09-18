@@ -23,40 +23,15 @@ config.adjust_window_size_when_changing_font_size = false
 
 -- Font
 config.font_size = 12.0
+if wezterm.target_triple:find("apple") then
+  config.font_dirs = { wezterm.home_dir .. "/Library/Fonts" }
+elseif wezterm.target_triple:find("linux") then
+  config.font_dirs = { wezterm.home_dir .. "/.local/share/fonts" }
+end
 config.font = wezterm.font("Iosevka Term", {
-  weight = "Medium",
+  weight = "DemiBold",
   stretch = "Expanded",
 })
-
-config.font_rules = {
-  {
-    intensity = "Bold",
-    italic = false,
-    font = wezterm.font("Iosevka Term", {
-      weight = "Bold",
-      stretch = "Expanded",
-      style = "Normal",
-    }),
-  },
-  {
-    intensity = "Bold",
-    italic = true,
-    font = wezterm.font("Iosevka Term", {
-      weight = "Bold",
-      stretch = "Expanded",
-      style = "Italic",
-    }),
-  },
-  {
-    intensity = "Normal",
-    italic = true,
-    font = wezterm.font("Iosevka Term", {
-      weight = "Medium",
-      stretch = "Expanded",
-      style = "Italic",
-    }),
-  },
-}
 
 config.bold_brightens_ansi_colors = true
 
