@@ -158,36 +158,6 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
-"   private helpers
-
-function! s:WriteAsRoot() abort
-  if get(b:, 'vim_sensitive_buffer', 0)
-    throw 'Use :write for encrypted or sensitive files'
-  endif
-  if empty(expand('%'))
-    throw 'No filename'
-  endif
-  execute 'write !sudo tee -- ' . shellescape(expand('%:p'), 1) . ' >/dev/null'
-  if v:shell_error
-    throw 'Privileged write failed; buffer left unchanged'
-  endif
-  edit!
-endfunction
-
-function! s:BufOnly() abort
-  let l:current = bufnr('%')
-  for l:buffer in getbufinfo({'buflisted': 1})
-    if l:buffer.bufnr != l:current
-      execute 'bdelete ' . l:buffer.bufnr
-    endif
-  endfor
-endfunction
-
-"   commands
-
-command! W call <SID>WriteAsRoot()
-command! BufOnly call <SID>BufOnly()
-
 "   autocommands
 
 augroup personal_config

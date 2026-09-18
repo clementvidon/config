@@ -127,6 +127,20 @@ function! s:CalculateLine() abort
   call setline('.', matchstr(getline('.'), '^\s*') . join(l:parts, 'e'))
 endfunction
 
+function! s:WriteAsRoot() abort
+  if get(b:, 'vim_sensitive_buffer', 0)
+    throw 'Use :write for encrypted or sensitive files'
+  endif
+  if empty(expand('%'))
+    throw 'No filename'
+  endif
+  execute 'write !sudo tee -- ' . shellescape(expand('%:p'), 1) . ' >/dev/null'
+  if v:shell_error
+    throw 'Privileged write failed; buffer left unchanged'
+  endif
+  edit!
+endfunction
+
 function! s:Clipboard(action) abort
   if !executable('clipboard')
     echoerr 'Install the scripts Stow package and add ~/.local/bin to PATH'
@@ -179,7 +193,7 @@ endfunction
 
 "     write / quit
 nnoremap mw  :write<CR>
-nnoremap mvv :W<CR>
+nnoremap <silent> mvv :call <SID>WriteAsRoot()<CR>
 nnoremap mmw :write!<CR>
 nnoremap mW  :wall<CR>
 nnoremap mmW :wall!<CR>
