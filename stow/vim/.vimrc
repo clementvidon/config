@@ -144,7 +144,13 @@ set belloff=all
 
 " Vim and ripgrep use different glob syntax for the same directory exclusions.
 let s:ignored_directories = ['.git', 'node_modules', 'vendor', 'dist', 'build', 'target']
-let &wildignore = join(map(copy(s:ignored_directories), '"*/" . v:val . "/*"'), ',')
+let s:wildignore_patterns = []
+for s:directory in s:ignored_directories
+  call extend(s:wildignore_patterns,
+        \ [s:directory . '/*', '*/' . s:directory . '/*'])
+endfor
+let &wildignore = join(s:wildignore_patterns, ',')
+unlet s:wildignore_patterns s:directory
 
 set tags=./tags;
 if executable('rg')
