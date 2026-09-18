@@ -38,7 +38,7 @@ completion, or automatic-formatting behavior.
 ALE linting runs when a supported non-sensitive Ops buffer opens, its filetype
 changes, or it is saved. Buffers marked `b:vim_sensitive_buffer` are excluded so
 ALE cannot serialize their plaintext to temporary files. It never runs while
-typing, and formatting is always explicit via `gjaf`. Terraform formatting is
+typing. Formatting is always explicit via `<Leader>af`; Terraform formatting is
 canonical and always permitted. YAML formatting requires a repository yamlfmt
 configuration. Shell and JSON formatting are not configured.
 
@@ -49,8 +49,8 @@ became sensitive. This configuration applies that rule to ALE and GitGutter.
 | Filetype | Linters | Manual fixer |
 | --- | --- | --- |
 | `sh` | `shellcheck` | none |
-| `yaml` | `yamllint` | `yamlfmt`, with repository config |
-| `json` | `jsonlint` | none |
+| `yaml` | `yamllint`; `actionlint` in `.github/workflows` | `yamlfmt`, with repository config |
+| `json` | `jq` | none |
 | `dockerfile` | `hadolint` | none |
 | `terraform` | `tflint` | `terraform fmt` |
 | `make` | `checkmake` | none |

@@ -70,6 +70,16 @@ function! s:ShowSyntax() abort
   execute 'highlight ' . l:resolved
 endfunction
 
+function! s:ToggleColorscheme() abort
+  if &background ==# 'dark'
+    set background=light
+    colorscheme seoul256
+  else
+    set background=dark
+    colorscheme nord
+  endif
+endfunction
+
 function! s:IndentBuffer() abort
   let l:view = winsaveview()
   try
@@ -243,6 +253,7 @@ nnoremap gl <nop>
 nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
+nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap glli :set list!<CR>:set list?<CR>
 nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>

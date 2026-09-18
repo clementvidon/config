@@ -3,14 +3,8 @@ scriptencoding utf-8
 
 "   local plugin configuration
 
-nnoremap gj <nop>
-
-let g:achiever_filenames = [ 'todos.noe', '.todos.gpg.noe', 'achiever.md', 'achiever.noe', 'achiever' ]
-let g:noesis_export_author = 'Clement VIDON'
-let g:noesis_export_copyright = '© Clément VIDON. All Rights Reserved.'
-let g:noesis_export_footer = '<a href="https://github.com/clemedon">'
-      \ . 'Contact:<!-- --cv-- --> cvidon<!-- c--v -->@student.<!-- cv -->42.fr'
-      \ . ' - Copyright: &copy; Clément VIDON. All Rights Reserved.</a>'
+let g:achiever_filenames = [ 'todos.noe', '.todos.gpg.noe' ]
+let g:noesis_export_author = 'Clément VIDON'
 
 " Personal configuration for the local GPG plugin. The plugin itself contains
 " no user-specific key.
@@ -35,8 +29,8 @@ let g:ale_maximum_file_size = 1024 * 1024
 
 let g:ale_linters = {
       \ 'sh': ['shellcheck'],
-      \ 'yaml': ['yamllint'],
-      \ 'json': ['jsonlint'],
+      \ 'yaml': ['yamllint', 'actionlint'],
+      \ 'json': ['jq'],
       \ 'dockerfile': ['hadolint'],
       \ 'terraform': ['tflint'],
       \ 'make': ['checkmake'],
@@ -92,7 +86,7 @@ endfunction
 function! s:ResetALEPolicy() abort
   let b:ale_fixers = []
   unlet! b:ale_linters b:ale_yaml_yamlfmt_options b:ale_yaml_yamllint_options
-        \ b:ale_dockerfile_hadolint_options b:ale_make_checkmake_config
+        \ b:ale_dockerfile_hadolint_options
 endfunction
 
 function! s:ConfigureALE() abort
@@ -216,27 +210,30 @@ augroup personal_ale
 augroup END
 call s:ConfigureALE()
 
-nnoremap gja? :nnoremap gja<CR>
-nnoremap gjal :ALELint<CR>
-nnoremap gjaf :ALEFix<CR>
-nnoremap gjan :ALENext<CR>
-nnoremap gjap :ALEPrevious<CR>
-nnoremap gjad :ALEDetail<CR>
-nnoremap gjai :ALEInfo<CR>
-nnoremap gjat :ALEToggle<CR>
+nnoremap <Leader>al :ALELint<CR>
+nnoremap <Leader>af :ALEFix<CR>
+nnoremap <Leader>an :ALENext<CR>
+nnoremap <Leader>ap :ALEPrevious<CR>
+nnoremap <Leader>ad :ALEDetail<CR>
+nnoremap <Leader>ai :ALEInfo<CR>
+nnoremap <Leader>at :ALEToggle<CR>
 
 "   gitgutter
 
 " GitGutter is opt-in so its autocommands do no work before the first toggle.
 let g:gitgutter_enabled = 0
-nnoremap gjgg :GitGutterToggle<CR>
-nnoremap gjgr :GitGutterDisable<CR>:GitGutterEnable<CR>
-nnoremap gjgG :GitGutterBufferToggle<CR>
-nnoremap gjgn :GitGutterNextHunk<CR>
-nnoremap gjgp :GitGutterPrevHunk<CR>
-nnoremap gjgq :GitGutterQuickFix<CR>
-nnoremap gjgd :GitGutterDiffOrig<CR>
-nnoremap gjgu :GitGutterUndoHunk<CR>
+let g:gitgutter_map_keys = 0
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap <Leader>gs <Plug>(GitGutterStageHunk)
+xmap <Leader>gs <Plug>(GitGutterStageHunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+nnoremap <Leader>gg :GitGutterToggle<CR>
+nnoremap <Leader>gr :GitGutterAll<CR>
+nnoremap <Leader>gb :GitGutterBufferToggle<CR>
+nnoremap <Leader>gq :GitGutterQuickFix<CR>
+nnoremap <Leader>gd :GitGutterDiffOrig<CR>
 
 "   netrw
 
@@ -265,9 +262,12 @@ Plug 'dense-analysis/ale', {
 Plug 'airblade/vim-gitgutter', {
       \ 'commit': '90b75207bd9b55d8ac4af15f72b4e935462014d0',
       \ 'on': [
-      \   'GitGutterToggle', 'GitGutterDisable', 'GitGutterEnable',
+      \   'GitGutterToggle', 'GitGutterDisable', 'GitGutterEnable', 'GitGutterAll',
       \   'GitGutterBufferToggle', 'GitGutterNextHunk', 'GitGutterPrevHunk',
-      \   'GitGutterQuickFix', 'GitGutterDiffOrig', 'GitGutterUndoHunk'
+      \   'GitGutterQuickFix', 'GitGutterDiffOrig', 'GitGutterUndoHunk',
+      \   '<Plug>(GitGutterNextHunk)', '<Plug>(GitGutterPrevHunk)',
+      \   '<Plug>(GitGutterStageHunk)', '<Plug>(GitGutterUndoHunk)',
+      \   '<Plug>(GitGutterPreviewHunk)'
       \ ]
       \ }
 call plug#end()

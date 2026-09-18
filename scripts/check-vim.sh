@@ -219,6 +219,20 @@ execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
 if &l:swapfile || &l:undofile || &backup || &writebackup || !empty(&viminfo)
   call add(s:errors, 'vimrc reload weakened pass buffer protection')
 endif
+let s:gitgutter_dir = get(g:, 'vim_data_dir', '') . '/plugged/vim-gitgutter'
+if isdirectory(s:gitgutter_dir)
+  GitGutterEnable
+  GitGutterBufferEnable
+  GitGutterBufferToggle
+  if get(get(b:, 'gitgutter', {}), 'enabled', -1) != 0
+    call add(s:errors, 'GitGutter commands bypassed sensitive buffer protection')
+  endif
+  execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
+  GitGutterBufferEnable
+  if get(get(b:, 'gitgutter', {}), 'enabled', -1) != 0
+    call add(s:errors, 'vimrc reload weakened the GitGutter command guard')
+  endif
+endif
 if !empty(s:errors)
   call writefile(s:errors, $VIM_CHECK_ERRORS, 'a')
   cquit 1
