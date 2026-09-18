@@ -89,6 +89,33 @@ if !empty(v:errmsg)
   call add(s:errors, 'vimrc reload: ' . v:errmsg)
 endif
 
+" Exercise ordinary editing without pinning mappings or numeric output.
+enew
+call setline(1, ['5/2', '(1,5 + 2) / 2'])
+let v:errmsg = ''
+normal glbc
+normal jglbc
+if !empty(v:errmsg)
+  call add(s:errors, 'arithmetic editing: ' . v:errmsg)
+endif
+
+" Buffer arithmetic must never become arbitrary Vimscript execution.
+let g:calculator_side_effect = 0
+for s:expression in [
+      \ 'execute("let g:calculator_side_effect = 1")',
+      \ '1 + execute("let g:calculator_side_effect = 1")',
+      \ ]
+  call setline(1, s:expression)
+  call cursor(1, 1)
+  try
+    normal glbc
+  catch
+  endtry
+  call assert_equal(0, g:calculator_side_effect)
+  call assert_equal(s:expression, getline(1))
+endfor
+call extend(s:errors, v:errors)
+
 if !empty(s:errors)
   call writefile(s:errors, $VIM_CHECK_ERRORS)
   cquit 1

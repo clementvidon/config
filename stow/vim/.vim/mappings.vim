@@ -19,26 +19,6 @@ function! s:CompleteFind() abort
   return "\<Tab>"
 endfunction
 
-function! s:ToggleNavigation(next, previous) abort
-  if exists('s:navigation_mappings')
-    silent! nunmap gn
-    silent! nunmap gp
-    for l:mapping in s:navigation_mappings
-      if !empty(l:mapping)
-        call mapset('n', 0, l:mapping)
-      endif
-    endfor
-    unlet s:navigation_mappings
-    echo 'Custom navigation off'
-    return
-  endif
-
-  let s:navigation_mappings = [maparg('gn', 'n', 0, 1), maparg('gp', 'n', 0, 1)]
-  execute 'nnoremap gn ' . a:next . '<CR>'
-  execute 'nnoremap gp ' . a:previous . '<CR>'
-  echo 'Custom navigation on'
-endfunction
-
 function! s:ShowSyntax() abort
   let l:syntax = synID(line('.'), col('.'), 1)
   let l:name = synIDattr(l:syntax, 'name')
@@ -49,18 +29,6 @@ function! s:ShowSyntax() abort
   endif
   echo l:name
   execute 'highlight ' . l:resolved
-endfunction
-
-function! s:Rot13Buffer() abort
-  let l:view = winsaveview()
-  let l:spell = &l:spell
-  try
-    setlocal nospell
-    normal! ggg?G
-  finally
-    let &l:spell = l:spell
-    call winrestview(l:view)
-  endtry
 endfunction
 
 function! s:SaveReloadView() abort
@@ -84,39 +52,61 @@ function! s:IndentBuffer() abort
   endtry
 endfunction
 
-function! s:AddHeader() abort
-  let l:comment = &commentstring
-  if empty(l:comment) || l:comment !~# '%s'
-    throw 'No commentstring defined for this buffer'
+function! s:CalculateLine() abort
+  let l:expression = substitute(getline('.'), ',', '.', 'g')
+  let l:number = '\%(\d\+\%(\.\d*\)\?\|\.\d\+\)\%([eE][+-]\?\d\+\)\?'
+  " Only arithmetic tokens may reach eval(); never execute text from a file.
+  if empty(trim(l:expression))
+        \ || substitute(l:expression, l:number . '\|[-+*/() \t]', '', 'g') !=# ''
+    echoerr 'Calculator: use numbers, parentheses and + - * /'
+    return
   endif
-  let l:date = strftime('%y%m%d')
-  call append(0, [
-        \ substitute(l:comment, '%s', ' ' . expand('%:p:h:t') . '/' . expand('%:t:r') . ' ', ''),
-        \ substitute(l:comment, '%s', ' Created: ' . l:date, ''),
-        \ substitute(l:comment, '%s', ' Updated: ' . l:date, ''),
-        \ substitute(l:comment, '%s', ' Author: Clément Vidon (clementvidon)', ''),
-        \ '',
-        \ ])
+  " Floats avoid integer division and octal interpretation of leading zeros.
+  let l:expression = substitute(l:expression, l:number,
+        \ '\=printf("%.17e", str2float(submatch(0)))', 'g')
+  try
+    sandbox let l:result = eval(l:expression)
+    if type(l:result) != v:t_float || isinf(l:result) || isnan(l:result)
+      throw 'Invalid or non-finite result'
+    endif
+  catch
+    echoerr 'Calculator: invalid expression or non-finite result'
+    return
+  endtry
+  let l:parts = split(printf('%.12g', l:result), 'e', 1)
+  let l:parts[0] = substitute(l:parts[0], '0\+$', '', '')
+  let l:parts[0] = substitute(l:parts[0], '\.$', '', '')
+  call setline('.', matchstr(getline('.'), '^\s*') . join(l:parts, 'e'))
 endfunction
 
-function! s:CopyRegister() abort
-  if has('clipboard')
-    call setreg('+', getreg('"'), getregtype('"'))
-  elseif executable('pbcopy') || executable('wl-copy') || executable('xclip')
-    if executable('pbcopy')
-      let l:clipboard_command = 'LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 pbcopy'
-    elseif executable('wl-copy')
-      let l:clipboard_command = 'wl-copy'
-    else
-      let l:clipboard_command = 'xclip -selection clipboard'
-    endif
-    call system(l:clipboard_command, getreg('"'))
-    if v:shell_error
-      echoerr 'Clipboard copy failed'
-    endif
-  else
-    echoerr 'No clipboard provider available'
+function! s:Clipboard(action) abort
+  if !executable('clipboard')
+    echoerr 'Install the scripts Stow package and add ~/.local/bin to PATH'
+    return
   endif
+  let l:command = shellescape(exepath('clipboard')) . ' ' . a:action
+  let l:text = a:action ==# 'copy'
+        \ ? system(l:command, getreg('"')) : system(l:command)
+  if v:shell_error
+    echoerr 'Clipboard ' . a:action . ' failed; check providers or use terminal paste over SSH'
+    return
+  endif
+  if a:action ==# 'paste'
+    " The expression register preserves the user's yank/delete registers.
+    call setreg('=', string(l:text))
+    execute "normal! \"=\<CR>p"
+  endif
+endfunction
+
+function! s:GrepPrompt(word) abort
+  if !executable('rg')
+    throw 'Search requires ripgrep (rg) on PATH'
+  endif
+  if a:word
+    return ':grep! --fixed-strings --word-regexp -- '
+          \ . shellescape(expand('<cword>'), 1) . "\<CR>:cwindow\<CR>"
+  endif
+  return ':grep '
 endfunction
 
 "   files and buffers
@@ -165,15 +155,16 @@ nnoremap sTp :tabe #<CR>
 nnoremap shp :sp #<CR>
 nnoremap svp :vert sp #<CR>
 
-"     edit from buffer directory
-nnoremap s.  :lc %:h<CR>:e<Space>
-nnoremap ss. :lc %:h<CR>:e!<Space>
-nnoremap sT. :lc %:h<CR>:tabe<Space>
-nnoremap sh. :lc %:h<CR>:sp<Space>
-nnoremap sv. :lc %:h<CR>:vert sp<Space>
-
 "     buffer list
 nnoremap sb :ls<CR>:b<Space>
+
+"     navigation
+nnoremap [b :<C-U>execute v:count1 . 'bprevious'<CR>
+nnoremap ]b :<C-U>execute v:count1 . 'bnext'<CR>
+nnoremap [l :<C-U>execute v:count1 . 'lprevious'<CR>
+nnoremap ]l :<C-U>execute v:count1 . 'lnext'<CR>
+nnoremap [q :<C-U>execute v:count1 . 'cprevious'<CR>
+nnoremap ]q :<C-U>execute v:count1 . 'cnext'<CR>
 
 "     tags
 nnoremap st :tag /
@@ -182,71 +173,22 @@ nnoremap sil :ilist /
 nnoremap sis :isearch /
 
 "     search
-nnoremap sg :grep<Space>
-nnoremap sgr :execute 'grep! --word-regexp -- ' . shellescape(expand('<cword>'))<CR>:cwindow<CR>
-
-"   configuration
-nnoremap <silent> sc  <nop>
-nnoremap <silent> scv :e $MYVIMRC<CR>gi<Esc>
-nnoremap <silent> scp :e $HOME/.vim/plugins.vim<CR>gi<Esc>
-nnoremap <silent> scm :e $HOME/.vim/mappings.vim<CR>gi<Esc>
-nnoremap <silent> sca :e $HOME/.config/alacritty/alacritty.toml<CR>gi<Esc>
-nnoremap <silent> scz :e $HOME/.zshrc<CR>gi<Esc>
-nnoremap <silent> sce :e $HOME/.zshenv<CR>gi<Esc>
-nnoremap <silent> sct :e $HOME/.tmux.conf<CR>gi<Esc>
-
-"   git
-
-nnoremap <Leader>gg :echo system('
-\
-\ git status -s --show-stash --ignore-submodules=untracked &&
-\ git diff -U0 \| grep "^+\\|^-" \| grep -v "^+++\\s\\|^---\\s" &&
-\ echo "" && git log --oneline -5')
-\\|echo "                                                                             Max len msg ↓"
-\<CR>:!git add . && git commit --allow-empty -m ""<Left>
-
-nnoremap <Leader>g? :!clear
-\
-\ && git status -s --show-stash --ignore-submodules=untracked
-\ && git diff -U0 && git show -U0
-\ && git log --oneline -10<CR>
-
-nnoremap <Leader>gcm :echo system('git log --oneline -5')
-\
-\\|echo "                                                                   Max len msg ↓"
-\<CR>:!git commit -m ""<Left>
-
-nnoremap <Leader>gap :!clear && git add --patch<CR>
-nnoremap <Leader>gau :!clear && git add --update && git status -s --show-stash --ignore-submodules=untracked<CR>
-nnoremap <Leader>gca :!clear && git commit --amend<CR>
-nnoremap <Leader>gco :!clear && git commit<CR>
-nnoremap <Leader>gdi :!clear && git diff<CR>
-nnoremap <Leader>gds :!clear && git diff --staged<CR>
-nnoremap <Leader>glo :!clear && git log --oneline -10<CR>
-nnoremap <Leader>gre :!clear && git restore<Space>
-nnoremap <Leader>grs :!clear && git reset<Space>
-nnoremap <Leader>gsh :!clear && git show<CR>
-nnoremap <Leader>gst :!clear && git status -s --show-stash --ignore-submodules=untracked<CR>
+nnoremap <expr> sg <SID>GrepPrompt(0)
+nnoremap <expr> sgr <SID>GrepPrompt(1)
 
 "   option and command helpers
 
 nnoremap gl <nop>
-nnoremap glbc V:!bc<CR>
-nnoremap glbn :call <SID>ToggleNavigation(':bnext', ':bprev')<CR>
+nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nnoremap glcd :cd %:h<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
-vnoremap glen :'<,'>!trans -b :fr
-nnoremap glex :exe getline(".")<CR>
-vnoremap glfr :'<,'>!trans -b :en
 nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap gllc :lc %:h<CR>
 nnoremap glli :set list!<CR>:set list?<CR>
-nnoremap glve :set virtualedit=all
-nnoremap glln :call <SID>ToggleNavigation(':lnext', ':lprev')<CR>
+nnoremap glv :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
 nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>
 nnoremap glpd :put=strftime('%a %d %b %Y')<CR>
-nnoremap glqn :call <SID>ToggleNavigation(':cnext', ':cprev')<CR>
 nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nnoremap glsp :set spell!<CR>:set spell?<CR>
@@ -298,28 +240,17 @@ inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 "     indentation
 nnoremap <silent> <Leader>= :call <SID>IndentBuffer()<CR>
 
-"     transforms
-nnoremap <silent> <Leader>? :call <SID>Rot13Buffer()<CR>
-
 "     clipboard
-nnoremap <silent> <Leader>y :call <SID>CopyRegister()<CR>
+nnoremap <silent> <Leader>y :call <SID>Clipboard('copy')<CR>
+nnoremap <silent> <Leader>p :call <SID>Clipboard('paste')<CR>
 
 "     guard rails
 nnoremap Q :echo "!Q"<CR>
 
-"     header
-nnoremap <Leader>H :call <SID>AddHeader()<CR>
-
-inoremap jf <Esc>
-inoremap fj <Esc>
-
 "     command-line guard
 cnoremap <expr> <Tab> <SID>CompleteFind()
 cnoremap <C-U> <Nop>
-
-if has('clipboard')
-  nnoremap <space>p "+p
-endif
+inoremap <C-U> <Nop>
 
 nnoremap <space>z <C-z>
 nnoremap <space>r <C-r>
@@ -327,58 +258,3 @@ nnoremap <space>r <C-r>
 nnoremap <space>v <C-v>
 nnoremap <space>u <C-u>
 nnoremap <space>d <C-d>
-
-"     prefixed normal commands
-
-" Move the rest of the line down without entering Insert mode afterward.
-nnoremap <space>o i<CR><Esc><S-j>
-
-nnoremap <space>sq Q
-nnoremap <space>sw W
-nnoremap <space>se E
-nnoremap <space>sr R
-nnoremap <space>st T
-nnoremap <space>sy Y
-nnoremap <space>su U
-nnoremap <space>si I
-nnoremap <space>so O
-nnoremap <space>sp P
-nnoremap <space>sa A
-nnoremap <space>ss S
-nnoremap <space>sd D
-nnoremap <space>sf F
-nnoremap <space>sg G
-nnoremap <space>sh H
-nnoremap <space>sj J
-nnoremap <space>sk K
-nnoremap <space>sl L
-nnoremap <space>sz Z
-nnoremap <space>sx X
-nnoremap <space>sc C
-nnoremap <space>sv V
-nnoremap <space>sb B
-nnoremap <space>sn N
-nnoremap <space>sm M
-
-nnoremap <space>s` ~
-nnoremap <space>s1 !
-nnoremap <space>s2 @
-nnoremap <space>s3 #
-nnoremap <space>s4 $
-nnoremap <space>s5 %
-nnoremap <space>s6 ^
-nnoremap <space>s7 &
-nnoremap <space>s8 *
-nnoremap <space>s9 (
-nnoremap <space>s0 )
-nnoremap <space>s- _
-nnoremap <space>s= +
-
-nnoremap <space>s[ {
-nnoremap <space>s] }
-nnoremap <space>s<BS> <BAR>
-nnoremap <space>s; :
-nnoremap <space>s' "
-nnoremap <space>s, <
-nnoremap <space>s. >
-nnoremap <space>s/ ?

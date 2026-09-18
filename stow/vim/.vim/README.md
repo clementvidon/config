@@ -89,6 +89,8 @@ ctags -R .
 
 `sgr` searches whole-word textual references for the word under the cursor
 with `rg`, then opens the quickfix window. `sg` starts a free-form `rg` search.
+Both mappings report an error if `rg` is unavailable; `sgr` treats the word as
+literal text, not as a regular expression.
 Searches include hidden project files such as `.github` while excluding `.git`
 and generated dependency/build directories. Native find and `:grep` derive
 their directory exclusions from the same list in `.vimrc`, at every depth.
@@ -109,13 +111,36 @@ sensitive buffers remain excluded. Only swap keeps a `/tmp` fallback.
 configuration, reloads the current buffer so its ftplugins reapply their local
 options, and restores the view. A raw `:source ~/.vimrc` only re-executes the
 vimrc and is not a complete filetype reload.
+Removed mappings remain active in an existing session; restart Vim after
+deleting mappings rather than relying on a reload to remove them.
+
+## Calculator
+
+`glbc` replaces the current line with its arithmetic result, retaining its
+indentation. It uses Vim's floating-point arithmetic, not an external process.
+Decimal commas or points, scientific notation, parentheses and `+ - * /` are
+supported: `(1,5 + 2) / 2` becomes `1.75`. Invalid expressions and non-finite
+results leave the line unchanged. This is approximate arithmetic, not `bc`'s
+arbitrary-precision language; variables, functions and powers are not supported.
 
 ## Clipboard
 
-Remote clipboard support is optional. `<Leader>y` uses Vim's clipboard or a
-clipboard command found on `$PATH`. `<Space>p` exists only when Vim has
-clipboard support. OSC52 is intentionally left to the terminal or tmux
-configuration.
+`<Leader>y` copies the unnamed register; `<Leader>p` pastes the local system
+clipboard. Both require `clipboard` from the `scripts` Stow package on `PATH`.
+That command owns provider selection and SSH transport, shared with `copy`;
+see the repository README's clipboard section. Over SSH, copying uses OSC 52
+to reach the client terminal. Paste using the client terminal's paste action,
+not `<Leader>p`; remote clipboard reads are deliberately unsupported.
+
+Clipboard tools exchange plain text, so Vim-specific blockwise register types
+are not preserved. Paste uses the expression register and preserves yank/delete
+registers.
+
+Clipboard access is explicitly user-triggered and exports text outside Vim's
+persistence protections. External providers run through `system()`, which may
+use temporary files. Do not use these mappings for text that must stay entirely
+inside Vim. The personal `copy` command is not called: it labels file contents
+and is not a raw clipboard transport.
 
 ## Dependencies and updates
 
