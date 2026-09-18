@@ -177,12 +177,6 @@ endfunction
 
 "   files and buffers
 
-nnoremap s  <nop>
-nnoremap gs <nop>
-nnoremap sT <nop>
-nnoremap sh <nop>
-nnoremap sv <nop>
-
 "     write / quit
 nnoremap mw  :write<CR>
 nnoremap mvv :W<CR>
@@ -193,17 +187,19 @@ nnoremap mq  :quit<CR>
 nnoremap mmq :quit!<CR>
 nnoremap mQ  :quitall<CR>
 nnoremap mmQ :quitall!<CR>
+
 nnoremap md  :bn\|bd#<CR>
 nnoremap mmd :bn!\|bd! #<CR>
 nnoremap me  :e<CR>
 nnoremap mme :e!<CR>
+
 " Source outside the helpers so mappings.vim can redefine them during reload.
 nnoremap <silent> mso :call <SID>SaveReloadView()<CR>:try<CR>:write<CR>:source $HOME/.vimrc<CR>:edit<CR>:finally<CR>:call <SID>RestoreReloadView()<CR>:endtry<CR>
 
 "     find
+nnoremap s <nop>
 nnoremap <expr> sf  <SID>FindPrompt('find')
 nnoremap <expr> ssf <SID>FindPrompt('find!')
-nnoremap <expr> sTf <SID>FindPrompt('tabfind')
 nnoremap <expr> shf <SID>FindPrompt('sfind')
 nnoremap <expr> svf <SID>FindPrompt('vertical sfind')
 
@@ -211,13 +207,11 @@ nnoremap <expr> svf <SID>FindPrompt('vertical sfind')
 " The vertical Ex-command prefixes intentionally stay open for Tab completion.
 nnoremap se  :e<Space>
 nnoremap sse :e!<Space>
-nnoremap sTe :tabe<Space>
 nnoremap she :sp<Space>
 nnoremap sve :vert sp<Space>
 
 "     previous
 nnoremap sp :e #<CR>
-nnoremap sTp :tabe #<CR>
 nnoremap shp :sp #<CR>
 nnoremap svp :vert sp #<CR>
 
@@ -232,7 +226,7 @@ nnoremap ]l :<C-U>execute v:count1 . 'lnext'<CR>
 nnoremap [q :<C-U>execute v:count1 . 'cprevious'<CR>
 nnoremap ]q :<C-U>execute v:count1 . 'cnext'<CR>
 
-"     tags
+"     tags (generate with 'ctags -R .')
 nnoremap st :tag /
 nnoremap sij :ijump /
 nnoremap sil :ilist /
@@ -247,13 +241,11 @@ vnoremap <silent> sg :<C-U>call <SID>GrepPrompt(1)<CR>
 nnoremap gl <nop>
 nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
-nnoremap glcd :cd %:h<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
-nnoremap gllc :lc %:h<CR>
 nnoremap glli :set list!<CR>:set list?<CR>
-nnoremap glv :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
 nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>
+nnoremap glpa :set paste!<CR>:set paste?<CR>
 nnoremap glpd :put=strftime('%a %d %b %Y')<CR>
 nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
@@ -261,19 +253,20 @@ nnoremap glsp :set spell!<CR>:set spell?<CR>
 nnoremap <silent> glss :call <SID>StaticSearchPrompt()<CR>
 vnoremap <silent> glss :<C-U>call <SID>StaticSearchSelection()<CR>
 nnoremap glst :set startofline!<CR>:set startofline?<CR>
-nnoremap glsy :call <SID>ShowSyntax()<CR>
+nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
 nnoremap glts :put=strftime('%y%m%d%H%M%S')<CR>
+nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
 
 "   interface
 
 "     windows (CTRL-W aemABCDE G I MNO Q UVWXYZ)
-
 nnoremap <Leader>w <C-W>
 nnoremap <Leader>wM <C-W>_<C-W><BAR>
 nnoremap <Leader>wX <C-W>x<C-W>_<C-W><BAR>
 tnoremap <Leader>w <C-W>
 tnoremap <Leader>wM <C-W>_<C-W><BAR>
 tnoremap <Leader>wX <C-W>x<C-W>_<C-W><BAR>
+
 "     grow split size
 nnoremap <Leader>wE :resize <C-R>=&lines * 0.66<CR><CR>
 nnoremap <Leader>we :vertical resize <C-R>=&columns * 0.66<CR><CR>
@@ -314,10 +307,3 @@ nnoremap Q :echo "!Q"<CR>
 cnoremap <expr> <Tab> <SID>CompleteFind()
 cnoremap <C-U> <Nop>
 inoremap <C-U> <Nop>
-
-nnoremap <space>z <C-z>
-nnoremap <space>r <C-r>
-" Do not mirror CTRL-O/CTRL-I here; keep the native jump-list keys direct.
-nnoremap <space>v <C-v>
-nnoremap <space>u <C-u>
-nnoremap <space>d <C-d>
