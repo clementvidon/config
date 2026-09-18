@@ -176,16 +176,16 @@ function! s:GrepPrompt(visual) abort
     echo '-i sans casse | -s casse | -w mot | -F littéral'
   else
     echo join([
-	  \ 'Default            : smartcase + hidden',
-	  \ 'Search             :grep             hello',
-	  \ 'Ignore case        :grep -i          Hello',
-	  \ 'Match case         :grep -s          hello',
-	  \ 'Whole word         :grep -w          hello',
-	  \ 'Whole word, icase  :grep -iw         hello',
-	  \ 'Literal text       :grep -F         ''hello.json''',
-	  \ 'Skip hidden        :grep --no-hidden hello',
-	  \ 'Unrestricted       :grep -u          hello',
-	  \ ], "\n")
+          \ 'Default            : smartcase + hidden',
+          \ 'Search             :grep             hello',
+          \ 'Ignore case        :grep -i          Hello',
+          \ 'Match case         :grep -s          hello',
+          \ 'Whole word         :grep -w          hello',
+          \ 'Whole word, icase  :grep -iw         hello',
+          \ 'Literal text       :grep -F         ''hello.json''',
+          \ 'Skip hidden        :grep --no-hidden hello',
+          \ 'Unrestricted       :grep -u          hello',
+          \ ], "\n")
   endif
 endfunction
 
