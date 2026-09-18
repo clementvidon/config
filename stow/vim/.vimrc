@@ -43,10 +43,14 @@ if !s:undo_ready
 endif
 call mkdir(s:state_dir . '/swap', 'p', 0700)
 let s:spell_dir = g:vim_data_dir . '/spell'
-call mkdir(s:spell_dir, 'p', 0700)
-if !isdirectory(s:spell_dir) || filewritable(s:spell_dir) != 2
-  echoerr 'Vim: cannot use spell data directory: ' . s:spell_dir
-else
+let s:spell_ready = 0
+try
+  call mkdir(s:spell_dir, 'p', 0700)
+  let s:spell_ready = isdirectory(s:spell_dir) && filewritable(s:spell_dir) == 2
+catch /^Vim\%((\a\+)\)\=:E739/
+  " A personal spellfile is optional and must not block Vim startup.
+endtry
+if s:spell_ready
   execute 'set runtimepath+=' . fnameescape(g:vim_data_dir)
 endif
 
@@ -56,14 +60,17 @@ let &directory = s:state_dir . '/swap//,/tmp//'
 if !get(g:, 'vim_sensitive_session', 0)
   let &viminfo = "'100,<50,s10,h,n" . s:state_dir . '/viminfo'
 endif
-let &spellfile = s:spell_dir . '/custom.utf-8.add'
-
-if filereadable(&spellfile)
-  let s:compiled_spellfile = &spellfile . '.spl'
-  if !filereadable(s:compiled_spellfile)
-        \ || getftime(&spellfile) > getftime(s:compiled_spellfile)
-    silent! execute 'mkspell! ' . fnameescape(&spellfile)
+if s:spell_ready
+  let &spellfile = s:spell_dir . '/custom.utf-8.add'
+  if filereadable(&spellfile)
+    let s:compiled_spellfile = &spellfile . '.spl'
+    if !filereadable(s:compiled_spellfile)
+          \ || getftime(&spellfile) > getftime(s:compiled_spellfile)
+      silent! execute 'mkspell! ' . fnameescape(&spellfile)
+    endif
   endif
+else
+  let &spellfile = ''
 endif
 
 "   plugins
