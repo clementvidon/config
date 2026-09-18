@@ -98,6 +98,13 @@ config.keys = {
     mods = "CTRL",
     action = wezterm.action.ResetFontSize,
   },
+
+  -- Diagnostics
+  {
+    key = "L",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.ShowDebugOverlay,
+  },
 }
 
 return config
