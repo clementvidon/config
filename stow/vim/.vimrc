@@ -143,11 +143,14 @@ else
   set dictionary=spell
 endif
 set completeopt=menu,preview
-set autoindent
-set expandtab
 set shiftround
-set shiftwidth=4 softtabstop=-1 tabstop=4
-set textwidth=0
+" Reloading must not overwrite filetype-local indentation or prose width.
+setglobal autoindent expandtab
+setglobal shiftwidth=4 softtabstop=-1 tabstop=4 textwidth=0
+if empty(&l:filetype)
+  setlocal autoindent expandtab
+  setlocal shiftwidth=4 softtabstop=-1 tabstop=4 textwidth=0
+endif
 set laststatus=2
 set ruler showcmd
 " Modelines are disabled because opening an untrusted file must not execute or
