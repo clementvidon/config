@@ -230,7 +230,11 @@ function! s:ProtectAutomaticIntegrations() abort
   call s:DisableGitGutter(bufnr(''))
 endfunction
 
-augroup personal_ale
+" Clear the former group when this file is re-sourced in an existing Vim session.
+if exists('#personal_ale')
+  autocmd! personal_ale
+endif
+augroup personal_integrations
   autocmd!
   autocmd FileType * call <SID>ConfigureALE()
   autocmd BufEnter,BufFilePost,BufWritePre * call <SID>ConfigureALE()
