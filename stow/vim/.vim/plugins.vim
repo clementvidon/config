@@ -260,7 +260,15 @@ let g:netrw_dirhistmax = 0
 
 " # COLORSCHEMES
 
-let g:seoul256_background = 256
+" Seoul presets for glco: white 256, off-white 252, brown-green dark 236.
+" The plugin uses separate light (252-256) and dark (233-239) palettes.
+let g:personal_seoul_backgrounds = {
+      \ 'white': 256,
+      \ 'off_white': 252,
+      \ 'dark': 236,
+      \ }
+let g:seoul256_background = g:personal_seoul_backgrounds.dark
+let g:seoul256_light_background = g:personal_seoul_backgrounds.white
 
 " # PLUGIN DECLARATIONS
 

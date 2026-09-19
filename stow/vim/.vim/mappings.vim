@@ -71,11 +71,19 @@ function! s:ShowSyntax() abort
 endfunction
 
 function! s:ToggleColorscheme() abort
-  if &background ==# 'dark'
-    set background=light
-    colorscheme seoul256
+  let l:seoul = g:personal_seoul_backgrounds
+  if get(g:, 'colors_name', '') ==# 'nord'
+    let g:seoul256_light_background = l:seoul.white
+    colorscheme seoul256-light
+  elseif get(g:, 'colors_name', '') ==# 'seoul256-light'
+    if get(g:, 'seoul256_current_bg', -1) ==# l:seoul.white
+      let g:seoul256_light_background = l:seoul.off_white
+      colorscheme seoul256-light
+    else
+      let g:seoul256_background = l:seoul.dark
+      colorscheme seoul256
+    endif
   else
-    set background=dark
     colorscheme nord
   endif
 endfunction
