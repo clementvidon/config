@@ -252,9 +252,11 @@ vnoremap <silent> sg :<C-U>call <SID>GrepPrompt(1)<CR>
 nnoremap gl <nop>
 nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
+nnoremap glcd :cd %:h<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
 nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
+nnoremap gllc :lc %:h<CR>
 nnoremap glli :set list!<CR>:set list?<CR>
 nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>
 nnoremap glpd :put=strftime('%a %d %b %Y')<CR>
