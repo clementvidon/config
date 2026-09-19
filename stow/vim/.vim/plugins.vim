@@ -15,7 +15,8 @@ let g:ale_disable_lsp = 1
 " Never resolve executables from a project checkout.
 let g:ale_use_global_executables = 1
 let g:ale_linters_explicit = 1
-let g:ale_lint_on_enter = 1
+" Lint on FileType and save, not whenever a file is shown in another window.
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_filetype_changed = 1
 let g:ale_lint_on_insert_leave = 0
@@ -230,6 +231,12 @@ function! s:ProtectAutomaticIntegrations() abort
   call s:DisableGitGutter(bufnr(''))
 endfunction
 
+function! s:LintOnALELoad() abort
+  if !get(b:, 'vim_sensitive_buffer', 0)
+    silent ALELint
+  endif
+endfunction
+
 " Clear the former group when this file is re-sourced in an existing Vim session.
 if exists('#personal_ale')
   autocmd! personal_ale
@@ -240,6 +247,8 @@ augroup personal_integrations
   autocmd BufEnter,BufFilePost,BufWritePre * call <SID>ConfigureALE()
   autocmd User VimGPGSensitive,RedactPassSensitive
         \ call <SID>ProtectAutomaticIntegrations()
+  " vim-plug loads ALE during FileType, too late for ALE to see that event.
+  autocmd User ale call <SID>LintOnALELoad()
   autocmd User vim-gitgutter call <SID>InstallGitGutterGuards()
 augroup END
 call s:ConfigureALE()
