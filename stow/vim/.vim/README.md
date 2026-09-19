@@ -2,8 +2,8 @@
 
 ## Architecture
 
-`.vimrc` contains the core Vim-only configuration. Plugin declarations and
-settings live in `plugins.vim`; general mappings live in `mappings.vim`.
+`.vimrc` owns core options and appearance. `plugins.vim` owns third-party
+integrations and declarations; `mappings.vim` holds the other general mappings.
 
 Vim has four filetype levels:
 
@@ -36,24 +36,14 @@ completion, or automatic-formatting behavior.
 ## Ops linting and formatting
 
 ALE linting runs when a supported non-sensitive Ops buffer opens, its filetype
-changes, or it is saved. Buffers marked `b:vim_sensitive_buffer` are excluded so
-ALE cannot serialize their plaintext to temporary files. It never runs while
-typing. Formatting is always explicit via `<Leader>af`; Terraform formatting is
-canonical and always permitted. YAML formatting requires a repository yamlfmt
-configuration. Shell and JSON formatting are not configured.
+changes, or it is saved; it never runs while typing. Formatting is manual.
+Terraform formatting is configured without a project config, while YAML
+formatting requires a repository yamlfmt configuration. The linter and fixer
+selections live in `plugins.vim`.
 
 Automatic integrations must exclude a sensitive buffer where they actually
 process or serialize its contents, including work queued before the buffer
 became sensitive. This configuration applies that rule to ALE and GitGutter.
-
-| Filetype | Linters | Manual fixer |
-| --- | --- | --- |
-| `sh` | `shellcheck` | none |
-| `yaml` | `yamllint`; `actionlint` in `.github/workflows` | `yamlfmt`, with repository config |
-| `json` | `jq` | none |
-| `dockerfile` | `hadolint` | none |
-| `terraform` | `tflint` | `terraform fmt` |
-| `make` | `checkmake` | none |
 
 Project yamllint and Hadolint configuration is passed explicitly to the
 corresponding linter when found inside the repository. Checkmake uses its
@@ -67,41 +57,22 @@ that command to the buffer's directory. TFLint does.
 
 ## Search and tags
 
-`sf` prepares `:find *fragment*.ext`, with the cursor between the stars and
-the current file's extension filled in. Type any part of the filename, then
-use Tab to complete and cycle through matches, and Enter to open one. With
-no extension, the pattern is `*fragment*`; the suffix is always editable.
-The split and tab find mappings use the same prompt.
-
 Find searches recursively below Vim's working directory (`:pwd`). Use `:lcd`
 to narrow it to a subtree, or `:lcd %:p:h` to start from the current file's
 directory. Noesis retains its note-specific search paths. Native find uses
 `wildignore`, not `.gitignore`, and does not automatically traverse hidden
 directories. Traversal is synchronous and has no configured time limit.
 
-Native tag navigation uses `CTRL-]`, `CTRL-T`, `g]`, `:tag`, and `:tselect`.
-Generate a project `tags` file explicitly, for example with optional
-`universal-ctags`:
+Generate project tags explicitly, for example with optional `universal-ctags`:
 
 ```sh
 ctags -R .
 ```
 
-`sg` opens a free-form `:grep` prompt with an option reminder above it. In
-Visual mode it fills in a quoted literal selection (`-F`) and puts the cursor
-just after `grep`, before the options and text. Add `-i` to ignore case, `-s`
-to respect it, or `-w` for whole words; Enter runs the search. By default,
-smart-case ignores case unless the pattern contains uppercase characters.
-`viwsg` prepares a search for the word under the cursor; `sgr` is no longer used.
-Selections must fit on one line and contain no control characters. Preparing
-the prompt preserves registers and does not trigger clipboard or yank hooks.
-
-Both modes require `rg`. After `:grep` or `:grepadd`, the quickfix window opens
-when there are valid results, including for commands typed manually.
-Searches include hidden project files such as `.github` while excluding `.git`
-and generated dependency/build directories. Native find and `:grep` derive
-their directory exclusions from the same list in `.vimrc`, at every depth.
-Ripgrep additionally honors project ignore files.
+Project grep requires `rg`, includes hidden files such as `.github`, and
+excludes VCS, dependency, and build directories. Native find and `:grep` share
+their directory exclusions from `.vimrc`; ripgrep also honors project ignore
+files. Visual search extracts text without clipboard or yank hooks.
 
 ## Persistent undo
 
@@ -114,40 +85,15 @@ sensitive buffers remain excluded. Only swap keeps a `/tmp` fallback.
 
 ## Reloading
 
-`mso` is the supported full reload command. It writes and sources the
-configuration, reloads the current buffer so its ftplugins reapply their local
-options, and restores the view. A raw `:source ~/.vimrc` only re-executes the
-vimrc and is not a complete filetype reload.
-Removed mappings remain active in an existing session; restart Vim after
-deleting mappings rather than relying on a reload to remove them.
-
-## Calculator
-
-`glbc` replaces the current line with its arithmetic result, retaining its
-indentation. It uses Vim's floating-point arithmetic, not an external process.
-Decimal commas or points, scientific notation, parentheses and `+ - * /` are
-supported: `(1,5 + 2) / 2` becomes `1.75`. Invalid expressions and non-finite
-results leave the line unchanged. This is approximate arithmetic, not `bc`'s
-arbitrary-precision language; variables, functions and powers are not supported.
+Sourcing `.vimrc` does not reapply ftplugins to the current buffer. Restart Vim
+after changes that remove mappings.
 
 ## Clipboard
 
-`<Leader>y` copies the unnamed register; `<Leader>p` pastes the local system
-clipboard. Both require `clipboard` from the `scripts` Stow package on `PATH`.
-That command owns provider selection and SSH transport, shared with `copy`;
-see the repository README's clipboard section. Over SSH, copying uses OSC 52
-to reach the client terminal. Paste using the client terminal's paste action,
-not `<Leader>p`; remote clipboard reads are deliberately unsupported.
-
-Clipboard tools exchange plain text, so Vim-specific blockwise register types
-are not preserved. Paste uses the expression register and preserves yank/delete
-registers.
-
-Clipboard access is explicitly user-triggered and exports text outside Vim's
-persistence protections. External providers run through `system()`, which may
-use temporary files. Do not use these mappings for text that must stay entirely
-inside Vim. The personal `copy` command is not called: it labels file contents
-and is not a raw clipboard transport.
+Vim uses `clipboard` from the `scripts` package for explicit copy and local
+paste. Remote clipboard reads are unsupported. Clipboard access exports text
+outside Vim's persistence protections, and `system()` may use temporary files.
+See the [repository clipboard guide](../../../README.md#clipboard-across-local-and-ssh-sessions).
 
 ## Dependencies and updates
 
