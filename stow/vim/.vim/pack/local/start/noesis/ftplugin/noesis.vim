@@ -25,7 +25,7 @@ setlocal expandtab
 setlocal shiftwidth=2
 setlocal softtabstop=2
 setlocal tabstop=2
-setlocal textwidth=100
+setlocal textwidth=80
 if has('conceal')
   setlocal conceallevel=3
   setlocal concealcursor=vn
