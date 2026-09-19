@@ -1,13 +1,13 @@
 " Achiever defaults and automatic dotted-filetype composition.
 
-"   load guard
+" # LOAD GUARD
 
 if exists('g:loaded_achiever')
   finish
 endif
 let g:loaded_achiever = 1
 
-"   defaults
+" # DEFAULTS
 
 if !exists('g:achiever_local_leader')
   let g:achiever_local_leader = 'gh'
@@ -32,7 +32,7 @@ if !exists('g:achiever_mappings')
         \ }
 endif
 
-"   filetype composition
+" # FILETYPE COMPOSITION
 
 function! s:Detect() abort
   " Vim loads dotted filetypes in order: the base first, then task helpers.
@@ -41,7 +41,7 @@ function! s:Detect() abort
   endif
 endfunction
 
-"   autocommands
+" # AUTOCOMMANDS
 
 augroup achiever_settings
   autocmd!

@@ -1,6 +1,6 @@
 " Buffer-local editing behavior for Noesis notes.
 
-"   load guard
+" # LOAD GUARD
 
 if exists('b:did_noesis_ftplugin')
   finish
@@ -8,7 +8,7 @@ endif
 let b:did_noesis_ftplugin = 1
 let b:noesis_local_leader = get(g:, 'maplocalleader', '\\')
 
-"   buffer configuration
+" # BUFFER CONFIGURATION
 
 setlocal suffixesadd+=.noe
 setlocal commentstring=
@@ -31,11 +31,11 @@ if has('conceal')
   setlocal concealcursor=vn
 endif
 
-"   commands
+" # COMMANDS
 
 command! -buffer -nargs=+ Grep call noesis#grep(<q-args>)
 
-"   mappings
+" # MAPPINGS
 
 " Formatting operators are neutralized because note layout is edited
 " explicitly and must not be changed by prose reflow or indentation commands.
@@ -58,7 +58,7 @@ nnoremap <silent><buffer> <LocalLeader>X :call noesis#export_html()<CR>
 nnoremap <silent><buffer> <LocalLeader>I :call noesis#index()<CR>
 nnoremap <silent><buffer> <LocalLeader>i :call noesis#index_jump()<CR>
 
-"     language tools
+" ## language tools
 
 nnoremap <buffer><silent> <LocalLeader>len :call noesis#translate('toe', noesis#text_from_cursor())<CR>
 vnoremap <buffer><silent> <LocalLeader>len :<C-U>call noesis#translate('toe', noesis#visual_text())<CR>
@@ -66,13 +66,13 @@ nnoremap <buffer><silent> <LocalLeader>lfr :call noesis#translate('tof', noesis#
 vnoremap <buffer><silent> <LocalLeader>lfr :<C-U>call noesis#translate('tof', noesis#visual_text())<CR>
 vnoremap <buffer><silent> <LocalLeader>sy :<C-U>call noesis#synonym(noesis#visual_text())<CR>
 
-"     note structure
+" ## note structure
 
 nnoremap <buffer><silent> <LocalLeader>h1 o<Esc>80i=<Esc>
 nnoremap <buffer><silent> <LocalLeader>h2 o<Esc>40i-<Esc>
 nnoremap <buffer><silent> <LocalLeader>ts :put=strftime('%a %d %b %Y at %H:%M')<CR>
 
-"   undo
+" # UNDO
 
 let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . (!empty(get(b:, 'undo_ftplugin', '')) ? '|' : '')

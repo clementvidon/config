@@ -1,6 +1,7 @@
 " Syntax and terminal highlights for Noesis notes.
 
-"   syntax definitions
+" # SYNTAX DEFINITIONS
+
 syntax sync fromstart
 
 syntax region noesisH1 start="^##\@!"        end="#*\s*$"
@@ -38,11 +39,7 @@ syntax region noesisCode start="```" end="```" contains=@NoSpell
 
 syntax keyword Todo TODO FIXME X XXX WIP
 
-"   highlights
-" FG: for i in {0..255}; do printf '\e[38;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
-" BG: for i in {0..255}; do printf '\e[48;5;%dm%3d ' $i $i; (((i+3) % 18)) || printf '\e[0m\n'; done
-" dark:  0:black  1:red  2:green  3:yellow  4:blue  5:magenta  6:cyan  7:white
-" light: 8:black  9:red 10:green 11:yellow 12:blue 13:magenta 14:cyan 15:white
+" # HIGHLIGHTS
 
 function! s:Colors() abort
   if &background ==# 'dark'
@@ -92,7 +89,7 @@ function! s:Colors() abort
 endfunction
 call s:Colors()
 
-"   colorscheme integration
+" # COLORSCHEME INTEGRATION
 
 augroup noesis_colors
   autocmd!

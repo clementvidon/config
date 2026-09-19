@@ -1,7 +1,7 @@
 " Personal mappings and the small helpers used only by them.
 scriptencoding utf-8
 
-"   private helpers
+" # PRIVATE HELPERS
 
 function! s:SelectedText() abort
   let l:unnamed = getreginfo('"')
@@ -187,9 +187,10 @@ function! s:GrepPrompt(visual) abort
   endif
 endfunction
 
-"   files and buffers
+" # FILES AND BUFFERS
 
-"     write / quit
+" ## write and quit
+
 nnoremap mw  :write<CR>
 nnoremap <silent> mvv :call <SID>WriteAsRoot()<CR>
 nnoremap mmw :write!<CR>
@@ -207,29 +208,28 @@ nnoremap mme :e!<CR>
 
 nnoremap <silent> mso :execute 'source ' . fnameescape($MYVIMRC)<CR>
 
-"     find
+" ## find and edit
+
 nnoremap s <nop>
 nnoremap <expr> sf  <SID>FindPrompt('find')
 nnoremap <expr> ssf <SID>FindPrompt('find!')
 nnoremap <expr> shf <SID>FindPrompt('sfind')
 nnoremap <expr> svf <SID>FindPrompt('vertical sfind')
 
-"     edit
 " The vertical Ex-command prefixes intentionally stay open for Tab completion.
 nnoremap se  :e<Space>
 nnoremap sse :e!<Space>
 nnoremap she :sp<Space>
 nnoremap sve :vert sp<Space>
 
-"     previous
 nnoremap sp :e #<CR>
 nnoremap shp :sp #<CR>
 nnoremap svp :vert sp #<CR>
 
-"     buffer list
 nnoremap sb :ls<CR>:b<Space>
 
-"     navigation
+" ## navigation and tags
+
 nnoremap [b :<C-U>execute v:count1 . 'bprevious'<CR>
 nnoremap ]b :<C-U>execute v:count1 . 'bnext'<CR>
 nnoremap [l :<C-U>execute v:count1 . 'lprevious'<CR>
@@ -237,17 +237,17 @@ nnoremap ]l :<C-U>execute v:count1 . 'lnext'<CR>
 nnoremap [q :<C-U>execute v:count1 . 'cprevious'<CR>
 nnoremap ]q :<C-U>execute v:count1 . 'cnext'<CR>
 
-"     tags (generate with 'ctags -R .')
 nnoremap st :tag /
 nnoremap sij :ijump /
 nnoremap sil :ilist /
 nnoremap sis :isearch /
 
-"     search
+" ## search
+
 nnoremap <silent> sg :call <SID>GrepPrompt(0)<CR>
 vnoremap <silent> sg :<C-U>call <SID>GrepPrompt(1)<CR>
 
-"   option and command helpers
+" # OPTIONS AND COMMANDS
 
 nnoremap gl <nop>
 nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
@@ -268,9 +268,10 @@ nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
 nnoremap glts :put=strftime('%y%m%d%H%M%S')<CR>
 nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
 
-"   interface
+" # INTERFACE
 
-"     windows (CTRL-W aemABCDE G I MNO Q UVWXYZ)
+" ## windows and splits
+
 nnoremap <Leader>w <C-W>
 nnoremap <Leader>wM <C-W>_<C-W><BAR>
 nnoremap <Leader>wX <C-W>x<C-W>_<C-W><BAR>
@@ -278,7 +279,6 @@ tnoremap <Leader>w <C-W>
 tnoremap <Leader>wM <C-W>_<C-W><BAR>
 tnoremap <Leader>wX <C-W>x<C-W>_<C-W><BAR>
 
-"     grow split size
 nnoremap <Leader>wE :resize <C-R>=&lines * 0.66<CR><CR>
 nnoremap <Leader>we :vertical resize <C-R>=&columns * 0.66<CR><CR>
 nnoremap <S-Left> <C-W>5<
@@ -290,31 +290,31 @@ tnoremap <S-Up> <C-W>+
 tnoremap <S-Right> <C-W>>
 tnoremap <S-Down> <C-W>-
 
-"     command line
+" ## command line
+
 nnoremap x :
 
-"     eye-level cursor
+" ## cursor and editing
+
 nnoremap <silent> z, :call <SID>PositionCursorAtQuarter()<CR>
 
-"     paste
 vnoremap P pgvy
 
-"     spell
 nnoremap 2s 2z=
 nnoremap 1s 1z=
 inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 
-"     indentation
 nnoremap <silent> <Leader>= :call <SID>IndentBuffer()<CR>
 
-"     clipboard
+" ## clipboard
+
 nnoremap <silent> <Leader>y :call <SID>Clipboard('copy')<CR>
 nnoremap <silent> <Leader>p :call <SID>Clipboard('paste')<CR>
 
-"     guard rails
+" ## guard rails
+
 nnoremap Q :echo "!Q"<CR>
 
-"     command-line guard
 cnoremap <expr> <Tab> <SID>CompleteFind()
 cnoremap <C-U> <Nop>
 inoremap <C-U> <Nop>

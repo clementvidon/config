@@ -1,6 +1,6 @@
 " Personal Vim configuration.
 
-"   bootstrap
+" # BOOTSTRAP
 
 let mapleader = ' '
 let maplocalleader = 'gh'
@@ -8,7 +8,7 @@ let maplocalleader = 'gh'
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,default,latin1
 
-"   persistent state
+" # PERSISTENT STATE
 
 " Keep generated state out of the configuration tree. Only swap may fall back
 " to /tmp; persistent undo must stay in its private state directory.
@@ -73,11 +73,11 @@ else
   let &spellfile = ''
 endif
 
-"   plugins
+" # PLUGINS
 
 source ~/.vim/plugins.vim
 
-"   appearance
+" # APPEARANCE
 
 set background=dark
 try
@@ -101,7 +101,7 @@ function! s:Highlights() abort
 endfunction
 call s:Highlights()
 
-"   editor options
+" # EDITOR OPTIONS
 
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:-
 set shortmess=filnxtToOF
@@ -155,7 +155,7 @@ endif
 set history=1000
 set belloff=all
 
-"   search and navigation
+" # SEARCH AND NAVIGATION
 
 " Vim and ripgrep use different glob syntax for the same directory exclusions.
 let s:ignored_directories = ['.git', 'node_modules', 'vendor', 'dist', 'build', 'target']
@@ -178,7 +178,7 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
-"   autocommands
+" # AUTOCOMMANDS
 
 augroup personal_config
   autocmd!
@@ -186,6 +186,6 @@ augroup personal_config
   autocmd QuickFixCmdPost grep,grepadd cwindow
 augroup END
 
-"   mappings
+" # MAPPINGS
 
 source ~/.vim/mappings.vim

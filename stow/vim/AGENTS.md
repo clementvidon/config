@@ -80,8 +80,11 @@ consistent with this grammar.
 ## Code organization
 
 - Start non-trivial first-party Vimscript files with a one-line purpose comment.
-- Use lightweight lowercase section comments such as `"   commands` for real
-  responsibility boundaries; do not add decorative banners.
+- Use `" # SECTION` for real responsibility boundaries and `" ## subsection`
+  only when a long section needs navigation. Qualify repeated subsection names,
+  as in `" ## ALE / mappings`. Leave one blank line around headings; ordinary
+  comments remain plain sentences. Do not add decorative banners. Tiny files
+  need no section headings.
 - Explain reasons, Vim constraints, security assumptions, and trade-offs rather
   than narrating obvious code.
 - Keep script-local helpers near the behavior they support.

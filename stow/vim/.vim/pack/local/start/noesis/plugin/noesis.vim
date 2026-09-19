@@ -1,6 +1,6 @@
 " Noesis entry point and user-level navigation.
 
-"   bootstrap and root
+" # BOOTSTRAP AND ROOT
 
 if exists('g:loaded_noesis')
   finish
@@ -13,7 +13,7 @@ if !exists('g:noesis_root')
         \ : expand($NOESIS_ROOT)
 endif
 
-"   navigation helpers
+" # NAVIGATION HELPERS
 
 function! s:Open(relative, pattern) abort
   let l:search = @/
@@ -34,7 +34,7 @@ function! s:OpenTasks() abort
   let @/ = l:search
 endfunction
 
-"   commands
+" # COMMANDS
 
 " These commands deliberately do not accept | as a command separator: note
 " text must remain data even when it contains Ex metacharacters.
@@ -42,7 +42,7 @@ command! -nargs=+ Fr call noesis#translate('tof', <q-args>)
 command! -nargs=+ En call noesis#translate('toe', <q-args>)
 command! -nargs=+ Sy call noesis#synonym(<q-args>)
 
-"   navigation mappings
+" # NAVIGATION MAPPINGS
 
 nnoremap <silent> sn  <nop>
 nnoremap <silent> sne :call <SID>Open('english.noe', '##  Voca')<CR>
@@ -52,11 +52,12 @@ nnoremap <silent> snh :call <SID>Open('.todos.gpg.noe', '')<CR>
 nnoremap <silent> snj :call <SID>Open('journal.gpg.noe', '')<CR>
 nnoremap <silent> snn :call <SID>Open('notes.noe', '')<CR>
 
-"   digraphs
+" # DIGRAPHS
 
 " Global digraphs are registered once, not on every note buffer.
 
-"     subscript lowercase
+" ## lowercase subscript
+
 execute "digraphs es " . 0x2091
 execute "digraphs hs " . 0x2095
 execute "digraphs is " . 0x1D62
@@ -74,7 +75,8 @@ execute "digraphs us " . 0x1D64
 execute "digraphs vs " . 0x1D65
 execute "digraphs xs " . 0x2093
 
-"     superscript lowercase
+" ## lowercase superscript
+
 execute "digraphs aS " . 0x1d43
 execute "digraphs bS " . 0x1d47
 execute "digraphs cS " . 0x1d9c
@@ -101,7 +103,8 @@ execute "digraphs xS " . 0x02e3
 execute "digraphs yS " . 0x02b8
 execute "digraphs zS " . 0x1dbb
 
-"     superscript uppercase
+" ## uppercase superscript
+
 execute "digraphs AS " . 0x1D2C
 execute "digraphs BS " . 0x1D2E
 execute "digraphs DS " . 0x1D30

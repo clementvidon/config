@@ -1,6 +1,6 @@
 " Note operations; no dependency on the surrounding personal configuration.
 
-"   language tools
+" # LANGUAGE TOOLS
 
 function! noesis#text_from_cursor() abort
   return strpart(getline('.'), col('.') - 1)
@@ -38,7 +38,7 @@ function! noesis#synonym(text) abort
   echo join(s:RunTextTool('syn', a:text), "\n")
 endfunction
 
-"   HTML export
+" # HTML EXPORT
 
 function! noesis#export_html() abort
   if get(b:, 'vim_sensitive_buffer', 0)
@@ -80,7 +80,7 @@ function! noesis#export_html() abort
   call setline(1, l:output)
 endfunction
 
-"   index
+" # INDEX
 
 function! noesis#index() abort
   let l:lines = getline(1, '$')
@@ -124,7 +124,7 @@ function! noesis#index_jump() abort
   endif
 endfunction
 
-"   search
+" # SEARCH
 
 function! noesis#grep(pattern) abort
   if !executable('rg')

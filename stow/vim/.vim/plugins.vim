@@ -1,22 +1,18 @@
-" Plugin declarations, plugin settings and plugin-specific mappings.
+" Plugin settings, integrations, mappings and declarations.
 scriptencoding utf-8
 
-"   local plugin configuration
+" # LOCAL PLUGINS
 
 let g:achiever_filenames = [ 'todos.noe', '.todos.gpg.noe' ]
 let g:noesis_export_author = 'Clément VIDON'
 
-" Personal configuration for the local GPG plugin. The plugin itself contains
-" no user-specific key.
 let g:vim_gpg_recipient = 'B8AE5479C3DE72D291F1E923B32613620A074922'
 
-"   ale
+" # ALE
 
-" ALE is the shared, manual interface for Ops linting and formatting.
 let g:ale_enabled = 1
 let g:ale_disable_lsp = 1
-" Project configuration files may define policy, but executables must come
-" from PATH rather than from an untrusted checkout.
+" Never resolve executables from a project checkout.
 let g:ale_use_global_executables = 1
 let g:ale_linters_explicit = 1
 let g:ale_lint_on_enter = 1
@@ -39,8 +35,9 @@ let g:ale_linters = {
 " buffer-local project policy below may enable one.
 let g:ale_fixers = {}
 
-" Check each directory for either Git marker so a nested worktree cannot
-" inherit policy from a parent repository.
+" ## ALE / project policy
+
+" Treat nested worktrees as separate projects.
 function! s:FindGitRoot(directory) abort
   let l:directory = a:directory
   while 1
@@ -56,8 +53,7 @@ function! s:FindGitRoot(directory) abort
   endwhile
 endfunction
 
-" Stop at the Git root so machine-level parent files cannot silently change a
-" repository's lint or formatting policy.
+" Do not inherit lint policy from outside the repository.
 function! s:FindProjectConfig(names) abort
   let l:directory = expand('%:p:h')
   let l:root = s:FindGitRoot(l:directory)
@@ -129,6 +125,24 @@ function! s:ConfigureALE() abort
   endif
 endfunction
 
+" ## ALE / mappings
+
+nnoremap <Leader>al :ALELint<CR>
+nnoremap <Leader>af :ALEFix<CR>
+nnoremap <Leader>an :ALENext<CR>
+nnoremap <Leader>ap :ALEPrevious<CR>
+nnoremap <Leader>ad :ALEDetail<CR>
+nnoremap <Leader>ai :ALEInfo<CR>
+nnoremap <Leader>at :ALEToggle<CR>
+
+" # GITGUTTER
+
+" Keep GitGutter inactive until explicitly enabled.
+let g:gitgutter_enabled = 0
+let g:gitgutter_map_keys = 0
+
+" ## GITGUTTER / buffer guards
+
 function! s:DisableGitGutter(buffer) abort
   let l:state = getbufvar(a:buffer, 'gitgutter')
   if type(l:state) !=# v:t_dict
@@ -195,6 +209,22 @@ function! s:InstallGitGutterGuards() abort
   call s:DisableSensitiveGitGutterBuffers()
 endfunction
 
+" ## GITGUTTER / mappings
+
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap <Leader>gs <Plug>(GitGutterStageHunk)
+xmap <Leader>gs <Plug>(GitGutterStageHunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+nnoremap <Leader>gg :GitGutterToggle<CR>
+nnoremap <Leader>gr :GitGutterAll<CR>
+nnoremap <Leader>gb :GitGutterBufferToggle<CR>
+nnoremap <Leader>gq :GitGutterQuickFix<CR>
+nnoremap <Leader>gd :GitGutterDiffOrig<CR>
+
+" # SHARED INTEGRATION HOOKS
+
 function! s:ProtectAutomaticIntegrations() abort
   call s:ConfigureALE()
   call s:DisableGitGutter(bufnr(''))
@@ -210,41 +240,16 @@ augroup personal_ale
 augroup END
 call s:ConfigureALE()
 
-nnoremap <Leader>al :ALELint<CR>
-nnoremap <Leader>af :ALEFix<CR>
-nnoremap <Leader>an :ALENext<CR>
-nnoremap <Leader>ap :ALEPrevious<CR>
-nnoremap <Leader>ad :ALEDetail<CR>
-nnoremap <Leader>ai :ALEInfo<CR>
-nnoremap <Leader>at :ALEToggle<CR>
-
-"   gitgutter
-
-" GitGutter is opt-in so its autocommands do no work before the first toggle.
-let g:gitgutter_enabled = 0
-let g:gitgutter_map_keys = 0
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
-nmap <Leader>gs <Plug>(GitGutterStageHunk)
-xmap <Leader>gs <Plug>(GitGutterStageHunk)
-nmap <Leader>gu <Plug>(GitGutterUndoHunk)
-nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
-nnoremap <Leader>gg :GitGutterToggle<CR>
-nnoremap <Leader>gr :GitGutterAll<CR>
-nnoremap <Leader>gb :GitGutterBufferToggle<CR>
-nnoremap <Leader>gq :GitGutterQuickFix<CR>
-nnoremap <Leader>gd :GitGutterDiffOrig<CR>
-
-"   netrw
+" # NETRW
 
 let g:netrw_banner = 0
 let g:netrw_dirhistmax = 0
 
-"   colorschemes
+" # COLORSCHEMES
 
 let g:seoul256_background = 256
 
-"   plugin declarations
+" # PLUGIN DECLARATIONS
 
 call plug#begin(g:vim_data_dir . '/plugged')
 

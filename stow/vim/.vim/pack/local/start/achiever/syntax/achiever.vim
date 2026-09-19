@@ -1,6 +1,6 @@
 " Syntax and terminal highlights for the Achiever filetype component.
 
-"   syntax definitions
+" # SYNTAX DEFINITIONS
 
 syntax keyword Todo TODO FIXME X XXX WIP
 
@@ -12,7 +12,7 @@ execute 'syntax region achieverTaskTempComment start=/\V'
       \ . escape(get(b:, 'achiever_task_detail_prefix', get(g:, 'achiever_task_detail_prefix', '--')), '\/')
       \ . '\m\s/ end=/\(\\\|$\)/'
 
-"   highlights
+" # HIGHLIGHTS
 
 function! s:Colors() abort
   if &background ==# 'dark'
@@ -31,7 +31,7 @@ function! s:Colors() abort
 endfunction
 call s:Colors()
 
-"   colorscheme integration
+" # COLORSCHEME INTEGRATION
 
 augroup achiever_colors
   autocmd!

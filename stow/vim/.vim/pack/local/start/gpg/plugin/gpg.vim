@@ -1,6 +1,6 @@
 " GPG-backed encrypted buffers and plaintext persistence protection.
 
-"   bootstrap
+" # BOOTSTRAP
 
 if exists('g:loaded_personal_gpg')
   finish
@@ -9,7 +9,7 @@ let g:loaded_personal_gpg = 1
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim
 
-"   sensitive-session protection
+" # SENSITIVE-SESSION PROTECTION
 
 function! s:ProtectSensitive() abort
   let g:vim_sensitive_session = 1
@@ -55,7 +55,7 @@ function! s:PrepareRead(whole) abort
   endif
 endfunction
 
-"   GPG process I/O
+" # GPG PROCESS I/O
 
 function! s:Recipient() abort
   let l:recipient = get(g:, 'vim_gpg_recipient', '')
@@ -110,7 +110,7 @@ function! s:Run(arguments, lines) abort
   return split(substitute(l:output, '\n$', '', ''), "\n", 1)
 endfunction
 
-"   buffer replacement and disk fingerprinting
+" # BUFFER REPLACEMENT AND DISK FINGERPRINTING
 
 function! s:Replace(first, last, lines) abort
   let l:view = winsaveview()
@@ -176,7 +176,7 @@ function! s:ProtectNamedBuffer() abort
   endif
 endfunction
 
-"   read path
+" # READ PATH
 
 function! s:Read(first, last, whole) abort
   if a:whole
@@ -212,7 +212,7 @@ function! s:Read(first, last, whole) abort
   endif
 endfunction
 
-"   write path
+" # WRITE PATH
 
 function! s:RestoreWriteContext(buffer, window) abort
   if !bufexists(a:buffer)
@@ -307,7 +307,7 @@ function! s:Write(filename, whole) abort
   endtry
 endfunction
 
-"   window title
+" # WINDOW TITLE
 
 function! s:UpdateTitle() abort
   if !exists('b:gpg_saved_title')
@@ -327,7 +327,7 @@ function! s:RestoreTitle() abort
   endif
 endfunction
 
-"   manual transforms
+" # MANUAL TRANSFORMS
 
 function! s:Transform(first, last, operation) abort
   call s:ProtectSensitive()
@@ -338,7 +338,7 @@ function! s:Transform(first, last, operation) abort
   call s:Replace(a:first, a:last, l:result)
 endfunction
 
-"   agent control
+" # AGENT CONTROL
 
 function! s:RestartAgent() abort
   if !executable('gpgconf')
@@ -350,7 +350,7 @@ function! s:RestartAgent() abort
   endif
 endfunction
 
-"   autocommands
+" # AUTOCOMMANDS
 
 augroup personal_gpg
   autocmd!
@@ -371,7 +371,7 @@ augroup personal_gpg
   autocmd SourcePost * call s:Reprotect()
 augroup END
 
-"   mappings
+" # MAPPINGS
 
 nnoremap <silent> glgd :call <SID>Transform(1, line('$'), 'decrypt')<CR>
 nnoremap <silent> glgr :call <SID>RestartAgent()<CR>

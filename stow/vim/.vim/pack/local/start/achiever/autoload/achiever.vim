@@ -1,6 +1,6 @@
 " Task timestamp, duration, linking, and detail-formatting operations.
 
-"   task timestamps
+" # TASK TIMESTAMPS
 
 let s:time = '\%([01]\d\|2[0-3]\):[0-5]\d'
 let s:date_time = '\d\{6} ' . s:time
@@ -66,7 +66,7 @@ function! achiever#task_clear() abort
         \ 'e'))
 endfunction
 
-"   task linking
+" # TASK LINKING
 
 function! achiever#task_fix(option) abort
   let l:cursor = getpos('.')
@@ -132,7 +132,7 @@ function! s:FindMatchingLine(start_line, pattern, abort_pattern, step) abort
   return 0
 endfunction
 
-"   durations
+" # DURATIONS
 
 function! achiever#task_duration(line) abort
   let l:time_pair = matchstr(
@@ -176,7 +176,7 @@ function! s:FormatSeconds(seconds) abort
   return printf('%02d:%02d', l:hours, l:minutes)
 endfunction
 
-"   detail formatting
+" # DETAIL FORMATTING
 
 function! achiever#task_detail_toggle_view(prefix) abort
   let l:current_line = getline('.')

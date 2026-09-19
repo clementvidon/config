@@ -1,13 +1,13 @@
 " Buffer-local task behavior for the Achiever filetype component.
 
-"   load guard
+" # LOAD GUARD
 
 if exists('b:did_achiever_ftplugin')
   finish
 endif
 let b:did_achiever_ftplugin = 1
 
-"   buffer configuration
+" # BUFFER CONFIGURATION
 
 let b:achiever_task_detail_prefix = get(b:, 'achiever_task_detail_prefix',
       \ g:achiever_task_detail_prefix)
@@ -22,7 +22,7 @@ setlocal spellcapcheck=
 setlocal tabstop=2
 setlocal textwidth=0
 
-"   mappings
+" # MAPPINGS
 
 execute 'nnoremap <silent><buffer> ' . b:achiever_local_leader . ' <Nop>'
 for [s:key, s:command] in items(b:achiever_mappings)
@@ -31,12 +31,12 @@ for [s:key, s:command] in items(b:achiever_mappings)
 endfor
 unlet! s:key s:command
 
-"   abbreviations
+" # ABBREVIATIONS
 
 iabbrev <silent><buffer> wwo - work:
 iabbrev <silent><buffer> lli - life:
 
-"   undo
+" # UNDO
 
 let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . (!empty(get(b:, 'undo_ftplugin', '')) ? '|' : '')
