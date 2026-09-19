@@ -70,24 +70,6 @@ function! s:ShowSyntax() abort
   execute 'highlight ' . l:resolved
 endfunction
 
-function! s:ToggleColorscheme() abort
-  let l:seoul = g:personal_seoul_backgrounds
-  if get(g:, 'colors_name', '') ==# 'nord'
-    let g:seoul256_light_background = l:seoul.white
-    colorscheme seoul256-light
-  elseif get(g:, 'colors_name', '') ==# 'seoul256-light'
-    if get(g:, 'seoul256_current_bg', -1) ==# l:seoul.white
-      let g:seoul256_light_background = l:seoul.off_white
-      colorscheme seoul256-light
-    else
-      let g:seoul256_background = l:seoul.dark
-      colorscheme seoul256
-    endif
-  else
-    colorscheme nord
-  endif
-endfunction
-
 function! s:IndentBuffer() abort
   let l:view = winsaveview()
   try
@@ -262,7 +244,6 @@ nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nnoremap glcd :cd %:h<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
-nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap gllc :lc %:h<CR>
 nnoremap glli :set list!<CR>:set list?<CR>

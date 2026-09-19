@@ -79,11 +79,38 @@ source ~/.vim/plugins.vim
 
 " # APPEARANCE
 
+" Seoul presets for glco: white 256, off-white 252, brown-green dark 236.
+" The plugin uses separate light (252-256) and dark (233-239) palettes.
+let s:seoul_backgrounds = {
+      \ 'white': 256,
+      \ 'off_white': 252,
+      \ 'dark': 236,
+      \ }
+let g:seoul256_background = s:seoul_backgrounds.dark
+let g:seoul256_light_background = s:seoul_backgrounds.white
+
 set background=dark
 try
   colorscheme nord
 catch /^Vim\%((\a\+)\)\=:E185/
 endtry
+
+function! s:ToggleColorscheme() abort
+  if get(g:, 'colors_name', '') ==# 'nord'
+    let g:seoul256_light_background = s:seoul_backgrounds.white
+    colorscheme seoul256-light
+  elseif get(g:, 'colors_name', '') ==# 'seoul256-light'
+    if get(g:, 'seoul256_current_bg', -1) ==# s:seoul_backgrounds.white
+      let g:seoul256_light_background = s:seoul_backgrounds.off_white
+      colorscheme seoul256-light
+    else
+      let g:seoul256_background = s:seoul_backgrounds.dark
+      colorscheme seoul256
+    endif
+  else
+    colorscheme nord
+  endif
+endfunction
 
 function! s:Highlights() abort
   " The palette targets cterm because this configuration is for terminal Vim.
@@ -189,3 +216,4 @@ augroup END
 " # MAPPINGS
 
 source ~/.vim/mappings.vim
+nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
