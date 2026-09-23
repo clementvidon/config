@@ -133,6 +133,7 @@ call s:Highlights()
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:-
 set shortmess=filnxtToOF
 set smartcase ignorecase
+set regexpengine=0
 set noincsearch
 set nowrap
 set relativenumber
