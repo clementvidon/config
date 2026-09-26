@@ -296,5 +296,8 @@
 
   "workbench.editor.openSideBySideDirection": "right",
   "workbench.editor.closeEmptyGroups": true,
-  "chat.disableAIFeatures": true
+  "chat.disableAIFeatures": true,
+
+  // VS Code telemetry
+  "telemetry.telemetryLevel": "off"
 }
