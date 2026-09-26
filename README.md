@@ -94,6 +94,24 @@ The default deployment includes the `fonts` package, which links the bundled
 font into `~/Library/Fonts` on macOS and
 `~/.local/share/fonts` on Ubuntu.
 
+## VS Code
+
+The shared settings live in `stow/vscode/.config/Code/User/settings.json`.
+`./install.sh install vscode` links them to VS Code's Ubuntu path. On macOS,
+VS Code reads a different path; link it to the Stow-managed file after moving
+aside any existing settings:
+
+```bash
+./install.sh install vscode
+mac_settings="$HOME/Library/Application Support/Code/User/settings.json"
+if [ -f "$mac_settings" ] && [ ! -L "$mac_settings" ]; then
+  mv "$mac_settings" "$mac_settings.before-config"
+fi
+ln -s "$HOME/.config/Code/User/settings.json" "$mac_settings"
+```
+
+Keep project-specific ESLint options in each project's `.vscode/settings.json`.
+
 ## Clipboard across local and SSH sessions
 
 Deploy the shared command with the configurations that use it:

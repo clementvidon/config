@@ -85,7 +85,11 @@ check_managed_configs() {
 
   if command -v python3 >/dev/null 2>&1; then
     while IFS= read -r -d '' config; do
-      python3 -m json.tool "$config" >/dev/null
+      if IFS= read -r first_line < "$config" && [[ "$first_line" == '// jsonc' ]]; then
+        python3 "$REPO_ROOT/scripts/check-jsonc.py" "$config"
+      else
+        python3 -m json.tool "$config" >/dev/null
+      fi
     done < <(find "$REPO_ROOT/stow" "$REPO_ROOT/exports" -type f -name '*.json' -print0)
   else
     skip 'JSON validation (python3 is unavailable)'
