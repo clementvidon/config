@@ -31,6 +31,9 @@ Deploy or remove selected configuration packages:
 ```
 
 Existing unmanaged files are left unchanged.
+The shell configurations optionally source `~/.private` for local settings kept
+outside this repository. If `~/.bashrc` or `~/.zshrc` already exists, back it up
+before installing its Stow package and keep any settings you still need.
 
 Installing the `zsh` package does not alter the account login shell. When zsh
 is available but not yet the login shell, the installer prints the command to

@@ -349,3 +349,10 @@ if [[ "$TERM_PROGRAM" == vscode ]]; then
 else
   export GIT_EDITOR='vim'
 fi
+
+
+# =============================================================================
+# Private settings
+# =============================================================================
+
+[[ -f "$HOME/.private" && -r "$HOME/.private" ]] && source "$HOME/.private"
