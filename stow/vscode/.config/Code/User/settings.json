@@ -1,6 +1,9 @@
 // jsonc
 {
+  // =============================================================================
   // Formatters: Prettier (esbenp.prettier-vscode) and Ruff (charliermarsh.ruff)
+  // =============================================================================
+
   "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescript]": {
@@ -10,7 +13,10 @@
   "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
 
+  // =============================================================================
   // Editor
+  // =============================================================================
+
   // ESLint fix action (dbaeumer.vscode-eslint)
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
@@ -35,7 +41,10 @@
   "editor.suggestSelection": "recentlyUsed",
   "editor.stickyScroll.enabled": false,
 
+  // =============================================================================
   // Explorer and workbench
+  // =============================================================================
+
   "explorer.confirmDelete": false,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": { "*.ts": "${basename}.test.ts" },
@@ -52,11 +61,17 @@
   "window.titleBarStyle": "custom",
   "window.commandCenter": false,
 
+  // =============================================================================
   // Terminal
+  // =============================================================================
+
   "terminal.integrated.fontSize": 13,
   "terminal.integrated.gpuAcceleration": "on",
 
+  // =============================================================================
   // ESLint (dbaeumer.vscode-eslint)
+  // =============================================================================
+
   "eslint.run": "onSave",
   "eslint.validate": [
     "javascript",
@@ -65,19 +80,28 @@
     "typescriptreact"
   ],
 
+  // =============================================================================
   // TypeScript and JavaScript
+  // =============================================================================
+
   "ts.tsserver.MaxMemory": 4096,
   "ts.tsserver.experimental.enableProjectDiagnostics": false,
   "ts.suggest.completeFunctionCalls": false,
 
+  // =============================================================================
   // GitLens (eamodio.gitlens)
+  // =============================================================================
+
   "gitlens.codeLens.enabled": false,
   "gitlens.currentLine.enabled": false,
   "gitlens.hovers.enabled": false,
   "gitlens.blame.avatars": false,
   "gitlens.hovers.currentLine.over": "line",
 
+  // =============================================================================
   // VSCodeVim (vscodevim.vim): Ctrl keys handled by VS Code or by Vim.
+  // =============================================================================
+
   // false = VS Code; true = VSCodeVim.
   "vim.handleKeys": {
     // Navigation
@@ -139,7 +163,10 @@
     "<C-@>": true
   },
 
+  // =============================================================================
   // VSCodeVim (vscodevim.vim): normal mode mappings
+  // =============================================================================
+
   "vim.normalModeKeyBindingsNonRecursive": [
     // Editor commands
     { "before": ["x"], "commands": ["workbench.action.showCommands"] },
@@ -238,7 +265,10 @@
     }
   ],
 
+  // =============================================================================
   // VSCodeVim (vscodevim.vim): visual mode mappings
+  // =============================================================================
+
   "vim.visualModeKeyBindingsNonRecursive": [
     { "before": ["g", "w"], "after": ["g", "q"] },
     {
@@ -247,12 +277,18 @@
     }
   ],
 
+  // =============================================================================
   // VSCodeVim (vscodevim.vim): insert mode mappings
+  // =============================================================================
+
   "vim.insertModeKeyBindingsNonRecursive": [
     { "before": ["<C-v>"], "commands": ["editor.action.clipboardPasteAction"] }
   ],
 
+  // =============================================================================
   // File visibility, search, and watching
+  // =============================================================================
+
   "files.exclude": {
     "**/node_modules": true,
     "**/dist": true,
@@ -275,7 +311,10 @@
     "**/tmp/**": true,
     "**/.coverage/**": true
   },
+  // =============================================================================
   // Git and remaining workbench preferences
+  // =============================================================================
+
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "workbench.editor.showTabs": "single",
@@ -298,6 +337,9 @@
   "workbench.editor.closeEmptyGroups": true,
   "chat.disableAIFeatures": true,
 
+  // =============================================================================
   // VS Code telemetry
+  // =============================================================================
+
   "telemetry.telemetryLevel": "off"
 }

@@ -15,6 +15,14 @@ This repository manages personal macOS and Ubuntu configuration with GNU Stow.
 - Subdirectories may define more specific `AGENTS.md` rules. Follow the closest
   applicable file.
 
+## Configuration style
+
+For top-level sections in Stow configurations, use three-line comment headings:
+`# =============================================================================`,
+`# Section`, and the same separator. Use the file's comment prefix (`#`, `--`,
+or `//`). Keep explanatory comments short. Vim and IdeaVim use their own style;
+native configuration sections need no comment heading.
+
 ## Documentation
 
 - Keep documentation short and focused on stable usage and invariants.

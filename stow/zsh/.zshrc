@@ -1,13 +1,17 @@
 # ~/.zshrc
 
+# =============================================================================
 # Environment
+# =============================================================================
 
 [[ -n "${TTY:-}" ]] && export GPG_TTY="$TTY"
 
 autoload -Uz add-zsh-hook
 
 
+# =============================================================================
 # Vi mode
+# =============================================================================
 
 bindkey -v
 KEYTIMEOUT=1  # 10 ms vi mode transition
@@ -22,7 +26,9 @@ bindkey -M vicmd 'k' history-beginning-search-backward-end
 bindkey -M vicmd 'j' history-beginning-search-forward-end
 
 
+# =============================================================================
 # Completion
+# =============================================================================
 
 autoload -Uz compinit
 compinit -C
@@ -33,7 +39,9 @@ zmodload zsh/complist
 bindkey -M menuselect '^[[Z' reverse-menu-complete  # Shift-Tab
 
 
+# =============================================================================
 # History
+# =============================================================================
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=1000
@@ -70,12 +78,16 @@ _llm_history_filter() {
 add-zsh-hook zshaddhistory _llm_history_filter
 
 
+# =============================================================================
 # Shell behavior
+# =============================================================================
 
 setopt ignore_eof
 
 
+# =============================================================================
 # Prompt
+# =============================================================================
 
 setopt PROMPT_SUBST
 
@@ -130,7 +142,9 @@ add-zsh-hook precmd _update_git_prompt
 PROMPT='%n@%m%{%F{102}%}${git_prompt}%{%f%}%# '
 
 
+# =============================================================================
 # Aliases
+# =============================================================================
 
 # Platform-specific.
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -198,7 +212,9 @@ alias awake='systemd-inhibit --what=idle:sleep:handle-lid-switch:sleep --mode=bl
 alias ricoh='cd "$HOME/Documents/Images/RicohGR" && pwd'
 
 
+# =============================================================================
 # Git functions
+# =============================================================================
 
 # Compact Git log with shortstat.
 glof() {
@@ -241,7 +257,9 @@ gup() {
 }
 
 
+# =============================================================================
 # Navigation functions
+# =============================================================================
 
 # Change to an adjacent sibling directory without parsing command output.
 _cd_sibling() {
@@ -274,7 +292,9 @@ cdp() {
 }
 
 
+# =============================================================================
 # Optional environments
+# =============================================================================
 
 start_kub() {
   alias k='kubectl'
@@ -304,7 +324,9 @@ start_node() {
   node --version
 }
 
+# =============================================================================
 # LLM helpers
+# =============================================================================
 
 # The shared llm-text command requires Simon Willison's `llm` CLI:
 # https://github.com/simonw/llm
@@ -318,7 +340,9 @@ alias lex='llm-text lex'
 alias equ='llm-text equ'
 
 
+# =============================================================================
 # VS Code
+# =============================================================================
 
 if [[ "$TERM_PROGRAM" == vscode ]]; then
   export GIT_EDITOR='code --wait'

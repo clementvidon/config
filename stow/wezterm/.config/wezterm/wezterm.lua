@@ -1,7 +1,10 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- =============================================================================
 -- Terminal
+-- =============================================================================
+
 config.term = "xterm-256color"
 config.audible_bell = "Disabled"
 
@@ -11,7 +14,10 @@ config.default_prog = {
   "exec tmux new-session -A -s main",
 }
 
+-- =============================================================================
 -- Window
+-- =============================================================================
+
 config.initial_cols = 80
 config.initial_rows = 24
 config.window_background_opacity = 1
@@ -21,7 +27,10 @@ config.window_decorations = "TITLE | RESIZE"
 
 config.adjust_window_size_when_changing_font_size = false
 
+-- =============================================================================
 -- Font
+-- =============================================================================
+
 config.font_size = 12.0
 if wezterm.target_triple:find("apple") then
   config.font_dirs = { wezterm.home_dir .. "/Library/Fonts" }
@@ -35,7 +44,10 @@ config.font = wezterm.font("Iosevka Term", {
 
 config.bold_brightens_ansi_colors = true
 
+-- =============================================================================
 -- Colors
+-- =============================================================================
+
 config.colors = {
   foreground = "#d8dee9",
   background = "#2e3340",
@@ -66,7 +78,10 @@ config.colors = {
   },
 }
 
+-- =============================================================================
 -- Key bindings
+-- =============================================================================
+
 config.disable_default_key_bindings = true
 
 config.keys = {
