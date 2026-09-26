@@ -158,6 +158,11 @@ alias vi='vim'
 alias nano='vim'
 
 # Git.
+if [[ $OSTYPE == darwin* && $commands[git] == /usr/bin/git &&
+      -x /Library/Developer/CommandLineTools/usr/bin/git ]]; then
+  hash git=/Library/Developer/CommandLineTools/usr/bin/git
+fi
+
 alias gad='git add'
 alias gap='git add --patch'
 alias gau='git add --update'
