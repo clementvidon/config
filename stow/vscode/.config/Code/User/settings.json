@@ -1,4 +1,7 @@
 // jsonc
+// Stow links this file to ~/.config/Code/User/settings.json.
+// On macOS, also link ~/Library/Application Support/Code/User/settings.json
+// to that path after moving aside existing settings and creating its parent directory.
 {
   // =============================================================================
   // Formatters: Prettier (esbenp.prettier-vscode) and Ruff (charliermarsh.ruff)

@@ -1,36 +1,28 @@
 # Noesis
 
-## Purpose and configuration
+Vim tools for `.noe` notes: navigation, search, HTML export, and translation.
 
-Noesis provides Vim support for the personal notes directory. It recognizes
-every `.noe` file; Markdown files remain Markdown, including below the Noesis
-root. Achiever can add its task component through dotted filetypes such as
-`noesis.achiever`.
+## Configuration
 
-The default root is `~/noesis`. Override it per machine with `NOESIS_ROOT`, or
-before plugins load with:
+The notes directory defaults to `~/noesis`. Set `NOESIS_ROOT` in the shell or
+configure it before plugins load:
 
 ```vim
-let g:noesis_root = expand('~/path/to/noesis')
+let g:noesis_root = expand('~/notes')
 ```
 
-HTML export reads optional `g:noesis_export_author`,
-`g:noesis_export_copyright`, and `g:noesis_export_footer` values. The footer is
-treated as trusted HTML. Export is refused for sensitive buffers before Vim's
-HTML renderer can create a derived plaintext buffer.
+## Usage
 
-## Language commands and privacy
+`:Grep pattern` searches unencrypted `.noe` files under the notes directory
+using ripgrep (`rg`). Achiever can add task editing through the
+`noesis.achiever` filetype.
 
-`:Fr`, `:En`, and `:Sy` use the optional `llm-text` command from the scripts
-package. That wrapper uses the configured Simon Willison `llm` provider and may
-send note content over the network. Do not send confidential note content
-unless that provider is trusted. Each command remains explicitly
-user-triggered; selected text is passed as data, so Ex and shell metacharacters
-in it are not interpreted.
+`<LocalLeader>X` exports the current note to HTML. Optional
+`g:noesis_export_author`, `g:noesis_export_copyright`, and
+`g:noesis_export_footer` customize the output; the footer accepts HTML.
+Export is disabled for sensitive buffers.
 
-## Search
-
-Buffer-local `:Grep` searches `.noe` files recursively with ripgrep and excludes
-`.gpg.noe` files. Those encrypted files contain ciphertext on disk, so searching
-them would not expose useful note content. This command requires optional `rg`
-and configures its own quickfix parsing independently of global `grepprg`.
+`:Fr text`, `:En text`, and `:Sy text` translate or find synonyms through
+`llm-text` from the scripts package. These commands require a configured `llm`
+provider for the model selected in `llm-text`, and send the supplied text to
+that provider when invoked.

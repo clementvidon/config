@@ -24,6 +24,8 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_fix_on_save = 0
 let g:ale_maximum_file_size = 1024 * 1024
 
+" Checkmake uses defaults: the pinned ALE integration does not shell-escape its
+" config path. Terraform validation is manual because ALE does not set its cwd.
 let g:ale_linters = {
       \ 'sh': ['shellcheck'],
       \ 'yaml': ['yamllint', 'actionlint'],

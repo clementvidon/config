@@ -300,6 +300,8 @@ remove_stow_packages() {
   "${command[@]}" "${STOW_PACKAGES[@]}"
 }
 
+# Karabiner needs a regular file for change detection. Track the installed copy
+# so updates and removal preserve changes made outside this installer.
 preflight_karabiner() {
   package_selected karabiner || return 0
 

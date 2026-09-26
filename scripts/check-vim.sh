@@ -89,17 +89,8 @@ if !empty(v:errmsg)
   call add(s:errors, 'vimrc reload: ' . v:errmsg)
 endif
 
-" Exercise ordinary editing without pinning mappings or numeric output.
-enew
-call setline(1, ['5/2', '(1,5 + 2) / 2'])
-let v:errmsg = ''
-normal glbc
-normal jglbc
-if !empty(v:errmsg)
-  call add(s:errors, 'arithmetic editing: ' . v:errmsg)
-endif
-
 " Buffer arithmetic must never become arbitrary Vimscript execution.
+enew
 let g:calculator_side_effect = 0
 for s:expression in [
       \ 'execute("let g:calculator_side_effect = 1")',

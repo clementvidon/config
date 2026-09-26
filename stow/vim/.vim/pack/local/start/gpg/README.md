@@ -1,83 +1,54 @@
 # Vim GPG
 
-## Purpose
+Edit encrypted text files matching `*.gpg.*`. The plugin decrypts on opening
+and encrypts on saving.
 
-The plugin decrypts and re-encrypts text files matching `*.gpg.*` while
-disabling Vim persistence that could retain plaintext.
+## Setup
 
-## Threat model
-
-Closed files contain OpenPGP ciphertext. While a file is open, its plaintext is
-present in Vim's process memory. This plugin does not protect against root, the
-kernel, endpoint monitoring capable of reading the process, screen capture, or
-keylogging. The security of the GPG key and `gpg-agent` is a separate boundary.
-
-Arbitrary commands, clipboard operations, filters, or other plugins can still
-transmit buffer contents. This plugin prevents unencrypted file writes through
-Vim's normal write paths and disables the persistence mechanisms it controls;
-it is not a sandbox for every action possible inside Vim. Commands that
-explicitly bypass autocommands, such as `:noautocmd`, and direct Vimscript file
-I/O are outside this guarantee.
-
-## Guarantees
-
-Sensitive buffers use `noswapfile` and `noundofile`. Backup and Vim info
-persistence remain disabled for the whole session after plaintext is exposed,
-so later registers, searches, or command history cannot persist it.
-These protections are installed before editing begins and are not retroactive.
-Opening a new encrypted path or assigning one to an unnamed buffer with `:file`
-installs them before the first plaintext is entered.
-
-Cleartext is sent to GPG through pipes rather than shell-filter temporary files.
-Only successfully generated armored ciphertext replaces a destination. A disk
-fingerprint prevents overwriting a file changed since it was read. Appending
-ciphertext and writing a managed plaintext buffer to an unencrypted filename
-are refused.
-
-New files use mode `0600`; rewrites preserve existing Unix permission bits.
-Atomic replacement creates a new inode, so ACLs, extended attributes, and other
-metadata are not guaranteed to survive. The plugin handles text files, not
-arbitrary binary data. Its line-oriented pipeline follows Vim's text-buffer
-semantics and does not promise byte-for-byte preservation of final line endings.
-
-## Requirements and configuration
-
-The plugin requires `gpg`, `/bin/sh`, and Vim job/channel support. The optional
-agent-restart mapping `glgr` requires `gpgconf`; the isolated test harness also
-uses `gpg-connect-agent`. Set the encryption recipient before the plugin loads:
+Requires `gpg`, `/bin/sh`, and Vim with job/channel support. Set your recipient
+fingerprint before plugins load (in `plugins.vim` for this configuration):
 
 ```vim
 let g:vim_gpg_recipient = 'YOUR-GPG-FINGERPRINT'
 ```
 
-## Read and write behavior
+Open an encrypted filename before entering text:
 
-A successful read replaces ciphertext in memory with plaintext and records the
-fingerprint of the exact ciphertext version that produced it, together with the
-logical filename and its resolved destination. If that filename or one of its
-parent directories is a symlink and is later retargeted, writing through the
-same name is refused; reload the new destination or save as an explicit other
-name. A write encrypts into a staging directory beside the destination, applies
-the required permission bits, verifies that the destination has not changed,
-and renames the ciphertext atomically. Failures before that replacement leave
-the existing destination intact and remove staging files. Once replacement
-succeeds, errors from post-write hooks are reported but cannot roll back the
-completed encrypted write. Write hooks receive the original source buffer,
-range, and exact destination filename even when a Pre hook changes the current
-buffer or Vim's range marks.
+```vim
+:edit notes.gpg.txt
+```
+
+Use `:write` to save encrypted content. Appending and saving to an unencrypted
+filename are refused. If the file changes on disk or a symlink is retargeted,
+reload it or save under a new encrypted filename.
+
+## Storage
+
+Plaintext passes to GPG through pipes. Validated ciphertext replaces the file
+atomically; failures before replacement leave the destination intact. Errors
+in post-write hooks occur after the encrypted file has been saved.
+
+New files use mode `0600`; rewrites preserve Unix permission bits. Replacement
+may discard ACLs and extended attributes. The plugin uses Vim text-buffer
+semantics, including line-ending handling.
+
+Swap and persistent undo are disabled for sensitive buffers. Backups and
+viminfo stay disabled for the rest of the session because registers and
+history may retain plaintext. These protections apply from activation onward;
+they do not erase plaintext previously saved by Vim.
+Explicit commands, clipboard operations, other plugins, and writes bypassing
+autocommands can still export plaintext.
 
 ## Manual transforms
 
-The remaining `glg*` mappings provide manual decryption, visual-range
-encryption/decryption, symmetric encryption, and GPG agent restart. These are
-content transforms, not a safe conversion mechanism for an existing plaintext
-file: plaintext may already have reached swap, undo, backups, or history. For a
-new confidential note, open its `*.gpg.*` filename before typing any plaintext.
-Manual transforms make the current buffer sensitive and disable persistence,
-but they do not turn an ordinary filename into GPG-managed encrypted storage.
+`glgd` decrypts the buffer, or a visual selection. In visual mode, `glga`
+encrypts to the configured recipient and `glgs` uses symmetric encryption.
+`glgr` restarts the GPG agent and requires `gpgconf`.
+
+Transforms disable persistence but retain the filename. An ordinary file keeps
+its normal write behavior. Use a `*.gpg.*` file for automatic encrypted storage.
 
 ## Tests
 
-Run `test/run.sh`. The headless suite creates a temporary home, GnuPG keyring,
-and disposable key; it never reads the configured personal recipient or
-keyring.
+From this directory, run `test/run.sh`. It uses a temporary home and disposable
+GnuPG keyring, and additionally requires Bash and `gpg-connect-agent`.

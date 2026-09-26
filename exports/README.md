@@ -1,23 +1,20 @@
 # Exports
 
-Application backups kept as references and never deployed by GNU Stow. These
-are manual exports: creating, reviewing and restoring them are all manual
-operations.
+Application settings restored manually, independently of `install.sh`.
 
-- `keyboard/`: keyboard configuration export;
-- `ubuntu/`: Ubuntu and GNOME settings export.
+## GNOME
 
-Review every export before importing it on another machine. It may contain
-host-specific paths or values.
+Requires `dconf-cli`. Run from the repository root in an active GNOME session,
+as the desktop user:
 
-## Restore GNOME settings
-
-From an active GNOME session, without `sudo`, save the current settings and
-then import the Ubuntu export:
-
-```bash
+```sh
 dconf dump / > ~/ubuntu-settings-before-import.conf
 dconf load / < exports/ubuntu/ubuntu-settings-backup.conf
 ```
 
-Install `dconf-cli` first if `dconf` is unavailable.
+The import applies the exported settings, including machine-specific values.
+To reapply the values saved in the backup:
+
+```sh
+dconf load / < ~/ubuntu-settings-before-import.conf
+```

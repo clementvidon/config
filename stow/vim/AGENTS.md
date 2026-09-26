@@ -1,126 +1,80 @@
-# Vim maintenance rules
+# Vim maintenance
 
-## Scope
+## Design
 
-These rules apply to `.vimrc` and `.vim/**`. This file is repository guidance;
-`.stow-local-ignore` keeps it out of the deployed home directory.
+- Keep Vim a lightweight terminal editor. Prefer native behavior and existing
+  tooling; add plugins only for needs they cannot reasonably satisfy.
+- Remove unused behavior instead of adding abstractions to preserve it.
+- Use Vim's standard filetypes and ALE for shared linting and manual formatting.
+  Add a first-party filetype override only when the runtime and ALE cannot meet
+  the need; document that reason beside the override.
+- Do not add language servers, semantic completion, language-specific build,
+  run or debugging integrations, snippets, automatic tags, or format-on-save.
+- Support macOS and Ubuntu; resolve executables through `PATH`.
+- Pin third-party plugins to commits. Do not reformat or casually modify
+  vendored `autoload/plug.vim`. Preserve the upstream structure, attribution,
+  and standalone use of `redact-pass`.
+- Keep local plugins self-contained. Noesis owns note behavior; Achiever owns
+  task behavior. Their READMEs describe configuration and supported formats.
+- Keep Noesis search self-contained and exclude encrypted notes. Translation
+  must be explicitly invoked and document which provider receives the text.
+- Keep Achiever parsing, editing, duration calculation, and highlighting
+  consistent with its documented task grammar.
 
-## Architectural invariants
+## Sensitive data
 
-- Vim remains a lightweight terminal editor, not an IDE.
-- Prefer native Vim behavior and existing tooling over new plugins.
-- Prefer deleting unused behavior over adding an abstraction to preserve it.
-- Keep standard filetypes on Vim's runtime; ALE provides the shared Ops lint
-  and explicit formatting interface.
-- Do not add language-specific compilation, execution, debugging, snippets,
-  automatic tags, LSP, semantic completion, or format-on-save behavior.
-- Keep the configuration portable across macOS and remote Ubuntu/Linux systems;
-  discover executables through `$PATH`.
-- Keep third-party plugins pinned to explicit commits.
-- Do not reformat or casually modify vendored `.vim/autoload/plug.vim`.
-- Preserve the upstream structure and attribution of `redact-pass`; it remains
-  independently usable.
-- Add no plugin without a concrete need that native Vim and current tooling
-  cannot reasonably satisfy.
+GPG and redact-pass share sensitivity markers but remain independent plugins.
+Do not replace them with a shared sensitive-buffer framework.
 
-## Sensitive-buffer invariants
-
-GPG and redact-pass intentionally share the first two markers while remaining
-independent plugins. Their local implementations must not become a generic
-sensitive-buffer framework.
-
-- `g:vim_sensitive_session` is sticky for the lifetime of the Vim process after
-  sensitive plaintext is exposed. Global persistence must remain disabled.
-- `b:vim_sensitive_buffer` marks a buffer containing sensitive plaintext. Swap
-  and persistent undo must be disabled before plaintext is read or entered.
-- Configured automatic integrations, including ALE, must not process a buffer
-  marked `b:vim_sensitive_buffer` or serialize its plaintext to temporary files.
-- `b:vim_gpg_managed_buffer` is the stronger marker owned by Vim GPG. Do not
-  apply its encrypted-write restrictions to every sensitive buffer.
-- GPG failures before atomic replacement must leave the existing destination
-  unchanged; post-write hook errors cannot roll back a completed replacement.
+- `g:vim_sensitive_session` stays set after plaintext is exposed; global
+  persistence must stay disabled for the rest of the process.
+- `b:vim_sensitive_buffer` disables swap and persistent undo before plaintext
+  is read or entered. Automatic integrations must neither process nor serialize
+  these buffers, including work queued before they became sensitive.
+- `b:vim_gpg_managed_buffer` belongs to GPG and adds encrypted-write
+  restrictions. Other sensitive buffers retain their own write behavior.
 - The GPG pipeline must never write plaintext to temporary files.
-- GPG disk fingerprints remain bound to their canonical path and to the exact
-  ciphertext version that produced the buffer plaintext.
-- Encrypted writes retain validated ciphertext, same-filesystem staging,
-  disk-state revalidation, and atomic replacement.
+- Bind disk fingerprints to the canonical path and ciphertext that produced
+  the buffer. Retain ciphertext validation, staging on the destination
+  filesystem, disk-state revalidation, and atomic replacement.
+- Failures before replacement preserve the destination. Post-write hook errors
+  cannot undo a completed replacement.
+
+## Vimscript style
+
+- Start non-trivial first-party files with a one-line purpose comment.
+- Use `" # SECTION` for responsibility boundaries and `" ## subsection` when
+  a long section needs navigation. Qualify repeated names, such as
+  `" ## ALE / mappings`. Leave one blank line around headings. Do not add
+  decorative banners or headings to trivial files.
+- Explain reasons, Vim constraints, and security assumptions; keep helpers
+  near the behavior they support.
+- Use two-space indentation and retain existing continuation indentation.
+  Aim for 80 columns in prose and 100 in code when splitting aids readability.
+- Use `scriptencoding utf-8` for literal Unicode. Save and restore `&cpoptions`
+  for standalone plugins that need Vim-compatible parsing.
+- Keep core settings in `.vimrc`, plugin settings and declarations in
+  `plugins.vim`, and general mappings in `mappings.vim`.
+- Group plugin files by defaults, helpers, commands, autocommands, and mappings.
+  Keep plugin declarations after their settings. Give ftplugins a
+  `b:undo_ftplugin`; finish syntax files with `b:current_syntax`.
 
 ## Testing policy
 
-- Keep general Vim checks at smoke-test level: configuration startup, reload,
-  and representative file opening without errors.
-- Do not assert individual mappings, abbreviations, commands, option values,
-  output text, tool arguments, or plugin implementation details.
-- Run `.vim/pack/local/start/gpg/test/run.sh` after changes to encrypted I/O,
-  persistence protection, fingerprints, staging, write events, or
-  sensitive-buffer handling.
-- Reserve precise behavioral regression tests for security-sensitive behavior,
-  especially GPG and plaintext-persistence protections.
+- Limit general Vim checks to smoke tests: startup, reload, and representative
+  file opening without errors. Keep a small representative set of files;
+  do not add a fixture for each filetype, plugin, or configuration change.
+- Apply the root testing policy. General checks must not test individual
+  abbreviations, tool arguments, or plugin internals either.
+- Reserve detailed Vim regressions for security guarantees, including encrypted
+  I/O, plaintext persistence, sensitive-buffer isolation, and prevention of
+  unintended code execution. Each assertion must support the protected outcome.
 
-## Noesis invariants
+## Verification
 
-- Noesis owns note-specific behavior only; do not reintroduce Git repository
-  synchronization.
-- `:Grep` remains self-contained, uses ripgrep, and excludes encrypted notes.
-- Translation commands remain explicitly user-triggered, and their privacy
-  boundary remains documented.
-
-## Achiever invariants
-
-The canonical task grammar is:
-
-- `- description`
-- `- YYMMDD HH:MM description`
-- `- YYMMDD HH:MM HH:MM description`
-
-Do not reintroduce subtasks without an explicit new requirement. Checking,
-clearing, fixing, duration calculation, and syntax highlighting must remain
-consistent with this grammar.
-
-## Code organization
-
-- Start non-trivial first-party Vimscript files with a one-line purpose comment.
-- Use `" # SECTION` for real responsibility boundaries and `" ## subsection`
-  only when a long section needs navigation. Qualify repeated subsection names,
-  as in `" ## ALE / mappings`. Leave one blank line around headings; ordinary
-  comments remain plain sentences. Do not add decorative banners. Tiny files
-  need no section headings.
-- Explain reasons, Vim constraints, security assumptions, and trade-offs rather
-  than narrating obvious code.
-- Keep script-local helpers near the behavior they support.
-- Use two-space indentation and retain the existing continuation indentation.
-- Keep prose near 80 columns and code near 100 when splitting improves
-  readability. Long mappings and regular expressions may remain intact.
-- Use `scriptencoding utf-8` in first-party scripts containing literal Unicode.
-- Save and restore `&cpoptions` only when a plugin is intended to stand alone
-  and benefits from Vim-compatible parsing.
-- Avoid abstractions that make small Vimscript harder to audit.
-
-Prefer this order where the sections exist:
-
-- `.vimrc`: bootstrap, persistent state, plugin loading, appearance, editor
-  options, search/navigation, private helpers, commands, autocommands, mappings.
-- `plugins.vim`: local plugin configuration, third-party settings grouped by
-  plugin, then plugin declarations.
-- `mappings.vim`: private helpers, then mappings grouped by user-facing scope.
-- `plugin/*.vim`: load guard, defaults, private helpers, commands,
-  autocommands, mappings.
-- `ftplugin/*.vim`: load guard, buffer configuration, commands, mappings,
-  `b:undo_ftplugin`.
-- `autoload/*.vim`: feature groups, with private helpers next to the public API
-  using them.
-- `syntax/*.vim`: syntax definitions, highlights/helper, `ColorScheme` hook,
-  then `b:current_syntax`.
-
-The mappings `sve` and `sv.` intentionally leave `:vertical split` open for Vim
-completion. `svp` is the completed previous-buffer form. Do not reduce them to
-the `:vertical` modifier alone.
-
-## Change rule
-
-Before changing behavior, identify the affected invariant. Update the relevant
-README and tests in the same change when modifying security, persistence,
-encrypted I/O, external data transmission, plugin reproducibility, external
-dependencies, or architectural boundaries.
-
-Run `./install.sh check` and `git diff --check` after relevant changes.
+- Run `.vim/pack/local/start/gpg/test/run.sh` from this directory after changes
+  to encrypted I/O, persistence protection, or sensitive-buffer handling.
+- Before changing behavior, identify the affected invariant. Update usage
+  documentation when behavior or dependencies change, and affected security
+  checks when their guarantees change, within the testing policy above.
+- Run the repository checks specified in the root AGENTS.md.

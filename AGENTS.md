@@ -1,6 +1,6 @@
 # Repository guidelines
 
-This repository manages personal macOS and Ubuntu configuration with GNU Stow.
+This repository manages macOS and Ubuntu configuration with GNU Stow.
 
 ## Structure
 
@@ -12,8 +12,8 @@ This repository manages personal macOS and Ubuntu configuration with GNU Stow.
   maintenance commands belong in `scripts/`.
 - Keep generated state, caches, secrets, and downloaded dependencies out of the
   repository.
-- Subdirectories may define more specific `AGENTS.md` rules. Follow the closest
-  applicable file.
+- Apply these rules throughout the repository and follow any more specific
+  AGENTS.md in the directory being changed.
 
 ## Configuration style
 
@@ -25,9 +25,22 @@ native configuration sections need no comment heading.
 
 ## Documentation
 
-- Keep documentation short and focused on stable usage and invariants.
+- Write for someone who has no knowledge of the author's setup or past work.
+- Keep the root README focused on setup, everyday usage, and contribution.
+  Put tool-specific instructions beside the relevant configuration.
+- Include only information needed to use or maintain the documented feature.
+  Omit personal workflow advice, historical reminders, speculative warnings,
+  and unrelated special cases.
+- Make instructions actionable. Use generic examples and explain required
+  inputs or prerequisites where they are used.
 - Prefer examples and discovery commands over lists that must be maintained.
 - Document real platform exceptions close to the code that implements them.
+- Keep each rule in one place. AGENTS.md files define maintenance constraints;
+  READMEs explain usage. Retain concrete security and data-loss constraints
+  where they affect the feature.
+- Documentation cleanup must preserve the scope and strength of maintenance
+  rules. Verify suspected obsolete guidance against the code; ask the user
+  before removing it when its relevance remains uncertain.
 
 ## Commits
 
@@ -36,15 +49,24 @@ native configuration sections need no comment heading.
   repository-wide changes; for example, `feat(vim): set JSON indentation` or
   `fix(zsh): correct prompt initialization`.
 
-## Checks
+## Testing policy
 
-- Check configuration syntax, repository structure, and generic Stow behavior:
-  dry runs, idempotency, conflicts, and clean removal.
-- Discover inputs automatically. Adding, changing, or removing a package,
-  configuration file, or personal command must not require changing a check.
-- Do not test personal commands. Avoid assertions on exact output or log text.
-- Keep dependencies and explicit checks to a minimum; retain only stable
-  installer contracts such as supported platforms and specially managed assets.
+- Keep configuration checks broad: syntax, loading, repository structure, and
+  generic Stow behavior (dry runs, idempotency, conflicts, and clean removal).
+- Discover packages and configuration inputs automatically. Adding, removing,
+  or adjusting ordinary configuration must not require editing tests, expected
+  values, fixtures, or inventories. A new format may justify one generic syntax
+  validator; it does not justify tests for each setting or file.
+- Do not assert individual preferences, mappings, commands, exact output or log
+  text, or snapshots of configuration contents. Do not test personal commands.
+- Detailed regression tests are limited to stable installer contracts and
+  documented security guarantees. Within those tests, check only the behavior
+  or state needed to establish the guarantee, not unrelated configuration.
+- Every new test must identify a concrete uncovered failure within this scope.
+  Do not duplicate coverage, enumerate speculative edge cases, or add tests
+  merely because configuration changed. Keep dependencies to a minimum.
+- When changing an installer or security guarantee, update only the affected
+  checks. Once required checks pass, stop unless a specific risk remains.
 
 ## Verification
 

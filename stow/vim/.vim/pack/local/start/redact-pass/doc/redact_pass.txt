@@ -6,13 +6,8 @@ This plugin switches off 'viminfo', 'backup' and 'writebackup' for the session
 when editing a password in `pass(1)`. It also disables 'swapfile' and 'undofile'
 for the password buffer, before reading it.
 
-This avoids persisting password text through these Vim facilities. It does not
-control arbitrary commands or other plugins that save or transmit text.
-
-You should test this after installation to ensure you see this message is
-printed whenever you `pass edit`:
-
-> Editing password file--disabled leaky options!
+Use `pass edit <entry>` with Vim configured as the editor. Protection activates
+before the password is read; other commands and plugins can still export text.
 
 REQUIREMENTS					*redact_pass-requirements*
 
@@ -23,8 +18,8 @@ IMPLEMENTATION					*redact_pass-implementation*
 
 The global privacy options remain disabled for the rest of the session:
 registers and history can retain sensitive text even after closing the buffer.
-Protection is reapplied after sourcing configuration files. The plugin works
-without the personal Vim configuration or the GPG plugin.
+Protection is reapplied after sourcing configuration files. The plugin also
+works independently of this repository's Vim configuration and GPG plugin.
 
 AUTHOR						*redact_pass-author*
 
