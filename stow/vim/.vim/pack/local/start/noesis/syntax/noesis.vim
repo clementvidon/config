@@ -2,7 +2,7 @@
 
 " # SYNTAX DEFINITIONS
 
-syntax sync fromstart
+syntax sync minlines=200
 
 syntax region noesisH1 start="^##\@!"        end="#*\s*$"
 syntax region noesisH2 start="^###\@!"       end="#*\s*$"
