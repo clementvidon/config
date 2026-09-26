@@ -33,6 +33,10 @@ bindkey -M vicmd 'j' history-beginning-search-forward-end
 autoload -Uz compinit
 compinit -C
 
+# Accept Bash completion scripts that use complete and compgen.
+autoload -Uz bashcompinit
+bashcompinit
+
 zstyle ':completion:*' menu select
 
 zmodload zsh/complist
