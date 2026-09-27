@@ -4,38 +4,42 @@
 
 syntax sync minlines=200
 
-syntax region noesisH1 start="^##\@!"        end="#*\s*$"
-syntax region noesisH2 start="^###\@!"       end="#*\s*$"
-syntax region noesisH3 start="^####\@!"      end="#*\s*$"
-syntax region noesisH4 start="^#####\@!"     end="#*\s*$"
-syntax region noesisH5 start="^######\@!"    end="#*\s*$"
-syntax region noesisH6 start="^#######\@!"   end="#*\s*$"
+" Check surrounding blank lines without consuming a shared separator.
+" Use \_^ and \_$ because these anchors follow or precede other atoms.
+let s:before_heading = '\%(\%^\|^[ \t]*\n\)\@<='
+let s:after_heading = '\%(\n[ \t]*$\|\%$\)\@='
+for s:level in range(1, 6)
+  execute 'syntax match noesisH' . s:level . ' /' . s:before_heading
+        \ . '\_^' . repeat('#', s:level) . '\s\+\S.*\_$' . s:after_heading . '/'
+endfor
+execute 'syntax match noesisH2 /' . s:before_heading
+      \ . '\_^[^# \t].*\n-\{80}\s*\_$' . s:after_heading . '/'
+unlet s:before_heading s:after_heading s:level
 
-syntax match noesisHeader "^.*\n^-\{3,}$"
-syntax match noesisHeader "^.*\n^=\{3,}$"
 syntax match noesisHeader "^\s\{72}\[\d\{6}]$"
 
 syntax match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://|(mailto|file|news|about|ed2k|irc|sip|magnet):)[^' \t<>"]+|(www|web|w3)[a-z0-9_-]*\.[a-z0-9._-]+\.[^' \t<>"]+)[A-Za-z0-9/-]"
 " Bound look-behind to its actual prefix, without limiting multiline sync.
 syntax match noesisLink "\(\s@\|^@\|(@\)\@2<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)"
+syntax match noesisLink "\[\%([^][\\]\|\\.\|\n\)\+\](\%([^()\\]\|\\.\|([^()]*)\)*)"
 syntax match noesisTag  "\(\s#\|^#\|(#\)\@2<=[a-zA-Z0-9/_]\{-}\ze\(\s\|:\|;\|,\|$\|)\)"
 
-syntax match noesisBlockquote "^\s\{0,5}>\{1,2}\s"
-syntax match noesisBlockquote "^\s\{0,5}>$"
+syntax match noesisBlockquote "^[ \t]\{0,3}\%(>[ \t]\?\)\+"
 
 if has("conceal")
-  syntax region noesisCode       concealends matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`" contains=@NoSpell
+  syntax region noesisCode concealends matchgroup=noesisDelim start="`\@1<!\z(`\+\)" end="`\@1<!\z1`\@!\|^[ \t]*$" contains=@NoSpell
   syntax region noesisItalic     concealends matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
   syntax region noesisBold       concealends matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
   syntax region noesisBoldItalic concealends matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 else
-  syntax region noesisCode                   matchgroup=noesisDelim start="\S\@<=`\|`\S\@="           end="\S\@<=`\|`\S\@="           skip="\\`" contains=@NoSpell
+  syntax region noesisCode matchgroup=noesisDelim start="`\@1<!\z(`\+\)" end="`\@1<!\z1`\@!\|^[ \t]*$" contains=@NoSpell
   syntax region noesisItalic                 matchgroup=noesisDelim start="\S\@<=\*\|\*\S\@="         end="\S\@<=\*\|\*\S\@="         skip="\\\*"
   syntax region noesisBold                   matchgroup=noesisDelim start="\S\@<=\*\*\|\*\*\S\@="     end="\S\@<=\*\*\|\*\*\S\@="     skip="\\\*"
   syntax region noesisBoldItalic             matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
 
-syntax region noesisCode start="```" end="```" contains=@NoSpell
+syntax region noesisCode start="^[ \t]\{0,3}\z(`\{3,}\)[^`]*$" end="^[ \t]\{0,3}\z1`*[ \t]*$" contains=@NoSpell keepend
+syntax region noesisCode start="^[ \t]\{0,3}\z([~]\{3,}\).*$" end="^[ \t]\{0,3}\z1[~]*[ \t]*$" contains=@NoSpell keepend
 
 syntax keyword Todo TODO FIXME X XXX WIP
 
