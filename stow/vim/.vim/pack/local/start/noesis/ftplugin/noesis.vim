@@ -68,8 +68,8 @@ vnoremap <buffer><silent> <LocalLeader>sy :<C-U>call noesis#synonym(noesis#visua
 
 " ## note structure
 
-nnoremap <buffer><silent> <LocalLeader>h1 o<Esc>80i=<Esc>
-nnoremap <buffer><silent> <LocalLeader>h2 o<Esc>40i-<Esc>
+nnoremap <buffer><silent> <LocalLeader>h1 I#<Space><Esc>
+nnoremap <buffer><silent> <LocalLeader>h2 o<Esc>60i-<Esc>
 nnoremap <buffer><silent> <LocalLeader>ts :put=strftime('%a %d %b %Y at %H:%M')<CR>
 
 " # UNDO

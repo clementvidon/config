@@ -13,6 +13,14 @@ let g:noesis_root = expand('~/notes')
 
 ## Usage
 
+Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
+layout. `<LocalLeader>h1` prefixes the current line with `# `;
+`<LocalLeader>h2` underlines it with 60 `-` characters.
+
+`<LocalLeader>I` creates or refreshes the index. `<LocalLeader>i` on an entry
+jumps to its heading. Refresh after adding, removing, renaming, or reordering
+indexed headings.
+
 `:Grep pattern` searches unencrypted `.noe` files under the notes directory
 using ripgrep (`rg`). Achiever can add task editing through the
 `noesis.achiever` filetype.
