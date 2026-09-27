@@ -21,6 +21,22 @@
 - Keep Achiever parsing, editing, duration calculation, and highlighting
   consistent with its documented task grammar.
 
+## Simplicity
+
+- Give each user action a dedicated, plainly named function. Do not combine
+  different actions in a dispatcher selected by a style, action, or mode flag.
+  Normal and visual selection are inputs to the same editing action.
+- Keep each function responsible for one operation. Separate text selection,
+  transformation, and external tool execution when they obscure that operation.
+- Share small mechanical helpers only when they remove real duplication.
+  Prefer a little repetition to a configurable framework or opaque argument
+  bundles. Moving branches into another file is not simplification.
+- Implement the documented formats and concrete use cases. Do not grow a
+  general parser to handle speculative combinations; leave unsupported edits
+  unchanged and document the boundary.
+- Judge simplicity by how easily behavior can be read and changed, not by line
+  count. Preserve cursor, register, undo, and security guarantees when refactoring.
+
 ## Sensitive data
 
 GPG and redact-pass share sensitivity markers but remain independent plugins.
@@ -55,6 +71,9 @@ Do not replace them with a shared sensitive-buffer framework.
   for standalone plugins that need Vim-compatible parsing.
 - Keep core settings in `.vimrc`, plugin settings and declarations in
   `plugins.vim`, and general mappings in `mappings.vim`.
+- Keep the `gl` mapping family global in `mappings.vim`; ftplugins must not
+  redefine it locally. Noesis note-editing shortcuts use `<LocalLeader>`
+  (configured as `gh`) and buffer-local mappings.
 - Group plugin files by defaults, helpers, commands, autocommands, and mappings.
   Keep plugin declarations after their settings. Give ftplugins a
   `b:undo_ftplugin`; finish syntax files with `b:current_syntax`.
