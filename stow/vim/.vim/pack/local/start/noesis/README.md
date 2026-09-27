@@ -17,8 +17,9 @@ Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
 layout. `<LocalLeader>h1` prefixes the current line with `# `;
 `<LocalLeader>h2` underlines it with 60 `-` characters.
 
-`<LocalLeader>I` creates or refreshes the index. `<LocalLeader>i` on an entry
-jumps to its heading. Refresh after adding, removing, renaming, or reordering
+`<LocalLeader>I` creates or refreshes the index. `<LocalLeader>i` toggles between
+an index entry and its heading, positioning the target about 30% down the window
+when space permits. Refresh after adding, removing, renaming, or reordering
 indexed headings.
 
 `:Grep pattern` searches unencrypted `.noe` files under the notes directory

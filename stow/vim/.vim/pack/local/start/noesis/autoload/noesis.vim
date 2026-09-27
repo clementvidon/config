@@ -186,7 +186,7 @@ function! noesis#index_jump() abort
   let l:lines = getline(1, '$')
   let l:block = s:IndexBlock(l:lines)
   let l:entry = line('.') - 1
-  if empty(l:block) || l:entry < l:block.first || l:entry >= l:block.end
+  if empty(l:block)
     return
   endif
   let l:headings = s:Headings(l:lines, l:block.end + 1)
@@ -195,8 +195,21 @@ function! noesis#index_jump() abort
     echo 'Noesis: headings changed; refresh the index with <LocalLeader>I'
     return
   endif
-  call cursor(l:headings[l:entry - l:block.first].line, 1)
+  if l:entry >= l:block.first && l:entry < l:block.end
+    let l:destination = l:headings[l:entry - l:block.first].line
+  else
+    let l:index = index(map(copy(l:headings), 'v:val.line'), line('.'))
+    if l:index < 0
+      return
+    endif
+    let l:destination = l:block.first + l:index + 1
+  endif
+  call cursor(l:destination, 1)
   normal! zvzt
+  let l:scroll = winheight(0) * 3 / 10 - winline()
+  if l:scroll > 0
+    execute 'normal! ' . l:scroll . "\<C-Y>"
+  endif
 endfunction
 
 " # SEARCH
