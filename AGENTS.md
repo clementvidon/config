@@ -44,10 +44,16 @@ native configuration sections need no comment heading.
 
 ## Commits
 
+- When asked to commit, group changes into atomic commits, each delivering one
+  coherent outcome. Include its code and documentation together; apply the
+  testing policy below to any test changes.
 - Use Conventional Commits: `type(scope): short imperative description`.
+  Describe the intended feature, user experience, or maintenance goal. Add a
+  short body when needed to explain the problem and resulting behavior; include
+  implementation details only when they help explain that outcome.
 - Use the affected configuration package as the scope, or `repo` for
-  repository-wide changes; for example, `feat(vim): set JSON indentation` or
-  `fix(zsh): correct prompt initialization`.
+  repository-wide changes; for example, `feat(vim): navigate notes from their
+  outline` or `fix(zsh): restore the prompt in new terminals`.
 
 ## Testing policy
 
