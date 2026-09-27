@@ -1,6 +1,7 @@
 # Noesis
 
-Vim tools for `.noe` notes: navigation, search, HTML export, and translation.
+Vim tools for `.noe` and `.md` notes: navigation, search, HTML export, and
+translation. Both extensions activate Noesis regardless of the file's directory.
 
 ## Configuration
 
