@@ -88,6 +88,29 @@ function! s:PositionCursorAtQuarter() abort
   endif
 endfunction
 
+function! s:PutDate() abort
+  let l:now = localtime()
+  let l:dates = map(['%a %d %b %Y', '%y%m%d', '%a %d %b %Y at %H:%M', '%y%m%d%H%M%S'],
+        \ 'strftime(v:val, l:now)')
+  let l:menu = ['Insert date (1-4, Esc cancels):']
+  for l:index in range(len(l:dates))
+    call add(l:menu, printf('%d. %s', l:index + 1, l:dates[l:index]))
+  endfor
+  try
+    redraw
+    echo join(l:menu, "\n")
+    " Consume the next key directly so glpd1 works without an Enter key.
+    let l:choice = getcharstr()
+  finally
+    redraw
+    echo ''
+  endtry
+  if l:choice =~# '^[1-4]$'
+    call append(line('.'), l:dates[str2nr(l:choice) - 1])
+    call cursor(line('.') + 1, 1)
+  endif
+endfunction
+
 function! s:CalculateLine() abort
   let l:expression = substitute(getline('.'), ',', '.', 'g')
   let l:number = '\%(\d\+\%(\.\d*\)\?\|\.\d\+\)\%([eE][+-]\?\d\+\)\?'
@@ -248,7 +271,7 @@ nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap gllc :lc %:h<CR>
 nnoremap glli :set list!<CR>:set list?<CR>
 nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>
-nnoremap glpd :put=strftime('%a %d %b %Y')<CR>
+nnoremap <silent> glpd :<C-U>call <SID>PutDate()<CR>
 nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nnoremap glsp :set spell!<CR>:set spell?<CR>
@@ -256,7 +279,6 @@ nnoremap <silent> glss :call <SID>StaticSearchPrompt()<CR>
 vnoremap <silent> glss :<C-U>call <SID>StaticSearchSelection()<CR>
 nnoremap glst :set startofline!<CR>:set startofline?<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
-nnoremap glts :put=strftime('%y%m%d%H%M%S')<CR>
 nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
 
 " # INTERFACE

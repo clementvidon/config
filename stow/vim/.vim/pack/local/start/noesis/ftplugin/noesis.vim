@@ -70,7 +70,6 @@ vnoremap <buffer><silent> <LocalLeader>sy :<C-U>call noesis#synonym(noesis#visua
 
 nnoremap <buffer><silent> <LocalLeader>h1 I#<Space><Esc>
 nnoremap <buffer><silent> <LocalLeader>h2 o<Esc>60i-<Esc>
-nnoremap <buffer><silent> <LocalLeader>ts :put=strftime('%a %d %b %Y at %H:%M')<CR>
 
 " # UNDO
 
@@ -105,4 +104,3 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . '|silent! vunmap <buffer> ' . b:noesis_local_leader . 'sy'
       \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 'h1'
       \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 'h2'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 'ts'

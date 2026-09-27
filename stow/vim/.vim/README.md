@@ -18,6 +18,20 @@ Local plugins have their own usage instructions under `pack/local/start`.
 Set their configuration variables in `plugins.vim`, including the GPG recipient
 and note export author when using those features.
 
+## Dates
+
+`glpd` opens a date menu in any buffer. Press `1` through `4` to insert the
+chosen format below the current line, without pressing Enter; `Esc` cancels.
+You can type the sequence directly, such as `glpd1`. The menu shows the current
+local date and time; weekday and month names follow Vim's locale.
+
+| Choice | Example |
+| --- | --- |
+| `1` | `Sun 27 Sep 2026` |
+| `2` | `260927` |
+| `3` | `Sun 27 Sep 2026 at 20:17` |
+| `4` | `260927201710` |
+
 ## Search and formatting
 
 `:find` searches below the working directory. Use `:lcd %:p:h` to search from
