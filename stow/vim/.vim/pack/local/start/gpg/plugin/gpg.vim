@@ -329,12 +329,22 @@ endfunction
 
 " # MANUAL TRANSFORMS
 
-function! s:Transform(first, last, operation) abort
+function! s:Decrypt(first, last) abort
   call s:ProtectSensitive()
-  let l:args = a:operation ==# 'decrypt' ? ['--decrypt']
-        \ : a:operation ==# 'symmetric' ? ['--symmetric', '--armor']
-        \ : ['--encrypt', '--armor', '--recipient', s:Recipient()]
-  let l:result = s:Run(l:args, getline(a:first, a:last))
+  let l:result = s:Run(['--decrypt'], getline(a:first, a:last))
+  call s:Replace(a:first, a:last, l:result)
+endfunction
+
+function! s:EncryptSymmetric(first, last) abort
+  call s:ProtectSensitive()
+  let l:result = s:Run(['--symmetric', '--armor'], getline(a:first, a:last))
+  call s:Replace(a:first, a:last, l:result)
+endfunction
+
+function! s:EncryptRecipient(first, last) abort
+  call s:ProtectSensitive()
+  let l:result = s:Run(['--encrypt', '--armor', '--recipient', s:Recipient()],
+        \ getline(a:first, a:last))
   call s:Replace(a:first, a:last, l:result)
 endfunction
 
@@ -373,11 +383,11 @@ augroup END
 
 " # MAPPINGS
 
-nnoremap <silent> glgd :call <SID>Transform(1, line('$'), 'decrypt')<CR>
+nnoremap <silent> glgd :call <SID>Decrypt(1, line('$'))<CR>
 nnoremap <silent> glgr :call <SID>RestartAgent()<CR>
-xnoremap <silent> glgs :<C-U>call <SID>Transform(line("'<"), line("'>"), 'symmetric')<CR>
-xnoremap <silent> glga :<C-U>call <SID>Transform(line("'<"), line("'>"), 'encrypt')<CR>
-xnoremap <silent> glgd :<C-U>call <SID>Transform(line("'<"), line("'>"), 'decrypt')<CR>
+xnoremap <silent> glgs :<C-U>call <SID>EncryptSymmetric(line("'<"), line("'>"))<CR>
+xnoremap <silent> glga :<C-U>call <SID>EncryptRecipient(line("'<"), line("'>"))<CR>
+xnoremap <silent> glgd :<C-U>call <SID>Decrypt(line("'<"), line("'>"))<CR>
 
 let &cpoptions = s:save_cpoptions
 unlet s:save_cpoptions

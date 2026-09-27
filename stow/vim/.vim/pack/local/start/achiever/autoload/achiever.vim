@@ -68,55 +68,51 @@ endfunction
 
 " # TASK LINKING
 
-function! achiever#task_fix(option) abort
-  let l:cursor = getpos('.')
-  let l:destination_line = line('.')
-  let l:destination = getline(l:destination_line)
-
-  if !s:InvalidTimestampMetadata(l:destination)
-        \ && (l:destination =~# s:task_closed || l:destination =~# s:task_open)
-    let l:task_timestamp_pattern = '^- ' . s:date_time
-          \ . '\%( ' . s:time . '\)\? '
-    if a:option ==# 'time_beg'
-      let l:step = 1
-      let l:source_task_pattern = s:task_closed
-      let l:source_time_pattern = '^- ' . s:date_time . ' \zs' . s:time . '\ze '
-      let l:destination_time_pattern = '^- \d\{6} \zs' . s:time . '\ze '
-    elseif a:option ==# 'time_end'
-      let l:step = -1
-      let l:source_task_pattern = s:task_closed . '\|' . s:task_open
-      let l:source_time_pattern = '^- \d\{6} \zs' . s:time . '\ze '
-      let l:destination_time_pattern = '^- ' . s:date_time . ' \zs' . s:time . '\ze '
-    endif
-  else
-    echo 'task_fix: The current line is not a valid task.'
+function! s:TaskForLinking() abort
+  let l:task = getline('.')
+  if s:InvalidTimestampMetadata(l:task) || (l:task !~# s:task_closed && l:task !~# s:task_open)
+    echo 'Task linking: the current line is not a valid task'
+    return ''
   endif
+  return l:task
+endfunction
 
-  if exists('l:step')
-    let l:source_line = s:FindMatchingLine(
-          \ l:destination_line + l:step, l:source_task_pattern, '^$', l:step)
-    if l:source_line == 0
-      echo 'task_fix: No sibling task found.'
-      return 1
-    endif
-    let l:source_time = matchstr(getline(l:source_line), l:source_time_pattern)
-    let l:destination_time = matchstr(l:destination, l:destination_time_pattern)
-    if l:source_time ==# l:destination_time
-      echo 'task_fix: Nothing to be done.'
-      return 1
-    endif
-    if empty(l:destination_time) && a:option ==# 'time_end'
-      let l:updated = substitute(l:destination,
-            \ '^\(- ' . s:date_time . '\)\zs', ' ' . l:source_time, '')
-    else
-      let l:updated = substitute(
-            \ l:destination, l:destination_time_pattern, l:source_time, '')
-    endif
+function! achiever#task_link_start() abort
+  let l:task = s:TaskForLinking()
+  if empty(l:task)
+    return
+  endif
+  let l:source = s:FindMatchingLine(line('.') + 1, s:task_closed, '^$', 1)
+  if !l:source
+    echo 'Task linking: no sibling task found'
+    return
+  endif
+  let l:time = matchstr(getline(l:source), '^- ' . s:date_time . ' \zs' . s:time . '\ze ')
+  let l:updated = substitute(l:task, '^- \d\{6} \zs' . s:time . '\ze ', l:time, '')
+  if l:updated !=# l:task
     call setline('.', l:updated)
-    echom 'task_fix: ' . matchstr(l:updated, l:task_timestamp_pattern)
   endif
+endfunction
 
-  call setpos('.', l:cursor)
+function! achiever#task_link_end() abort
+  let l:task = s:TaskForLinking()
+  if empty(l:task)
+    return
+  endif
+  let l:source = s:FindMatchingLine(line('.') - 1, s:task_closed . '\|' . s:task_open, '^$', -1)
+  if !l:source
+    echo 'Task linking: no sibling task found'
+    return
+  endif
+  let l:time = matchstr(getline(l:source), '^- \d\{6} \zs' . s:time . '\ze ')
+  if l:task =~# s:task_closed
+    let l:updated = substitute(l:task, '^- ' . s:date_time . ' \zs' . s:time . '\ze ', l:time, '')
+  else
+    let l:updated = substitute(l:task, '^\(- ' . s:date_time . '\)\zs', ' ' . l:time, '')
+  endif
+  if l:updated !=# l:task
+    call setline('.', l:updated)
+  endif
 endfunction
 
 function! s:FindMatchingLine(start_line, pattern, abort_pattern, step) abort

@@ -25,8 +25,8 @@ if !exists('g:achiever_mappings')
   let g:achiever_mappings = {
         \ 'k': 'achiever#task_check()',
         \ 'c': 'achiever#task_clear()',
-        \ 'F': 'achiever#task_fix("time_end")',
-        \ 'f': 'achiever#task_fix("time_beg")',
+        \ 'F': 'achiever#task_link_end()',
+        \ 'f': 'achiever#task_link_start()',
         \ 'd': 'achiever#task_duration(getline("."))',
         \ 'x': 'achiever#task_detail_toggle_view("' . g:achiever_task_detail_prefix . '")',
         \ }

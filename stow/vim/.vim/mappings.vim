@@ -152,23 +152,29 @@ function! s:WriteAsRoot() abort
   edit!
 endfunction
 
-function! s:Clipboard(action) abort
+function! s:ClipboardCommand() abort
   if !executable('clipboard')
-    echoerr 'Install the scripts Stow package and add ~/.local/bin to PATH'
-    return
+    throw 'Install the scripts Stow package and add ~/.local/bin to PATH'
   endif
-  let l:command = shellescape(exepath('clipboard')) . ' ' . a:action
-  let l:text = a:action ==# 'copy'
-        \ ? system(l:command, getreg('"')) : system(l:command)
+  return shellescape(exepath('clipboard'))
+endfunction
+
+function! s:CopyToClipboard() abort
+  call system(s:ClipboardCommand() . ' copy', getreg('"'))
   if v:shell_error
-    echoerr 'Clipboard ' . a:action . ' failed; check providers or use terminal paste over SSH'
+    echoerr 'Clipboard copy failed; check providers or use terminal paste over SSH'
+  endif
+endfunction
+
+function! s:PasteFromClipboard() abort
+  let l:text = system(s:ClipboardCommand() . ' paste')
+  if v:shell_error
+    echoerr 'Clipboard paste failed; check providers or use terminal paste over SSH'
     return
   endif
-  if a:action ==# 'paste'
-    " The expression register preserves the user's yank/delete registers.
-    call setreg('=', string(l:text))
-    execute "normal! \"=\<CR>p"
-  endif
+  " The expression register preserves the user's yank/delete registers.
+  call setreg('=', string(l:text))
+  execute "normal! \"=\<CR>p"
 endfunction
 
 function! s:GrepPrompt(visual) abort
@@ -321,8 +327,8 @@ nnoremap <silent> <Leader>= :call <SID>IndentBuffer()<CR>
 
 " ## clipboard
 
-nnoremap <silent> <Leader>y :call <SID>Clipboard('copy')<CR>
-nnoremap <silent> <Leader>p :call <SID>Clipboard('paste')<CR>
+nnoremap <silent> <Leader>y :call <SID>CopyToClipboard()<CR>
+nnoremap <silent> <Leader>p :call <SID>PasteFromClipboard()<CR>
 
 " ## guard rails
 
