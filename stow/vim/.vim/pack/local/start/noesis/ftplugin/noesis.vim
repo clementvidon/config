@@ -68,20 +68,20 @@ vnoremap <buffer><silent> <LocalLeader>sy :<C-U>call noesis#synonym(noesis#visua
 
 " ## note structure
 
-nnoremap <buffer><silent> <LocalLeader>s1 :<C-U>call noesis#heading(1)<CR>
-nnoremap <buffer><silent> <LocalLeader>s2 :<C-U>call noesis#underline()<CR>
-nnoremap <buffer><silent> <LocalLeader>s3 :<C-U>call noesis#heading(3)<CR>
-nnoremap <buffer><silent> <LocalLeader>s4 :<C-U>call noesis#heading(4)<CR>
-nnoremap <buffer><silent> <LocalLeader>s5 :<C-U>call noesis#heading(5)<CR>
-nnoremap <buffer><silent> <LocalLeader>s6 :<C-U>call noesis#heading(6)<CR>
+nnoremap <buffer><silent> <LocalLeader>t1 :<C-U>call noesis#heading(1)<CR>
+nnoremap <buffer><silent> <LocalLeader>t2 :<C-U>call noesis#underline()<CR>
+nnoremap <buffer><silent> <LocalLeader>t3 :<C-U>call noesis#heading(3)<CR>
+nnoremap <buffer><silent> <LocalLeader>t4 :<C-U>call noesis#heading(4)<CR>
+nnoremap <buffer><silent> <LocalLeader>t5 :<C-U>call noesis#heading(5)<CR>
+nnoremap <buffer><silent> <LocalLeader>t6 :<C-U>call noesis#heading(6)<CR>
 for [s:key, s:function] in items({'i': 'italic', 'b': 'bold', 'c': 'code', 'l': 'link', 'q': 'quote'})
-  execute 'nnoremap <buffer><silent> <LocalLeader>s' . s:key
+  execute 'nnoremap <buffer><silent> <LocalLeader>t' . s:key
         \ . ' :<C-U>call noesis#' . s:function . '(0)<CR>'
-  execute 'xnoremap <buffer><silent> <LocalLeader>s' . s:key
+  execute 'xnoremap <buffer><silent> <LocalLeader>t' . s:key
         \ . ' <Cmd>call noesis#' . s:function . '(1)<CR>'
 endfor
 unlet s:key s:function
-nnoremap <buffer><silent> <LocalLeader>sd :<C-U>call noesis#unstyle()<CR>
+nnoremap <buffer><silent> <LocalLeader>td :<C-U>call noesis#unstyle()<CR>
 
 " # UNDO
 
@@ -114,16 +114,16 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 'lfr'
       \ . '|silent! vunmap <buffer> ' . b:noesis_local_leader . 'lfr'
       \ . '|silent! vunmap <buffer> ' . b:noesis_local_leader . 'sy'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's1'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's2'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's3'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's4'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's5'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's6'
-      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 'sd'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't1'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't2'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't3'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't4'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't5'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't6'
+      \ . '|silent! nunmap <buffer> ' . b:noesis_local_leader . 'td'
 
 for s:style in ['i', 'b', 'c', 'l', 'q']
-  let b:undo_ftplugin .= '|silent! nunmap <buffer> ' . b:noesis_local_leader . 's' . s:style
-        \ . '|silent! xunmap <buffer> ' . b:noesis_local_leader . 's' . s:style
+  let b:undo_ftplugin .= '|silent! nunmap <buffer> ' . b:noesis_local_leader . 't' . s:style
+        \ . '|silent! xunmap <buffer> ' . b:noesis_local_leader . 't' . s:style
 endfor
 unlet s:style

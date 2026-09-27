@@ -15,12 +15,12 @@ let g:noesis_root = expand('~/notes')
 ## Usage
 
 Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
-layout. `<LocalLeader>s1` prefixes the current line with `# `;
-`<LocalLeader>s2` underlines it with 80 `-` characters. `<LocalLeader>s3` through
-`<LocalLeader>s6` prefix it with `### ` through `###### `. These normal-mode
+layout. `<LocalLeader>t1` prefixes the current line with `# `;
+`<LocalLeader>t2` underlines it with 80 `-` characters. `<LocalLeader>t3` through
+`<LocalLeader>t6` prefix it with `### ` through `###### `. These normal-mode
 mappings keep the cursor on the same text character and stay in normal mode.
 
-Style mappings use `<LocalLeader>s` (`ghs` in this repository):
+Text formatting mappings use `<LocalLeader>t` (`ght` in this repository):
 
 | Suffix | Normal mode | Visual mode |
 | --- | --- | --- |
@@ -37,20 +37,20 @@ paragraph.
 Italic and bold leave surrounding whitespace outside their markers. Rectangular
 selections (`Ctrl-V`) are not supported.
 
-Use `Vghsc` for a one-line code block or extend the line selection before
-pressing `ghsc`. Fence lines surround the selected lines without changing their
+Use `Vghtc` for a one-line code block or extend the line selection before
+pressing `ghtc`. Fence lines surround the selected lines without changing their
 indentation. Code delimiters grow as needed to accommodate existing backticks.
 The cursor enters insert mode at the end of the opening fence, ready for a
 language name such as `python` or `sh`.
 Quotes operate on complete lines, including blank lines; applying the mapping
 again adds another quote level.
 
-Style mappings preserve registers and undo with one `u`. Except for links and
-fenced code blocks, they preserve the cursor's position in the text and finish
-in normal mode. Links enter insert mode between the parentheses, ready for the
-URL to be pasted.
+Text formatting mappings preserve registers and undo with one `u`. Except for
+links and fenced code blocks, they preserve the cursor's position in the text
+and finish in normal mode. Links enter insert mode between the parentheses,
+ready for the URL to be pasted.
 
-`<LocalLeader>sd` removes one simple surrounding style at a time, preserving its
+`<LocalLeader>td` removes one simple surrounding style at a time, preserving its
 text. For example, with the cursor on `word`, `> **word**` becomes `> word`, then
 `word`. Inline removal handles plain asterisk emphasis, code spans, and simple
 links on the current line. It also removes headings, quote prefixes on the
