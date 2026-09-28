@@ -77,7 +77,7 @@ GPG and redact-pass remain independent. Preserve their persistence protections:
 - Keep core settings in `.vimrc`, generic global mappings in `mappings.vim`,
   and third-party plugin settings, mappings, and declarations in `plugins.vim`.
   Keep local plugin interfaces inside their plugin.
-- Follow the [mapping model](../../docs/vim-mappings.md). Keep contextual actions
+- Follow the [mapping model](.vim/MAPPINGS.md). Keep contextual actions
   buffer-local. `<Plug>(plugin-action)` is the stable mapping contract;
   user-facing Ex commands and ergonomic default bindings are optional.
   Do not add configurable prefix or function-call dictionary APIs.
@@ -85,17 +85,18 @@ GPG and redact-pass remain independent. Preserve their persistence protections:
   editor preferences. Prevent automatic splitting of task records and restore
   owned state on disable. Automatic and manual activation share one mechanism;
   activation must not modify document contents.
-- Group plugin files by defaults, helpers, commands, autocommands, and mappings.
-  Keep plugin declarations after their settings. Give ftplugins a
+- Keep plugin declarations after their settings. Give ftplugins a
   `b:undo_ftplugin`; finish syntax files with `b:current_syntax`.
 
 ## Testing policy
 
 - Limit general Vim checks to smoke tests: startup, reload, and representative
-  file opening without errors. Keep a small representative set of files;
-  do not add a fixture for each filetype, plugin, or configuration change.
-- Apply the root testing policy. General checks must not test individual
-  abbreviations, tool arguments, or plugin internals either.
+  file opening, activation, disabling, and state restoration. Keep a small
+  representative set of files; do not add a fixture for each filetype, plugin, or configuration change.
+- Keep documentation about intent and public contracts, not mapping inventories
+  or implementation details. Apply the root documentation and testing policies.
+  General checks must not test individual abbreviations, tool arguments, or
+  plugin internals either.
 - Reserve detailed Vim regressions for security guarantees, including encrypted
   I/O, plaintext persistence, sensitive-buffer isolation, and prevention of
   unintended code execution. Each assertion must support the protected outcome.

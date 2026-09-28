@@ -63,4 +63,4 @@ Space `eh` lists default bindings; `:command GPG` lists commands. Set
 `g:vim_gpg_no_mappings = 1` before plugins load to disable defaults. Commands and
 `<Plug>(vim-gpg-...)` mappings remain available; for example, map a key to
 `<Plug>(vim-gpg-decrypt)`. See the
-[mapping model](../../../../../../../docs/vim-mappings.md) for discovery and remapping.
+[mapping model](../../../../MAPPINGS.md) for discovery and remapping.

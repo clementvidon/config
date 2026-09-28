@@ -36,7 +36,7 @@ See `./install.sh --help` for options.
 For example, `stow/zsh/.zshrc` is linked to `~/.zshrc`: edits to the source are
 reflected through that link. Tool-specific usage lives alongside its configuration.
 
-See the [Vim mapping guide](docs/vim-mappings.md) for keyboard namespaces and
+See the [Vim mapping guide](stow/vim/.vim/MAPPINGS.md) for keyboard namespaces and
 plugin shortcuts.
 
 ## Contribute

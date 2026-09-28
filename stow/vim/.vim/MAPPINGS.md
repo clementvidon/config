@@ -50,7 +50,7 @@ To inspect the exact current bindings directly:
 ```
 
 Contextual mappings appear only where their feature is active. Achiever layers
-task behavior on the host filetype; see its [activation contract](../stow/vim/.vim/pack/local/start/achiever/README.md).
+task behavior on the host filetype; see its [activation contract](pack/local/start/achiever/README.md).
 Use `:verbose map` with a prefix to find where bindings were defined.
 
 ## Public mapping API

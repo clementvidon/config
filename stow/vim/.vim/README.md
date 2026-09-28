@@ -21,7 +21,7 @@ and note export author when using those features.
 Personal note navigation and theme shortcuts live in `mappings.vim`; global
 digraphs live in `.vimrc`.
 
-See the [mapping guide](../../../docs/vim-mappings.md) for the mapping model
+See the [mapping guide](MAPPINGS.md) for the mapping model
 and remapping examples. Namespace help lists the current bindings.
 Local plugin READMEs describe their usage and configuration.
 

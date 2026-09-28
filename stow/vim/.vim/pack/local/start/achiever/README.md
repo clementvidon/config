@@ -43,4 +43,4 @@ Set `g:achiever_task_detail_prefix` before activation to change the detail marke
 Set `g:achiever_no_mappings = 1` before activation to disable default bindings.
 `<Plug>(achiever-...)` mappings remain available in active buffers;
 for example, map a key to `<Plug>(achiever-check)`. See the
-[mapping model](../../../../../../../docs/vim-mappings.md) for discovery and remapping.
+[mapping model](../../../../MAPPINGS.md) for discovery and remapping.

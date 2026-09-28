@@ -65,5 +65,5 @@ that provider when invoked.
 Set `g:noesis_no_mappings = 1` before opening notes to disable default `gh`
 bindings. `<Plug>(noesis-...)` mappings remain available. Native filetype
 overrides (such as wrapped-line `j/k`) still apply. See the
-[mapping guide](../../../../../../../docs/vim-mappings.md) for the mapping model and remapping
+[mapping guide](../../../../MAPPINGS.md) for the mapping model and remapping
 examples.
