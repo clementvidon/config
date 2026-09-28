@@ -77,7 +77,7 @@ function! s:TaskForLinking() abort
   return l:task
 endfunction
 
-function! achiever#task_link_start() abort
+function! achiever#task_link_begin() abort
   let l:task = s:TaskForLinking()
   if empty(l:task)
     return
@@ -130,40 +130,42 @@ endfunction
 
 " # DURATIONS
 
-function! achiever#task_duration(line) abort
-  let l:time_pair = matchstr(
-        \ a:line,
+function! s:TaskDuration(line) abort
+  let l:time_pair = matchstr(a:line,
         \ '^- \d\{6} \zs' . s:time . ' ' . s:time . '\ze \S')
   if empty(l:time_pair)
-    if s:InvalidTimestampMetadata(a:line)
-      echo 'Invalid time range.'
-      return
-    endif
-    if get(b:, 'achiever_total_difference_seconds', 0) != 0
-      echo 'Total duration: ' . s:FormatSeconds(b:achiever_total_difference_seconds)
-      let l:choice = input('No time range found. Reset total duration? y/n ')
-      if tolower(l:choice) ==# 'y'
-        let b:achiever_total_difference_seconds = 0
-      endif
-    else
-      echo 'No time range found in the line.'
-    endif
+    return -1
+  endif
+  let [l:start, l:end] = map(split(l:time_pair),
+        \ '(str2nr(v:val[:1]) * 60 + str2nr(v:val[3:])) * 60')
+  return l:end - l:start + (l:end < l:start ? 24 * 60 * 60 : 0)
+endfunction
+
+function! achiever#task_duration(line) abort
+  let l:duration = s:TaskDuration(a:line)
+  echo l:duration < 0 ? 'No valid time range found.'
+        \ : 'Duration: ' . s:FormatSeconds(l:duration)
+endfunction
+
+function! achiever#task_duration_add() abort
+  let l:duration = s:TaskDuration(getline('.'))
+  if l:duration < 0
+    echo 'No valid time range found.'
     return
   endif
-  let [l:time1, l:time2] = split(l:time_pair)
-  let [l:hour1, l:minute1] = map(split(l:time1, ':'), 'str2nr(v:val)')
-  let [l:hour2, l:minute2] = map(split(l:time2, ':'), 'str2nr(v:val)')
-  let l:timestamp1 = (l:hour1 * 60 + l:minute1) * 60
-  let l:timestamp2 = (l:hour2 * 60 + l:minute2) * 60
-  if l:timestamp1 > l:timestamp2
-    let l:timestamp2 += 24 * 60 * 60
-  endif
-  let l:duration = l:timestamp2 - l:timestamp1
   let b:achiever_total_difference_seconds =
         \ get(b:, 'achiever_total_difference_seconds', 0) + l:duration
+  call achiever#task_duration_total()
+endfunction
 
-  echo 'This duration: ' . s:FormatSeconds(l:duration)
-  echo 'All durations: ' . s:FormatSeconds(b:achiever_total_difference_seconds)
+function! achiever#task_duration_total() abort
+  echo 'Total duration: '
+        \ . s:FormatSeconds(get(b:, 'achiever_total_difference_seconds', 0))
+endfunction
+
+function! achiever#task_duration_reset() abort
+  let b:achiever_total_difference_seconds = 0
+  call achiever#task_duration_total()
 endfunction
 
 function! s:FormatSeconds(seconds) abort

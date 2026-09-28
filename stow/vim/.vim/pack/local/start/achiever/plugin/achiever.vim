@@ -1,6 +1,4 @@
-" Achiever defaults and automatic dotted-filetype composition.
-
-" # LOAD GUARD
+" Achiever activation and defaults.
 
 if exists('g:loaded_achiever')
   finish
@@ -9,43 +7,42 @@ let g:loaded_achiever = 1
 
 " # DEFAULTS
 
-if !exists('g:achiever_local_leader')
-  let g:achiever_local_leader = 'gh'
-endif
-
-if !exists('g:achiever_filenames')
-  let g:achiever_filenames = [ 'achiever_todo', 'achiever_done', 'achiever.md' ]
-endif
-
 if !exists('g:achiever_task_detail_prefix')
   let g:achiever_task_detail_prefix = '--'
 endif
 
-if !exists('g:achiever_mappings')
-  let g:achiever_mappings = {
-        \ 'k': 'achiever#task_check()',
-        \ 'c': 'achiever#task_clear()',
-        \ 'F': 'achiever#task_link_end()',
-        \ 'f': 'achiever#task_link_start()',
-        \ 'd': 'achiever#task_duration(getline("."))',
-        \ 'x': 'achiever#task_detail_toggle_view("' . g:achiever_task_detail_prefix . '")',
-        \ }
-endif
+" # ACTIVATION
 
-" # FILETYPE COMPOSITION
-
-function! s:Detect() abort
-  " Vim loads dotted filetypes in order: the base first, then task helpers.
+function! s:Enable() abort
   if index(split(&l:filetype, '\.'), 'achiever') < 0
+    let l:layout = [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions]
     let &l:filetype = empty(&l:filetype) ? 'achiever' : &l:filetype . '.achiever'
+    let b:achiever_saved_layout = l:layout
   endif
 endfunction
 
-" # AUTOCOMMANDS
+function! s:Disable() abort
+  unlet! b:achiever_pending
+  if index(split(&l:filetype, '\.'), 'achiever') < 0
+    return
+  endif
+  let l:layout = b:achiever_saved_layout
+  let &l:filetype = join(filter(split(&l:filetype, '\.'), 'v:val !=# "achiever"'), '.')
+  let [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions] = l:layout
+endfunction
+
+command! -bar AchieverEnable call <SID>Enable()
+command! -bar AchieverDisable call <SID>Disable()
+
+" # FILENAME DETECTION
 
 augroup achiever_settings
   autocmd!
-  let s:achiever_filenames = join(map(copy(g:achiever_filenames), 'fnameescape(v:val)'), ',')
-  " Wait until filetype detection and modelines have finished.
-  execute 'autocmd BufWinEnter ' . s:achiever_filenames . ' nested call s:Detect()'
+  " Defer composition until filetype detection and modelines have finished.
+  autocmd BufReadPost,BufNewFile achiever.md,*.achiever.md let b:achiever_pending = 1
+  autocmd BufWinEnter * nested
+        \ if get(b:, 'achiever_pending', 0) |
+        \   unlet b:achiever_pending |
+        \   call <SID>Enable() |
+        \ endif
 augroup END

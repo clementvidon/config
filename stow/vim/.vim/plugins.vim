@@ -3,7 +3,6 @@ scriptencoding utf-8
 
 " # LOCAL PLUGINS
 
-let g:achiever_filenames = [ 'todos.noe', '.todos.gpg.noe' ]
 let g:noesis_export_author = 'Clément VIDON'
 
 let g:vim_gpg_recipient = 'B8AE5479C3DE72D291F1E923B32613620A074922'

@@ -60,7 +60,7 @@ done
 
 mkdir -p "$CHECK_ROOT/project"
 printf 'plain note\n' >"$CHECK_ROOT/project/plain.noe"
-printf '%s\n' '- task' >"$CHECK_ROOT/project/todos.noe"
+printf '%s\n' '- task' >"$CHECK_ROOT/project/achiever.md"
 printf '{"key": true}\n' >"$CHECK_ROOT/project/data.json"
 printf 'key: value\n' >"$CHECK_ROOT/project/data.yaml"
 printf 'temporary password\n' >"$PASS_FILE"
@@ -78,7 +78,7 @@ function! s:Open(path) abort
   endif
 endfunction
 
-for s:name in ['plain.noe', 'todos.noe', 'data.json', 'data.yaml']
+for s:name in ['plain.noe', 'achiever.md', 'data.json', 'data.yaml']
   call s:Open($VIM_CHECK_ROOT . '/project/' . s:name)
 endfor
 
