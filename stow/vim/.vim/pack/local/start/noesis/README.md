@@ -63,7 +63,8 @@ that provider when invoked.
 ## Mapping API
 
 Set `g:noesis_no_mappings = 1` before opening notes to disable default `gh`
-bindings. `<Plug>(noesis-...)` mappings remain available. Native filetype
-overrides (such as wrapped-line `j/k`) still apply. See the
+bindings. `<Plug>(noesis-...)` mappings are available globally, independently of
+the note filetype; default bindings remain contextual. Native filetype overrides
+(such as wrapped-line `j/k`) still apply. See the
 [mapping guide](../../../../MAPPINGS.md) for the mapping model and remapping
 examples.

@@ -2,7 +2,7 @@
 
 Task editing layered on the current filetype. `achiever.md` and `*.achiever.md`
 activate it automatically; use `:AchieverEnable` for any other suitable buffer.
-`:AchieverDisable` removes task bindings, abbreviations, and state,
+`:AchieverDisable` removes default task bindings, abbreviations, and state,
 then restores the host filetype and its previous wrapping behavior. Activation
 never changes document contents.
 
@@ -43,6 +43,7 @@ lasts until reset, disable, a filetype change, or buffer closure.
 Insert-mode abbreviations `wwo` and `lli` expand to work and life task labels.
 
 Set `g:achiever_no_mappings = 1` before activation to disable default bindings.
-`<Plug>(achiever-...)` mappings remain available in active buffers;
-for example, map a key to `<Plug>(achiever-check)`. See the
+`<Plug>(achiever-...)` mappings are available globally, independently of task
+activation. Default bindings remain contextual. For example, map a key to
+`<Plug>(achiever-check)`. See the
 [mapping model](../../../../MAPPINGS.md) for discovery and remapping.

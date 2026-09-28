@@ -1,4 +1,4 @@
-" Achiever activation and defaults.
+" Achiever activation and public mapping API.
 
 if exists('g:loaded_achiever')
   finish
@@ -41,3 +41,15 @@ augroup achiever_settings
         \   call <SID>Enable() |
         \ endif
 augroup END
+
+" # MAPPING API
+
+nnoremap <silent> <Plug>(achiever-check) :<C-U>call achiever#task_check()<CR>
+nnoremap <silent> <Plug>(achiever-clear) :<C-U>call achiever#task_clear()<CR>
+nnoremap <silent> <Plug>(achiever-link-begin) :<C-U>call achiever#task_link_begin()<CR>
+nnoremap <silent> <Plug>(achiever-link-end) :<C-U>call achiever#task_link_end()<CR>
+nnoremap <silent> <Plug>(achiever-duration) :<C-U>call achiever#task_duration(getline("."))<CR>
+nnoremap <silent> <Plug>(achiever-duration-add) :<C-U>call achiever#task_duration_add()<CR>
+nnoremap <silent> <Plug>(achiever-duration-total) :<C-U>call achiever#task_duration_total()<CR>
+nnoremap <silent> <Plug>(achiever-duration-reset) :<C-U>call achiever#task_duration_reset()<CR>
+nnoremap <silent> <Plug>(achiever-detail-toggle) :<C-U>call achiever#task_detail_toggle_view()<CR>
