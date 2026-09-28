@@ -7,9 +7,9 @@ PLUGIN_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 TEST_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/vim-gpg-test.XXXXXX")"
 
 cleanup() {
-  if [[ -n "${GNUPGHOME:-}" && -d "$GNUPGHOME" ]] \
+  if [[ -d "$TEST_ROOT/gnupg" ]] \
     && command -v gpgconf >/dev/null 2>&1; then
-    gpgconf --kill gpg-agent >/dev/null 2>&1 || true
+    GNUPGHOME="$TEST_ROOT/gnupg" gpgconf --kill gpg-agent >/dev/null 2>&1 || true
   fi
   rm -rf -- "$TEST_ROOT"
 }
@@ -32,6 +32,31 @@ command -v gpg-connect-agent >/dev/null 2>&1 || {
   printf '[ERROR] Vim GPG tests require gpg-connect-agent\n' >&2
   exit 1
 }
+
+# A setup failure must not kill an agent belonging to an inherited GNUPGHOME.
+# Omit gpg-connect-agent from this isolated PATH to fail before keyring setup.
+mkdir -p "$TEST_ROOT/cleanup-bin" "$TEST_ROOT/inherited-gnupg"
+for tool in dirname mktemp rm; do
+  ln -s "$(command -v "$tool")" "$TEST_ROOT/cleanup-bin/$tool"
+done
+for tool in vim gpg; do
+  ln -s "$(command -v cat)" "$TEST_ROOT/cleanup-bin/$tool"
+done
+cat >"$TEST_ROOT/cleanup-bin/gpgconf" <<'EOF'
+#!/bin/sh
+: > "$VIM_GPG_CLEANUP_PROBE"
+EOF
+chmod +x "$TEST_ROOT/cleanup-bin/gpgconf"
+if PATH="$TEST_ROOT/cleanup-bin" GNUPGHOME="$TEST_ROOT/inherited-gnupg" \
+  VIM_GPG_CLEANUP_PROBE="$TEST_ROOT/foreign-agent-stopped" \
+  "$BASH" "$PLUGIN_ROOT/test/run.sh" >"$TEST_ROOT/setup-failure.log" 2>&1; then
+  printf '[ERROR] GPG setup unexpectedly succeeded without its dependencies\n' >&2
+  exit 1
+fi
+if [[ -e "$TEST_ROOT/foreign-agent-stopped" ]]; then
+  printf '[ERROR] GPG test cleanup touched the inherited agent\n' >&2
+  exit 1
+fi
 
 mkdir -m 700 "$TEST_ROOT/gnupg"
 mkdir -p "$TEST_ROOT/home" "$TEST_ROOT/bin" "$TEST_ROOT/work"

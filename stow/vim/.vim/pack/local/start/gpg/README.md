@@ -52,3 +52,4 @@ its normal write behavior. Use a `*.gpg.*` file for automatic encrypted storage.
 
 From this directory, run `test/run.sh`. It uses a temporary home and disposable
 GnuPG keyring, and additionally requires Bash and `gpg-connect-agent`.
+Cleanup stops only the test keyring's agent, including when setup fails.
