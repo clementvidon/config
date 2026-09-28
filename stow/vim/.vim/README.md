@@ -25,6 +25,12 @@ See the [mapping guide](../../../docs/vim-mappings.md) for the mapping model
 and remapping examples. Namespace help lists the current bindings.
 Local plugin READMEs describe their commands and configuration.
 
+Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
+provides the note environment for `.md` files under `g:noesis_root`; Markdown
+files elsewhere keep Vim's standard behavior. [Achiever](pack/local/start/achiever/README.md)
+adds optional task editing to either environment. See [GPG](pack/local/start/gpg/README.md)
+for encrypted editing.
+
 ## Dates
 
 `glpd` opens a date menu in any buffer. Press `1` through `4` to insert the

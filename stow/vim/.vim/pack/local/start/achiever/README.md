@@ -6,6 +6,11 @@ activate it automatically; use `:AchieverEnable` for any other suitable buffer.
 then restores the host filetype and its previous wrapping behavior. Activation
 never changes document contents.
 
+Achiever is an optional task capability, independent of the Markdown format
+and the Noesis note environment. Inside `g:noesis_root`, Markdown notes compose
+as `noesis.achiever`; outside it they compose as `markdown.achiever`. Other host
+filetypes can also use the capability.
+
 Tasks are log records that stay on one logical line. While enabled, Achiever
 disables automatic hard wrapping and visual wrapping for the whole buffer,
 including prose. It leaves indentation and comment conventions to the host

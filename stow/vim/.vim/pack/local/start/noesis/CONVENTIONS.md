@@ -1,6 +1,8 @@
 # Noesis file conventions
 
-Write `.md` notes using Markdown syntax, with the following layout.
+Noesis notes are `.md` files using Markdown syntax and the following layout.
+These conventions describe notes in the [Noesis workspace](README.md), not all
+Markdown files. Optional task records follow [Achiever's grammar](../achiever/README.md#task-format).
 
 ## Headings
 

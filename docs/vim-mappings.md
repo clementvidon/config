@@ -13,7 +13,12 @@ have direct Space shortcuts: `w` opens the native `<C-W>` window namespace,
 General buffer, location-list, and quickfix navigation stays in the native-style
 `[` / `]` family. Plugin navigation stays within its plugin namespace.
 
-Noesis owns Markdown note editing under `<LocalLeader>`, with buffer-local
+Markdown is the file format. Noesis is the note environment activated for `.md`
+files under `g:noesis_root`; files elsewhere remain `markdown`. Achiever is an
+optional task capability that composes with either (`noesis.achiever` or
+`markdown.achiever`) and other host filetypes.
+
+Noesis owns note editing under `<LocalLeader>`, with buffer-local
 bindings. Bare `gh` is reserved in these buffers. Generic indentation and reflow
 are blocked, including the personal Space `=` shortcut, to protect note layout.
 Use the explicit note-editing actions instead.

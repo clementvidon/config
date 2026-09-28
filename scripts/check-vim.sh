@@ -58,8 +58,9 @@ for plugin in ale vim-gitgutter; do
   [[ ! -d "$source" ]] || ln -s "$source" "$CHECK_DATA/vim/plugged/$plugin"
 done
 
-mkdir -p "$CHECK_ROOT/project"
+mkdir -p "$CHECK_ROOT/project" "$CHECK_ROOT/notes"
 printf 'plain note\n' >"$CHECK_ROOT/project/plain.md"
+printf 'workspace note\n' >"$CHECK_ROOT/notes/plain.md"
 printf '%s\n' '- task' >"$CHECK_ROOT/project/achiever.md"
 printf '{"key": true}\n' >"$CHECK_ROOT/project/data.json"
 printf 'key: value\n' >"$CHECK_ROOT/project/data.yaml"
@@ -72,7 +73,6 @@ let s:errors = []
 function! s:Open(path) abort
   let v:errmsg = ''
   execute 'edit ' . fnameescape(a:path)
-  filetype detect
   if !empty(v:errmsg)
     call add(s:errors, fnamemodify(a:path, ':t') . ': ' . v:errmsg)
   endif
@@ -88,6 +88,12 @@ execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
 if !empty(v:errmsg)
   call add(s:errors, 'vimrc reload: ' . v:errmsg)
 endif
+
+" Workspace activation must leave ordinary Markdown alone.
+for [s:path, s:host] in [['project/plain.md', 'markdown'], ['notes/plain.md', 'noesis']]
+  call s:Open($VIM_CHECK_ROOT . '/' . s:path)
+  call assert_equal(s:host, &l:filetype)
+endfor
 
 " Buffer arithmetic must never become arbitrary Vimscript execution.
 enew
@@ -281,6 +287,7 @@ run_vim() {
   HOME="$CHECK_HOME" \
     XDG_DATA_HOME="$CHECK_DATA" \
     XDG_STATE_HOME="$CHECK_STATE" \
+    NOESIS_ROOT="$CHECK_ROOT/notes" \
     VIM_CHECK_ERRORS="$ERRORS" \
     VIM_CHECK_ROOT="$CHECK_ROOT" \
     vim -Nu "$CHECK_HOME/.vimrc" -i NONE -n -es "$@" >>"$VIM_LOG" 2>&1

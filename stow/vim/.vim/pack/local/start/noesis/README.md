@@ -1,7 +1,9 @@
 # Noesis
 
-Vim tools for Markdown notes: navigation, search, HTML export, and translation.
-Opening a `.md` file activates the Noesis filetype regardless of its directory.
+A personal Markdown note environment: editing, navigation, search, HTML export,
+and translation. Markdown is the file format; Noesis supplies the workspace
+behavior. Opening a `.md` file under `g:noesis_root` activates the `noesis`
+filetype. Files outside that directory remain ordinary `markdown`.
 
 ## Configuration
 
