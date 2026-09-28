@@ -159,24 +159,7 @@ function! s:GrepPrompt(visual) abort
     let l:command .= ' -F -- ' . shellescape(s:SelectedText(), 1)
           \ . "\<Home>" . repeat("\<Right>", 5)
   endif
-  " Queue the prompt before echoing so the help needs no hit-enter pause.
   call feedkeys(l:command, 'n')
-  redraw
-  if &lines < 12 || &columns < 60
-    echo '-i sans casse | -s casse | -w mot | -F littéral'
-  else
-    echo join([
-          \ 'Default            : smartcase + hidden',
-          \ 'Search             :grep             hello',
-          \ 'Ignore case        :grep -i          Hello',
-          \ 'Match case         :grep -s          hello',
-          \ 'Whole word         :grep -w          hello',
-          \ 'Whole word, icase  :grep -iw         hello',
-          \ 'Literal text       :grep -F         ''hello.json''',
-          \ 'Skip hidden        :grep --no-hidden hello',
-          \ 'Unrestricted       :grep -u          hello',
-          \ ], "\n")
-  endif
 endfunction
 
 function! s:ToggleColorscheme() abort

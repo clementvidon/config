@@ -49,7 +49,9 @@ local date and time; weekday and month names follow Vim's locale.
 
 `:find` searches below the working directory. Use `:lcd %:p:h` to search from
 the current file's directory. `:grep pattern` uses ripgrep (`rg`) and respects
-project ignore files. Optional project tags can be generated with `ctags -R .`.
+project ignore files. `sg` opens the grep prompt; in Visual mode it prefills a
+literal search for the selection. Optional project tags can be generated with
+`ctags -R .`.
 
 ALE runs the linters selected in `plugins.vim` when a supported file opens or
 is saved. Install those tools on `PATH`. Run `:ALEFix` for manual formatting;
