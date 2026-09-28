@@ -63,17 +63,25 @@ Do not replace them with a shared sensitive-buffer framework.
   a long section needs navigation. Qualify repeated names, such as
   `" ## ALE / mappings`. Leave one blank line around headings. Do not add
   decorative banners or headings to trivial files.
-- Explain reasons, Vim constraints, and security assumptions; keep helpers
+- Explain reasons, Vim constraints, and security assumptions rather than narrating
+  straightforward code. Keep helpers
   near the behavior they support.
 - Use two-space indentation and retain existing continuation indentation.
   Aim for 80 columns in prose and 100 in code when splitting aids readability.
 - Use `scriptencoding utf-8` for literal Unicode. Save and restore `&cpoptions`
   for standalone plugins that need Vim-compatible parsing.
-- Keep core settings in `.vimrc`, plugin settings and declarations in
-  `plugins.vim`, and general mappings in `mappings.vim`.
-- Keep the `gl` mapping family global in `mappings.vim`; ftplugins must not
-  redefine it locally. Noesis note-editing shortcuts use `<LocalLeader>`
-  (configured as `gh`) and buffer-local mappings.
+- Keep core settings in `.vimrc`, generic global mappings in `mappings.vim`,
+  and third-party plugin settings, mappings, and declarations in `plugins.vim`.
+  Keep local plugin commands and their mappings inside their plugin.
+- Follow the mapping model in [the canonical guide](../../docs/vim-mappings.md).
+  Separate personal bindings, autonomous integrations, and filetype-local actions;
+  keep the latter buffer-local. Plugins expose commands and stable `<Plug>` APIs
+  independently of optional default bindings, without configurable prefix or
+  function-call dictionary APIs.
+- Layer task behavior on the host filetype without taking ownership of unrelated
+  editor preferences. Prevent automatic splitting of task records and restore
+  owned state on disable. Automatic and manual activation share one mechanism;
+  activation must not modify document contents.
 - Group plugin files by defaults, helpers, commands, autocommands, and mappings.
   Keep plugin declarations after their settings. Give ftplugins a
   `b:undo_ftplugin`; finish syntax files with `b:current_syntax`.

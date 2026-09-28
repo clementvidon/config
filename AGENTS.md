@@ -40,7 +40,11 @@ backward compatibility. Update affected code and documentation together.
   and unrelated special cases.
 - Make instructions actionable. Use generic examples and explain required
   inputs or prerequisites where they are used.
-- Prefer examples and discovery commands over lists that must be maintained.
+- Explain intent, concepts, public contracts, rationale, and non-obvious
+  constraints. Do not mirror option assignments, source layout, or exhaustive
+  mapping/plugin inventories. Prefer discovery commands and links to canonical
+  sources over lists that must be synchronized manually.
+- Remove historical migration details once the migration is complete.
 - Document real platform exceptions close to the code that implements them.
 - Keep each rule in one place. AGENTS.md files define maintenance constraints;
   READMEs explain usage. Retain concrete security and data-loss constraints
@@ -70,8 +74,13 @@ backward compatibility. Update affected code and documentation together.
   or adjusting ordinary configuration must not require editing tests, expected
   values, fixtures, or inventories. A new format may justify one generic syntax
   validator; it does not justify tests for each setting or file.
-- Do not assert individual preferences, mappings, commands, exact output or log
-  text, or snapshots of configuration contents. Do not test personal commands.
+- Test contracts, invariants, and concrete meaningful failure modes, not the
+  existence of configuration lines. Prefer smoke checks for loading, activation,
+  disabling, state restoration, and security boundaries.
+- Do not assert individual preferences, mappings, commands, option values that
+  are preferences, exact output or log text, documentation output, source layout,
+  or snapshots of configuration contents. Do not enumerate every straightforward
+  configuration branch or plugin/filetype. Do not test personal commands.
 - Detailed regression tests are limited to stable installer contracts and
   documented security guarantees. Within those tests, check only the behavior
   or state needed to establish the guarantee, not unrelated configuration.
