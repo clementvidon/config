@@ -153,10 +153,6 @@ let g:gitgutter_map_keys = 0
 " ## GITGUTTER / buffer guards
 
 function! s:DisableGitGutter() abort
-  if !exists('b:gitgutter')
-    let b:gitgutter = {}
-  endif
-  let b:gitgutter.enabled = 0
   if exists('*gitgutter#buffer_disable')
     call gitgutter#buffer_disable()
   endif
@@ -175,7 +171,12 @@ function! s:ToggleGitGutterBuffer() abort
     call s:DisableGitGutter()
     return
   endif
-  call gitgutter#buffer_toggle()
+  " The upstream toggle assumes an uninitialized buffer is enabled.
+  if gitgutter#utility#getbufvar(bufnr(''), 'enabled', g:gitgutter_enabled)
+    call gitgutter#buffer_disable()
+  else
+    call gitgutter#buffer_enable()
+  endif
 endfunction
 
 function! s:InstallGitGutterGuards() abort
@@ -195,7 +196,6 @@ xmap <Leader>gs <Plug>(GitGutterStageHunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 nnoremap <Leader>gt :GitGutterBufferToggle<CR>
-nnoremap <Leader>gr :GitGutterAll<CR>
 nnoremap <Leader>gq :GitGutterQuickFix<CR>
 nnoremap <Leader>gd :GitGutterDiffOrig<CR>
 
@@ -256,7 +256,7 @@ Plug 'dense-analysis/ale', {
 Plug 'airblade/vim-gitgutter', {
       \ 'commit': '90b75207bd9b55d8ac4af15f72b4e935462014d0',
       \ 'on': [
-      \   'GitGutterAll', 'GitGutterBufferEnable', 'GitGutterBufferDisable',
+      \   'GitGutterBufferEnable', 'GitGutterBufferDisable',
       \   'GitGutterBufferToggle', 'GitGutterNextHunk', 'GitGutterPrevHunk',
       \   'GitGutterQuickFix', 'GitGutterDiffOrig', 'GitGutterUndoHunk',
       \   '<Plug>(GitGutterNextHunk)', '<Plug>(GitGutterPrevHunk)',

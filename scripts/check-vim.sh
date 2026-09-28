@@ -214,7 +214,7 @@ endif
 if get(b:, 'ale_enabled', 1) || get(b:, 'ale_linters', 'missing') !=# []
   call add(s:errors, 'pass buffer did not disable automatic ALE processing')
 endif
-if get(get(b:, 'gitgutter', {}), 'enabled', -1) != 0
+if get(get(b:, 'gitgutter', {}), 'enabled', g:gitgutter_enabled) != 0
   call add(s:errors, 'pass buffer did not disable automatic GitGutter processing')
 endif
 execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
@@ -225,12 +225,12 @@ let s:gitgutter_dir = get(g:, 'vim_data_dir', '') . '/plugged/vim-gitgutter'
 if isdirectory(s:gitgutter_dir)
   GitGutterBufferEnable
   GitGutterBufferToggle
-  if get(get(b:, 'gitgutter', {}), 'enabled', -1) != 0
+  if get(get(b:, 'gitgutter', {}), 'enabled', g:gitgutter_enabled) != 0
     call add(s:errors, 'GitGutter commands bypassed sensitive buffer protection')
   endif
   execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
   GitGutterBufferEnable
-  if get(get(b:, 'gitgutter', {}), 'enabled', -1) != 0
+  if get(get(b:, 'gitgutter', {}), 'enabled', g:gitgutter_enabled) != 0
     call add(s:errors, 'vimrc reload weakened the GitGutter command guard')
   endif
 endif
