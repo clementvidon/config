@@ -176,24 +176,24 @@ endfunction
 
 " # DETAIL FORMATTING
 
-function! achiever#task_detail_toggle_view(prefix) abort
+function! achiever#task_detail_toggle_view() abort
   let l:current_line = getline('.')
   let l:lnum = line('.')
 
   if l:current_line =~# ' work: ' || l:current_line =~# ' life: '
-    let l:separator = '\V ' . escape(a:prefix, '\') . ' '
+    let l:separator = ' -- '
     if len(split(l:current_line, l:separator)) > 2
       let l:parts = split(l:current_line, l:separator)
-      call setline(l:lnum, l:parts[0] . ' ' . a:prefix . ' ' . l:parts[1])
+      call setline(l:lnum, l:parts[0] . ' -- ' . l:parts[1])
       if len(l:parts) > 1
-        call append(l:lnum, map(l:parts[2:], {_, val -> '  ' . a:prefix . ' ' . val}))
+        call append(l:lnum, map(l:parts[2:], {_, val -> '  -- ' . val}))
       endif
     else
       let l:next_lines = []
       let l:current_lnum = l:lnum + 1
       let l:start_delete = l:current_lnum
 
-      let l:prefix_pattern = '^\s\+\V' . escape(a:prefix, '\') . ' '
+      let l:prefix_pattern = '^\s\+-- '
       while getline(l:current_lnum) =~# l:prefix_pattern
         call add(l:next_lines, substitute(getline(l:current_lnum), l:prefix_pattern, '', ''))
         let l:current_lnum += 1
@@ -206,7 +206,7 @@ function! achiever#task_detail_toggle_view(prefix) abort
       endif
 
       if !empty(l:next_lines)
-        let l:joined = ' ' . a:prefix . ' ' . join(l:next_lines, ' ' . a:prefix . ' ')
+        let l:joined = ' -- ' . join(l:next_lines, ' -- ')
         call setline(l:lnum, l:current_line . l:joined)
       endif
     endif

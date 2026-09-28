@@ -9,8 +9,6 @@ let b:did_achiever_ftplugin = 1
 
 " # BUFFER CONFIGURATION
 
-let b:achiever_task_detail_prefix = get(b:, 'achiever_task_detail_prefix',
-      \ g:achiever_task_detail_prefix)
 " Task records must stay on one logical line, independent of host formatting.
 let b:achiever_saved_layout = [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions]
 setlocal textwidth=0 wrapmargin=0 nowrap
@@ -26,7 +24,7 @@ nnoremap <silent><buffer> <Plug>(achiever-duration) :<C-U>call achiever#task_dur
 nnoremap <silent><buffer> <Plug>(achiever-duration-add) :<C-U>call achiever#task_duration_add()<CR>
 nnoremap <silent><buffer> <Plug>(achiever-duration-total) :<C-U>call achiever#task_duration_total()<CR>
 nnoremap <silent><buffer> <Plug>(achiever-duration-reset) :<C-U>call achiever#task_duration_reset()<CR>
-nnoremap <silent><buffer> <Plug>(achiever-detail-toggle) :<C-U>call achiever#task_detail_toggle_view(b:achiever_task_detail_prefix)<CR>
+nnoremap <silent><buffer> <Plug>(achiever-detail-toggle) :<C-U>call achiever#task_detail_toggle_view()<CR>
 
 " # DEFAULT MAPPINGS
 
@@ -68,7 +66,7 @@ for s:key in b:achiever_default_keys
   let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> ' . substitute(s:key, ' ', '<Space>', 'g')
 endfor
 unlet! s:key
-let b:undo_achiever_ftplugin .= '|unlet! b:achiever_task_detail_prefix b:achiever_default_keys'
+let b:undo_achiever_ftplugin .= '|unlet! b:achiever_default_keys'
       \ . ' b:achiever_total_difference_seconds b:did_achiever_ftplugin b:achiever_saved_layout'
       \ . '|let b:undo_ftplugin = b:achiever_host_undo'
       \ . '|unlet! b:achiever_host_undo b:undo_achiever_ftplugin'

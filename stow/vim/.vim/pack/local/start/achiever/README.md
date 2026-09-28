@@ -28,6 +28,10 @@ Tasks start at column one, with a non-empty description. Times use the 24-hour
 clock; invalid timestamps are rejected. Checking a task rounds the current
 time to the nearest five minutes.
 
+Details use the fixed marker `--` followed by a space. On `work:` and `life:`
+tasks, the detail toggle keeps the first inline detail and expands later ones
+onto indented `-- ` lines, or joins those lines back into the task record.
+
 ## Usage and customization
 
 Space `hh` lists active bindings. Duration display does not alter the running
@@ -37,8 +41,6 @@ total: use `<Plug>(achiever-duration-add)` to accumulate it,
 lasts until reset, disable, a filetype change, or buffer closure.
 
 Insert-mode abbreviations `wwo` and `lli` expand to work and life task labels.
-Set `g:achiever_task_detail_prefix` before activation to change the detail marker
-(default `--`).
 
 Set `g:achiever_no_mappings = 1` before activation to disable default bindings.
 `<Plug>(achiever-...)` mappings remain available in active buffers;

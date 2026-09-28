@@ -5,12 +5,6 @@ if exists('g:loaded_achiever')
 endif
 let g:loaded_achiever = 1
 
-" # DEFAULTS
-
-if !exists('g:achiever_task_detail_prefix')
-  let g:achiever_task_detail_prefix = '--'
-endif
-
 " # ACTIVATION
 
 function! s:Enable() abort

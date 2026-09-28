@@ -8,9 +8,7 @@ syntax match achieverTaskTimestamp /^- \zs\d\{6} \%([01]\d\|2[0-3]\):[0-5]\d\%( 
 syntax match achieverTaskPrefixWork /\(\swork:\s\)/
 syntax match achieverTaskPrefixLife /\(\slife:\s\)/
 syntax match achieverTaskLifeText /\(\slife:\s\)\@7<=.\{-}\ze\(\s& work: \|\s& life: \|\s+ work: \|\s+ life: \|$\)/
-execute 'syntax region achieverTaskTempComment start=/\V'
-      \ . escape(get(b:, 'achiever_task_detail_prefix', get(g:, 'achiever_task_detail_prefix', '--')), '\/')
-      \ . '\m\s/ end=/\(\\\|$\)/'
+syntax region achieverTaskTempComment start=/--\s/ end=/\(\\\|$\)/
 
 " # HIGHLIGHTS
 
