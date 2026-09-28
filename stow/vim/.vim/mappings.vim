@@ -206,6 +206,41 @@ function! s:GrepPrompt(visual) abort
   endif
 endfunction
 
+function! s:ToggleColorscheme() abort
+  if get(g:, 'colors_name', '') ==# 'nord'
+    let g:seoul256_light_background = 256
+    colorscheme seoul256-light
+  elseif get(g:, 'colors_name', '') ==# 'seoul256-light'
+    if get(g:, 'seoul256_current_bg', -1) ==# 256
+      let g:seoul256_light_background = 252
+      colorscheme seoul256-light
+    else
+      colorscheme seoul256
+    endif
+  else
+    colorscheme nord
+  endif
+endfunction
+
+function! s:OpenNote(relative, pattern) abort
+  let l:search = @/
+  execute 'edit ' . fnameescape(g:noesis_root . '/' . a:relative)
+  if !empty(a:pattern)
+    call search(a:pattern, 'b')
+    normal! zt
+  endif
+  let @/ = l:search
+endfunction
+
+function! s:OpenTasks() abort
+  let l:search = @/
+  execute 'edit ' . fnameescape(g:noesis_root . '/Achiever/todos.md')
+  normal! gg0
+  call search('\s\d\{6}\s', 'w')
+  normal! 0zz
+  let @/ = l:search
+endfunction
+
 " # FILES AND BUFFERS
 
 " ## write and quit
@@ -247,6 +282,16 @@ nnoremap svp :vert sp #<CR>
 
 nnoremap sb :ls<CR>:b<Space>
 
+" ## personal notes
+
+nnoremap <silent> sn  <nop>
+nnoremap <silent> sne :call <SID>OpenNote('english.md', '##  Voca')<CR>
+nnoremap <silent> snf :call <SID>OpenNote('french.md', '##  Voca')<CR>
+nnoremap <silent> snt :call <SID>OpenTasks()<CR>
+nnoremap <silent> snh :call <SID>OpenNote('.todos.gpg.md', '')<CR>
+nnoremap <silent> snj :call <SID>OpenNote('journal.gpg.md', '')<CR>
+nnoremap <silent> snn :call <SID>OpenNote('notes.md', '')<CR>
+
 " ## navigation and tags
 
 nnoremap [b :<C-U>execute v:count1 . 'bprevious'<CR>
@@ -272,6 +317,7 @@ nnoremap gl <nop>
 nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nnoremap glcd :cd %:h<CR>
+nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap gllc :lc %:h<CR>
@@ -323,7 +369,7 @@ nnoremap 2s 2z=
 nnoremap 1s 1z=
 inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 
-nnoremap <silent> <Leader>= :call <SID>IndentBuffer()<CR>
+nnoremap <silent> <Space>= :call <SID>IndentBuffer()<CR>
 
 " ## clipboard
 

@@ -18,6 +18,9 @@ Local plugins have their own usage instructions under `pack/local/start`.
 Set their configuration variables in `plugins.vim`, including the GPG recipient
 and note export author when using those features.
 
+Personal note navigation and theme shortcuts live in `mappings.vim`; global
+digraphs live in `.vimrc`.
+
 ## Dates
 
 `glpd` opens a date menu in any buffer. Press `1` through `4` to insert the

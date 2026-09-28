@@ -1,4 +1,4 @@
-" Plugin settings, integrations, mappings and declarations.
+" Plugin settings, integration guards and declarations.
 scriptencoding utf-8
 
 " # LOCAL PLUGINS
@@ -261,6 +261,11 @@ augroup personal_integrations
   autocmd User vim-gitgutter call <SID>InstallGitGutterGuards()
 augroup END
 call s:ConfigureALE()
+
+" # COLORSCHEMES
+
+let g:seoul256_background = 236
+let g:seoul256_light_background = 256
 
 " # NETRW
 
