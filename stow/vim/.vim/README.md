@@ -33,17 +33,8 @@ for encrypted editing.
 
 ## Dates
 
-`glpd` opens a date menu in any buffer. Press `1` through `4` to insert the
-chosen format below the current line, without pressing Enter; `Esc` cancels.
-You can type the sequence directly, such as `glpd1`. The menu shows the current
-local date and time; weekday and month names follow Vim's locale.
-
-| Choice | Example |
-| --- | --- |
-| `1` | `Sun 27 Sep 2026` |
-| `2` | `260927` |
-| `3` | `Sun 27 Sep 2026 at 20:17` |
-| `4` | `260927201710` |
+`glpd` opens the interactive date insertion menu using the current locale.
+The selected date is inserted below the current line; `Esc` cancels.
 
 ## Search and formatting
 
