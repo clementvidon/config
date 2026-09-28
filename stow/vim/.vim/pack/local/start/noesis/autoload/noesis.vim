@@ -120,7 +120,7 @@ function! s:SelectedRange(visual) abort
     else
       let l:start -= 1
       let l:end = min([l:end - 1, strlen(l:lines[-1])])
-      if &selection !=# 'exclusive'
+      if &selection !=# 'exclusive' || (l:first == l:last && l:start == l:end)
         let l:end += strlen(matchstr(strpart(l:lines[-1], l:end), '^.'))
       endif
     endif
@@ -464,18 +464,24 @@ function! noesis#index() abort
   let l:body = l:lines[l:split:]
   let l:entries = map(s:Headings(l:body, 0), 'v:val.entry')
   if empty(l:entries)
-    echo 'Noesis: no headings found'
-    return
+    if empty(l:block)
+      echo 'Noesis: no headings found'
+      return
+    endif
+    let l:output = l:opening + [''] + l:body
+  else
+    let l:output = l:opening + ['', '<!-- INDEX {{{']
+          \ + l:entries + ['INDEX }}} -->', ''] + l:body
   endif
-  let l:output = l:opening + ['', '<!-- INDEX {{{']
-        \ + l:entries + ['INDEX }}} -->', ''] + l:body
   call setline(1, l:output)
   if line('$') > len(l:output)
     silent! undojoin
     call deletebufline('%', len(l:output) + 1, '$')
   endif
-  call cursor(len(l:opening) + 2, 1)
-  normal! zMzv
+  if !empty(l:entries)
+    call cursor(len(l:opening) + 2, 1)
+    normal! zMzv
+  endif
 endfunction
 
 function! noesis#index_jump() abort

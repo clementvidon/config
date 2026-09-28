@@ -66,6 +66,7 @@ by composing the insertion mappings. With no enclosing style, nothing changes.
 an index entry and its heading, positioning the target about 30% down the window
 when space permits. Refresh after adding, removing, renaming, or reordering
 indexed headings.
+If no indexed headings remain, refreshing removes the existing index.
 
 `:Grep pattern` searches unencrypted `.noe` files under the notes directory
 using ripgrep (`rg`). Achiever can add task editing through the
