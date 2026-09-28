@@ -1,6 +1,6 @@
 # Noesis file conventions
 
-Write `.md` or `.noe` notes using Markdown syntax, with the following layout.
+Write `.md` notes using Markdown syntax, with the following layout.
 
 ## Headings
 

@@ -41,9 +41,12 @@ autocommands can still export plaintext.
 
 ## Manual transforms
 
-`glgd` decrypts the buffer, or a visual selection. In visual mode, `glga`
-encrypts to the configured recipient and `glgs` uses symmetric encryption.
-`glgr` restarts the GPG agent and requires `gpgconf`.
+`:GPGDecrypt` decrypts text, `:GPGEncrypt` encrypts to the configured recipient,
+and `:GPGEncryptSymmetric` uses symmetric encryption. These commands accept a
+line range and default to the whole buffer. Select text visually before typing
+the command to transform only those lines.
+
+`:GPGRestartAgent` restarts the GPG agent and requires `gpgconf`.
 
 Transforms disable persistence but retain the filename. An ordinary file keeps
 its normal write behavior. Use a `*.gpg.*` file for automatic encrypted storage.
@@ -53,3 +56,11 @@ its normal write behavior. Use a `*.gpg.*` file for automatic encrypted storage.
 From this directory, run `test/run.sh`. It uses a temporary home and disposable
 GnuPG keyring, and additionally requires Bash and `gpg-connect-agent`.
 Cleanup stops only the test keyring's agent, including when setup fails.
+
+## Mapping API
+
+Space `eh` lists default bindings; `:command GPG` lists commands. Set
+`g:vim_gpg_no_mappings = 1` before plugins load to disable defaults. Commands and
+`<Plug>(vim-gpg-...)` mappings remain available; for example, map a key to
+`<Plug>(vim-gpg-decrypt)`. See the
+[mapping model](../../../../../../../docs/vim-mappings.md) for discovery and remapping.

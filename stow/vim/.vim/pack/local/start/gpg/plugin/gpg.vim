@@ -360,6 +360,13 @@ function! s:RestartAgent() abort
   endif
 endfunction
 
+" # COMMANDS
+
+command! -bar -range=% GPGDecrypt call <SID>Decrypt(<line1>, <line2>)
+command! -bar -range=% GPGEncrypt call <SID>EncryptRecipient(<line1>, <line2>)
+command! -bar -range=% GPGEncryptSymmetric call <SID>EncryptSymmetric(<line1>, <line2>)
+command! -bar GPGRestartAgent call <SID>RestartAgent()
+
 " # AUTOCOMMANDS
 
 augroup personal_gpg
@@ -383,11 +390,20 @@ augroup END
 
 " # MAPPINGS
 
-nnoremap <silent> glgd :call <SID>Decrypt(1, line('$'))<CR>
-nnoremap <silent> glgr :call <SID>RestartAgent()<CR>
-xnoremap <silent> glgs :<C-U>call <SID>EncryptSymmetric(line("'<"), line("'>"))<CR>
-xnoremap <silent> glga :<C-U>call <SID>EncryptRecipient(line("'<"), line("'>"))<CR>
-xnoremap <silent> glgd :<C-U>call <SID>Decrypt(line("'<"), line("'>"))<CR>
+nnoremap <silent> <Plug>(vim-gpg-decrypt) :GPGDecrypt<CR>
+xnoremap <silent> <Plug>(vim-gpg-decrypt) :GPGDecrypt<CR>
+xnoremap <silent> <Plug>(vim-gpg-encrypt) :GPGEncrypt<CR>
+xnoremap <silent> <Plug>(vim-gpg-encrypt-symmetric) :GPGEncryptSymmetric<CR>
+nnoremap <silent> <Plug>(vim-gpg-restart-agent) :GPGRestartAgent<CR>
+
+if !get(g:, 'vim_gpg_no_mappings', 0)
+  nmap <Leader>ed <Plug>(vim-gpg-decrypt)
+  xmap <Leader>ed <Plug>(vim-gpg-decrypt)
+  xmap <Leader>ea <Plug>(vim-gpg-encrypt)
+  xmap <Leader>es <Plug>(vim-gpg-encrypt-symmetric)
+  nmap <Leader>er <Plug>(vim-gpg-restart-agent)
+  nnoremap <Leader>eh :map <Leader>e<CR>
+endif
 
 let &cpoptions = s:save_cpoptions
 unlet s:save_cpoptions

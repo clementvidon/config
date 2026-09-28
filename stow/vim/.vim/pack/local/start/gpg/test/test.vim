@@ -223,7 +223,7 @@ augroup vim_gpg_test_events
 augroup END
 
 " Opening a new encrypted name installs protection before plaintext is entered.
-let s:new = s:work . '/brand-new.gpg.noe'
+let s:new = s:work . '/brand-new.gpg.md'
 execute 'edit! ' . fnameescape(s:new)
 call s:AssertProtected()
 call assert_equal(s:Path(s:new), b:gpg_disk_path)
@@ -238,7 +238,7 @@ call assert_equal(s:Path(s:new), b:gpg_disk_path)
 " Naming an empty buffer protects it before the first plaintext insertion.
 enew!
 setlocal swapfile undofile
-let s:named = s:work . '/named-after-enew.gpg.noe'
+let s:named = s:work . '/named-after-enew.gpg.md'
 execute 'file ' . fnameescape(s:named)
 call s:AssertProtected()
 call assert_equal(s:Path(s:named), b:gpg_disk_path)
@@ -250,7 +250,7 @@ call assert_equal(['named', 'secret'], s:Decrypt(s:named))
 execute 'edit! ' . fnameescape(s:new)
 
 " Alternate encrypted writes do not replace the current file's remembered path.
-let s:alternate = s:work . '/alternate.gpg.noe'
+let s:alternate = s:work . '/alternate.gpg.md'
 execute 'write ' . fnameescape(s:alternate)
 call assert_true(s:Encrypted(s:alternate))
 call assert_equal(['new', 'secret'], s:Decrypt(s:alternate))
@@ -263,7 +263,7 @@ call s:AssertFails('execute "saveas! " . fnameescape(s:saveas_plain)',
 call assert_false(filereadable(s:saveas_plain))
 
 " Save-as cannot compare the old path's hash against the new current path.
-let s:renamed = s:work . '/renamed.gpg.noe'
+let s:renamed = s:work . '/renamed.gpg.md'
 execute 'saveas! ' . fnameescape(s:renamed)
 call assert_true(s:Encrypted(s:renamed))
 call assert_equal(['new', 'secret'], s:Decrypt(s:renamed))
@@ -410,8 +410,7 @@ call writefile(['manual secret'], s:manual)
 execute 'edit! ' . fnameescape(s:manual)
 setlocal swapfile undofile
 set backup writebackup viminfo='100
-normal! gg0v$
-call feedkeys('glga', 'xt')
+GPGEncrypt
 call assert_true(get(b:, 'vim_sensitive_buffer', 0))
 call assert_false(get(b:, 'vim_gpg_managed_buffer', 0))
 call assert_false(&l:swapfile)

@@ -494,7 +494,7 @@ function! noesis#index_jump() abort
   let l:headings = s:Headings(l:lines, l:block.end + 1)
   " Entry order distinguishes identical titles; re-read positions after edits.
   if map(copy(l:headings), 'v:val.entry') !=# l:lines[l:block.first:l:block.end - 1]
-    echo 'Noesis: headings changed; refresh the index with <LocalLeader>I'
+    echo 'Noesis: headings changed; refresh the index with <LocalLeader>g'
     return
   endif
   if l:entry >= l:block.first && l:entry < l:block.end
@@ -521,8 +521,8 @@ function! noesis#grep(pattern) abort
     throw 'Noesis: rg is not installed'
   endif
   let l:command = 'rg --vimgrep --smart-case --hidden --glob='
-        \ . shellescape('*.noe')
-        \ . ' --glob=' . shellescape('!*.gpg.noe')
+        \ . shellescape('*.md')
+        \ . ' --glob=' . shellescape('!*.gpg.md')
         \ . ' --glob=' . shellescape('!**/.git/**')
         \ . ' -- ' . shellescape(a:pattern) . ' ' . shellescape(g:noesis_root)
   let l:lines = systemlist(l:command)

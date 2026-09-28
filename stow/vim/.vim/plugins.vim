@@ -136,11 +136,13 @@ endfunction
 
 nnoremap <Leader>al :ALELint<CR>
 nnoremap <Leader>af :ALEFix<CR>
-nnoremap <Leader>an :ALENext<CR>
-nnoremap <Leader>ap :ALEPrevious<CR>
+nnoremap <Leader>aj :ALENext<CR>
+nnoremap <Leader>ak :ALEPrevious<CR>
 nnoremap <Leader>ad :ALEDetail<CR>
 nnoremap <Leader>ai :ALEInfo<CR>
 nnoremap <Leader>at :ALEToggle<CR>
+
+nnoremap <Leader>ah :map <Leader>a<CR>
 
 " # GITGUTTER
 
@@ -218,17 +220,19 @@ endfunction
 
 " ## GITGUTTER / mappings
 
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
+nmap <Leader>gk <Plug>(GitGutterPrevHunk)
+nmap <Leader>gj <Plug>(GitGutterNextHunk)
 nmap <Leader>gs <Plug>(GitGutterStageHunk)
 xmap <Leader>gs <Plug>(GitGutterStageHunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
-nnoremap <Leader>gg :GitGutterToggle<CR>
+nnoremap <Leader>gt :GitGutterToggle<CR>
 nnoremap <Leader>gr :GitGutterAll<CR>
 nnoremap <Leader>gb :GitGutterBufferToggle<CR>
 nnoremap <Leader>gq :GitGutterQuickFix<CR>
 nnoremap <Leader>gd :GitGutterDiffOrig<CR>
+
+nnoremap <Leader>gh :map <Leader>g<CR>
 
 " # SHARED INTEGRATION HOOKS
 
@@ -243,10 +247,6 @@ function! s:LintOnALELoad() abort
   endif
 endfunction
 
-" Clear the former group when this file is re-sourced in an existing Vim session.
-if exists('#personal_ale')
-  autocmd! personal_ale
-endif
 augroup personal_integrations
   autocmd!
   autocmd FileType * call <SID>ConfigureALE()

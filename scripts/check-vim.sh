@@ -59,7 +59,7 @@ for plugin in ale vim-gitgutter; do
 done
 
 mkdir -p "$CHECK_ROOT/project"
-printf 'plain note\n' >"$CHECK_ROOT/project/plain.noe"
+printf 'plain note\n' >"$CHECK_ROOT/project/plain.md"
 printf '%s\n' '- task' >"$CHECK_ROOT/project/achiever.md"
 printf '{"key": true}\n' >"$CHECK_ROOT/project/data.json"
 printf 'key: value\n' >"$CHECK_ROOT/project/data.yaml"
@@ -78,7 +78,7 @@ function! s:Open(path) abort
   endif
 endfunction
 
-for s:name in ['plain.noe', 'achiever.md', 'data.json', 'data.yaml']
+for s:name in ['plain.md', 'achiever.md', 'data.json', 'data.yaml']
   call s:Open($VIM_CHECK_ROOT . '/project/' . s:name)
 endfor
 

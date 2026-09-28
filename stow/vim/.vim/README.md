@@ -1,6 +1,6 @@
 # Vim
 
-Terminal Vim 8.2.0807+ on macOS and Ubuntu. Install Git for plugin downloads,
+Terminal Vim 8.2.2957+ on macOS and Ubuntu. Install Git for plugin downloads,
 then run from the repository root to deploy and install the pinned plugins:
 
 ```sh
@@ -20,6 +20,10 @@ and note export author when using those features.
 
 Personal note navigation and theme shortcuts live in `mappings.vim`; global
 digraphs live in `.vimrc`.
+
+See the [mapping guide](../../../docs/vim-mappings.md) for the mapping model
+and remapping examples. Namespace help lists the current bindings.
+Local plugin READMEs describe their commands and configuration.
 
 ## Dates
 
