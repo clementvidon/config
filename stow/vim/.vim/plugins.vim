@@ -217,7 +217,7 @@ endfunction
 augroup personal_integrations
   autocmd!
   autocmd FileType * call <SID>ConfigureALE()
-  autocmd BufEnter,BufFilePost,BufWritePre * call <SID>ConfigureALE()
+  autocmd BufFilePost * call <SID>ConfigureALE()
   autocmd User VimGPGSensitive,RedactPassSensitive
         \ call <SID>ProtectAutomaticIntegrations()
   " This event runs before ALE starts linters, including already queued work.
