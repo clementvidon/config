@@ -39,14 +39,18 @@
 
 ## Sensitive data
 
-GPG and redact-pass share sensitivity markers but remain independent plugins.
-Do not replace them with a shared sensitive-buffer framework.
+`b:vim_sensitive_buffer` is the sole shared contract for content integrations.
+An automatic integration that inspects, serializes, transmits, or persists
+content must explicitly refuse sensitive buffers, including work queued before
+they became sensitive. Purely explicit or passive plugins need no integration
+policy. Do not add a global allowlist or sensitive-buffer framework.
+
+GPG and redact-pass remain independent. Preserve their persistence protections:
 
 - `g:vim_sensitive_session` stays set after plaintext is exposed; global
   persistence must stay disabled for the rest of the process.
 - `b:vim_sensitive_buffer` disables swap and persistent undo before plaintext
-  is read or entered. Automatic integrations must neither process nor serialize
-  these buffers, including work queued before they became sensitive.
+  is read or entered.
 - `b:vim_gpg_managed_buffer` belongs to GPG and adds encrypted-write
   restrictions. Other sensitive buffers retain their own write behavior.
 - The GPG pipeline must never write plaintext to temporary files.
