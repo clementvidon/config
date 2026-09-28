@@ -152,51 +152,19 @@ let g:gitgutter_map_keys = 0
 
 " ## GITGUTTER / buffer guards
 
-function! s:DisableGitGutter(buffer) abort
-  let l:state = getbufvar(a:buffer, 'gitgutter')
-  if type(l:state) !=# v:t_dict
-    let l:state = {}
-    call setbufvar(a:buffer, 'gitgutter', l:state)
+function! s:DisableGitGutter() abort
+  if !exists('b:gitgutter')
+    let b:gitgutter = {}
   endif
-  let l:state.enabled = 0
+  let b:gitgutter.enabled = 0
   if exists('*gitgutter#buffer_disable')
-    call gitgutter#buffer_disable(a:buffer)
-  endif
-endfunction
-
-function! s:DisableSensitiveGitGutterBuffers() abort
-  for l:buffer in range(1, bufnr('$'))
-    if bufexists(l:buffer) && getbufvar(l:buffer, 'vim_sensitive_buffer', 0)
-      call s:DisableGitGutter(l:buffer)
-    endif
-  endfor
-endfunction
-
-function! s:EnableGitGutter() abort
-  let g:gitgutter_enabled = 1
-  for l:buffer in range(1, bufnr('$'))
-    if !buflisted(l:buffer) || empty(bufname(l:buffer))
-      continue
-    endif
-    if getbufvar(l:buffer, 'vim_sensitive_buffer', 0)
-      call s:DisableGitGutter(l:buffer)
-    else
-      call gitgutter#buffer_enable(l:buffer)
-    endif
-  endfor
-endfunction
-
-function! s:ToggleGitGutter() abort
-  if g:gitgutter_enabled
-    call gitgutter#disable()
-  else
-    call s:EnableGitGutter()
+    call gitgutter#buffer_disable()
   endif
 endfunction
 
 function! s:EnableGitGutterBuffer() abort
   if get(b:, 'vim_sensitive_buffer', 0)
-    call s:DisableGitGutter(bufnr(''))
+    call s:DisableGitGutter()
     return
   endif
   call gitgutter#buffer_enable()
@@ -204,18 +172,18 @@ endfunction
 
 function! s:ToggleGitGutterBuffer() abort
   if get(b:, 'vim_sensitive_buffer', 0)
-    call s:DisableGitGutter(bufnr(''))
+    call s:DisableGitGutter()
     return
   endif
   call gitgutter#buffer_toggle()
 endfunction
 
 function! s:InstallGitGutterGuards() abort
-  command! -bar GitGutterEnable call <SID>EnableGitGutter()
-  command! -bar GitGutterToggle call <SID>ToggleGitGutter()
   command! -bar GitGutterBufferEnable call <SID>EnableGitGutterBuffer()
   command! -bar GitGutterBufferToggle call <SID>ToggleGitGutterBuffer()
-  call s:DisableSensitiveGitGutterBuffers()
+  if get(b:, 'vim_sensitive_buffer', 0)
+    call s:DisableGitGutter()
+  endif
 endfunction
 
 " ## GITGUTTER / mappings
@@ -226,9 +194,8 @@ nmap <Leader>gs <Plug>(GitGutterStageHunk)
 xmap <Leader>gs <Plug>(GitGutterStageHunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
-nnoremap <Leader>gt :GitGutterToggle<CR>
+nnoremap <Leader>gt :GitGutterBufferToggle<CR>
 nnoremap <Leader>gr :GitGutterAll<CR>
-nnoremap <Leader>gb :GitGutterBufferToggle<CR>
 nnoremap <Leader>gq :GitGutterQuickFix<CR>
 nnoremap <Leader>gd :GitGutterDiffOrig<CR>
 
@@ -238,7 +205,7 @@ nnoremap <Leader>gh :map <Leader>g<CR>
 
 function! s:ProtectAutomaticIntegrations() abort
   call s:ConfigureALE()
-  call s:DisableGitGutter(bufnr(''))
+  call s:DisableGitGutter()
 endfunction
 
 function! s:LintOnALELoad() abort
@@ -289,7 +256,7 @@ Plug 'dense-analysis/ale', {
 Plug 'airblade/vim-gitgutter', {
       \ 'commit': '90b75207bd9b55d8ac4af15f72b4e935462014d0',
       \ 'on': [
-      \   'GitGutterToggle', 'GitGutterDisable', 'GitGutterEnable', 'GitGutterAll',
+      \   'GitGutterAll', 'GitGutterBufferEnable', 'GitGutterBufferDisable',
       \   'GitGutterBufferToggle', 'GitGutterNextHunk', 'GitGutterPrevHunk',
       \   'GitGutterQuickFix', 'GitGutterDiffOrig', 'GitGutterUndoHunk',
       \   '<Plug>(GitGutterNextHunk)', '<Plug>(GitGutterPrevHunk)',

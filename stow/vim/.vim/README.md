@@ -57,6 +57,9 @@ YAML formatting requires a project yamlfmt configuration. `:ALEInfo` shows the
 active tools. Run `terraform validate` and `systemd-analyze verify` manually
 from the appropriate project or system context.
 
+GitGutter starts disabled. Space `gt` toggles it for the current buffer;
+Space `gh` lists hunk navigation and actions. Sensitive buffers refuse activation.
+
 ## Clipboard
 
 Install the helper and keep `~/.local/bin` on `PATH`:

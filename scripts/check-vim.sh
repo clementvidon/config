@@ -218,7 +218,6 @@ if &l:swapfile || &l:undofile || &backup || &writebackup || !empty(&viminfo)
 endif
 let s:gitgutter_dir = get(g:, 'vim_data_dir', '') . '/plugged/vim-gitgutter'
 if isdirectory(s:gitgutter_dir)
-  GitGutterEnable
   GitGutterBufferEnable
   GitGutterBufferToggle
   if get(get(b:, 'gitgutter', {}), 'enabled', -1) != 0
