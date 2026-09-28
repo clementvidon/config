@@ -79,7 +79,6 @@ nnoremap <silent><buffer> <Plug>(noesis-link) :<C-U>call noesis#link(0)<CR>
 xnoremap <silent><buffer> <Plug>(noesis-link) <Cmd>call noesis#link(1)<CR>
 nnoremap <silent><buffer> <Plug>(noesis-quote) :<C-U>call noesis#quote(0)<CR>
 xnoremap <silent><buffer> <Plug>(noesis-quote) <Cmd>call noesis#quote(1)<CR>
-nnoremap <silent><buffer> <Plug>(noesis-unstyle) :<C-U>call noesis#unstyle()<CR>
 
 " # DEFAULT MAPPINGS
 
@@ -137,8 +136,6 @@ if !get(g:, 'noesis_no_mappings', 0)
   call add(b:noesis_default_maps, ["n", "q"])
   xmap <buffer> <LocalLeader>q <Plug>(noesis-quote)
   call add(b:noesis_default_maps, ["x", "q"])
-  nmap <buffer> <LocalLeader>u <Plug>(noesis-unstyle)
-  call add(b:noesis_default_maps, ["n", "u"])
 endif
 
 " # UNDO
@@ -187,7 +184,6 @@ let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-link)'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-link)'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-quote)'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-quote)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-unstyle)'
 for [s:mode, s:key] in b:noesis_default_maps
   let b:undo_ftplugin .= '|silent! ' . s:mode . 'unmap <buffer> '
         \ . substitute(b:noesis_local_leader, ' ', '<Space>', 'g') . s:key

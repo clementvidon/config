@@ -115,23 +115,7 @@ call s:Open($VIM_CHECK_ROOT . '/project/achiever.md')
 call assert_equal('markdown.achiever', &l:filetype)
 AchieverDisable
 call assert_equal('markdown', &l:filetype)
-
-" Buffer arithmetic must never become arbitrary Vimscript execution.
 enew
-let g:calculator_side_effect = 0
-for s:expression in [
-      \ 'execute("let g:calculator_side_effect = 1")',
-      \ '1 + execute("let g:calculator_side_effect = 1")',
-      \ ]
-  call setline(1, s:expression)
-  call cursor(1, 1)
-  try
-    normal glbc
-  catch
-  endtry
-  call assert_equal(0, g:calculator_side_effect)
-  call assert_equal(s:expression, getline(1))
-endfor
 
 " Preparing a search must not export selected text via registers or yank hooks.
 if executable('rg')

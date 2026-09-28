@@ -111,33 +111,6 @@ function! s:PutDate() abort
   endif
 endfunction
 
-function! s:CalculateLine() abort
-  let l:expression = substitute(getline('.'), ',', '.', 'g')
-  let l:number = '\%(\d\+\%(\.\d*\)\?\|\.\d\+\)\%([eE][+-]\?\d\+\)\?'
-  " Only arithmetic tokens may reach eval(); never execute text from a file.
-  if empty(trim(l:expression))
-        \ || substitute(l:expression, l:number . '\|[-+*/() \t]', '', 'g') !=# ''
-    echoerr 'Calculator: use numbers, parentheses and + - * /'
-    return
-  endif
-  " Floats avoid integer division and octal interpretation of leading zeros.
-  let l:expression = substitute(l:expression, l:number,
-        \ '\=printf("%.17e", str2float(submatch(0)))', 'g')
-  try
-    sandbox let l:result = eval(l:expression)
-    if type(l:result) != v:t_float || isinf(l:result) || isnan(l:result)
-      throw 'Invalid or non-finite result'
-    endif
-  catch
-    echoerr 'Calculator: invalid expression or non-finite result'
-    return
-  endtry
-  let l:parts = split(printf('%.12g', l:result), 'e', 1)
-  let l:parts[0] = substitute(l:parts[0], '0\+$', '', '')
-  let l:parts[0] = substitute(l:parts[0], '\.$', '', '')
-  call setline('.', matchstr(getline('.'), '^\s*') . join(l:parts, 'e'))
-endfunction
-
 function! s:WriteAsRoot() abort
   if get(b:, 'vim_sensitive_buffer', 0)
     throw 'Use :write for encrypted or sensitive files'
@@ -314,7 +287,6 @@ vnoremap <silent> sg :<C-U>call <SID>GrepPrompt(1)<CR>
 " # OPTIONS AND COMMANDS
 
 nnoremap gl <nop>
-nnoremap <silent> glbc :call <SID>CalculateLine()<CR>
 nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nnoremap glcd :cd %:h<CR>
 nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>

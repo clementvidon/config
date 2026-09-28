@@ -18,8 +18,8 @@ let g:noesis_root = expand('~/notes')
 
 Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
 layout. Use `ghh` to discover note-editing bindings. Noesis provides headings,
-inline styles, links, quotes, code blocks, and style removal. Generic indentation and reflow (including Space `=`)
-are blocked to preserve document layout.
+inline styles, links, quotes, and code blocks. Generic indentation and reflow
+(including Space `=`) are blocked to preserve document layout.
 
 Normal-mode word selection follows Vim's `iw`. Formatting mappings add markup;
 they do not toggle it. Italic, bold, links, and inline code apply within one
@@ -39,18 +39,6 @@ Text formatting mappings preserve registers and undo with one `u`. Except for
 links and fenced code blocks, they preserve the cursor's position in the text
 and finish in normal mode. Links enter insert mode between the parentheses,
 ready for the URL to be pasted.
-
-`<LocalLeader>u` removes one simple surrounding style at a time, preserving its
-text. For example, with the cursor on `word`, `> **word**` becomes `> word`, then
-`word`. Inline removal handles plain asterisk emphasis, code spans, and simple
-links on the current line. It also removes headings, quote prefixes on the
-current line, and complete code fences. Removing a link keeps its label and
-discards its URL. Code contents stay literal until their delimiters are removed.
-
-Inline styles spanning multiple lines, arbitrary nesting, and links with escaped
-labels or nested URL parentheses are outside the removal grammar. Unmatched or
-ambiguous markup is left unchanged. This also applies to complex styles created
-by composing the insertion mappings. With no enclosing style, nothing changes.
 
 `<LocalLeader>g` creates or refreshes the index. `<LocalLeader>j` toggles between
 an index entry and its heading, positioning the target about 30% down the window
