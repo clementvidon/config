@@ -51,22 +51,27 @@ iabbrev <silent><buffer> lli - life:
 
 " # UNDO
 
-let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
-      \ . (!empty(get(b:, 'undo_ftplugin', '')) ? '|' : '')
-      \ . 'let [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions] = b:achiever_saved_layout'
+let b:achiever_host_undo = get(b:, 'undo_ftplugin', '')
+let b:undo_achiever_ftplugin =
+      \ 'let [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions] = b:achiever_saved_layout'
       \ . '|silent! iunabbrev <buffer> wwo|silent! iunabbrev <buffer> lli'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-check)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-clear)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-link-begin)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-link-end)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration-add)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration-total)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration-reset)'
-let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-detail-toggle)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-check)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-clear)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-link-begin)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-link-end)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration-add)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration-total)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-duration-reset)'
+let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> <Plug>(achiever-detail-toggle)'
 for s:key in b:achiever_default_keys
-  let b:undo_ftplugin .= '|silent! nunmap <buffer> ' . substitute(s:key, ' ', '<Space>', 'g')
+  let b:undo_achiever_ftplugin .= '|silent! nunmap <buffer> ' . substitute(s:key, ' ', '<Space>', 'g')
 endfor
 unlet! s:key
-let b:undo_ftplugin .= '|unlet! b:achiever_task_detail_prefix b:achiever_default_keys'
+let b:undo_achiever_ftplugin .= '|unlet! b:achiever_task_detail_prefix b:achiever_default_keys'
       \ . ' b:achiever_total_difference_seconds b:did_achiever_ftplugin b:achiever_saved_layout'
+      \ . '|let b:undo_ftplugin = b:achiever_host_undo'
+      \ . '|unlet! b:achiever_host_undo b:undo_achiever_ftplugin'
+" Undo the added component before the host when Vim changes filetype normally.
+let b:undo_ftplugin = b:undo_achiever_ftplugin
+      \ . (empty(b:achiever_host_undo) ? '' : '|' . b:achiever_host_undo)

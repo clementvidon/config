@@ -89,11 +89,32 @@ if !empty(v:errmsg)
   call add(s:errors, 'vimrc reload: ' . v:errmsg)
 endif
 
-" Workspace activation must leave ordinary Markdown alone.
+" Workspace activation and task composition must leave ordinary Markdown alone.
 for [s:path, s:host] in [['project/plain.md', 'markdown'], ['notes/plain.md', 'noesis']]
   call s:Open($VIM_CHECK_ROOT . '/' . s:path)
   call assert_equal(s:host, &l:filetype)
+  " Exercise restoration of user layout, rather than just filetype defaults.
+  setlocal textwidth=63 wrap wrapmargin=4 formatoptions+=a
+  let s:layout = [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions]
+  let s:indent = [&l:expandtab, &l:shiftwidth, &l:softtabstop, &l:tabstop, &l:commentstring]
+  let s:contents = getline(1, '$')
+  AchieverEnable
+  AchieverEnable
+  call assert_equal(s:host . '.achiever', &l:filetype)
+  call assert_equal([0, 0, 0], [&l:textwidth, &l:wrap, &l:wrapmargin])
+  call assert_notmatch('a', &l:formatoptions)
+  call assert_equal(s:indent,
+        \ [&l:expandtab, &l:shiftwidth, &l:softtabstop, &l:tabstop, &l:commentstring])
+  AchieverDisable
+  AchieverDisable
+  call assert_equal(s:host, &l:filetype)
+  call assert_equal(s:layout, [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions])
+  call assert_equal(s:contents, getline(1, '$'))
 endfor
+call s:Open($VIM_CHECK_ROOT . '/project/achiever.md')
+call assert_equal('markdown.achiever', &l:filetype)
+AchieverDisable
+call assert_equal('markdown', &l:filetype)
 
 " Buffer arithmetic must never become arbitrary Vimscript execution.
 enew

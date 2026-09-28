@@ -15,9 +15,10 @@ endif
 
 function! s:Enable() abort
   if index(split(&l:filetype, '\.'), 'achiever') < 0
-    let l:layout = [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions]
-    let &l:filetype = empty(&l:filetype) ? 'achiever' : &l:filetype . '.achiever'
-    let b:achiever_saved_layout = l:layout
+    " Load only the added component; reloading the host would reset local edits.
+    noautocmd let &l:filetype = empty(&l:filetype) ? 'achiever' : &l:filetype . '.achiever'
+    runtime! ftplugin/achiever.vim
+    let &l:syntax = &l:filetype
   endif
 endfunction
 
@@ -26,9 +27,9 @@ function! s:Disable() abort
   if index(split(&l:filetype, '\.'), 'achiever') < 0
     return
   endif
-  let l:layout = b:achiever_saved_layout
-  let &l:filetype = join(filter(split(&l:filetype, '\.'), 'v:val !=# "achiever"'), '.')
-  let [&l:textwidth, &l:wrap, &l:wrapmargin, &l:formatoptions] = l:layout
+  execute b:undo_achiever_ftplugin
+  noautocmd let &l:filetype = join(filter(split(&l:filetype, '\.'), 'v:val !=# "achiever"'), '.')
+  let &l:syntax = &l:filetype
 endfunction
 
 command! -bar AchieverEnable call <SID>Enable()
