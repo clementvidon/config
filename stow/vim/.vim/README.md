@@ -68,6 +68,8 @@ plugin downloads under `$XDG_DATA_HOME/vim` (default `~/.local/share/vim`).
 Persistent undo requires a writable `undo` directory with mode `0700`;
 otherwise it is disabled until the directory is fixed and Vim is reloaded.
 Sensitive buffers are excluded from persistent undo and automatic integrations.
+Queued ALE linting is refused if its target buffer has become sensitive, even
+when another buffer is current.
 
 To update a third-party plugin, review the upstream commit, change its pin in
 `plugins.vim`, run `:PlugUpdate`, then run `./install.sh check`.

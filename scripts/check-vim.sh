@@ -231,6 +231,52 @@ endif
 qa!
 VIM
 
+cat >"$CHECK_ROOT/ale-sensitive.vim" <<'VIM'
+set nomore hidden
+call plug#load('ale')
+let g:ale_linters = {'security_probe': ['probe']}
+let s:exposure = $VIM_CHECK_ROOT . '/ale-exposure'
+
+function! s:ProbeResults(buffer, lines) abort
+  return []
+endfunction
+
+call ale#linter#Define('security_probe', {
+      \ 'name': 'probe', 'executable': 'cat',
+      \ 'command': '%e > ' . shellescape(s:exposure),
+      \ 'read_buffer': 1, 'callback': function('s:ProbeResults'),
+      \ })
+setlocal filetype=security_probe
+call setline(1, 'ordinary probe text')
+call ale#Queue(0)
+sleep 500m
+" Establish that the probe really runs before testing sensitive-buffer refusal.
+call assert_true(filereadable(s:exposure))
+call delete(s:exposure)
+
+let s:existing_timers = map(timer_info(), 'v:val.id')
+call ale#Queue(60000)
+let s:pending = filter(timer_info(), 'index(s:existing_timers, v:val.id) < 0')
+call assert_equal(1, len(s:pending))
+" Run the queued callback ourselves so its deliberate refusal can be caught.
+call timer_stop(s:pending[0].id)
+let b:vim_sensitive_buffer = 1
+doautocmd <nomodeline> User VimGPGSensitive
+call setline(1, 'sensitive probe text')
+enew
+try
+  call call(s:pending[0].callback, [s:pending[0].id])
+catch /^ALE: refusing to lint a sensitive buffer$/
+endtry
+sleep 500m
+call assert_false(filereadable(s:exposure), 'Queued ALE work processed sensitive text')
+if !empty(v:errors)
+  call writefile(v:errors, $VIM_CHECK_ERRORS, 'a')
+  cquit 1
+endif
+qa!
+VIM
+
 run_vim() {
   HOME="$CHECK_HOME" \
     XDG_DATA_HOME="$CHECK_DATA" \
@@ -253,6 +299,15 @@ fi
 if ! run_vim "$PASS_FILE" -S "$CHECK_ROOT/redact.vim" +qa!; then
   cat -- "$VIM_LOG" >&2
   fail
+fi
+
+if [[ -d "$CHECK_DATA/vim/plugged/ale" ]]; then
+  if ! run_vim -S "$CHECK_ROOT/ale-sensitive.vim"; then
+    cat -- "$VIM_LOG" >&2
+    fail
+  fi
+else
+  printf '[SKIP] Queued ALE privacy regression (ALE is not installed)\n'
 fi
 
 [[ ! -s "$ERRORS" ]] || fail

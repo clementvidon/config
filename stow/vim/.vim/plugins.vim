@@ -91,8 +91,6 @@ endfunction
 function! s:ConfigureALE() abort
   call s:ResetALEPolicy()
   if get(b:, 'vim_sensitive_buffer', 0)
-    " A pending ALE timer selects linters again when it fires.  The empty
-    " buffer-local list keeps that execution boundary closed too.
     let b:ale_enabled = 0
     let b:ale_linters = []
     if exists('*ale#engine#Cleanup')
@@ -125,6 +123,13 @@ function! s:ConfigureALE() abort
       let b:ale_dockerfile_hadolint_options = '--config '
             \ . substitute(shellescape(l:config), '%', '%%', 'g')
     endif
+  endif
+endfunction
+
+function! s:GuardALEExecution() abort
+  " ALE's delayed callback may run while a different buffer is current.
+  if getbufvar(g:ale_want_results_buffer, 'vim_sensitive_buffer', 0)
+    throw 'ALE: refusing to lint a sensitive buffer'
   endif
 endfunction
 
@@ -249,6 +254,8 @@ augroup personal_integrations
   autocmd BufEnter,BufFilePost,BufWritePre * call <SID>ConfigureALE()
   autocmd User VimGPGSensitive,RedactPassSensitive
         \ call <SID>ProtectAutomaticIntegrations()
+  " This event runs before ALE starts linters, including already queued work.
+  autocmd User ALEWantResults call <SID>GuardALEExecution()
   " vim-plug loads ALE during FileType, too late for ALE to see that event.
   autocmd User ale call <SID>LintOnALELoad()
   autocmd User vim-gitgutter call <SID>InstallGitGutterGuards()
