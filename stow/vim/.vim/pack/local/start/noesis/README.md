@@ -17,9 +17,8 @@ let g:noesis_root = expand('~/notes')
 ## Usage
 
 Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
-layout. Use `ghh` to discover note-editing bindings and `:command Noesis` to
-inspect commands. Noesis provides headings, inline styles, links, quotes, code
-blocks, and style removal. Generic indentation and reflow (including Space `=`)
+layout. Use `ghh` to discover note-editing bindings. Noesis provides headings,
+inline styles, links, quotes, code blocks, and style removal. Generic indentation and reflow (including Space `=`)
 are blocked to preserve document layout.
 
 Normal-mode word selection follows Vim's `iw`. Formatting mappings add markup;
@@ -76,8 +75,7 @@ that provider when invoked.
 ## Mapping API
 
 Set `g:noesis_no_mappings = 1` before opening notes to disable default `gh`
-bindings. Buffer-local commands and `<Plug>(noesis-...)` mappings remain
-available. Native filetype overrides (such as wrapped-line `j/k`) still apply.
-Inspect commands with `:command Noesis`; names ending in `Selection` use the
-last visual selection. See the [mapping guide](../../../../../../../docs/vim-mappings.md)
-for the mapping model and remapping examples.
+bindings. `<Plug>(noesis-...)` mappings remain available. Native filetype
+overrides (such as wrapped-line `j/k`) still apply. See the
+[mapping guide](../../../../../../../docs/vim-mappings.md) for the mapping model and remapping
+examples.

@@ -18,8 +18,8 @@ files under `g:noesis_root`; files elsewhere remain `markdown`. Achiever is an
 optional task capability that composes with either (`noesis.achiever` or
 `markdown.achiever`) and other host filetypes.
 
-Noesis owns note editing under `<LocalLeader>`, with buffer-local
-bindings. Bare `gh` is reserved in these buffers. Generic indentation and reflow
+Noesis owns note editing under `<LocalLeader>`, with buffer-local bindings.
+Bare `gh` is reserved in these buffers. Generic indentation and reflow
 are blocked, including the personal Space `=` shortcut, to protect note layout.
 Use the explicit note-editing actions instead.
 
@@ -37,7 +37,8 @@ toggle, and `j/k` mean next/previous when ordered navigation exists. Other lette
 belong to the feature's vocabulary: ALE `ai` means info, Noesis `ghi` means
 italic, and Achiever `hk` checks a task.
 
-Use Space `ah`, `hh`, `gh`, or `eh` for plugin help, and `ghh` for Noesis help.
+Space `ah`, `hh`, `gh`, and `eh` are default plugin help bindings; `ghh` is the
+Noesis default. These shortcuts are ergonomic defaults, not a stable API.
 To inspect the exact current bindings directly:
 
 ```vim
@@ -54,9 +55,16 @@ Use `:verbose map` with a prefix to find where bindings were defined.
 
 ## Public mapping API
 
-Local plugins separate commands, stable `<Plug>(plugin-action)` mappings, and
-optional default bindings. Remap the public `<Plug>` API without calling internal
-functions. For example, in `~/.vim/after/ftplugin/noesis.vim`:
+Local plugins expose three distinct interfaces:
+
+| Interface | Contract |
+| --- | --- |
+| `<Plug>(plugin-action)` | Stable mapping API |
+| Ex command | Optional user-facing interface |
+| Default mapping | Ergonomic default, not an API |
+
+Remap the public `<Plug>` API without calling internal functions. For example,
+in `~/.vim/after/ftplugin/noesis.vim`:
 
 ```vim
 nmap <buffer> <LocalLeader>b <Plug>(noesis-bold)
@@ -64,6 +72,6 @@ xmap <buffer> <LocalLeader>b <Plug>(noesis-bold)
 ```
 
 Include custom buffer mappings in `b:undo_ftplugin` so filetype changes remove
-them. Plugin READMEs explain how to disable default bindings. Discover commands
-with `:command Noesis`, `:command Achiever`, or `:command GPG`, and public mappings
-with `:map <Plug>` in an appropriate buffer.
+them. Plugin READMEs explain how to disable default bindings. Discover public
+mappings with `:map <Plug>` in an appropriate buffer. Use `:command` to discover
+available Ex interfaces, such as `:command Achiever` or `:command GPG`.

@@ -55,56 +55,31 @@ vnoremap <buffer><silent><expr> k v:count ? 'k' : 'gk'
 
 " # MAPPING API
 
-command! -buffer -bar NoesisExport call noesis#export_html()
-nnoremap <silent><buffer> <Plug>(noesis-export) :<C-U>NoesisExport<CR>
-command! -buffer -bar NoesisIndex call noesis#index()
-nnoremap <silent><buffer> <Plug>(noesis-index) :<C-U>NoesisIndex<CR>
-command! -buffer -bar NoesisIndexJump call noesis#index_jump()
-nnoremap <silent><buffer> <Plug>(noesis-index-jump) :<C-U>NoesisIndexJump<CR>
-command! -buffer -bar NoesisTranslateEnglish call noesis#translate('toe', noesis#text_from_cursor())
-nnoremap <silent><buffer> <Plug>(noesis-translate-en) :<C-U>NoesisTranslateEnglish<CR>
-command! -buffer -bar NoesisTranslateEnglishSelection call noesis#translate('toe', noesis#visual_text())
-xnoremap <silent><buffer> <Plug>(noesis-translate-en) :<C-U>NoesisTranslateEnglishSelection<CR>
-command! -buffer -bar NoesisTranslateFrench call noesis#translate('tof', noesis#text_from_cursor())
-nnoremap <silent><buffer> <Plug>(noesis-translate-fr) :<C-U>NoesisTranslateFrench<CR>
-command! -buffer -bar NoesisTranslateFrenchSelection call noesis#translate('tof', noesis#visual_text())
-xnoremap <silent><buffer> <Plug>(noesis-translate-fr) :<C-U>NoesisTranslateFrenchSelection<CR>
-command! -buffer -bar NoesisSynonymSelection call noesis#synonym(noesis#visual_text())
-xnoremap <silent><buffer> <Plug>(noesis-synonym) :<C-U>NoesisSynonymSelection<CR>
-command! -buffer -bar NoesisHeading1 call noesis#heading(1)
-nnoremap <silent><buffer> <Plug>(noesis-heading-1) :<C-U>NoesisHeading1<CR>
-command! -buffer -bar NoesisHeading2 call noesis#underline()
-nnoremap <silent><buffer> <Plug>(noesis-heading-2) :<C-U>NoesisHeading2<CR>
-command! -buffer -bar NoesisHeading3 call noesis#heading(3)
-nnoremap <silent><buffer> <Plug>(noesis-heading-3) :<C-U>NoesisHeading3<CR>
-command! -buffer -bar NoesisHeading4 call noesis#heading(4)
-nnoremap <silent><buffer> <Plug>(noesis-heading-4) :<C-U>NoesisHeading4<CR>
-command! -buffer -bar NoesisHeading5 call noesis#heading(5)
-nnoremap <silent><buffer> <Plug>(noesis-heading-5) :<C-U>NoesisHeading5<CR>
-command! -buffer -bar NoesisHeading6 call noesis#heading(6)
-nnoremap <silent><buffer> <Plug>(noesis-heading-6) :<C-U>NoesisHeading6<CR>
-command! -buffer -bar NoesisItalic call noesis#italic(0)
-nnoremap <silent><buffer> <Plug>(noesis-italic) :<C-U>NoesisItalic<CR>
-command! -buffer -bar NoesisItalicSelection call noesis#italic(1)
-xnoremap <silent><buffer> <Plug>(noesis-italic) <Cmd>NoesisItalicSelection<CR>
-command! -buffer -bar NoesisBold call noesis#bold(0)
-nnoremap <silent><buffer> <Plug>(noesis-bold) :<C-U>NoesisBold<CR>
-command! -buffer -bar NoesisBoldSelection call noesis#bold(1)
-xnoremap <silent><buffer> <Plug>(noesis-bold) <Cmd>NoesisBoldSelection<CR>
-command! -buffer -bar NoesisCode call noesis#code(0)
-nnoremap <silent><buffer> <Plug>(noesis-code) :<C-U>NoesisCode<CR>
-command! -buffer -bar NoesisCodeSelection call noesis#code(1)
-xnoremap <silent><buffer> <Plug>(noesis-code) <Cmd>NoesisCodeSelection<CR>
-command! -buffer -bar NoesisLink call noesis#link(0)
-nnoremap <silent><buffer> <Plug>(noesis-link) :<C-U>NoesisLink<CR>
-command! -buffer -bar NoesisLinkSelection call noesis#link(1)
-xnoremap <silent><buffer> <Plug>(noesis-link) <Cmd>NoesisLinkSelection<CR>
-command! -buffer -bar NoesisQuote call noesis#quote(0)
-nnoremap <silent><buffer> <Plug>(noesis-quote) :<C-U>NoesisQuote<CR>
-command! -buffer -bar NoesisQuoteSelection call noesis#quote(1)
-xnoremap <silent><buffer> <Plug>(noesis-quote) <Cmd>NoesisQuoteSelection<CR>
-command! -buffer -bar NoesisUnstyle call noesis#unstyle()
-nnoremap <silent><buffer> <Plug>(noesis-unstyle) :<C-U>NoesisUnstyle<CR>
+nnoremap <silent><buffer> <Plug>(noesis-export) :<C-U>call noesis#export_html()<CR>
+nnoremap <silent><buffer> <Plug>(noesis-index) :<C-U>call noesis#index()<CR>
+nnoremap <silent><buffer> <Plug>(noesis-index-jump) :<C-U>call noesis#index_jump()<CR>
+nnoremap <silent><buffer> <Plug>(noesis-translate-en) :<C-U>call noesis#translate('toe', noesis#text_from_cursor())<CR>
+xnoremap <silent><buffer> <Plug>(noesis-translate-en) :<C-U>call noesis#translate('toe', noesis#visual_text())<CR>
+nnoremap <silent><buffer> <Plug>(noesis-translate-fr) :<C-U>call noesis#translate('tof', noesis#text_from_cursor())<CR>
+xnoremap <silent><buffer> <Plug>(noesis-translate-fr) :<C-U>call noesis#translate('tof', noesis#visual_text())<CR>
+xnoremap <silent><buffer> <Plug>(noesis-synonym) :<C-U>call noesis#synonym(noesis#visual_text())<CR>
+nnoremap <silent><buffer> <Plug>(noesis-heading-1) :<C-U>call noesis#heading(1)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-heading-2) :<C-U>call noesis#underline()<CR>
+nnoremap <silent><buffer> <Plug>(noesis-heading-3) :<C-U>call noesis#heading(3)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-heading-4) :<C-U>call noesis#heading(4)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-heading-5) :<C-U>call noesis#heading(5)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-heading-6) :<C-U>call noesis#heading(6)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-italic) :<C-U>call noesis#italic(0)<CR>
+xnoremap <silent><buffer> <Plug>(noesis-italic) <Cmd>call noesis#italic(1)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-bold) :<C-U>call noesis#bold(0)<CR>
+xnoremap <silent><buffer> <Plug>(noesis-bold) <Cmd>call noesis#bold(1)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-code) :<C-U>call noesis#code(0)<CR>
+xnoremap <silent><buffer> <Plug>(noesis-code) <Cmd>call noesis#code(1)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-link) :<C-U>call noesis#link(0)<CR>
+xnoremap <silent><buffer> <Plug>(noesis-link) <Cmd>call noesis#link(1)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-quote) :<C-U>call noesis#quote(0)<CR>
+xnoremap <silent><buffer> <Plug>(noesis-quote) <Cmd>call noesis#quote(1)<CR>
+nnoremap <silent><buffer> <Plug>(noesis-unstyle) :<C-U>call noesis#unstyle()<CR>
 
 " # DEFAULT MAPPINGS
 
@@ -189,55 +164,30 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . '|silent! vunmap <buffer> j'
       \ . '|silent! vunmap <buffer> k'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-export)'
-      \ . '|silent! delcommand -buffer NoesisExport'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-index)'
-      \ . '|silent! delcommand -buffer NoesisIndex'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-index-jump)'
-      \ . '|silent! delcommand -buffer NoesisIndexJump'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-translate-en)'
-      \ . '|silent! delcommand -buffer NoesisTranslateEnglish'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-translate-en)'
-      \ . '|silent! delcommand -buffer NoesisTranslateEnglishSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-translate-fr)'
-      \ . '|silent! delcommand -buffer NoesisTranslateFrench'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-translate-fr)'
-      \ . '|silent! delcommand -buffer NoesisTranslateFrenchSelection'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-synonym)'
-      \ . '|silent! delcommand -buffer NoesisSynonymSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-heading-1)'
-      \ . '|silent! delcommand -buffer NoesisHeading1'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-heading-2)'
-      \ . '|silent! delcommand -buffer NoesisHeading2'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-heading-3)'
-      \ . '|silent! delcommand -buffer NoesisHeading3'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-heading-4)'
-      \ . '|silent! delcommand -buffer NoesisHeading4'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-heading-5)'
-      \ . '|silent! delcommand -buffer NoesisHeading5'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-heading-6)'
-      \ . '|silent! delcommand -buffer NoesisHeading6'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-italic)'
-      \ . '|silent! delcommand -buffer NoesisItalic'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-italic)'
-      \ . '|silent! delcommand -buffer NoesisItalicSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-bold)'
-      \ . '|silent! delcommand -buffer NoesisBold'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-bold)'
-      \ . '|silent! delcommand -buffer NoesisBoldSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-code)'
-      \ . '|silent! delcommand -buffer NoesisCode'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-code)'
-      \ . '|silent! delcommand -buffer NoesisCodeSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-link)'
-      \ . '|silent! delcommand -buffer NoesisLink'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-link)'
-      \ . '|silent! delcommand -buffer NoesisLinkSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-quote)'
-      \ . '|silent! delcommand -buffer NoesisQuote'
 let b:undo_ftplugin .= '|silent! xunmap <buffer> <Plug>(noesis-quote)'
-      \ . '|silent! delcommand -buffer NoesisQuoteSelection'
 let b:undo_ftplugin .= '|silent! nunmap <buffer> <Plug>(noesis-unstyle)'
-      \ . '|silent! delcommand -buffer NoesisUnstyle'
 for [s:mode, s:key] in b:noesis_default_maps
   let b:undo_ftplugin .= '|silent! ' . s:mode . 'unmap <buffer> '
         \ . substitute(b:noesis_local_leader, ' ', '<Space>', 'g') . s:key

@@ -23,7 +23,7 @@ digraphs live in `.vimrc`.
 
 See the [mapping guide](../../../docs/vim-mappings.md) for the mapping model
 and remapping examples. Namespace help lists the current bindings.
-Local plugin READMEs describe their commands and configuration.
+Local plugin READMEs describe their usage and configuration.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
 provides the note environment for `.md` files under `g:noesis_root`; Markdown

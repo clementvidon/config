@@ -76,12 +76,11 @@ GPG and redact-pass remain independent. Preserve their persistence protections:
   for standalone plugins that need Vim-compatible parsing.
 - Keep core settings in `.vimrc`, generic global mappings in `mappings.vim`,
   and third-party plugin settings, mappings, and declarations in `plugins.vim`.
-  Keep local plugin commands and their mappings inside their plugin.
-- Follow the mapping model in [the canonical guide](../../docs/vim-mappings.md).
-  Separate personal bindings, autonomous integrations, and filetype-local actions;
-  keep the latter buffer-local. Plugins expose commands and stable `<Plug>` APIs
-  independently of optional default bindings, without configurable prefix or
-  function-call dictionary APIs.
+  Keep local plugin interfaces inside their plugin.
+- Follow the [mapping model](../../docs/vim-mappings.md). Keep contextual actions
+  buffer-local. `<Plug>(plugin-action)` is the stable mapping contract;
+  user-facing Ex commands and ergonomic default bindings are optional.
+  Do not add configurable prefix or function-call dictionary APIs.
 - Layer task behavior on the host filetype without taking ownership of unrelated
   editor preferences. Prevent automatic splitting of task records and restore
   owned state on disable. Automatic and manual activation share one mechanism;
