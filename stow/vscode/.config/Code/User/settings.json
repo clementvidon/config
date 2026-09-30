@@ -68,6 +68,7 @@
   // Terminal
   // =============================================================================
 
+  "terminal.integrated.sendKeybindingsToShell": true,
   "terminal.integrated.fontSize": 13,
   "terminal.integrated.gpuAcceleration": "on",
 
