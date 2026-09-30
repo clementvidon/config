@@ -37,16 +37,13 @@ command! -buffer -nargs=+ Grep call noesis#grep(<q-args>)
 
 " # MAPPINGS
 
-" Formatting operators are neutralized because note layout is edited
-" explicitly and must not be changed by prose reflow or indentation commands.
+" Keep the personal indentation and formatting mappings out of note buffers.
 vnoremap <silent><buffer> = <nop>
 nnoremap <silent><buffer> = <nop>
 nnoremap <silent><buffer> <Space>= <Nop>
 xnoremap <silent><buffer> <Space>= <Nop>
 vnoremap <silent><buffer> gq <nop>
 nnoremap <silent><buffer> gq <nop>
-nnoremap <silent><buffer> gw <Nop>
-xnoremap <silent><buffer> gw <Nop>
 nnoremap <silent><buffer> K <nop>
 nnoremap <buffer><silent><expr> j v:count ? 'j' : 'gj'
 nnoremap <buffer><silent><expr> k v:count ? 'k' : 'gk'
@@ -124,8 +121,6 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . '|silent! nunmap <buffer> ='
       \ . '|silent! vunmap <buffer> gq'
       \ . '|silent! nunmap <buffer> gq'
-      \ . '|silent! nunmap <buffer> gw'
-      \ . '|silent! xunmap <buffer> gw'
       \ . '|silent! nunmap <buffer> <Space>='
       \ . '|silent! xunmap <buffer> <Space>='
       \ . '|silent! nunmap <buffer> K'
