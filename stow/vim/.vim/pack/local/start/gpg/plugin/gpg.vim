@@ -65,7 +65,7 @@ function! s:Recipient() abort
   return l:recipient
 endfunction
 
-function! s:Run(arguments, lines) abort
+function! s:Run(arguments, lines, ...) abort
   if !executable('gpg') || !has('job') || !has('channel')
     throw 'vim-gpg: gpg and Vim job/channel support are required'
   endif
@@ -78,7 +78,8 @@ function! s:Run(arguments, lines) abort
   call setbufvar(l:input, '&undofile', 0)
   let l:output = ''
   try
-    call setbufline(l:input, 1, empty(a:lines) ? [''] : a:lines)
+    let l:lines = (a:0 ? [a:1] : []) + (empty(a:lines) ? [''] : a:lines)
+    call setbufline(l:input, 1, l:lines)
     " Drain stdin even when GPG rejects the request immediately, so Vim has
     " no pending writes to a closed pipe. Arguments remain separate from code.
     let l:job = job_start(['/bin/sh', '-c',
@@ -329,15 +330,34 @@ endfunction
 
 " # MANUAL TRANSFORMS
 
+function! s:PromptPassphrase() abort
+  let l:passphrase = inputsecret('GPG passphrase: ')
+  if empty(l:passphrase)
+    throw 'vim-gpg: empty passphrase; buffer left unchanged'
+  endif
+  return l:passphrase
+endfunction
+
 function! s:Decrypt(first, last) abort
   call s:ProtectSensitive()
-  let l:result = s:Run(['--decrypt'], getline(a:first, a:last))
+  let l:passphrase = s:PromptPassphrase()
+  let l:result = s:Run(['--batch', '--pinentry-mode', 'loopback',
+        \ '--passphrase-fd', '0', '--decrypt'],
+        \ getline(a:first, a:last), l:passphrase)
+  unlet l:passphrase
   call s:Replace(a:first, a:last, l:result)
 endfunction
 
 function! s:EncryptSymmetric(first, last) abort
   call s:ProtectSensitive()
-  let l:result = s:Run(['--symmetric', '--armor'], getline(a:first, a:last))
+  let l:passphrase = s:PromptPassphrase()
+  if inputsecret('Confirm GPG passphrase: ') !=# l:passphrase
+    throw 'vim-gpg: passphrases do not match; buffer left unchanged'
+  endif
+  let l:result = s:Run(['--batch', '--pinentry-mode', 'loopback',
+        \ '--passphrase-fd', '0', '--symmetric', '--armor'],
+        \ getline(a:first, a:last), l:passphrase)
+  unlet l:passphrase
   call s:Replace(a:first, a:last, l:result)
 endfunction
 

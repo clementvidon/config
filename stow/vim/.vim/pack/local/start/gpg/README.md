@@ -42,9 +42,10 @@ autocommands can still export plaintext.
 ## Manual transforms
 
 `:GPGDecrypt` decrypts text, `:GPGEncrypt` encrypts to the configured recipient,
-and `:GPGEncryptSymmetric` uses symmetric encryption. These commands accept a
-line range and default to the whole buffer. Select text visually before typing
-the command to transform only those lines.
+and `:GPGEncryptSymmetric` uses symmetric encryption. Vim prompts for the
+passphrase without echoing it and confirms it before symmetric encryption.
+These commands accept a line range and default to the whole buffer. Select text
+visually before running a command to transform only those lines.
 
 `:GPGRestartAgent` restarts the GPG agent and requires `gpgconf`.
 

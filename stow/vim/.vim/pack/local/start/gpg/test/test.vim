@@ -421,6 +421,29 @@ call assert_equal('', &viminfo)
 write
 call assert_true(s:Encrypted(s:manual))
 call assert_equal(['manual secret'], s:Decrypt(s:manual))
+call feedkeys("test-pass\n", 't')
+GPGDecrypt
+call assert_equal(['manual secret'], getline(1, '$'))
+
+" Symmetric encryption takes its passphrase from Vim without a competing pinentry.
+enew!
+call setline(1, ['manual symmetric secret'])
+call feedkeys("test-pass\ntest-pass\n", 't')
+GPGEncryptSymmetric
+call assert_equal('-----BEGIN PGP MESSAGE-----', getline(1))
+call assert_true(get(b:, 'vim_sensitive_buffer', 0))
+let s:symmetric = s:work . '/symmetric.asc'
+call writefile(getline(1, '$'), s:symmetric)
+call assert_equal(['manual symmetric secret'],
+      \ systemlist('printf "test-pass\\n" | '
+      \ . shellescape($VIM_GPG_REAL_GPG)
+      \ . ' --batch --quiet --pinentry-mode loopback --passphrase-fd 0 --decrypt '
+      \ . shellescape(s:symmetric)))
+call assert_equal(0, v:shell_error)
+call feedkeys("test-pass\n", 't')
+GPGDecrypt
+call assert_equal(['manual symmetric secret'], getline(1, '$'))
+call assert_true(get(b:, 'vim_sensitive_buffer', 0))
 
 " Resourcing configuration cannot weaken an already-sensitive session.
 execute 'edit! ' . fnameescape(s:new)
