@@ -54,7 +54,7 @@ vnoremap <buffer><silent><expr> k v:count ? 'k' : 'gk'
 
 let b:noesis_default_maps = []
 if !get(g:, 'noesis_no_mappings', 0)
-  nnoremap <buffer> <LocalLeader>h :map <LocalLeader><CR>
+  nnoremap <buffer> <LocalLeader>h :map <lt>LocalLeader><CR>
   nnoremap <buffer> <LocalLeader> <Nop>
   xnoremap <buffer> <LocalLeader> <Nop>
   let b:noesis_default_maps = [["n", ""], ["x", ""], ["n", "h"]]

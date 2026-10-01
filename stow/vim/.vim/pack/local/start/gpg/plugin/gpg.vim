@@ -402,7 +402,7 @@ if !get(g:, 'vim_gpg_no_mappings', 0)
   xmap <Leader>ea <Plug>(vim-gpg-encrypt)
   xmap <Leader>es <Plug>(vim-gpg-encrypt-symmetric)
   nmap <Leader>er <Plug>(vim-gpg-restart-agent)
-  nnoremap <Leader>eh :map <Leader>e<CR>
+  nnoremap <Leader>eh :map <lt>Leader>e<CR>
 endif
 
 let &cpoptions = s:save_cpoptions

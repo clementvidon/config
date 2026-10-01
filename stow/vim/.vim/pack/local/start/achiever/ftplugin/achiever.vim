@@ -27,7 +27,7 @@ if !get(g:, 'achiever_no_mappings', 0)
   nmap <buffer> <Leader>hs <Plug>(achiever-duration-total)
   nmap <buffer> <Leader>hr <Plug>(achiever-duration-reset)
   nmap <buffer> <Leader>ht <Plug>(achiever-detail-toggle)
-  nnoremap <buffer> <Leader>hh :map <Leader>h<CR>
+  nnoremap <buffer> <Leader>hh :map <lt>Leader>h<CR>
   let b:achiever_default_keys = map(split("k c b e d a s r t h"),
         \ 'get(g:, "mapleader", "\\") . "h" . v:val')
 endif

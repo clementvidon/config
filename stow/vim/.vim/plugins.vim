@@ -142,7 +142,7 @@ nnoremap <Leader>ad :ALEDetail<CR>
 nnoremap <Leader>ai :ALEInfo<CR>
 nnoremap <Leader>at :ALEToggle<CR>
 
-nnoremap <Leader>ah :map <Leader>a<CR>
+nnoremap <Leader>ah :map <lt>Leader>a<CR>
 
 " # GITGUTTER
 
@@ -199,7 +199,7 @@ nnoremap <Leader>gt :GitGutterBufferToggle<CR>
 nnoremap <Leader>gq :GitGutterQuickFix<CR>
 nnoremap <Leader>gd :GitGutterDiffOrig<CR>
 
-nnoremap <Leader>gh :map <Leader>g<CR>
+nnoremap <Leader>gh :map <lt>Leader>g<CR>
 
 " # SHARED INTEGRATION HOOKS
 
