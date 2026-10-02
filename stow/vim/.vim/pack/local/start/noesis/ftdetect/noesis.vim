@@ -1,9 +1,8 @@
 " Activate Noesis for Markdown according to the note environment policy.
 
 function! s:Detect() abort
-  let l:directory = resolve(expand('%:p:h'))
   if get(g:, 'noesis_all_markdown', 0)
-        \ || l:directory =~? '\(^\|/\)noesis\(/\|$\)'
+        \ || !empty(noesis#workspace_root())
     setlocal filetype=noesis
   endif
 endfunction

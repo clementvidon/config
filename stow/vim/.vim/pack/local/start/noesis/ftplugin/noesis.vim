@@ -14,10 +14,14 @@ setlocal suffixesadd+=.md
 setlocal commentstring=
 setlocal suffixesadd+=.gpg.md
 setlocal path=.
-for s:directory in ['Achiever', 'Inbox', 'Systems', 'Knowledge', 'Projects']
-  execute 'setlocal path+=' . fnameescape(g:noesis_root . '/' . s:directory . '/**')
-endfor
-unlet s:directory
+let s:root = noesis#workspace_root()
+if !empty(s:root)
+  for s:directory in ['Achiever', 'Inbox', 'Systems', 'Knowledge', 'Projects']
+    execute 'setlocal path+=' . fnameescape(s:root . '/' . s:directory . '/**')
+  endfor
+  unlet s:directory
+endif
+unlet s:root
 setlocal foldmethod=marker
 setlocal foldmarker={{{,}}}
 setlocal linebreak breakindent

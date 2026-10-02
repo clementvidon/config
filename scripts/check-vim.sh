@@ -90,6 +90,7 @@ if !empty(v:errmsg)
 endif
 
 " Workspace activation and task composition must leave ordinary Markdown alone.
+let g:noesis_all_markdown = 0
 for [s:path, s:host] in [['project/plain.md', 'markdown'], ['noesis/plain.md', 'noesis']]
   call s:Open($VIM_CHECK_ROOT . '/' . s:path)
   call assert_equal(s:host, &l:filetype)

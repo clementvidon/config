@@ -393,7 +393,26 @@ endfunction
 
 " # SEARCH
 
+function! noesis#workspace_root() abort
+  let l:directory = resolve(expand('%:p:h'))
+  while !empty(l:directory)
+    if fnamemodify(l:directory, ':t') ==? 'noesis'
+      return l:directory
+    endif
+    let l:parent = fnamemodify(l:directory, ':h')
+    if l:parent ==# l:directory
+      break
+    endif
+    let l:directory = l:parent
+  endwhile
+  return ''
+endfunction
+
 function! noesis#grep(pattern) abort
+  let l:root = noesis#workspace_root()
+  if empty(l:root)
+    throw 'Noesis: this note is not inside a noesis directory'
+  endif
   if !executable('rg')
     throw 'Noesis: rg is not installed'
   endif
@@ -401,7 +420,7 @@ function! noesis#grep(pattern) abort
         \ . shellescape('*.md')
         \ . ' --glob=' . shellescape('!*.gpg.md')
         \ . ' --glob=' . shellescape('!**/.git/**')
-        \ . ' -- ' . shellescape(a:pattern) . ' ' . shellescape(g:noesis_root)
+        \ . ' -- ' . shellescape(a:pattern) . ' ' . shellescape(l:root)
   let l:lines = systemlist(l:command)
   if v:shell_error > 1
     throw 'Noesis: rg failed'

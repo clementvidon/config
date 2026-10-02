@@ -14,9 +14,14 @@ To activate Noesis for every `.md` file, set this before opening documents:
 let g:noesis_all_markdown = 1
 ```
 
-The option defaults to `0`. The workspace used for note search and navigation
-is configured separately. It defaults to `~/noesis`; set `NOESIS_ROOT` in the
-shell or configure it before plugins load:
+The option defaults to `0` in the plugin; this repository enables it.
+Search and note-link navigation use the nearest enclosing directory named
+`noesis`, case-insensitively. Outside such a directory, workspace search is
+unavailable, even when Noesis editing is enabled.
+
+The personal shortcuts for opening notes use `g:noesis_root`, independently of
+the current buffer. It defaults to `~/noesis`; set `NOESIS_ROOT` in the shell or
+configure it before plugins load:
 
 ```vim
 let g:noesis_root = expand('~/notes')
@@ -54,7 +59,8 @@ when space permits. Refresh after adding, removing, renaming, or reordering
 indexed headings.
 If no indexed headings remain, refreshing removes the existing index.
 
-`:Grep pattern` searches unencrypted `.md` files under the notes directory
+`:Grep pattern` searches unencrypted `.md` files under the current note's
+enclosing `noesis` directory
 using ripgrep (`rg`). Achiever can add task editing through the
 `noesis.achiever` filetype; use `:AchieverEnable` to activate it explicitly.
 
