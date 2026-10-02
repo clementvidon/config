@@ -3,7 +3,9 @@
 A personal Markdown note environment: editing, navigation, search, HTML export,
 and translation. Markdown is the file format; Noesis supplies the workspace
 behavior. Opening a `.md` file under `g:noesis_root` activates the `noesis`
-filetype. Files outside that directory remain ordinary `markdown`.
+filetype. A `.noe.` segment in a filename explicitly activates Noesis anywhere,
+for example `hello.noe.md`. Other Markdown files outside the workspace remain
+ordinary `markdown`.
 
 ## Configuration
 
