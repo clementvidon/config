@@ -22,7 +22,6 @@ syntax match noesisUrl contains=@NoSpell "\v<(((https?|ftp|gopher|telnet|ssh)://
 " Bound look-behind to its actual prefix, without limiting multiline sync.
 syntax match noesisLink "\(\s@\|^@\|(@\)\@2<=[a-zA-Z0-9/_.\-~]\{-}\(\ze\s\|$\)"
 syntax match noesisLink "\[\%([^][\\]\|\\.\|\n\)\+\](\%([^()\\]\|\\.\|([^()]*)\)*)"
-syntax match noesisTag  "\(\s#\|^#\|(#\)\@2<=[a-zA-Z0-9/_]\{-}\ze\(\s\|:\|;\|,\|$\|)\)"
 
 syntax match noesisBlockquote "^[ \t]\{0,3}\%(>[ \t]\?\)\+"
 
@@ -41,8 +40,6 @@ endif
 syntax region noesisCode start="^[ \t]\{0,3}\z(`\{3,}\)[^`]*$" end="^[ \t]\{0,3}\z1`*[ \t]*$" contains=@NoSpell keepend
 syntax region noesisCode start="^[ \t]\{0,3}\z([~]\{3,}\).*$" end="^[ \t]\{0,3}\z1[~]*[ \t]*$" contains=@NoSpell keepend
 
-syntax keyword Todo TODO FIXME X XXX WIP
-
 " # HIGHLIGHTS
 
 function! s:Colors() abort
@@ -59,7 +56,6 @@ function! s:Colors() abort
 
     highlight noesisUrl                      ctermfg=103
     highlight noesisLink                     ctermfg=105
-    highlight noesisTag                      ctermfg=210
 
     highlight noesisBlockquote               ctermfg=103
 
@@ -81,7 +77,6 @@ function! s:Colors() abort
 
     highlight noesisUrl                      ctermfg=138 cterm=underline
     highlight noesisLink                     ctermfg=33
-    highlight noesisTag                      ctermfg=125
     highlight noesisBlockquote               ctermfg=171
 
     highlight noesisCode                     ctermfg=65  cterm=italic
