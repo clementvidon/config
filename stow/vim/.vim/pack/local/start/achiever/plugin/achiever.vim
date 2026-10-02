@@ -34,8 +34,7 @@ command! -bar AchieverDisable call <SID>Disable()
 augroup achiever_settings
   autocmd!
   " Defer composition until filetype detection and modelines have finished.
-  autocmd BufReadPost,BufNewFile achiever.md,*.achiever.md,achiever.noe.md,*.achiever.noe.md
-        \ let b:achiever_pending = 1
+  autocmd BufReadPost,BufNewFile achiever.md,*.achiever.md let b:achiever_pending = 1
   autocmd BufWinEnter * nested
         \ if get(b:, 'achiever_pending', 0) |
         \   unlet b:achiever_pending |

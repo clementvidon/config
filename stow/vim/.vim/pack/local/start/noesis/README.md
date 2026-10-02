@@ -2,15 +2,21 @@
 
 A personal Markdown note environment: editing, navigation, search, HTML export,
 and translation. Markdown is the file format; Noesis supplies the workspace
-behavior. Opening a `.md` file under `g:noesis_root` activates the `noesis`
-filetype. A `.noe.` segment in a filename explicitly activates Noesis anywhere,
-for example `hello.noe.md`. Other Markdown files outside the workspace remain
-ordinary `markdown`.
+behavior. By default, `.md` files beneath a directory named `noesis` activate
+its filetype; the directory name is case-insensitive. Other Markdown files
+remain ordinary `markdown`.
 
 ## Configuration
 
-The notes directory defaults to `~/noesis`. Set `NOESIS_ROOT` in the shell or
-configure it before plugins load:
+To activate Noesis for every `.md` file, set this before opening documents:
+
+```vim
+let g:noesis_all_markdown = 1
+```
+
+The option defaults to `0`. The workspace used for note search and navigation
+is configured separately. It defaults to `~/noesis`; set `NOESIS_ROOT` in the
+shell or configure it before plugins load:
 
 ```vim
 let g:noesis_root = expand('~/notes')

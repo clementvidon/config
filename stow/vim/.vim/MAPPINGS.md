@@ -14,8 +14,9 @@ General buffer, location-list, and quickfix navigation stays in the native-style
 `[` / `]` family. Plugin navigation stays within its plugin namespace.
 
 Markdown is the file format. Noesis is the note environment activated for `.md`
-files under `g:noesis_root` or filenames containing `.noe.`. Other Markdown
-files remain `markdown`. Achiever is an
+files beneath a directory named `noesis` (case-insensitive), or every `.md`
+when `g:noesis_all_markdown` is enabled. Other Markdown files remain `markdown`.
+Achiever is an
 optional task capability that composes with either (`noesis.achiever` or
 `markdown.achiever`) and other host filetypes.
 

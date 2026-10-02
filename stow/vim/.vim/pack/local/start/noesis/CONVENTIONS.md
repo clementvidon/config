@@ -2,8 +2,7 @@
 
 Noesis notes use Markdown syntax and the following layout, usually with a `.md`
 extension. These conventions apply to notes activated through the
-[Noesis environment](README.md), including explicitly marked files outside the
-workspace. Optional task records follow [Achiever's grammar](../achiever/README.md#task-format).
+[Noesis environment](README.md). Optional task records follow [Achiever's grammar](../achiever/README.md#task-format).
 
 ## Headings
 

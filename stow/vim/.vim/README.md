@@ -26,9 +26,9 @@ and remapping examples. Namespace help lists the current bindings.
 Local plugin READMEs describe their usage and configuration.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
-provides the note environment for `.md` files under `g:noesis_root` and files
-explicitly marked with `.noe.` in their name. Other Markdown files keep Vim's
-standard behavior. [Achiever](pack/local/start/achiever/README.md)
+provides the note environment for Markdown beneath a directory named `noesis`
+(case-insensitive), or all Markdown when its global activation option is enabled.
+Other Markdown files keep Vim's standard behavior. [Achiever](pack/local/start/achiever/README.md)
 adds optional task editing to either environment. See [GPG](pack/local/start/gpg/README.md)
 for encrypted editing.
 

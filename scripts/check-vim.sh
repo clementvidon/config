@@ -58,9 +58,9 @@ for plugin in ale vim-gitgutter; do
   [[ ! -d "$source" ]] || ln -s "$source" "$CHECK_DATA/vim/plugged/$plugin"
 done
 
-mkdir -p "$CHECK_ROOT/project" "$CHECK_ROOT/notes"
+mkdir -p "$CHECK_ROOT/project" "$CHECK_ROOT/noesis"
 printf 'plain note\n' >"$CHECK_ROOT/project/plain.md"
-printf 'workspace note\n' >"$CHECK_ROOT/notes/plain.md"
+printf 'workspace note\n' >"$CHECK_ROOT/noesis/plain.md"
 printf '%s\n' '- task' >"$CHECK_ROOT/project/achiever.md"
 printf '{"key": true}\n' >"$CHECK_ROOT/project/data.json"
 printf 'key: value\n' >"$CHECK_ROOT/project/data.yaml"
@@ -90,7 +90,7 @@ if !empty(v:errmsg)
 endif
 
 " Workspace activation and task composition must leave ordinary Markdown alone.
-for [s:path, s:host] in [['project/plain.md', 'markdown'], ['notes/plain.md', 'noesis']]
+for [s:path, s:host] in [['project/plain.md', 'markdown'], ['noesis/plain.md', 'noesis']]
   call s:Open($VIM_CHECK_ROOT . '/' . s:path)
   call assert_equal(s:host, &l:filetype)
   " Exercise restoration of user layout, rather than just filetype defaults.
@@ -291,7 +291,7 @@ run_vim() {
   HOME="$CHECK_HOME" \
     XDG_DATA_HOME="$CHECK_DATA" \
     XDG_STATE_HOME="$CHECK_STATE" \
-    NOESIS_ROOT="$CHECK_ROOT/notes" \
+    NOESIS_ROOT="$CHECK_ROOT/noesis" \
     VIM_CHECK_ERRORS="$ERRORS" \
     VIM_CHECK_ROOT="$CHECK_ROOT" \
     vim -Nu "$CHECK_HOME/.vimrc" -i NONE -n -es "$@" >>"$VIM_LOG" 2>&1
