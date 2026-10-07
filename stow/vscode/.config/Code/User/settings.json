@@ -97,7 +97,7 @@
   // =============================================================================
 
   "gitlens.codeLens.enabled": false,
-  "gitlens.currentLine.enabled": false,
+  "gitlens.currentLine.enabled": true,
   "gitlens.hovers.enabled": false,
   "gitlens.blame.avatars": false,
   "gitlens.hovers.currentLine.over": "line",
