@@ -182,7 +182,7 @@
 
   "vim.normalModeKeyBindingsNonRecursive": [
     // Editor commands
-    { "before": ["x"], "commands": ["workbench.action.showCommands"] },
+    { "before": ["x"], "after": [":"] },
     { "before": ["m", "w"], "commands": [":w"] },
     { "before": ["m", "q"], "commands": [":q"] },
     { "before": ["m", "m", "q"], "commands": [":q!"] },
@@ -197,6 +197,7 @@
 
     // Files and buffers
     { "before": ["s", "f"], "commands": ["workbench.action.quickOpen"] },
+    { "before": ["s", "e"], "after": [":", "e", " "] },
     { "before": ["s", "p"], "after": ["<C-^>"] },
 
     // Code navigation
@@ -220,6 +221,13 @@
     {
       "before": [" ", "w", "v"],
       "commands": ["workbench.action.splitEditorRight"]
+    },
+    {
+      "before": [" ", "w", "n"],
+      "commands": [
+        "workbench.action.splitEditorRight",
+        "workbench.action.files.newUntitledFile"
+      ]
     },
     {
       "before": [" ", "w", "s"],
