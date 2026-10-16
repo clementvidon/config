@@ -12,7 +12,9 @@ vim +PlugInstall
 
 `.vimrc` contains core settings, [plugins.vim](plugins.vim) configures plugins,
 and [mappings.vim](mappings.vim) contains general key bindings. The leader key
-is Space; the local leader is `gh`. Restart Vim after configuration changes.
+is Space; the local leader is `gh`. Use `mso` to reload the configuration and
+the current buffer's filetype after configuration changes. Restart Vim after
+changing plugin installation or lifecycle.
 
 Local plugins have their own usage instructions under `pack/local/start`.
 Set their configuration variables in `plugins.vim`, including the GPG recipient

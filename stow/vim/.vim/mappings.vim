@@ -216,7 +216,7 @@ nnoremap mmd :bn!\|bd! #<CR>
 nnoremap me  :e<CR>
 nnoremap mme :e!<CR>
 
-nnoremap <silent> mso :execute 'source ' . fnameescape($MYVIMRC)<CR>
+nnoremap <silent> mso :<C-U>call vim_config#reload()<CR>
 
 " ## find and edit
 

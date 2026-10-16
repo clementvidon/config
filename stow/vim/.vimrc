@@ -1,4 +1,5 @@
 " Personal Vim configuration.
+let g:vim_config_file = expand('<sfile>:p')
 
 " # BOOTSTRAP
 
