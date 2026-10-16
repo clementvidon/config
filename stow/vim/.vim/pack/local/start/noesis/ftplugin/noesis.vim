@@ -30,6 +30,8 @@ setlocal shiftwidth=2
 setlocal softtabstop=2
 setlocal tabstop=2
 setlocal textwidth=80
+setlocal formatoptions+=n
+let &l:formatlistpat = '^\s*\%([-*+]\|\d\+[.)]\)\s\+'
 if has('conceal')
   setlocal conceallevel=3
   setlocal concealcursor=vn
@@ -118,7 +120,8 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . (!empty(get(b:, 'undo_ftplugin', '')) ? '|' : '')
       \ . 'setlocal suffixesadd< commentstring< path< foldmethod< foldmarker<'
       \ . ' linebreak< breakindent< expandtab< shiftwidth< softtabstop<'
-      \ . ' tabstop< textwidth< conceallevel< concealcursor<'
+      \ . ' tabstop< textwidth< formatoptions< formatlistpat<'
+      \ . ' conceallevel< concealcursor<'
       \ . '|silent! delcommand -buffer Grep'
       \ . '|unlet! b:did_noesis_ftplugin b:noesis_local_leader'
       \ . '|silent! vunmap <buffer> ='

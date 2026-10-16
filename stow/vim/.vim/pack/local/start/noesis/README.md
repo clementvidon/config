@@ -31,8 +31,10 @@ let g:noesis_root = expand('~/notes')
 
 Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
 layout. Use `ghh` to discover note-editing bindings. Noesis provides headings,
-inline styles, links, quotes, and code blocks. Generic indentation and reflow
-(including Space `=`) are blocked to preserve document layout.
+inline styles, links, quotes, and code blocks. Generic indentation, Space `=`,
+and `gq` are blocked to preserve document layout. Vim's native `gw` operator
+works with motions and visual selections. In Markdown lists, reflowed lines
+align with the text after the list marker.
 
 Normal-mode word selection follows Vim's `iw`. Formatting mappings add markup;
 they do not toggle it. Italic, bold, links, and inline code apply within one
