@@ -4,7 +4,7 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "WezTerm and VS Code: map Cmd+a-z, Cmd+[ ], and Cmd+Space to Ctrl; use Cmd+Shift+C/V for clipboard in VS Code",
+            "description": "WezTerm and VS Code: map Cmd shortcuts to Ctrl; use Cmd+Shift+C/V for clipboard in VS Code",
             "manipulators": [
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"a","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"a","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"b","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"b","modifiers":["left_control"]}],"type":"basic"},
@@ -36,6 +36,19 @@
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"open_bracket","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"open_bracket","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"close_bracket","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"close_bracket","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"spacebar","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"spacebar","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"non_us_backslash","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"grave_accent_and_tilde","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"1","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"1","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"9","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"9","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"up_arrow","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"up_arrow","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"down_arrow","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"down_arrow","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"left_arrow","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"left_arrow","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"right_arrow","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"right_arrow","modifiers":["left_control"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"up_arrow","modifiers":{"mandatory":["command","shift"]}},"to":[{"key_code":"up_arrow","modifiers":["left_control","left_shift"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"down_arrow","modifiers":{"mandatory":["command","shift"]}},"to":[{"key_code":"down_arrow","modifiers":["left_control","left_shift"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"left_arrow","modifiers":{"mandatory":["command","shift"]}},"to":[{"key_code":"left_arrow","modifiers":["left_control","left_shift"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"right_arrow","modifiers":{"mandatory":["command","shift"]}},"to":[{"key_code":"right_arrow","modifiers":["left_control","left_shift"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"up_arrow","modifiers":{"mandatory":["command","option"]}},"to":[{"key_code":"up_arrow","modifiers":["left_control","left_option"]}],"type":"basic"},
+              {"conditions":[{"bundle_identifiers":["^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"down_arrow","modifiers":{"mandatory":["command","option"]}},"to":[{"key_code":"down_arrow","modifiers":["left_control","left_option"]}],"type":"basic"},
 
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$"],"type":"frontmost_application_if"}],"from":{"key_code":"c","modifiers":{"mandatory":["command","shift"]}},"to":[{"key_code":"c","modifiers":["left_control","left_shift"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$"],"type":"frontmost_application_if"}],"from":{"key_code":"v","modifiers":{"mandatory":["command","shift"]}},"to":[{"key_code":"v","modifiers":["left_control","left_shift"]}],"type":"basic"},
@@ -46,7 +59,7 @@
           {
             "description": "Map §/± to `/~",
             "manipulators": [
-              {"type":"basic","from":{"key_code":"non_us_backslash","modifiers":{"optional":["shift"]}},"to":[{"key_code":"grave_accent_and_tilde"}]}
+              {"type":"basic","from":{"key_code":"non_us_backslash","modifiers":{"optional":["shift","control"]}},"to":[{"key_code":"grave_accent_and_tilde"}]}
             ]
           }
         ]

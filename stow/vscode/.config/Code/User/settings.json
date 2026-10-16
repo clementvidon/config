@@ -68,8 +68,16 @@
   // Terminal
   // =============================================================================
 
-  "terminal.integrated.sendKeybindingsToShell": true,
+  "terminal.integrated.sendKeybindingsToShell": false,
   "terminal.integrated.allowChords": false,
+  "terminal.integrated.commandsToSkipShell": [
+    "-workbench.action.terminal.scrollToPreviousCommand",
+    "-workbench.action.terminal.scrollToNextCommand",
+    "-workbench.action.terminal.selectToPreviousCommand",
+    "-workbench.action.terminal.selectToNextCommand",
+    "workbench.action.increaseViewSize",
+    "workbench.action.decreaseViewSize"
+  ],
   "terminal.integrated.fontSize": 13,
   "terminal.integrated.gpuAcceleration": "on",
 
