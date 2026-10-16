@@ -122,7 +122,7 @@ set relativenumber
 set laststatus=2
 set ruler showcmd
 set listchars=tab:>\ ,trail:-
-set mouse=
+set mouse=a
 set belloff=all
 
 " ## Editing and indentation
