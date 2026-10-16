@@ -11,7 +11,6 @@ set fileencodings=ucs-bom,utf-8,default,latin1
 
 " # PERSISTENT STATE
 
-" Store generated state outside the configuration tree.
 let s:state_home = empty($XDG_STATE_HOME)
       \ ? expand('~/.local/state')
       \ : expand($XDG_STATE_HOME)
@@ -23,8 +22,7 @@ let g:vim_data_dir = s:data_home . '/vim'
 
 " ## Persistent undo
 
-" Undo files retain deleted text. Keep them private and disable persistence
-" if the directory cannot be made private.
+" Undo files retain deleted text; keep them private or disable persistence.
 let s:undo_dir = s:state_dir . '/undo'
 let &undodir = escape(s:undo_dir . '//', '\,')
 let s:undo_ready = 0
@@ -43,26 +41,34 @@ if !s:undo_ready
   endfor
   unlet! s:buffer
 endif
+let &g:undofile = s:undo_ready
+let &l:undofile = s:undo_ready && !get(b:, 'vim_sensitive_buffer', 0)
 
 " ## Swap and viminfo
 
 call mkdir(s:state_dir . '/swap', 'p', 0700)
 let &directory = s:state_dir . '/swap//,/tmp//'
-" Once plaintext enters a session, GPG disables global history persistence.
+" Keep global history persistence disabled for sensitive sessions.
 if !get(g:, 'vim_sensitive_session', 0)
   let &viminfo = "'100,<50,s10,h,n" . s:state_dir . '/viminfo'
 endif
+set history=1000
 
-" ## Personal spelling
+" ## Spelling
 
-" Personal spellfiles are optional; Vim can start without a writable data dir.
+set spelllang=en,fr
+if filereadable('/usr/share/dict/words')
+  set dictionary=spell,/usr/share/dict/words
+else
+  set dictionary=spell
+endif
+
 let s:spell_dir = g:vim_data_dir . '/spell'
 let s:spell_ready = 0
 try
   call mkdir(s:spell_dir, 'p', 0700)
   let s:spell_ready = isdirectory(s:spell_dir) && filewritable(s:spell_dir) == 2
 catch /^Vim\%((\a\+)\)\=:E739/
-  " A personal spellfile is optional and must not block Vim startup.
 endtry
 if s:spell_ready
   execute 'set runtimepath+=' . fnameescape(g:vim_data_dir)
@@ -91,7 +97,6 @@ catch /^Vim\%((\a\+)\)\=:E185/
 endtry
 
 function! s:Highlights() abort
-  " The palette targets cterm because this configuration is for terminal Vim.
   highlight LineNr ctermbg=NONE
   highlight CursorLine gui=underline cterm=underline ctermbg=NONE
   highlight Comment ctermfg=103
@@ -108,45 +113,32 @@ call s:Highlights()
 
 " # EDITOR OPTIONS
 
+" ## Display
+
 set fillchars=stl:\ ,stlnc:\ ,vert:\ ,fold:\ ,diff:-
 set shortmess=filnxtToOF
-set smartcase ignorecase
-set regexpengine=0
-set noincsearch
 set nowrap
 set relativenumber
-set spelllang=en,fr
-if filereadable('/usr/share/dict/words')
-  set dictionary=spell,/usr/share/dict/words
-else
-  set dictionary=spell
-endif
-set completeopt=menu,preview
+set laststatus=2
+set ruler showcmd
+set listchars=tab:>\ ,trail:-
+set mouse=
+set belloff=all
+
+" ## Editing and indentation
+
 set shiftround
-" Reloading must not overwrite filetype-local indentation or prose width.
+" Reloading must not overwrite filetype-local settings.
 setglobal autoindent expandtab
 setglobal shiftwidth=4 softtabstop=-1 tabstop=4 textwidth=0
 if empty(&l:filetype)
   setlocal autoindent expandtab
   setlocal shiftwidth=4 softtabstop=-1 tabstop=4 textwidth=0
 endif
-set laststatus=2
-set ruler showcmd
-" Modelines are disabled because opening an untrusted file must not execute or
-" alter local configuration.
 set nomodeline
-let &g:undofile = s:undo_ready
-let &l:undofile = s:undo_ready && !get(b:, 'vim_sensitive_buffer', 0)
-" Native find searches below :pwd; note ftplugins may supply their own scope.
-setglobal path=**
-set wildmenu
-set wildmode=full
-" Allow command-line mappings to invoke native completion.
-set wildcharm=<Tab>
-set mouse=
 
-set listchars=tab:>\ ,trail:-
-set switchbuf+=uselast
+" ## Terminal
+
 set ttimeout
 " Older macOS terminfo lacks the capabilities Vim needs to detect pasted text.
 if !has('gui_running') && empty(&t_BE)
@@ -161,8 +153,6 @@ if exists('$SSH_CONNECTION') || exists('$SSH_TTY') || exists('$MOSH_CONNECTION')
 else
   set ttimeoutlen=0
 endif
-set history=1000
-set belloff=all
 
 " # DIGRAPHS
 
@@ -237,7 +227,21 @@ execute "digraphs WS " . 0x1D42
 
 " # SEARCH AND NAVIGATION
 
-" Vim and ripgrep use different glob syntax for the same directory exclusions.
+" ## Search and completion
+
+set smartcase ignorecase
+set regexpengine=0
+set noincsearch
+set completeopt=menu,preview
+set wildmenu
+set wildmode=full
+set wildcharm=<Tab>
+setglobal path=**
+set switchbuf+=uselast
+
+" ## Project search
+
+" Exclude generated and third-party directories from completion and search.
 let s:ignored_directories = ['.git', 'node_modules', 'vendor', 'dist', 'build', 'target']
 let s:wildignore_patterns = []
 for s:directory in s:ignored_directories
@@ -249,7 +253,7 @@ unlet s:wildignore_patterns s:directory
 
 set tags=./tags;
 if executable('rg')
-  " Search project dotfiles while excluding VCS, dependency, and build trees.
+  " Search hidden project files with the same directory exclusions.
   let &grepprg = shellescape(exepath('rg')) . ' --vimgrep --smart-case --hidden'
   for s:directory in s:ignored_directories
     let &grepprg .= ' --glob ' . shellescape('!**/' . s:directory . '/**')

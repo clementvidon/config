@@ -67,6 +67,9 @@ GPG and redact-pass remain independent. Preserve their persistence protections:
   a long section needs navigation. Qualify repeated names, such as
   `" ## ALE / mappings`. Leave one blank line around headings. Do not add
   decorative banners or headings to trivial files.
+- Group related settings under responsibility headings and keep them near the
+  state or setup they depend on. Order sections so prerequisites are defined
+  before use.
 - Explain reasons, Vim constraints, and security assumptions rather than narrating
   straightforward code. Keep helpers
   near the behavior they support.
