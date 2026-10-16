@@ -45,15 +45,14 @@ selections (`Ctrl-V`) are not supported.
 Use `Vghc` for a one-line code block or extend the line selection before
 pressing `ghc`. Fence lines surround the selected lines without changing their
 indentation. Code delimiters grow as needed to accommodate existing backticks.
-The cursor enters insert mode at the end of the opening fence, ready for a
-language name such as `python` or `sh`.
+The cursor stays in normal mode at the end of the opening fence; press `a` to
+add a language name such as `python` or `sh`.
 Quotes operate on complete lines, including blank lines; applying the mapping
 again adds another quote level.
 
-Text formatting mappings preserve registers and undo with one `u`. Except for
-links and fenced code blocks, they preserve the cursor's position in the text
-and finish in normal mode. Links enter insert mode between the parentheses,
-ready for the URL to be pasted.
+Text formatting mappings preserve registers, finish in normal mode, and undo
+with one `u`. Links leave the cursor on the closing parenthesis; press `i` to
+enter the URL.
 
 `<LocalLeader>g` creates or refreshes the index. `<LocalLeader>j` toggles between
 an index entry and its heading, positioning the target about 30% down the window

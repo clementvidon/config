@@ -194,7 +194,6 @@ function! noesis#link(visual) abort
   call s:Wrap(l:range, '[', l:label, ']()')
   let l:target = split(strpart(l:range.text, 0, l:range.start) . '[' . l:label . '](', "\n", 1)
   call cursor(l:range.first + len(l:target) - 1, strlen(l:target[-1]) + 1)
-  startinsert
 endfunction
 
 function! noesis#quote(visual) abort
@@ -221,7 +220,6 @@ function! s:Fence(range) abort
   undojoin
   call append(a:range.first - 1, l:fence)
   call cursor(a:range.first, strlen(l:fence))
-  startinsert!
 endfunction
 
 function! noesis#code(visual) abort
