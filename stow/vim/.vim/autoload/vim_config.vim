@@ -15,6 +15,10 @@ function! vim_config#reload() abort
   try
     execute 'source ' . fnameescape(l:config)
     for l:script in globpath(&runtimepath,
+          \ 'autoload/vim_config/*.vim', 0, 1)
+      execute 'source ' . fnameescape(l:script)
+    endfor
+    for l:script in globpath(&runtimepath,
           \ 'pack/local/start/*/autoload/*.vim', 0, 1)
       execute 'source ' . fnameescape(l:script)
     endfor
