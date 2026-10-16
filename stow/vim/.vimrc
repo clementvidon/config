@@ -10,8 +10,7 @@ set fileencodings=ucs-bom,utf-8,default,latin1
 
 " # PERSISTENT STATE
 
-" Keep generated state out of the configuration tree. Only swap may fall back
-" to /tmp; persistent undo must stay in its private state directory.
+" Store generated state outside the configuration tree.
 let s:state_home = empty($XDG_STATE_HOME)
       \ ? expand('~/.local/state')
       \ : expand($XDG_STATE_HOME)
@@ -21,6 +20,10 @@ let s:data_home = empty($XDG_DATA_HOME)
 let s:state_dir = s:state_home . '/vim'
 let g:vim_data_dir = s:data_home . '/vim'
 
+" ## Persistent undo
+
+" Undo files retain deleted text. Keep them private and disable persistence
+" if the directory cannot be made private.
 let s:undo_dir = s:state_dir . '/undo'
 let &undodir = escape(s:undo_dir . '//', '\,')
 let s:undo_ready = 0
@@ -32,16 +35,26 @@ try
   let s:undo_ready = isdirectory(s:undo_dir) && filewritable(s:undo_dir) == 2
         \ && getfperm(s:undo_dir) ==# 'rwx------'
 catch /^Vim\%((\a\+)\)\=:E739/
-  " Failure to create the directory must not enable a less private fallback.
 endtry
 if !s:undo_ready
-  " Reloads must also stop already-open buffers from writing unsafe history.
   for s:buffer in getbufinfo()
     call setbufvar(s:buffer.bufnr, '&undofile', 0)
   endfor
   unlet! s:buffer
 endif
+
+" ## Swap and viminfo
+
 call mkdir(s:state_dir . '/swap', 'p', 0700)
+let &directory = s:state_dir . '/swap//,/tmp//'
+" Once plaintext enters a session, GPG disables global history persistence.
+if !get(g:, 'vim_sensitive_session', 0)
+  let &viminfo = "'100,<50,s10,h,n" . s:state_dir . '/viminfo'
+endif
+
+" ## Personal spelling
+
+" Personal spellfiles are optional; Vim can start without a writable data dir.
 let s:spell_dir = g:vim_data_dir . '/spell'
 let s:spell_ready = 0
 try
@@ -52,15 +65,6 @@ catch /^Vim\%((\a\+)\)\=:E739/
 endtry
 if s:spell_ready
   execute 'set runtimepath+=' . fnameescape(g:vim_data_dir)
-endif
-
-let &directory = s:state_dir . '/swap//,/tmp//'
-" Once plaintext has entered a session, the GPG plugin deliberately leaves
-" viminfo disabled so history and registers cannot persist it later.
-if !get(g:, 'vim_sensitive_session', 0)
-  let &viminfo = "'100,<50,s10,h,n" . s:state_dir . '/viminfo'
-endif
-if s:spell_ready
   let &spellfile = s:spell_dir . '/custom.utf-8.add'
   if filereadable(&spellfile)
     let s:compiled_spellfile = &spellfile . '.spl'
