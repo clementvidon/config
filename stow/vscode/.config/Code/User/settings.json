@@ -69,6 +69,7 @@
   // =============================================================================
 
   "terminal.integrated.sendKeybindingsToShell": true,
+  "terminal.integrated.allowChords": false,
   "terminal.integrated.fontSize": 13,
   "terminal.integrated.gpuAcceleration": "on",
 
