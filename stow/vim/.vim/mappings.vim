@@ -3,45 +3,6 @@ scriptencoding utf-8
 
 " # PRIVATE HELPERS
 
-function! s:SelectedText() abort
-  let l:unnamed = getreginfo('"')
-  let l:yank = getreginfo('0')
-  let l:clipboard = &clipboard
-  let l:view = winsaveview()
-  try
-    " Extract with native selection semantics, without clipboard/yank hooks.
-    set clipboard=
-    silent noautocmd normal! gvy
-    " V and v$ may include the selected line's final newline.
-    let l:text = substitute(getreg('0'), '\n$', '', '')
-  finally
-    call setreg('0', l:yank)
-    call setreg('"', l:unnamed)
-    let &clipboard = l:clipboard
-    call winrestview(l:view)
-  endtry
-  if empty(l:text) || l:text =~# '[[:cntrl:]]'
-    throw 'Search: select text on one line, without control characters'
-  endif
-  return l:text
-endfunction
-
-function! s:StaticSearchSelection() abort
-  let @/ = '\V' . escape(s:SelectedText(), '\')
-  set hlsearch
-  redraw!
-endfunction
-
-function! s:StaticSearchPrompt() abort
-  let l:pattern = input('Static search: ')
-  if empty(l:pattern)
-    return
-  endif
-  let @/ = l:pattern
-  set hlsearch
-  redraw!
-endfunction
-
 function! s:FindPrompt(command) abort
   let l:extension = expand('%:e')
   let l:suffix = empty(l:extension) ? '' : '.' . fnameescape(l:extension)
@@ -123,43 +84,6 @@ function! s:WriteAsRoot() abort
     throw 'Privileged write failed; buffer left unchanged'
   endif
   edit!
-endfunction
-
-function! s:ClipboardCommand() abort
-  if !executable('clipboard')
-    throw 'Install the scripts Stow package and add ~/.local/bin to PATH'
-  endif
-  return shellescape(exepath('clipboard'))
-endfunction
-
-function! s:CopyToClipboard() abort
-  call system(s:ClipboardCommand() . ' copy', getreg('"'))
-  if v:shell_error
-    echoerr 'Clipboard copy failed; check providers or use terminal paste over SSH'
-  endif
-endfunction
-
-function! s:PasteFromClipboard() abort
-  let l:text = system(s:ClipboardCommand() . ' paste')
-  if v:shell_error
-    echoerr 'Clipboard paste failed; check providers or use terminal paste over SSH'
-    return
-  endif
-  " The expression register preserves the user's yank/delete registers.
-  call setreg('=', string(l:text))
-  execute "normal! \"=\<CR>p"
-endfunction
-
-function! s:GrepPrompt(visual) abort
-  if !executable('rg')
-    throw 'Search requires ripgrep (rg) on PATH'
-  endif
-  let l:command = ':grep '
-  if a:visual
-    let l:command .= ' -F -- ' . shellescape(s:SelectedText(), 1)
-          \ . "\<Home>" . repeat("\<Right>", 5)
-  endif
-  call feedkeys(l:command, 'n')
 endfunction
 
 function! s:ToggleColorscheme() abort
@@ -264,8 +188,8 @@ nnoremap sis :isearch /
 
 " ## search
 
-nnoremap <silent> sg :call <SID>GrepPrompt(0)<CR>
-vnoremap <silent> sg :<C-U>call <SID>GrepPrompt(1)<CR>
+nnoremap <silent> sg :call vim_config#search#grep_prompt(0)<CR>
+vnoremap <silent> sg :<C-U>call vim_config#search#grep_prompt(1)<CR>
 
 " # OPTIONS AND COMMANDS
 
@@ -282,8 +206,8 @@ nnoremap <silent> glpd :<C-U>call <SID>PutDate()<CR>
 nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
 nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
 nnoremap glsp :set spell!<CR>:set spell?<CR>
-nnoremap <silent> glss :call <SID>StaticSearchPrompt()<CR>
-vnoremap <silent> glss :<C-U>call <SID>StaticSearchSelection()<CR>
+nnoremap <silent> glss :call vim_config#search#static_prompt()<CR>
+vnoremap <silent> glss :<C-U>call vim_config#search#static_selection()<CR>
 nnoremap glst :set startofline!<CR>:set startofline?<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
 nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
@@ -328,8 +252,8 @@ nnoremap <silent> <Space>= :call <SID>IndentBuffer()<CR>
 
 " ## clipboard
 
-nnoremap <silent> <Leader>y :call <SID>CopyToClipboard()<CR>
-nnoremap <silent> <Leader>p :call <SID>PasteFromClipboard()<CR>
+nnoremap <silent> <Leader>y :call vim_config#clipboard#copy()<CR>
+nnoremap <silent> <Leader>p :call vim_config#clipboard#paste()<CR>
 
 " ## guard rails
 
