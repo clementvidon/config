@@ -24,7 +24,7 @@ endif
 unlet s:root
 setlocal foldmethod=marker
 setlocal foldmarker={{{,}}}
-setlocal linebreak breakindent
+setlocal wrap linebreak breakindent
 setlocal expandtab
 setlocal shiftwidth=2
 setlocal softtabstop=2
@@ -51,6 +51,7 @@ xnoremap <silent><buffer> <Space>= <Nop>
 vnoremap <silent><buffer> gq <nop>
 nnoremap <silent><buffer> gq <nop>
 nnoremap <silent><buffer> K <nop>
+nnoremap <buffer> O O0<C-D>
 nnoremap <buffer><silent><expr> j v:count ? 'j' : 'gj'
 nnoremap <buffer><silent><expr> k v:count ? 'k' : 'gk'
 vnoremap <buffer><silent><expr> j v:count ? 'j' : 'gj'
@@ -119,7 +120,7 @@ endif
 let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . (!empty(get(b:, 'undo_ftplugin', '')) ? '|' : '')
       \ . 'setlocal suffixesadd< commentstring< path< foldmethod< foldmarker<'
-      \ . ' linebreak< breakindent< expandtab< shiftwidth< softtabstop<'
+      \ . ' wrap< linebreak< breakindent< expandtab< shiftwidth< softtabstop<'
       \ . ' tabstop< textwidth< formatoptions< formatlistpat<'
       \ . ' conceallevel< concealcursor<'
       \ . '|silent! delcommand -buffer Grep'
@@ -131,6 +132,7 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . '|silent! nunmap <buffer> <Space>='
       \ . '|silent! xunmap <buffer> <Space>='
       \ . '|silent! nunmap <buffer> K'
+      \ . '|silent! nunmap <buffer> O'
       \ . '|silent! nunmap <buffer> j'
       \ . '|silent! nunmap <buffer> k'
       \ . '|silent! vunmap <buffer> j'

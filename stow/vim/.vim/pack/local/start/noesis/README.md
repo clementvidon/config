@@ -35,6 +35,9 @@ reflows text while preserving list indentation. Formatting actions add markup
 rather than toggling it; inline formatting applies within one paragraph and
 does not support rectangular selections.
 
+In Noesis, Insert-mode Enter keeps the current indentation. Normal-mode `O`
+starts a new line above at the left margin.
+
 Refresh the index after adding, removing, renaming, or reordering headings. If
 no indexed headings remain, refreshing removes the existing index.
 
