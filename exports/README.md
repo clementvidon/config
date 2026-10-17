@@ -2,6 +2,9 @@
 
 Application settings restored manually, independently of `install.sh`.
 
+See the keyboard navigation instructions for [Ubuntu](ubuntu/README.md) and
+[Windows](windows/README.md).
+
 ## GNOME
 
 Requires `dconf-cli`. Run from the repository root in an active GNOME session,
