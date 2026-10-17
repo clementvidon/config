@@ -30,35 +30,13 @@ let g:noesis_root = expand('~/notes')
 ## Usage
 
 Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
-layout. Use `ghh` to discover note-editing bindings. Noesis provides headings,
-inline styles, links, quotes, and code blocks. Generic indentation, Space `=`,
-and `gq` are blocked to preserve document layout. Vim's native `gw` operator
-works with motions and visual selections. In Markdown lists, reflowed lines
-align with the text after the list marker.
+layout. Use `ghh` to discover note-editing bindings. Vim's native `gw` operator
+reflows text while preserving list indentation. Formatting actions add markup
+rather than toggling it; inline formatting applies within one paragraph and
+does not support rectangular selections.
 
-Normal-mode word selection follows Vim's `iw`. Formatting mappings add markup;
-they do not toggle it. Italic, bold, links, and inline code apply within one
-paragraph.
-Italic and bold leave surrounding whitespace outside their markers. Rectangular
-selections (`Ctrl-V`) are not supported.
-
-Use `Vghc` for a one-line code block or extend the line selection before
-pressing `ghc`. Fence lines surround the selected lines without changing their
-indentation. Code delimiters grow as needed to accommodate existing backticks.
-The cursor stays in normal mode at the end of the opening fence; press `a` to
-add a language name such as `python` or `sh`.
-Quotes operate on complete lines, including blank lines; applying the mapping
-again adds another quote level.
-
-Text formatting mappings preserve registers, finish in normal mode, and undo
-with one `u`. Links leave the cursor on the closing parenthesis; press `i` to
-enter the URL.
-
-`<LocalLeader>g` creates or refreshes the index. `<LocalLeader>j` toggles between
-an index entry and its heading, positioning the target about 30% down the window
-when space permits. Refresh after adding, removing, renaming, or reordering
-indexed headings.
-If no indexed headings remain, refreshing removes the existing index.
+Refresh the index after adding, removing, renaming, or reordering headings. If
+no indexed headings remain, refreshing removes the existing index.
 
 `:Grep pattern` searches unencrypted `.md` files under the current note's
 enclosing `noesis` directory

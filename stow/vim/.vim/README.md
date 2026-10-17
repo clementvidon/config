@@ -10,22 +10,15 @@ vim +PlugInstall
 
 ## Configuration
 
-`.vimrc` contains core settings, [plugins.vim](plugins.vim) configures plugins,
-and [mappings.vim](mappings.vim) contains general key bindings. The leader key
-is Space; the local leader is `gh`. Use `mso` to reload the configuration and
-the current buffer's filetype after configuration changes. Restart Vim after
-changing plugin installation or lifecycle.
+Use `mso` to reload the configuration and the current buffer's filetype after
+configuration changes. Restart Vim after changing plugin installation or lifecycle.
 
 Local plugins have their own usage instructions under `pack/local/start`.
 Set their configuration variables in `plugins.vim`, including the GPG recipient
 and note export author when using those features.
 
-Personal note navigation and theme shortcuts live in `mappings.vim`; global
-digraphs live in `.vimrc`.
-
 See the [mapping guide](MAPPINGS.md) for the mapping model
 and remapping examples. Namespace help lists the current bindings.
-Local plugin READMEs describe their usage and configuration.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
 provides the note environment for Markdown beneath a directory named `noesis`
@@ -34,18 +27,11 @@ Other Markdown files keep Vim's standard behavior. [Achiever](pack/local/start/a
 adds optional task editing to either environment. See [GPG](pack/local/start/gpg/README.md)
 for encrypted editing.
 
-## Dates
-
-`glpd` opens the interactive date insertion menu using the current locale.
-The selected date is inserted below the current line; `Esc` cancels.
-
 ## Search and formatting
 
 `:find` searches below the working directory. Use `:lcd %:p:h` to search from
 the current file's directory. `:grep pattern` uses ripgrep (`rg`) and respects
-project ignore files. `sg` opens the grep prompt; in Visual mode it prefills a
-literal search for the selection. Optional project tags can be generated with
-`ctags -R .`.
+project ignore files. Optional project tags can be generated with `ctags -R .`.
 
 ALE runs the linters selected in `plugins.vim` when a supported file opens or
 is saved. Install those tools on `PATH`. Run `:ALEFix` for manual formatting;
@@ -53,8 +39,7 @@ YAML formatting requires a project yamlfmt configuration. `:ALEInfo` shows the
 active tools. Run `terraform validate` and `systemd-analyze verify` manually
 from the appropriate project or system context.
 
-GitGutter starts disabled. Space `gt` toggles it for the current buffer;
-Space `gh` lists hunk navigation and actions. Sensitive buffers refuse activation.
+Sensitive buffers refuse GitGutter activation.
 
 ## Clipboard
 

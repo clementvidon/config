@@ -96,10 +96,8 @@ GPG and redact-pass remain independent. Preserve their persistence protections:
 - Limit general Vim checks to smoke tests: startup, reload, and representative
   file opening, activation, disabling, and state restoration. Keep a small
   representative set of files; do not add a fixture for each filetype, plugin, or configuration change.
-- Keep documentation about intent and public contracts, not mapping inventories
-  or implementation details. Apply the root documentation and testing policies.
-  General checks must not test individual abbreviations, tool arguments, or
-  plugin internals either.
+- General checks must not test individual abbreviations, tool arguments, or
+  plugin internals.
 - Reserve detailed Vim regressions for security guarantees, including encrypted
   I/O, plaintext persistence, sensitive-buffer isolation, and prevention of
   unintended code execution. Each assertion must support the protected outcome.

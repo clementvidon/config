@@ -41,14 +41,16 @@ backward compatibility. Update affected code and documentation together.
 - Make instructions actionable. Use generic examples and explain required
   inputs or prerequisites where they are used.
 - Explain intent, concepts, public contracts, rationale, and non-obvious
-  constraints. Do not mirror option assignments, source layout, or exhaustive
-  mapping/plugin inventories. Prefer discovery commands and links to canonical
-  sources over lists that must be synchronized manually.
+  constraints at a high level. Do not repeat configuration behavior, option
+  assignments, mappings, commands, source layout, or plugin inventories that
+  can be discovered from the configuration. Prefer discovery commands and
+  links to canonical sources over details that can drift.
 - Remove historical migration details once the migration is complete.
 - Document real platform exceptions close to the code that implements them.
-- Keep each rule in one place. AGENTS.md files define maintenance constraints;
-  READMEs explain usage. Retain concrete security and data-loss constraints
-  where they affect the feature.
+- Keep each rule in one place. When updating AGENTS.md, reshape existing rules
+  to incorporate new ideas instead of layering overlapping rules. AGENTS.md
+  files define maintenance constraints; READMEs explain usage. Retain concrete
+  security and data-loss constraints where they affect the feature.
 - Documentation cleanup must preserve the scope and strength of maintenance
   rules. Verify suspected obsolete guidance against the code; ask the user
   before removing it when its relevance remains uncertain.
@@ -74,9 +76,10 @@ backward compatibility. Update affected code and documentation together.
   or adjusting ordinary configuration must not require editing tests, expected
   values, fixtures, or inventories. A new format may justify one generic syntax
   validator; it does not justify tests for each setting or file.
-- Test contracts, invariants, and concrete meaningful failure modes, not the
-  existence of configuration lines. Prefer smoke checks for loading, activation,
-  disabling, state restoration, and security boundaries.
+- Test high-level contracts, invariants, and concrete meaningful failure modes,
+  not configuration details or behavior repeated from configuration. Prefer
+  smoke checks for loading, activation, disabling, state restoration, and
+  security boundaries.
 - Do not assert individual preferences, mappings, commands, option values that
   are preferences, exact output or log text, documentation output, source layout,
   or snapshots of configuration contents. Do not enumerate every straightforward

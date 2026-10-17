@@ -35,12 +35,8 @@ onto indented `-- ` lines, or joins those lines back into the task record.
 ## Usage and customization
 
 Space `hh` lists active bindings. Duration display does not alter the running
-total: use `<Plug>(achiever-duration-add)` to accumulate it,
-`<Plug>(achiever-duration-total)` to inspect it, and
-`<Plug>(achiever-duration-reset)` to clear it. The total is buffer-local and
-lasts until reset, disable, a filetype change, or buffer closure.
-
-Insert-mode abbreviations `wwo` and `lli` expand to work and life task labels.
+total, which is buffer-local and lasts until reset, disable, a filetype change,
+or buffer closure.
 
 Set `g:achiever_no_mappings = 1` before activation to disable default bindings.
 `<Plug>(achiever-...)` mappings are available globally, independently of task
