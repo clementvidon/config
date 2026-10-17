@@ -239,6 +239,12 @@ let g:seoul256_light_background = 256
 let g:netrw_banner = 0
 let g:netrw_dirhistmax = 0
 
+" # FZF
+
+let g:fzf_layout = { 'down': '30%' }
+nnoremap <silent> sf :<C-U>FZF<CR>
+nnoremap sF :<C-U>FZF<Space>
+
 " # PLUGIN DECLARATIONS
 
 call plug#begin(g:vim_data_dir . '/plugged')
@@ -248,6 +254,7 @@ Plug 'tpope/vim-surround', { 'commit': '3d188ed2113431cf8dac77be61b842acb64433d9
 Plug 'tpope/vim-commentary', { 'commit': '64a654ef4a20db1727938338310209b6a63f60c9' }
 Plug 'arcticicestudio/nord-vim', { 'commit': 'f13f5dfbb784deddbc1d8195f34dfd9ec73e2295' }
 Plug 'junegunn/seoul256.vim', { 'commit': '0357ff3e44faab66c98bc98dfc89c834e37012da' }
+Plug 'junegunn/fzf', { 'commit': 'a140afeb4d733cad3c96a56bf6db7e26853b6757', 'on': 'FZF' }
 Plug 'dense-analysis/ale', {
       \ 'commit': 'e1789bc54483d76ac9ddb40b633d1645c8281914',
       \ 'for': ['sh', 'yaml', 'json', 'dockerfile', 'terraform', 'make'],

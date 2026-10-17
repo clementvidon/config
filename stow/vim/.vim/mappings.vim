@@ -3,22 +3,6 @@ scriptencoding utf-8
 
 " # PRIVATE HELPERS
 
-function! s:FindPrompt(command) abort
-  let l:extension = expand('%:e')
-  let l:suffix = empty(l:extension) ? '' : '.' . fnameescape(l:extension)
-  return ':' . a:command . ' **' . l:suffix
-        \ . repeat("\<Left>", strchars(l:suffix) + 1)
-endfunction
-
-function! s:CompleteFind() abort
-  " Completion only sees text before the cursor, including the suffix filter.
-  if getcmdtype() ==# ':' && getcmdpos() <= strlen(getcmdline())
-        \ && getcmdline() =~# '^\%(find!\?\|tabfind\|sfind\|vertical sfind\)\s'
-    return "\<End>\<Tab>"
-  endif
-  return "\<Tab>"
-endfunction
-
 function! s:ShowSyntax() abort
   let l:syntax = synID(line('.'), col('.'), 1)
   let l:name = synIDattr(l:syntax, 'name')
@@ -145,10 +129,6 @@ nnoremap <silent> mso :<C-U>call vim_config#reload()<CR>
 " ## find and edit
 
 nnoremap s <nop>
-nnoremap <expr> sf  <SID>FindPrompt('find')
-nnoremap <expr> ssf <SID>FindPrompt('find!')
-nnoremap <expr> shf <SID>FindPrompt('sfind')
-nnoremap <expr> svf <SID>FindPrompt('vertical sfind')
 
 " The vertical Ex-command prefixes intentionally stay open for Tab completion.
 nnoremap se  :e<Space>
@@ -259,6 +239,5 @@ nnoremap <silent> <Leader>p :call vim_config#clipboard#paste()<CR>
 
 nnoremap Q :echo "!Q"<CR>
 
-cnoremap <expr> <Tab> <SID>CompleteFind()
 cnoremap <C-U> <Nop>
 inoremap <C-U> <Nop>

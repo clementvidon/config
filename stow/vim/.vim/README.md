@@ -29,9 +29,11 @@ for encrypted editing.
 
 ## Search and formatting
 
-`:find` searches below the working directory. Use `:lcd %:p:h` to search from
-the current file's directory. `:grep pattern` uses ripgrep (`rg`) and respects
-project ignore files. Optional project tags can be generated with `ctags -R .`.
+File searches use Vim's working directory. Install `fzf` 0.53.0 or newer on
+`PATH` for interactive file search; see the
+[fzf Vim documentation](https://github.com/junegunn/fzf/blob/master/README-VIM.md)
+for available options. `:grep pattern` uses ripgrep (`rg`) and respects project
+ignore files. Optional project tags can be generated with `ctags -R .`.
 
 ALE runs the linters selected in `plugins.vim` when a supported file opens or
 is saved. Install those tools on `PATH`. Run `:ALEFix` for manual formatting;
