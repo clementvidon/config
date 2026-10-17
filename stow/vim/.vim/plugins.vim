@@ -12,7 +12,11 @@ let g:vim_gpg_recipient = empty($VIM_GPG_RECIPIENT)
 " # ALE
 
 let g:ale_enabled = 1
+if exists(':ALEStopAllLSPs')
+  silent ALEStopAllLSPs
+endif
 let g:ale_disable_lsp = 1
+let b:ale_disable_lsp = 1
 " Never resolve executables from a project checkout.
 let g:ale_use_global_executables = 1
 let g:ale_linters_explicit = 1
@@ -32,7 +36,7 @@ let g:ale_linters = {
       \ 'yaml': ['yamllint', 'actionlint'],
       \ 'json': ['jq'],
       \ 'dockerfile': ['hadolint'],
-      \ 'terraform': ['tflint'],
+      \ 'terraform': ['tflint', 'terraform_ls'],
       \ 'make': ['checkmake'],
       \ }
 " An empty global table prevents ALE from selecting implicit fixers; only the
@@ -85,7 +89,8 @@ endfunction
 
 function! s:ResetALEPolicy() abort
   let b:ale_fixers = []
-  unlet! b:ale_linters b:ale_yaml_yamlfmt_options b:ale_yaml_yamllint_options
+  unlet! b:ale_linters b:ale_linter_aliases
+        \ b:ale_yaml_yamlfmt_options b:ale_yaml_yamllint_options
         \ b:ale_dockerfile_hadolint_options
 endfunction
 
@@ -93,6 +98,7 @@ function! s:ConfigureALE() abort
   call s:ResetALEPolicy()
   if get(b:, 'vim_sensitive_buffer', 0)
     let b:ale_enabled = 0
+    let b:ale_disable_lsp = 1
     let b:ale_linters = []
     if exists('*ale#engine#Cleanup')
       call ale#engine#Cleanup(bufnr(''))
@@ -102,6 +108,10 @@ function! s:ConfigureALE() abort
   if &l:filetype ==# 'terraform'
     let b:ale_fixers = ['terraform']
   elseif &l:filetype ==# 'yaml'
+    if !get(b:, 'ale_disable_lsp', g:ale_disable_lsp)
+      let b:ale_linter_aliases = 'ansible'
+      let b:ale_linters = ['language_server']
+    endif
     let l:config = s:FindProjectConfig([
           \ '.yamlfmt', 'yamlfmt.yml', 'yamlfmt.yaml',
           \ '.yamlfmt.yml', '.yamlfmt.yaml',

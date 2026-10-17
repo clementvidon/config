@@ -8,8 +8,10 @@
 - Use Vim's standard filetypes and ALE for shared linting and manual formatting.
   Add a first-party filetype override only when the runtime and ALE cannot meet
   the need; document that reason beside the override.
-- Do not add language servers, semantic completion, language-specific build,
-  run or debugging integrations, snippets, automatic tags, or format-on-save.
+- Add language-specific tools only when they are maintained, stable, and provide
+  a clear benefit without duplicating the existing CLI workflow. Avoid fragile
+  adapters, editor-driven build, run or debugging integrations, snippets,
+  automatic tags, and format-on-save.
 - Support macOS and Ubuntu; resolve executables through `PATH`.
 - Pin third-party plugins to commits. Do not reformat or casually modify
   vendored `autoload/plug.vim`. Preserve the upstream structure, attribution,

@@ -39,11 +39,26 @@ File searches use Vim's working directory. Install `fzf` 0.53.0 or newer on
 for available options. `:grep pattern` uses ripgrep (`rg`) and respects project
 ignore files. Optional project tags can be generated with `ctags -R .`.
 
+Install `ansible-doc` on `PATH` for documentation in YAML files. `K` looks up
+the keyword under the cursor; `gK` looks up a module, including its full
+collection name when the cursor is on any part of it. A missing entry stays
+silent. Other YAML files can use the same shortcuts without enabling Ansible
+linting or a language server.
+
 ALE runs the linters selected in `plugins.vim` when a supported file opens or
 is saved. Install those tools on `PATH`. Run `:ALEFix` for manual formatting;
 YAML formatting requires a project yamlfmt configuration. `:ALEInfo` shows the
-active tools. Run `terraform validate` and `systemd-analyze verify` manually
+active tools. `.tf` always means Terraform here, including new files. Run
+`terraform validate` and `systemd-analyze verify` manually
 from the appropriate project or system context.
+
+Install `terraform-ls` for Terraform or `ansible-language-server` for Ansible
+on `PATH` when needed. Run `:TerraformLSP` in a Terraform buffer or
+`:AnsibleLSP` in a YAML buffer to enable its server for that buffer. Other YAML
+buffers keep their normal linting. Vim's omni completion (`Ctrl-X Ctrl-O`) uses
+the server once active. `:ALEDisableBuffer` suspends ALE in the current buffer;
+`:ALEEnableBuffer` resumes it. `<Leader>al` runs `:ALELint` immediately; normal
+linting already runs on file open and save.
 
 Sensitive buffers refuse GitGutter activation.
 
