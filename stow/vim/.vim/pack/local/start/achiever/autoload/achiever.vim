@@ -1,4 +1,18 @@
-" Task timestamp, duration, linking, and detail-formatting operations.
+" Task navigation, timestamp, duration, linking, and detail-formatting operations.
+
+" # TASK NAVIGATION
+
+function! achiever#open_tasks(path) abort
+  let l:search = @/
+  try
+    execute 'edit ' . fnameescape(a:path)
+    normal! gg0
+    call search('\s\d\{6}\s', 'w')
+    normal! 0zz
+  finally
+    let @/ = l:search
+  endtry
+endfunction
 
 " # TASK TIMESTAMPS
 

@@ -34,6 +34,10 @@ onto indented `-- ` lines, or joins those lines back into the task record.
 
 ## Usage and customization
 
+`:AchieverOpen {path}` opens a task file and positions the cursor at its first
+dated entry. File names matching the automatic activation rules enable Achiever;
+use `:AchieverEnable` for other names.
+
 Space `hh` lists active bindings. Duration display does not alter the running
 total, which is buffer-local and lasts until reset, disable, a filetype change,
 or buffer closure.

@@ -104,15 +104,6 @@ function! s:OpenNote(relative, pattern) abort
   let @/ = l:search
 endfunction
 
-function! s:OpenTasks() abort
-  let l:search = @/
-  execute 'edit ' . fnameescape(g:noesis_root . '/Achiever/todos.md')
-  normal! gg0
-  call search('\s\d\{6}\s', 'w')
-  normal! 0zz
-  let @/ = l:search
-endfunction
-
 " # FILES AND BUFFERS
 
 " ## write and quit
@@ -155,7 +146,7 @@ nnoremap sb :ls<CR>:b<Space>
 nnoremap <silent> sn  <nop>
 nnoremap <silent> sne :call <SID>OpenNote('english.md', '##  Voca')<CR>
 nnoremap <silent> snf :call <SID>OpenNote('french.md', '##  Voca')<CR>
-nnoremap <silent> snt :call <SID>OpenTasks()<CR>
+nnoremap <silent> snt :<C-U>execute 'AchieverOpen ' . fnameescape(g:noesis_root . '/Achiever/achiever.md')<CR>
 nnoremap <silent> snh :call <SID>OpenNote('.todos.gpg.md', '')<CR>
 nnoremap <silent> snj :call <SID>OpenNote('journal.gpg.md', '')<CR>
 nnoremap <silent> snn :call <SID>OpenNote('notes.md', '')<CR>
