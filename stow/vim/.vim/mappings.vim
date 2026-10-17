@@ -35,8 +35,16 @@ endfunction
 
 function! s:PutDate() abort
   let l:now = localtime()
-  let l:dates = map(['%a %d %b %Y', '%y%m%d', '%a %d %b %Y at %H:%M', '%y%m%d%H%M%S'],
-        \ 'strftime(v:val, l:now)')
+  " Keep English abbreviations independent of the system's time locale.
+  let l:days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  let l:months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        \ 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  let l:date = l:days[str2nr(strftime('%w', l:now))] . ' '
+        \ . strftime('%d', l:now) . ' '
+        \ . l:months[str2nr(strftime('%m', l:now)) - 1] . ' '
+        \ . strftime('%Y', l:now)
+  let l:dates = [l:date, strftime('%y%m%d', l:now),
+        \ l:date . strftime(' at %H:%M', l:now), strftime('%y%m%d%H%M%S', l:now)]
   let l:menu = ['Insert date (1-4, Esc cancels):']
   for l:index in range(len(l:dates))
     call add(l:menu, printf('%d. %s', l:index + 1, l:dates[l:index]))
