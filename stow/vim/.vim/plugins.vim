@@ -6,7 +6,8 @@ scriptencoding utf-8
 let g:noesis_all_markdown = 1
 let g:noesis_export_author = 'Clément VIDON'
 
-let g:vim_gpg_recipient = 'B8AE5479C3DE72D291F1E923B32613620A074922'
+let g:vim_gpg_recipient = empty($VIM_GPG_RECIPIENT)
+      \ ? 'B8AE5479C3DE72D291F1E923B32613620A074922' : $VIM_GPG_RECIPIENT
 
 " # ALE
 

@@ -94,9 +94,9 @@ function! s:ToggleColorscheme() abort
   endif
 endfunction
 
-function! s:OpenNote(relative, pattern) abort
+function! s:OpenNote(path, pattern) abort
   let l:search = @/
-  execute 'edit ' . fnameescape(g:noesis_root . '/' . a:relative)
+  execute 'edit ' . fnameescape(a:path)
   if !empty(a:pattern)
     call search(a:pattern, 'b')
     normal! zt
@@ -144,10 +144,10 @@ nnoremap sb :ls<CR>:b<Space>
 " ## personal notes
 
 nnoremap <silent> sn  <nop>
-nnoremap <silent> sne :call <SID>OpenNote('english.md', '##  Voca')<CR>
-nnoremap <silent> snf :call <SID>OpenNote('french.md', '##  Voca')<CR>
-nnoremap <silent> snt :<C-U>execute 'AchieverOpen ' . fnameescape(g:noesis_root . '/Achiever/achiever.md')<CR>
-nnoremap <silent> snn :call <SID>OpenNote('notes.md', '')<CR>
+nnoremap <silent> sne :call <SID>OpenNote(g:noesis_root . '/english.md', '##  Voca')<CR>
+nnoremap <silent> snf :call <SID>OpenNote(g:noesis_root . '/french.md', '##  Voca')<CR>
+nnoremap <silent> snt :<C-U>execute 'AchieverOpen ' . fnameescape(empty($TODOS_FILE) ? expand('~/todos.md') : $TODOS_FILE)<CR>
+nnoremap <silent> snn :call <SID>OpenNote(empty($NOTES_FILE) ? expand('~/notes.md') : $NOTES_FILE, '')<CR>
 
 " ## navigation and tags
 

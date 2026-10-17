@@ -26,9 +26,14 @@ function! s:Disable() abort
   let &l:syntax = &l:filetype
 endfunction
 
+function! s:OpenTasks(path) abort
+  call achiever#open_tasks(a:path)
+  call s:Enable()
+endfunction
+
 command! -bar AchieverEnable call <SID>Enable()
 command! -bar AchieverDisable call <SID>Disable()
-command! -nargs=1 -complete=file AchieverOpen call achiever#open_tasks(<f-args>)
+command! -nargs=1 -complete=file AchieverOpen call <SID>OpenTasks(<f-args>)
 
 " # FILENAME DETECTION
 

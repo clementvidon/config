@@ -30,7 +30,7 @@ export VISUAL='vim'
 # Password Store
 # =============================================================================
 
-export PASSWORD_STORE_DIR="$HOME/pass"
+export PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/pass}"
 export PASSWORD_STORE_CLIP_TIME=10
 export PASSWORD_STORE_GENERATED_LENGTH=32
 

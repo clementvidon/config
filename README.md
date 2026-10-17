@@ -26,6 +26,22 @@ If an existing file blocks installation, move it aside and rerun the command.
 Keep the repository in place: the installed links point into it.
 See `./install.sh --help` for options.
 
+## Local shell settings
+
+Bash and interactive Zsh load `~/.shellrc.private` for secrets, followed by
+`~/.shellrc.local` for machine-specific overrides. Both files are optional and
+use shell syntax. Export variables needed by applications, for example:
+
+```sh
+export NOESIS_ROOT="$HOME/noesis"
+export NOTES_FILE="$NOESIS_ROOT/Inbox/inbox.md"
+export TODOS_FILE="$NOESIS_ROOT/Achiever/achiever.md"
+```
+
+Keep private settings out of the repository. Local settings are not loaded by
+non-interactive shells; configure their environment separately when needed.
+See the [Vim configuration](stow/vim/.vim/README.md) for note and task paths.
+
 ## Layout
 
 - `stow/<package>/`: configuration paths relative to `$HOME`.

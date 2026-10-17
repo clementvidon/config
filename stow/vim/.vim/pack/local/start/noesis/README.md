@@ -19,9 +19,9 @@ Search and note-link navigation use the nearest enclosing directory named
 `noesis`, case-insensitively. Outside such a directory, workspace search is
 unavailable, even when Noesis editing is enabled.
 
-The personal shortcuts for opening notes use `g:noesis_root`, independently of
-the current buffer. It defaults to `~/noesis`; set `NOESIS_ROOT` in the shell or
-configure it before plugins load:
+Personal vocabulary shortcuts use `g:noesis_root`, independently of the current
+buffer. It defaults to `~/noesis`; set `NOESIS_ROOT` in the shell or configure it
+before plugins load:
 
 ```vim
 let g:noesis_root = expand('~/notes')

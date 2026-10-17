@@ -14,8 +14,12 @@ Use `mso` to reload the configuration and the current buffer's filetype after
 configuration changes. Restart Vim after changing plugin installation or lifecycle.
 
 Local plugins have their own usage instructions under `pack/local/start`.
-Set their configuration variables in `plugins.vim`, including the GPG recipient
-and note export author when using those features.
+Set their configuration variables in `plugins.vim`. The GPG recipient can also
+be set with `VIM_GPG_RECIPIENT` in the environment before Vim starts.
+
+The personal note and task shortcuts use `NOTES_FILE` and `TODOS_FILE`, defaulting
+to `~/notes.md` and `~/todos.md`. Their parent directories must exist. The task
+shortcut activates Achiever after opening the file.
 
 See the [mapping guide](MAPPINGS.md) for the mapping model
 and remapping examples. Namespace help lists the current bindings.
