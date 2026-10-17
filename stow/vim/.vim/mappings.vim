@@ -147,8 +147,6 @@ nnoremap <silent> sn  <nop>
 nnoremap <silent> sne :call <SID>OpenNote('english.md', '##  Voca')<CR>
 nnoremap <silent> snf :call <SID>OpenNote('french.md', '##  Voca')<CR>
 nnoremap <silent> snt :<C-U>execute 'AchieverOpen ' . fnameescape(g:noesis_root . '/Achiever/achiever.md')<CR>
-nnoremap <silent> snh :call <SID>OpenNote('.todos.gpg.md', '')<CR>
-nnoremap <silent> snj :call <SID>OpenNote('journal.gpg.md', '')<CR>
 nnoremap <silent> snn :call <SID>OpenNote('notes.md', '')<CR>
 
 " ## navigation and tags
