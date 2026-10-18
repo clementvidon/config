@@ -33,7 +33,12 @@ for encrypted editing.
 
 ## Search and formatting
 
-File searches use Vim's working directory. Install `fzf` 0.53.0 or newer on
+File searches use Vim's working directory. `sf` opens native `:find` with an
+empty query. Type a filename prefix or a pattern such as `*.md`, then use Tab
+to select a match before pressing Enter. `ssf`, `shf`, and `svf` use the same
+search with forced editing or a split. Use `:lcd %:p:h` to search from the
+current file's directory. `sr` starts fzf and `sR` opens its command line for
+options. Install `fzf` 0.53.0 or newer on
 `PATH` for interactive file search; see the
 [fzf Vim documentation](https://github.com/junegunn/fzf/blob/master/README-VIM.md)
 for available options. `:grep pattern` uses ripgrep (`rg`) and respects project

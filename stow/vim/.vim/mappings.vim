@@ -128,6 +128,11 @@ nnoremap <silent> mso :<C-U>call vim_config#reload()<CR>
 " ## find and edit
 
 nnoremap s <nop>
+" Reminder : '*' does not match '/'; use 'foo/*/bar', not 'foo*bar'
+nnoremap sf  :find<Space>
+nnoremap ssf :find!<Space>
+nnoremap shf :sfind<Space>
+nnoremap svf :vertical sfind<Space>
 
 " The vertical Ex-command prefixes intentionally stay open for Tab completion.
 nnoremap se  :e<Space>

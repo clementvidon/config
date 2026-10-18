@@ -253,8 +253,8 @@ let g:netrw_dirhistmax = 0
 " # FZF
 
 let g:fzf_layout = { 'down': '30%' }
-nnoremap <silent> sf :<C-U>FZF<CR>
-nnoremap sF :<C-U>FZF<Space>
+nnoremap <silent> sr :<C-U>FZF<CR>
+nnoremap sR :<C-U>FZF<Space>
 
 " # PLUGIN DECLARATIONS
 
