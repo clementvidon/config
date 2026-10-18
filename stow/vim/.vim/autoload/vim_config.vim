@@ -26,7 +26,8 @@ function! vim_config#reload() abort
       execute 'setfiletype ' . l:filetype
     endif
     call winrestview(l:view)
-    echom 'Vim configuration reloaded'
+    redraw
+    unsilent echomsg 'Vim configuration reloaded'
   catch
     if !empty(l:filetype) && empty(&l:filetype)
       execute 'setfiletype ' . l:filetype
