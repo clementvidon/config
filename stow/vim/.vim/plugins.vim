@@ -84,6 +84,10 @@ nnoremap <Leader>a? :map <lt>Leader>a<CR>
 
 " # GITGUTTER
 
+if exists(':GitGutterDisable')
+  silent GitGutterDisable
+endif
+let g:gitgutter_enabled = 0
 let g:gitgutter_map_keys = 0
 let g:gitgutter_diff_base = 'HEAD'
 
@@ -108,10 +112,11 @@ function! s:EnableGitGutterBuffer() abort
 endfunction
 
 function! s:InstallGitGutterGuards() abort
+  " Upstream has no pre-enable hook; these overrides enforce sensitive isolation.
   command! -bar GitGutterBufferEnable call <SID>EnableGitGutterBuffer()
-  command! -bar GitGutterBufferToggle if get(b:, 'vim_sensitive_buffer', 0)
-        \ <bar> call <SID>DisableGitGutter()
-        \ <bar> else <bar> call gitgutter#buffer_toggle() <bar> endif
+  command! -bar GitGutterBufferToggle execute gitgutter#utility#getbufvar(
+        \ bufnr(''), 'enabled', g:gitgutter_enabled)
+        \ ? 'GitGutterBufferDisable' : 'GitGutterBufferEnable'
   if get(b:, 'vim_sensitive_buffer', 0)
     call s:DisableGitGutter()
   endif
@@ -140,7 +145,8 @@ augroup personal_integrations
         \ call <SID>ProtectAutomaticIntegrations()
   " This event runs before ALE starts linters, including already queued work.
   autocmd User ALEWantResults call <SID>GuardALEExecution()
-  autocmd User vim-gitgutter call <SID>InstallGitGutterGuards()
+  " Eager plugins load after vimrc; guard commands once GitGutter defines them.
+  autocmd SourcePost */plugin/gitgutter.vim call <SID>InstallGitGutterGuards()
 augroup END
 if get(b:, 'vim_sensitive_buffer', 0)
   call s:DisableALEBuffer()

@@ -90,7 +90,8 @@ resumes it. `<Leader>al` requests an immediate lint when ALE is enabled.
 
 ## Git changes
 
-GitGutter compares buffers with `HEAD`, so signs include both staged and
+GitGutter starts disabled; Space `gt` toggles it for the current buffer.
+It compares buffers with `HEAD`, so signs include both staged and
 unstaged changes without distinguishing them. Its hunk staging and undo
 commands require an index-based diff; use Git directly for those operations.
 Use `:map <Leader>g` to discover Git shortcuts. Line blame shows the last
