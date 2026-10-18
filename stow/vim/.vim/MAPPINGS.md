@@ -21,9 +21,9 @@ optional task capability that composes with either (`noesis.achiever` or
 `markdown.achiever`) and other host filetypes.
 
 Noesis owns note editing under `<LocalLeader>`, with buffer-local bindings.
-Bare `gh` is reserved in these buffers. Generic indentation and reflow
-are blocked, including the personal Space `=` shortcut, to protect note layout.
-Use the explicit note-editing actions instead.
+Bare `gh` is reserved in these buffers. Indentation commands and `gq` are
+blocked to protect note layout; native `gw` remains available for text reflow.
+The personal Space `=` shortcut is also disabled in Noesis buffers.
 
 ## Plugin namespaces
 

@@ -20,6 +20,7 @@ be set with `VIM_GPG_RECIPIENT` in the environment before Vim starts.
 The personal note and task shortcuts use `NOTES_FILE` and `TODOS_FILE`, defaulting
 to `~/notes.md` and `~/todos.md`. Their parent directories must exist. The task
 shortcut activates Achiever after opening the file.
+Set `NOESIS_ROOT` for personal vocabulary files; it defaults to `~/noesis`.
 
 See the [mapping guide](MAPPINGS.md) for the mapping model
 and remapping examples. Namespace help shows available actions.

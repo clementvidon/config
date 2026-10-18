@@ -43,11 +43,9 @@ command! -buffer -nargs=+ Grep call noesis#grep(<q-args>)
 
 " # MAPPINGS
 
-" Keep the personal indentation and formatting mappings out of note buffers.
+" Preserve note layout while leaving native gw reflow available.
 vnoremap <silent><buffer> = <nop>
 nnoremap <silent><buffer> = <nop>
-nnoremap <silent><buffer> <Space>= <Nop>
-xnoremap <silent><buffer> <Space>= <Nop>
 vnoremap <silent><buffer> gq <nop>
 nnoremap <silent><buffer> gq <nop>
 nnoremap <silent><buffer> K <nop>
@@ -65,8 +63,6 @@ if !get(g:, 'noesis_no_mappings', 0)
   nnoremap <buffer> <LocalLeader> <Nop>
   xnoremap <buffer> <LocalLeader> <Nop>
   let b:noesis_default_maps = [["n", ""], ["x", ""], ["n", "?"]]
-  nmap <buffer> <LocalLeader>x <Plug>(noesis-export)
-  call add(b:noesis_default_maps, ["n", "x"])
   nmap <buffer> <LocalLeader>g <Plug>(noesis-index)
   call add(b:noesis_default_maps, ["n", "g"])
   nmap <buffer> <LocalLeader>j <Plug>(noesis-index-jump)
@@ -119,8 +115,6 @@ let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . '|silent! nunmap <buffer> ='
       \ . '|silent! vunmap <buffer> gq'
       \ . '|silent! nunmap <buffer> gq'
-      \ . '|silent! nunmap <buffer> <Space>='
-      \ . '|silent! xunmap <buffer> <Space>='
       \ . '|silent! nunmap <buffer> K'
       \ . '|silent! nunmap <buffer> O'
       \ . '|silent! nunmap <buffer> j'

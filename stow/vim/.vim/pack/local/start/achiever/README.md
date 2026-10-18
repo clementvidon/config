@@ -14,7 +14,7 @@ and other host filetypes when enabled manually.
 Tasks are log records that stay on one logical line. While enabled, Achiever
 disables automatic hard wrapping and visual wrapping for the whole buffer,
 including prose. It leaves indentation and comment conventions to the host
-filetype. Noesis additionally blocks generic indentation and reflow commands.
+filetype. See [Noesis](../noesis/README.md) for note-editing conventions.
 
 ## Task format
 

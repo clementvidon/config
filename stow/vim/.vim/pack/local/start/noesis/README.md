@@ -1,9 +1,9 @@
 # Noesis
 
-A personal Markdown note environment: editing, navigation, search, HTML export,
-and translation. Markdown is the file format; Noesis supplies the workspace
-behavior. By default, `.md` files beneath a directory named `noesis` activate
-its filetype; the directory name is case-insensitive. Other Markdown files
+A Markdown note environment for editing, navigation, and search. Markdown is
+the file format; Noesis supplies the workspace behavior. By default, `.md`
+files beneath a directory named `noesis` activate its filetype; the directory
+name is case-insensitive. Other Markdown files
 remain ordinary `markdown`.
 
 ## Configuration
@@ -18,14 +18,6 @@ The option defaults to `0` in the plugin; this repository enables it.
 Search and note-link navigation use the nearest enclosing directory named
 `noesis`, case-insensitively. Outside such a directory, workspace search is
 unavailable, even when Noesis editing is enabled.
-
-Personal vocabulary shortcuts use `g:noesis_root`, independently of the current
-buffer. It defaults to `~/noesis`; set `NOESIS_ROOT` in the shell or configure it
-before plugins load:
-
-```vim
-let g:noesis_root = expand('~/notes')
-```
 
 ## Usage
 
@@ -42,14 +34,8 @@ Refresh the index after adding, removing, renaming, or reordering headings. If
 no indexed headings remain, refreshing removes the existing index.
 
 `:Grep pattern` searches unencrypted `.md` files under the current note's
-enclosing `noesis` directory
-using ripgrep (`rg`). Achiever can add task editing through the
-`noesis.achiever` filetype; use `:AchieverEnable` to activate it explicitly.
-
-`<LocalLeader>x` exports the current note to HTML. Optional
-`g:noesis_export_author`, `g:noesis_export_copyright`, and
-`g:noesis_export_footer` customize the output; the footer accepts HTML.
-Export is disabled for sensitive buffers.
+enclosing `noesis` directory using ripgrep (`rg`). Achiever can add task editing
+through the `noesis.achiever` filetype; use `:AchieverEnable` to activate it explicitly.
 
 ## Mapping API
 

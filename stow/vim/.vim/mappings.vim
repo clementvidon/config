@@ -142,9 +142,11 @@ nnoremap sb :ls<CR>:b<Space>
 
 " ## personal notes
 
+let g:vim_vocabulary_root = empty($NOESIS_ROOT) ? expand('~/noesis') : expand($NOESIS_ROOT)
+
 nnoremap <silent> sn  <nop>
-nnoremap <silent> sne :call <SID>OpenNote(g:noesis_root . '/english.md', '##  Voca')<CR>
-nnoremap <silent> snf :call <SID>OpenNote(g:noesis_root . '/french.md', '##  Voca')<CR>
+nnoremap <silent> sne :call <SID>OpenNote(g:vim_vocabulary_root . '/english.md', '##  Voca')<CR>
+nnoremap <silent> snf :call <SID>OpenNote(g:vim_vocabulary_root . '/french.md', '##  Voca')<CR>
 nnoremap <silent> snt :<C-U>execute 'AchieverOpen ' . fnameescape(empty($TODOS_FILE) ? expand('~/todos.md') : $TODOS_FILE)<CR>
 nnoremap <silent> snn :call <SID>OpenNote(empty($NOTES_FILE) ? expand('~/notes.md') : $NOTES_FILE, '')<CR>
 

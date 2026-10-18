@@ -1,23 +1,12 @@
-" Noesis workspace defaults, commands and public mapping API.
-
-" # BOOTSTRAP AND ROOT
+" Noesis public mapping API.
 
 if exists('g:loaded_noesis')
   finish
 endif
 let g:loaded_noesis = 1
 
-if !exists('g:noesis_root')
-  let g:noesis_root = empty($NOESIS_ROOT)
-        \ ? expand('~/noesis')
-        \ : expand($NOESIS_ROOT)
-endif
-
-" # COMMANDS
-
 " # MAPPING API
 
-nnoremap <silent> <Plug>(noesis-export) :<C-U>call noesis#export_html()<CR>
 nnoremap <silent> <Plug>(noesis-index) :<C-U>call noesis#index()<CR>
 nnoremap <silent> <Plug>(noesis-index-jump) :<C-U>call noesis#index_jump()<CR>
 nnoremap <silent> <Plug>(noesis-heading-1) :<C-U>call noesis#heading(1)<CR>
