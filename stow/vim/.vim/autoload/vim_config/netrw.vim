@@ -1,4 +1,6 @@
-" Netrw tree actions that keep the editing pane and selected path in sync.
+" Preview files from Netrw while keeping focus in the tree.
+
+let s:usage_file = expand('<sfile>:p:h:h:h') . '/usage/netrw.txt'
 
 function! s:SelectedDirectory() abort
   if get(w:, 'netrw_liststyle', 0) != 3
@@ -48,16 +50,14 @@ function! vim_config#netrw#open_without_jump(islocal) abort
     let l:target = win_getid()
     call win_gotoid(l:tree)
   endif
-  let g:netrw_chgwin = win_id2win(l:target)
   call win_execute(l:target, 'edit ' . fnameescape(l:path))
 endfunction
 
-function! vim_config#netrw#delete(islocal) abort
-  if !a:islocal || get(w:, 'netrw_liststyle', 0) != 3
-    execute "normal \<Del>"
+function! vim_config#netrw#show_usage(...) abort
+  if !filereadable(s:usage_file)
+    echoerr 'Netrw usage file is unavailable'
     return
   endif
 
-  " Netrw's D mapping captures the last expanded directory, not this tree row.
-  call netrw#Call('NetrwLocalRm', s:SelectedDirectory())
+  call vim_config#popup#show(readfile(s:usage_file))
 endfunction

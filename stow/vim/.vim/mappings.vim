@@ -191,14 +191,15 @@ nnoremap <silent> gllm :<C-U>call vim_config#llm#menu()<CR>
 
 " # INTERFACE
 
+" ## file tree
+
+nnoremap <silent> <Leader>t :<C-U>Lexplore<CR>:echomsg 'Tree: ' . (exists('t:netrw_lexbufnr') && bufwinnr(t:netrw_lexbufnr) > 0 ? 'enabled' : 'disabled')<CR>
+nnoremap <Leader>T :Lexplore<Space>
+
 " ## clipboard
 
 nnoremap <silent> <Leader>y :call vim_config#clipboard#copy()<CR>
 nnoremap <silent> <Leader>p :call vim_config#clipboard#paste()<CR>
-
-" ## file tree
-
-nnoremap <silent> <Leader>t :<C-U>Lexplore<CR>
 
 " ## windows and splits
 

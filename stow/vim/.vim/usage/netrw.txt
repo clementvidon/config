@@ -1,0 +1,19 @@
+Space t             Toggle left TREE at :pwd
+Space T             Type DIRECTORY for :Lexplore
+?                   Show this USAGE note
+
+p / Return          PREVIEW / JUMP
+- / gn              PARENT directory / Change ROOT tree
+:Lexplore <dir>     Switch tree to typed directory
+Ctrl-l              REFRESH tree
+I / i               Toggle BANNER / cycle LISTING styles
+R / D               RENAME or move / DELETE (check target path)
+d / %               CREATE directory / file
+gh / a              Toggle HIDDEN / cycle file FILTERS
+s / r               Change SORT criterion / REVERSE order
+qf                  Show file INFO
+mf / mF             MARK or unmark file / CLEAR marks in current netrw buffer
+mt / mf / mc / mm   Set destination → mark files → COPY / MOVE
+:MT <dir>           Set COPY/MOVE destination to <dir>
+md / mg             DIFF 2-3 marked files / SEARCH marked files
+v / o / t           Open in VERTICAL split / HORIZONTAL / new TAB
