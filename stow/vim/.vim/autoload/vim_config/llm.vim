@@ -65,45 +65,28 @@ function! s:Ask(prompt) abort
 endfunction
 
 function! vim_config#llm#menu() abort
-  let l:choice = vim_config#popup#show([
-        \ 'LLM text (Esc cancels)',
-        \ '1. Refine',
-        \ '2. To English',
-        \ '3. To French',
-        \ '4. Synonyms',
-        \ '5. Antonyms',
-        \ '6. Lexical field',
-        \ '7. Equivalents',
-        \ '0. Other',
-        \ ])
-  if l:choice ==# '0'
-    let l:prompt = input('Prompt: ')
-    if !empty(trim(l:prompt))
-      call s:Ask(l:prompt)
-    endif
-    return
-  endif
-  if l:choice !~# '^[1-7]$'
+  let l:actions = [
+        \ ['Other', function('s:Ask')],
+        \ ['Refine', function('s:Refine')],
+        \ ['To English', function('s:ToEnglish')],
+        \ ['To French', function('s:ToFrench')],
+        \ ['Synonyms', function('s:Synonyms')],
+        \ ['Antonyms', function('s:Antonyms')],
+        \ ['Lexical field', function('s:LexicalField')],
+        \ ['Equivalents', function('s:Equivalents')],
+        \ ]
+  let l:menu = ['LLM text (Esc cancels)']
+  for l:index in range(1, len(l:actions) - 1) + [0]
+    call add(l:menu, printf('%d. %s', l:index, l:actions[l:index][0]))
+  endfor
+  let l:choice = vim_config#popup#show(l:menu)
+  if l:choice !~# '^\d$' || str2nr(l:choice) >= len(l:actions)
     return
   endif
 
-  let l:text = input('Text: ')
+  let l:text = input(l:choice ==# '0' ? 'Prompt: ' : 'Text: ')
   if empty(trim(l:text))
     return
   endif
-  if l:choice ==# '1'
-    call s:Refine(l:text)
-  elseif l:choice ==# '2'
-    call s:ToEnglish(l:text)
-  elseif l:choice ==# '3'
-    call s:ToFrench(l:text)
-  elseif l:choice ==# '4'
-    call s:Synonyms(l:text)
-  elseif l:choice ==# '5'
-    call s:Antonyms(l:text)
-  elseif l:choice ==# '6'
-    call s:LexicalField(l:text)
-  elseif l:choice ==# '7'
-    call s:Equivalents(l:text)
-  endif
+  call call(l:actions[str2nr(l:choice)][1], [l:text])
 endfunction
