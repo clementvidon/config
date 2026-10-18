@@ -61,10 +61,10 @@ vnoremap <buffer><silent><expr> k v:count ? 'k' : 'gk'
 
 let b:noesis_default_maps = []
 if !get(g:, 'noesis_no_mappings', 0)
-  nnoremap <buffer> <LocalLeader>h :map <lt>LocalLeader><CR>
+  nnoremap <buffer> <LocalLeader>? :map <lt>LocalLeader><CR>
   nnoremap <buffer> <LocalLeader> <Nop>
   xnoremap <buffer> <LocalLeader> <Nop>
-  let b:noesis_default_maps = [["n", ""], ["x", ""], ["n", "h"]]
+  let b:noesis_default_maps = [["n", ""], ["x", ""], ["n", "?"]]
   nmap <buffer> <LocalLeader>x <Plug>(noesis-export)
   call add(b:noesis_default_maps, ["n", "x"])
   nmap <buffer> <LocalLeader>g <Plug>(noesis-index)

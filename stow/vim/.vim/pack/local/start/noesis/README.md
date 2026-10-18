@@ -30,7 +30,7 @@ let g:noesis_root = expand('~/notes')
 ## Usage
 
 Follow the [file conventions](CONVENTIONS.md) for headings, spacing, and index
-layout. Use `ghh` to discover note-editing bindings. Vim's native `gw` operator
+layout. Use `gh?` to discover note-editing bindings. Vim's native `gw` operator
 reflows text while preserving list indentation. Formatting actions add markup
 rather than toggling it; inline formatting applies within one paragraph and
 does not support rectangular selections.

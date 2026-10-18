@@ -155,7 +155,7 @@ nnoremap <Leader>ad :ALEDetail<CR>
 nnoremap <Leader>ai :ALEInfo<CR>
 nnoremap <silent> <Leader>at :ALEToggle<CR>:echomsg 'ALE: ' . (g:ale_enabled ? 'enabled' : 'disabled')<CR>
 
-nnoremap <Leader>ah :map <lt>Leader>a<CR>
+nnoremap <Leader>a? :map <lt>Leader>a<CR>
 
 " # GITGUTTER
 
@@ -200,7 +200,7 @@ nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 nnoremap <silent> <Leader>gt :GitGutterBufferToggle<CR>:echomsg 'GitGutter: ' . (gitgutter#utility#getbufvar(bufnr(''), 'enabled', g:gitgutter_enabled) ? 'enabled' : 'disabled')<CR>
 nnoremap <Leader>gd :GitGutterDiffOrig<CR>
 
-nnoremap <Leader>gh :map <lt>Leader>g<CR>
+nnoremap <Leader>g? :map <lt>Leader>g<CR>
 
 " # SHARED INTEGRATION HOOKS
 

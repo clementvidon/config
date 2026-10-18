@@ -28,8 +28,8 @@ Use the explicit note-editing actions instead.
 ## Plugin namespaces
 
 Keep plugin mappings with their integration; personal actions can share a
-namespace when they serve the same purpose. Within a namespace, `h` opens
-help where available, `t` is the main toggle, and `j/k` navigate ordered
+namespace when they serve the same purpose. Within a namespace, `?` displays
+help or available bindings, `t` is the main toggle, and `j/k` navigate ordered
 items. These are conventions, not a stable API. Inspect the current bindings:
 
 ```vim
