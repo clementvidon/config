@@ -23,6 +23,7 @@ shortcut activates Achiever after opening the file.
 
 See the [mapping guide](MAPPINGS.md) for the mapping model
 and remapping examples. Namespace help lists the current bindings.
+Wrapping is off by default; `glwr` toggles it in the current window.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
 provides the note environment for Markdown beneath a directory named `noesis`

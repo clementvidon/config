@@ -193,6 +193,7 @@ vnoremap <silent> glss :<C-U>call vim_config#search#static_selection()<CR>
 nnoremap glst :set startofline!<CR>:set startofline?<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
 nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
+nnoremap glwr :setlocal wrap!<CR>:setlocal wrap?<CR>
 
 " # INTERFACE
 

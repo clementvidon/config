@@ -24,7 +24,7 @@ endif
 unlet s:root
 setlocal foldmethod=marker
 setlocal foldmarker={{{,}}}
-setlocal wrap linebreak breakindent
+setlocal linebreak breakindent
 setlocal expandtab
 setlocal shiftwidth=2
 setlocal softtabstop=2
@@ -120,7 +120,7 @@ endif
 let b:undo_ftplugin = get(b:, 'undo_ftplugin', '')
       \ . (!empty(get(b:, 'undo_ftplugin', '')) ? '|' : '')
       \ . 'setlocal suffixesadd< commentstring< path< foldmethod< foldmarker<'
-      \ . ' wrap< linebreak< breakindent< expandtab< shiftwidth< softtabstop<'
+      \ . ' linebreak< breakindent< expandtab< shiftwidth< softtabstop<'
       \ . ' tabstop< textwidth< formatoptions< formatlistpat<'
       \ . ' conceallevel< concealcursor<'
       \ . '|silent! delcommand -buffer Grep'
