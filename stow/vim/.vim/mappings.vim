@@ -173,6 +173,7 @@ nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
 nnoremap glcd :cd %:h<CR>
 nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
 nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
+nnoremap <silent> glgb :<C-U>call vim_config#git#blame_line()<CR>
 nnoremap glhl :set hls!<CR>:set hls?<CR>
 nnoremap gllc :lc %:h<CR>
 nnoremap glli :set list!<CR>:set list?<CR>

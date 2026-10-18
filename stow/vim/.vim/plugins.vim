@@ -158,15 +158,18 @@ nnoremap <Leader>ah :map <lt>Leader>a<CR>
 
 " # GITGUTTER
 
-" Keep GitGutter inactive until explicitly enabled.
-let g:gitgutter_enabled = 0
 let g:gitgutter_map_keys = 0
+let g:gitgutter_diff_base = 'HEAD'
 
 " ## GITGUTTER / buffer guards
 
 function! s:DisableGitGutter() abort
   if exists('*gitgutter#buffer_disable')
     call gitgutter#buffer_disable()
+  else
+    " Sensitive buffers can be marked before GitGutter finishes loading.
+    let b:gitgutter = get(b:, 'gitgutter', {})
+    let b:gitgutter.enabled = 0
   endif
 endfunction
 
@@ -178,22 +181,11 @@ function! s:EnableGitGutterBuffer() abort
   call gitgutter#buffer_enable()
 endfunction
 
-function! s:ToggleGitGutterBuffer() abort
-  if get(b:, 'vim_sensitive_buffer', 0)
-    call s:DisableGitGutter()
-    return
-  endif
-  " The upstream toggle assumes an uninitialized buffer is enabled.
-  if gitgutter#utility#getbufvar(bufnr(''), 'enabled', g:gitgutter_enabled)
-    call gitgutter#buffer_disable()
-  else
-    call gitgutter#buffer_enable()
-  endif
-endfunction
-
 function! s:InstallGitGutterGuards() abort
   command! -bar GitGutterBufferEnable call <SID>EnableGitGutterBuffer()
-  command! -bar GitGutterBufferToggle call <SID>ToggleGitGutterBuffer()
+  command! -bar GitGutterBufferToggle if get(b:, 'vim_sensitive_buffer', 0)
+        \ <bar> call <SID>DisableGitGutter()
+        \ <bar> else <bar> call gitgutter#buffer_toggle() <bar> endif
   if get(b:, 'vim_sensitive_buffer', 0)
     call s:DisableGitGutter()
   endif
@@ -203,12 +195,8 @@ endfunction
 
 nmap <Leader>gk <Plug>(GitGutterPrevHunk)
 nmap <Leader>gj <Plug>(GitGutterNextHunk)
-nmap <Leader>gs <Plug>(GitGutterStageHunk)
-xmap <Leader>gs <Plug>(GitGutterStageHunk)
-nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
-nnoremap <Leader>gt :GitGutterBufferToggle<CR>
-nnoremap <Leader>gq :GitGutterQuickFix<CR>
+nnoremap <silent> <Leader>gt :GitGutterBufferToggle<CR>:echomsg 'GitGutter: ' . (gitgutter#utility#getbufvar(bufnr(''), 'enabled', g:gitgutter_enabled) ? 'enabled' : 'disabled')<CR>
 nnoremap <Leader>gd :GitGutterDiffOrig<CR>
 
 nnoremap <Leader>gh :map <lt>Leader>g<CR>
@@ -278,17 +266,7 @@ Plug 'dense-analysis/ale', {
       \ 'on': ['ALELint', 'ALEFix', 'ALEInfo', 'ALEToggle', 'ALEDetail',
       \        'ALENext', 'ALEPrevious']
       \ }
-Plug 'airblade/vim-gitgutter', {
-      \ 'commit': '90b75207bd9b55d8ac4af15f72b4e935462014d0',
-      \ 'on': [
-      \   'GitGutterBufferEnable', 'GitGutterBufferDisable',
-      \   'GitGutterBufferToggle', 'GitGutterNextHunk', 'GitGutterPrevHunk',
-      \   'GitGutterQuickFix', 'GitGutterDiffOrig', 'GitGutterUndoHunk',
-      \   '<Plug>(GitGutterNextHunk)', '<Plug>(GitGutterPrevHunk)',
-      \   '<Plug>(GitGutterStageHunk)', '<Plug>(GitGutterUndoHunk)',
-      \   '<Plug>(GitGutterPreviewHunk)'
-      \ ]
-      \ }
+Plug 'airblade/vim-gitgutter', { 'commit': '90b75207bd9b55d8ac4af15f72b4e935462014d0' }
 call plug#end()
 
 " Re-sourcing after GitGutter was loaded must retain the guarded commands.

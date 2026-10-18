@@ -70,7 +70,14 @@ the server once active. `:ALEDisableBuffer` suspends ALE in the current buffer;
 `:ALEEnableBuffer` resumes it. `<Leader>al` runs `:ALELint` immediately; normal
 linting already runs on file open and save.
 
-Sensitive buffers refuse GitGutter activation.
+## Git changes
+
+GitGutter compares buffers with `HEAD`, so signs include both staged and
+unstaged changes without distinguishing them. Its hunk staging and undo
+commands require an index-based diff; use Git directly for those operations.
+Use `:map <Leader>g` to discover Git shortcuts. Line blame shows the last
+commit's author, date, title, and abbreviated hash; uncommitted lines have no
+committed attribution.
 
 ## LLM text actions
 
@@ -104,7 +111,8 @@ State lives under `$XDG_STATE_HOME/vim` (default `~/.local/state/vim`), and
 plugin downloads under `$XDG_DATA_HOME/vim` (default `~/.local/share/vim`).
 Persistent undo requires a writable `undo` directory with mode `0700`;
 otherwise it is disabled until the directory is fixed and Vim is reloaded.
-Sensitive buffers are excluded from persistent undo and automatic integrations.
+Sensitive buffers are excluded from persistent undo, GitGutter, and automatic
+integrations.
 Queued ALE linting is refused if its target buffer has become sensitive, even
 when another buffer is current.
 
