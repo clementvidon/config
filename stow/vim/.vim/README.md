@@ -41,7 +41,11 @@ current file's directory. `sr` starts fzf and `sR` opens its command line for
 options. Install `fzf` 0.53.0 or newer on
 `PATH` for interactive file search; see the
 [fzf Vim documentation](https://github.com/junegunn/fzf/blob/master/README-VIM.md)
-for available options. `:grep pattern` uses ripgrep (`rg`) and respects project
+for available options. Space `t` toggles a left-side file tree rooted at
+`:pwd`. In the tree, Enter opens a file for editing; `p` reuses the same
+editing pane while keeping the cursor in the tree. On a directory, both
+expand or collapse it.
+`:grep pattern` uses ripgrep (`rg`) and respects project
 ignore files. Optional project tags can be generated with `ctags -R .`.
 
 Install `ansible-doc` on `PATH` for documentation in YAML files. `K` looks up

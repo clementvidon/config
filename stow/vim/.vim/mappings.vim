@@ -196,6 +196,15 @@ nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set vi
 
 " # INTERFACE
 
+" ## clipboard
+
+nnoremap <silent> <Leader>y :call vim_config#clipboard#copy()<CR>
+nnoremap <silent> <Leader>p :call vim_config#clipboard#paste()<CR>
+
+" ## file tree
+
+nnoremap <silent> <Leader>t :<C-U>Lexplore<CR>
+
 " ## windows and splits
 
 nnoremap <Leader>w <C-W>
@@ -231,11 +240,6 @@ nnoremap 1s 1z=
 inoremap <c-q> <c-g>u<esc>[s1z=`]a<c-g>u
 
 nnoremap <silent> <Space>= :call <SID>IndentBuffer()<CR>
-
-" ## clipboard
-
-nnoremap <silent> <Leader>y :call vim_config#clipboard#copy()<CR>
-nnoremap <silent> <Leader>p :call vim_config#clipboard#paste()<CR>
 
 " ## guard rails
 
