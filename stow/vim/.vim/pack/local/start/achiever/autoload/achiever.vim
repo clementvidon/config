@@ -202,6 +202,7 @@ function! achiever#task_detail_toggle_view() abort
       if len(l:parts) > 1
         call append(l:lnum, map(l:parts[2:], {_, val -> '  -- ' . val}))
       endif
+      echomsg 'Task details: expanded'
     else
       let l:next_lines = []
       let l:current_lnum = l:lnum + 1
@@ -222,6 +223,7 @@ function! achiever#task_detail_toggle_view() abort
       if !empty(l:next_lines)
         let l:joined = ' -- ' . join(l:next_lines, ' -- ')
         call setline(l:lnum, l:current_line . l:joined)
+        echomsg 'Task details: collapsed'
       endif
     endif
   endif

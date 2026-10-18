@@ -71,7 +71,7 @@ function! s:WriteAsRoot() abort
   edit!
 endfunction
 
-function! s:ToggleColorscheme() abort
+function! s:CycleColorscheme() abort
   if get(g:, 'colors_name', '') ==# 'nord'
     let g:seoul256_light_background = 256
     colorscheme seoul256-light
@@ -85,6 +85,7 @@ function! s:ToggleColorscheme() abort
   else
     colorscheme nord
   endif
+  echomsg 'Colorscheme: ' . get(g:, 'colors_name', 'unknown')
 endfunction
 
 function! s:OpenNote(path, pattern) abort
@@ -169,25 +170,25 @@ vnoremap <silent> sg :<C-U>call vim_config#search#grep_prompt(1)<CR>
 " # OPTIONS AND COMMANDS
 
 nnoremap gl <nop>
-nnoremap glcc :set cursorcolumn!<CR>:set cursorcolumn?<CR>
+nnoremap <silent> glcc :set cursorcolumn!<CR>:echomsg 'cursorcolumn: ' . (&cursorcolumn ? 'enabled' : 'disabled')<CR>
 nnoremap glcd :cd %:h<CR>
-nnoremap <silent> glco :call <SID>ToggleColorscheme()<CR>
-nnoremap glcl :set cursorline!<CR>:set cursorline?<CR>
+nnoremap <silent> glco :call <SID>CycleColorscheme()<CR>
+nnoremap <silent> glcl :set cursorline!<CR>:echomsg 'cursorline: ' . (&cursorline ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glgb :<C-U>call vim_config#git#blame_line()<CR>
-nnoremap glhl :set hls!<CR>:set hls?<CR>
+nnoremap <silent> glhl :set hls!<CR>:echomsg 'hlsearch: ' . (&hlsearch ? 'enabled' : 'disabled')<CR>
 nnoremap gllc :lc %:h<CR>
-nnoremap glli :set list!<CR>:set list?<CR>
-nnoremap glnu :set relativenumber!<CR>:set relativenumber?<CR>
+nnoremap <silent> glli :set list!<CR>:echomsg 'list: ' . (&list ? 'enabled' : 'disabled')<CR>
+nnoremap <silent> glnu :set relativenumber!<CR>:echomsg 'relativenumber: ' . (&relativenumber ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glpd :<C-U>call <SID>PutDate()<CR>
-nnoremap glsb :set scrollbind!<CR>:set scrollbind?<CR>
-nnoremap glsc :exec ':set scrolloff=' . 999*(&scrolloff == 0)<CR>
-nnoremap glsp :set spell!<CR>:set spell?<CR>
+nnoremap <silent> glsb :set scrollbind!<CR>:echomsg 'scrollbind: ' . (&scrollbind ? 'enabled' : 'disabled')<CR>
+nnoremap <silent> glsc :let &scrolloff = &scrolloff == 0 ? 999 : 0<CR>:echomsg 'scrolloff: ' . (&scrolloff ? 'enabled' : 'disabled')<CR>
+nnoremap <silent> glsp :set spell!<CR>:echomsg 'spell: ' . (&spell ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glss :call vim_config#search#static_prompt()<CR>
 vnoremap <silent> glss :<C-U>call vim_config#search#static_selection()<CR>
-nnoremap glst :set startofline!<CR>:set startofline?<CR>
+nnoremap <silent> glst :set startofline!<CR>:echomsg 'startofline: ' . (&startofline ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
-nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
-nnoremap glwr :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap <silent> glve :let &l:virtualedit = &l:virtualedit ==# 'all' ? '' : 'all'<CR>:echomsg 'virtualedit: ' . (&l:virtualedit ==# 'all' ? 'enabled' : 'disabled')<CR>
+nnoremap <silent> glwr :setlocal wrap!<CR>:echomsg 'wrap: ' . (&wrap ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> gllm :<C-U>call vim_config#llm#menu()<CR>
 
 " # INTERFACE

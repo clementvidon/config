@@ -153,7 +153,7 @@ nnoremap <Leader>aj :ALENext<CR>
 nnoremap <Leader>ak :ALEPrevious<CR>
 nnoremap <Leader>ad :ALEDetail<CR>
 nnoremap <Leader>ai :ALEInfo<CR>
-nnoremap <Leader>at :ALEToggle<CR>
+nnoremap <silent> <Leader>at :ALEToggle<CR>:echomsg 'ALE: ' . (g:ale_enabled ? 'enabled' : 'disabled')<CR>
 
 nnoremap <Leader>ah :map <lt>Leader>a<CR>
 
