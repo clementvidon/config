@@ -25,29 +25,15 @@ Bare `gh` is reserved in these buffers. Generic indentation and reflow
 are blocked, including the personal Space `=` shortcut, to protect note layout.
 Use the explicit note-editing actions instead.
 
-## Autonomous plugins
+## Plugin namespaces
 
-| Namespace | Integration |
-| --- | --- |
-| Space `a` | ALE |
-| Space `h` | Achiever |
-| Space `g` | GitGutter |
-| Space `e` | GPG |
-
-Within a namespace, `h` opens help (currently its mapping list), `t` is the main
-toggle, and `j/k` mean next/previous when ordered navigation exists. Other letters
-belong to the feature's vocabulary: ALE `ai` means info, Noesis `ghi` means
-italic, and Achiever `hk` checks a task.
-
-Space `ah`, `hh`, `gh`, and `eh` are default plugin help bindings; `ghh` is the
-Noesis default. These shortcuts are ergonomic defaults, not a stable API.
-To inspect the exact current bindings directly:
+Keep plugin mappings with their integration; personal actions can share a
+namespace when they serve the same purpose. Within a namespace, `h` opens
+help where available, `t` is the main toggle, and `j/k` navigate ordered
+items. These are conventions, not a stable API. Inspect the current bindings:
 
 ```vim
-:map <Leader>a
-:map <Leader>h
-:map <Leader>g
-:map <Leader>e
+:map <Leader>
 :map <LocalLeader>
 ```
 

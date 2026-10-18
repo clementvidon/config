@@ -22,7 +22,7 @@ to `~/notes.md` and `~/todos.md`. Their parent directories must exist. The task
 shortcut activates Achiever after opening the file.
 
 See the [mapping guide](MAPPINGS.md) for the mapping model
-and remapping examples. Namespace help lists the current bindings.
+and remapping examples. Namespace help shows available actions.
 Wrapping is off by default; `glwr` toggles it in the current window.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
@@ -47,6 +47,8 @@ for available options. Press `?` in netrw for
 
 `:grep pattern` uses ripgrep (`rg`) and respects project ignore files. Optional
 project tags can be generated with `ctags -R .`.
+
+## Language tools
 
 Install `ansible-doc` on `PATH` for documentation in YAML files. `K` looks up
 the keyword under the cursor; `gK` looks up a module, including its full
