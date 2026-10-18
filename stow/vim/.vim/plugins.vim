@@ -12,6 +12,7 @@ let g:vim_gpg_recipient = empty($VIM_GPG_RECIPIENT)
 " # ALE
 
 let g:ale_enabled = 1
+let g:ale_virtualtext_cursor = 'disabled'
 if exists(':ALEStopAllLSPs')
   silent ALEStopAllLSPs
 endif
