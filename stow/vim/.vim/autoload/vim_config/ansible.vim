@@ -17,7 +17,8 @@ function! vim_config#ansible#keyword(keyword) abort
 
   let l:doc = system('ansible-doc -t keyword ' . shellescape(a:keyword) . ' 2>/dev/null')
   if !empty(trim(l:doc))
-    echo l:doc
+    call vim_config#scratch#show('ansible-doc: ' . a:keyword,
+          \ split(l:doc, "\n"))
   endif
 endfunction
 
@@ -28,6 +29,7 @@ function! vim_config#ansible#module(name) abort
 
   let l:doc = system('ansible-doc -t module ' . shellescape(a:name) . ' 2>/dev/null')
   if !empty(trim(l:doc))
-    echo l:doc
+    call vim_config#scratch#show('ansible-doc: ' . a:name,
+          \ split(l:doc, "\n"))
   endif
 endfunction

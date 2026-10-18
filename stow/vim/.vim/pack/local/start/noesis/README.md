@@ -51,11 +51,6 @@ using ripgrep (`rg`). Achiever can add task editing through the
 `g:noesis_export_footer` customize the output; the footer accepts HTML.
 Export is disabled for sensitive buffers.
 
-`:Fr text`, `:En text`, and `:Sy text` translate or find synonyms through
-`llm-text` from the scripts package. These commands require a configured `llm`
-provider for the model selected in `llm-text`, and send the supplied text to
-that provider when invoked.
-
 ## Mapping API
 
 Set `g:noesis_no_mappings = 1` before opening notes to disable default `gh`

@@ -1,43 +1,5 @@
 " Note operations; no dependency on the surrounding personal configuration.
 
-" # LANGUAGE TOOLS
-
-function! noesis#text_from_cursor() abort
-  return strpart(getline('.'), col('.') - 1)
-endfunction
-
-function! noesis#visual_text() abort
-  let l:unnamed = getreginfo('"')
-  let l:yank = getreginfo('0')
-  try
-    silent normal! gvy
-    return getreg('"')
-  finally
-    call setreg('0', l:yank)
-    call setreg('"', l:unnamed)
-  endtry
-endfunction
-
-function! s:RunTextTool(action, text) abort
-  if !executable('llm-text')
-    throw 'Noesis: llm-text is not installed'
-  endif
-  let l:command = shellescape(exepath('llm-text')) . ' ' . shellescape(a:action)
-  let l:output = systemlist(l:command, a:text)
-  if v:shell_error
-    throw 'Noesis: llm-text failed'
-  endif
-  return l:output
-endfunction
-
-function! noesis#translate(action, text) abort
-  call append(line('.'), s:RunTextTool(a:action, a:text))
-endfunction
-
-function! noesis#synonym(text) abort
-  echo join(s:RunTextTool('syn', a:text), "\n")
-endfunction
-
 " # HTML EXPORT
 
 function! noesis#export_html() abort

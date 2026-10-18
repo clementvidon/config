@@ -1,4 +1,4 @@
-" Noesis workspace defaults, language commands and public mapping API.
+" Noesis workspace defaults, commands and public mapping API.
 
 " # BOOTSTRAP AND ROOT
 
@@ -15,22 +15,11 @@ endif
 
 " # COMMANDS
 
-" These commands deliberately do not accept | as a command separator: note
-" text must remain data even when it contains Ex metacharacters.
-command! -nargs=+ Fr call noesis#translate('tof', <q-args>)
-command! -nargs=+ En call noesis#translate('toe', <q-args>)
-command! -nargs=+ Sy call noesis#synonym(<q-args>)
-
 " # MAPPING API
 
 nnoremap <silent> <Plug>(noesis-export) :<C-U>call noesis#export_html()<CR>
 nnoremap <silent> <Plug>(noesis-index) :<C-U>call noesis#index()<CR>
 nnoremap <silent> <Plug>(noesis-index-jump) :<C-U>call noesis#index_jump()<CR>
-nnoremap <silent> <Plug>(noesis-translate-en) :<C-U>call noesis#translate('toe', noesis#text_from_cursor())<CR>
-xnoremap <silent> <Plug>(noesis-translate-en) :<C-U>call noesis#translate('toe', noesis#visual_text())<CR>
-nnoremap <silent> <Plug>(noesis-translate-fr) :<C-U>call noesis#translate('tof', noesis#text_from_cursor())<CR>
-xnoremap <silent> <Plug>(noesis-translate-fr) :<C-U>call noesis#translate('tof', noesis#visual_text())<CR>
-xnoremap <silent> <Plug>(noesis-synonym) :<C-U>call noesis#synonym(noesis#visual_text())<CR>
 nnoremap <silent> <Plug>(noesis-heading-1) :<C-U>call noesis#heading(1)<CR>
 nnoremap <silent> <Plug>(noesis-heading-2) :<C-U>call noesis#underline()<CR>
 nnoremap <silent> <Plug>(noesis-heading-3) :<C-U>call noesis#heading(3)<CR>

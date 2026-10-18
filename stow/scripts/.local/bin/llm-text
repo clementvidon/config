@@ -39,10 +39,13 @@ def fail(message):
 
 def parse(arguments):
     if not arguments or arguments[0] in {"-h", "--help"}:
-        print("Usage: llm-text ref|toe|tof|syn|ant|lex|equ [-N] [TEXT ...]")
+        print("Usage: llm-text ref|toe|tof|ask [TEXT ...]")
+        print("       llm-text syn|ant|lex|equ [-N] [TEXT ...]")
         raise SystemExit(0 if arguments else 2)
 
     action = arguments.pop(0)
+    if action == "ask":
+        return action, None, arguments
     if action in PROMPTS:
         return action, PROMPTS[action], arguments
     if action not in WORD_KINDS:
@@ -75,17 +78,12 @@ def main():
     if executable is None:
         return fail("llm is not installed or is not on PATH")
 
+    command = [executable, "-m", MODEL, "-o", "reasoning_effort", "none"]
+    if prompt is not None:
+        command.extend(["-s", prompt])
+
     result = subprocess.run(
-        [
-            executable,
-            "-m",
-            MODEL,
-            "-o",
-            "reasoning_effort",
-            "none",
-            "-s",
-            prompt,
-        ],
+        command,
         input=text,
         text=True,
         check=False,

@@ -49,15 +49,8 @@ function! s:PutDate() abort
   for l:index in range(len(l:dates))
     call add(l:menu, printf('%d. %s', l:index + 1, l:dates[l:index]))
   endfor
-  try
-    redraw
-    echo join(l:menu, "\n")
-    " Consume the next key directly so glpd1 works without an Enter key.
-    let l:choice = getcharstr()
-  finally
-    redraw
-    echo ''
-  endtry
+  " Consume the next key directly so glpd1 works without an Enter key.
+  let l:choice = vim_config#popup#show(l:menu)
   if l:choice =~# '^[1-4]$'
     call append(line('.'), l:dates[str2nr(l:choice) - 1])
     call cursor(line('.') + 1, 1)
@@ -194,6 +187,7 @@ nnoremap glst :set startofline!<CR>:set startofline?<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
 nnoremap glve :let &virtualedit = &virtualedit ==# 'all' ? '' : 'all'<CR>:set virtualedit?<CR>
 nnoremap glwr :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap <silent> gllm :<C-U>call vim_config#llm#menu()<CR>
 
 " # INTERFACE
 

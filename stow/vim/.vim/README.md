@@ -52,7 +52,8 @@ ignore files. Optional project tags can be generated with `ctags -R .`.
 Install `ansible-doc` on `PATH` for documentation in YAML files. `K` looks up
 the keyword under the cursor; `gK` looks up a module, including its full
 collection name when the cursor is on any part of it. A missing entry stays
-silent. Other YAML files can use the same shortcuts without enabling Ansible
+silent. Documentation opens in a temporary split; press `q` to close it.
+Other YAML files can use the same shortcuts without enabling Ansible
 linting or a language server.
 
 ALE runs the linters selected in `plugins.vim` when a supported file opens or
@@ -71,6 +72,15 @@ the server once active. `:ALEDisableBuffer` suspends ALE in the current buffer;
 linting already runs on file open and save.
 
 Sensitive buffers refuse GitGutter activation.
+
+## LLM text actions
+
+`gllm` opens a menu of `llm-text` actions. Option `0` accepts a free-form
+prompt and opens its answer in a temporary split. Other choices prompt for
+text to process. Refinement and translation append text below the current
+line; word-list actions show a dismissible popup and accept an optional
+leading count, such as `-5 example`. Submitted text goes to the configured
+`llm` provider.
 
 ## Clipboard
 
