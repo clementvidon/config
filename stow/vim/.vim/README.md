@@ -52,27 +52,41 @@ project tags can be generated with `ctags -R .`.
 
 ## Language tools
 
-Install `ansible-doc` on `PATH` for documentation in YAML files. `K` looks up
-the keyword under the cursor; `gK` looks up a module, including its full
-collection name when the cursor is on any part of it. A missing entry stays
-silent. Documentation opens in a temporary split; press `q` to close it.
-Other YAML files can use the same shortcuts without enabling Ansible
-linting or a language server.
+In Ansible and Terraform files, `K` requests contextual documentation from the
+language server. Install the selected server on `PATH`. Documentation opens
+in a bottom preview split with Markdown highlighting and concealed markup.
+Focus stays in the source window; use `Ctrl-W P` to enter the preview, then
+normal Vim navigation and search. Press `q` there to close it, or use
+`:pclose` from the source window. No documentation is shown
+when the server has no information at the cursor. For full Ansible module
+documentation outside Vim, use `ansible-doc <module>`.
 
-ALE runs the linters selected in `plugins.vim` when a supported file opens or
-is saved. Install those tools on `PATH`. Run `:ALEFix` for manual formatting;
-YAML formatting requires a project yamlfmt configuration. `:ALEInfo` shows the
-active tools. `.tf` always means Terraform here, including new files. Run
-`terraform validate` and `systemd-analyze verify` manually
-from the appropriate project or system context.
+YAML stays generic unless file detection recognizes an Ansible path or a
+Kubernetes manifest. Compound filetypes keep YAML support and add the relevant
+specialization. Check `:set filetype?`; for an unrecognized Ansible file, use
+`:setlocal filetype=yaml.ansible`. Use `yaml` to return to generic YAML.
 
-Install `terraform-ls` for Terraform or `ansible-language-server` for Ansible
-on `PATH` when needed. Run `:TerraformLSP` in a Terraform buffer or
-`:AnsibleLSP` in a YAML buffer to enable its server for that buffer. Other YAML
-buffers keep their normal linting. Vim's omni completion (`Ctrl-X Ctrl-O`) uses
-the server once active. `:ALEDisableBuffer` suspends ALE in the current buffer;
-`:ALEEnableBuffer` resumes it. `<Leader>al` runs `:ALELint` immediately; normal
-linting already runs on file open and save.
+ALE starts disabled; Space `at` toggles it globally. Once enabled, it runs the
+selected linters when a supported buffer is entered or saved. Install those tools
+on `PATH`. Start Vim at the project root and check `:pwd`: tools use their
+native configuration discovery and defaults.
+ALE does not install tools. `:ALEInfo` lists selected integrations separately
+from executable checks and command results. Run `:ALEFix` for manual
+formatting. Opening an existing file needs no extra save for linting.
+File-based linters inspect disk contents, so save subsequent edits before
+checking their diagnostics. Other integrations can inspect unsaved contents;
+the configured automatic checks run on buffer entry and save.
+`.tf` always means Terraform here, including new files. Run `terraform validate`
+and `systemd-analyze verify` manually from the appropriate project or system
+context.
+
+Install the selected language servers and linters on `PATH`; enabling ALE also
+starts the servers applicable to the filetype. Vim's omni completion
+(`Ctrl-X Ctrl-O`) uses the server once active. Ansible validation runs through
+ALE's ansible-lint integration; server-side validation is disabled to avoid
+duplicate diagnostics. Kubernetes files currently use generic YAML tools.
+`:ALEDisableBuffer` suspends ALE in the current buffer; `:ALEEnableBuffer`
+resumes it. `<Leader>al` requests an immediate lint when ALE is enabled.
 
 ## Git changes
 

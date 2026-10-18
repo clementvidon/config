@@ -259,7 +259,7 @@ call ale#linter#Define('security_probe', {
       \ })
 setlocal filetype=security_probe
 call setline(1, 'ordinary probe text')
-call ale#Queue(0)
+ALEEnable
 sleep 500m
 " Establish that the probe really runs before testing sensitive-buffer refusal.
 call assert_true(filereadable(s:exposure))
