@@ -2,6 +2,7 @@
 
 let s:usage_file = expand('<sfile>:p:h:h:h') . '/usage/netrw.txt'
 
+" Native p uses a preview window; reusing an edit pane needs Netrw's user-map bridge.
 function! s:SelectedDirectory() abort
   if get(w:, 'netrw_liststyle', 0) != 3
     return b:netrw_curdir
@@ -34,17 +35,18 @@ function! vim_config#netrw#open_without_jump(islocal) abort
   endif
 
   let l:tree = win_getid()
-  let l:target = win_getid(get(g:, 'netrw_chgwin', -1))
-  if l:target == 0 || l:target == l:tree
-    let l:target = 0
-    for l:window in getwininfo()
-      if l:window.tabnr == tabpagenr() && l:window.winid != l:tree
-            \ && getbufvar(l:window.bufnr, '&filetype') !=# 'netrw'
+  let l:preferred = win_getid(get(g:, 'netrw_chgwin', -1))
+  let l:target = 0
+  " Netrw's window number can refer to an auxiliary split after layout changes.
+  for l:window in getwininfo()
+    if l:window.tabnr == tabpagenr()
+          \ && empty(getbufvar(l:window.bufnr, '&buftype'))
+          \ && getbufvar(l:window.bufnr, '&filetype') !=# 'netrw'
+      if l:target == 0 || l:window.winid == l:preferred
         let l:target = l:window.winid
-        break
       endif
-    endfor
-  endif
+    endif
+  endfor
   if l:target == 0
     rightbelow vnew
     let l:target = win_getid()

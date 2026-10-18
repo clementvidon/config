@@ -44,7 +44,8 @@ options. Install `fzf` 0.53.0 or newer on
 `PATH` for interactive file search; see the
 [fzf Vim documentation](https://github.com/junegunn/fzf/blob/master/README-VIM.md)
 for available options. Press `?` in netrw for
-[usage notes](usage/netrw.txt).
+[usage notes](usage/netrw.txt). Previews reuse an editing split and preserve
+auxiliary windows such as help and terminals.
 
 `:grep pattern` uses ripgrep (`rg`) and respects project ignore files. Optional
 project tags can be generated with `ctags -R .`.
