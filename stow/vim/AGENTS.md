@@ -2,8 +2,9 @@
 
 ## Design
 
-- Keep Vim a lightweight terminal editor. Prefer native behavior and existing
-  tooling; add plugins only for needs they cannot reasonably satisfy.
+- Keep Vim a lightweight modal editor built on composable operators, motions,
+  buffers, windows, and Ex commands. Add plugins only for needs native Vim and
+  existing tooling cannot reasonably satisfy.
 - Remove unused behavior instead of adding abstractions to preserve it.
 - Use Vim's standard filetypes and ALE for shared linting and manual formatting.
   Add a first-party filetype override only when the runtime and ALE cannot meet

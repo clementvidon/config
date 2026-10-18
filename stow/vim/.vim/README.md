@@ -13,6 +13,10 @@ vim +PlugInstall
 Use `mso` to reload the configuration and the current buffer's filetype after
 configuration changes. Restart Vim after changing plugin installation or lifecycle.
 
+Keep extensible choices in native options or data lists. A new tool or language
+should not require another branch in a custom function. Prefer functions whose
+decisions can be separated from editor state changes when that keeps them clear.
+
 Local plugins have their own usage instructions under `pack/local/start`.
 Set their configuration variables in `plugins.vim`. The GPG recipient can also
 be set with `VIM_GPG_RECIPIENT` in the environment before Vim starts.

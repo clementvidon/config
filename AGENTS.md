@@ -23,7 +23,13 @@ For top-level sections in Stow configurations, use three-line comment headings:
 or `//`). Keep explanatory comments short. Vim and IdeaVim use their own style;
 native configuration sections need no comment heading.
 
-## Behavior changes
+## Design and behavior changes
+
+Respect each tool's intended role and native interaction model. Prefer
+documented settings, commands, public APIs, and extension points over
+replacement implementations, command overrides, or dependencies on internal
+state. Add custom behavior only for a concrete unmet need; keep unavoidable
+exceptions narrow and document their reason beside the integration.
 
 When replacing behavior or formats, remove the superseded implementation in
 the same change. Do not add or retain deprecated behavior, legacy formats,
