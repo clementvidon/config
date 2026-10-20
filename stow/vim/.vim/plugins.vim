@@ -181,6 +181,8 @@ call plug#begin(g:vim_data_dir . '/plugged')
 Plug 'tpope/vim-repeat', { 'commit': '65846025c15494983dafe5e3b46c8f88ab2e9635' }
 Plug 'tpope/vim-surround', { 'commit': '3d188ed2113431cf8dac77be61b842acb64433d9' }
 Plug 'tpope/vim-commentary', { 'commit': '64a654ef4a20db1727938338310209b6a63f60c9' }
+" Supported older runtimes lack HCL and Terraform filetype support.
+Plug 'hashivim/vim-terraform', { 'commit': '520498fab16a3a11f2ae1b8cb65e0a1684bc317a' }
 Plug 'arcticicestudio/nord-vim', { 'commit': 'f13f5dfbb784deddbc1d8195f34dfd9ec73e2295' }
 Plug 'junegunn/seoul256.vim', { 'commit': '0357ff3e44faab66c98bc98dfc89c834e37012da' }
 Plug 'junegunn/fzf', { 'commit': 'a140afeb4d733cad3c96a56bf6db7e26853b6757', 'on': 'FZF' }

@@ -84,6 +84,10 @@ the configured automatic checks run on buffer entry and save.
 and `systemd-analyze verify` manually from the appropriate project or system
 context.
 
+Generic HCL, including Terragrunt, has its own filetype and highlighting after
+plugin installation. These files are not sent to `terraform-ls`, which
+[supports Terraform configurations only](https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md).
+
 Install the selected language servers and linters on `PATH`; enabling ALE also
 starts the servers applicable to the filetype. Vim's omni completion
 (`Ctrl-X Ctrl-O`) uses the server once active. Ansible validation runs through
