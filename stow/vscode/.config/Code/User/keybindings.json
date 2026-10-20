@@ -8,5 +8,53 @@
     "key": "ctrl+alt+down",
     "command": "workbench.action.decreaseViewSize",
     "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+enter",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+m",
+    "command": "-editor.action.toggleTabFocusMode"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "-editor.action.toggleTabFocusMode"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u0016" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "shift+left",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u001b[1;2D" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "shift+up",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u001b[1;2A" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "shift+right",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u001b[1;2C" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "shift+down",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u001b[1;2B" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus"
   }
 ]

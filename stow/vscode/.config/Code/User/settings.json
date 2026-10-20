@@ -1,7 +1,4 @@
 // jsonc
-// Stow links this file to ~/.config/Code/User/settings.json.
-// On macOS, also link ~/Library/Application Support/Code/User/settings.json
-// to that path after moving aside existing settings and creating its parent directory.
 {
   // =============================================================================
   // Formatters: Prettier (esbenp.prettier-vscode) and Ruff (charliermarsh.ruff)
@@ -36,6 +33,7 @@
   "editor.cursorSurroundingLines": 0,
   "editor.renderLineHighlight": "line",
   "editor.wordWrap": "off",
+  "editor.tabFocusMode": false,
   "editor.occurrencesHighlight": "off",
   "editor.smoothScrolling": false,
   "editor.fastScrollSensitivity": 3,
@@ -71,6 +69,11 @@
   "terminal.integrated.sendKeybindingsToShell": false,
   "terminal.integrated.allowChords": false,
   "terminal.integrated.commandsToSkipShell": [
+    "-workbench.action.quickOpen",
+    "-workbench.action.gotoLine",
+    "-workbench.action.togglePanel",
+    "-workbench.action.terminal.focusFind",
+    "-workbench.action.terminal.goToRecentDirectory",
     "-workbench.action.terminal.scrollToPreviousCommand",
     "-workbench.action.terminal.scrollToNextCommand",
     "-workbench.action.terminal.selectToPreviousCommand",
