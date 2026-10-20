@@ -89,6 +89,12 @@ if !empty(v:errmsg)
   call add(s:errors, 'vimrc reload: ' . v:errmsg)
 endif
 
+" Smoke-test Netrw's file-opening integration with the installed runtime.
+execute 'Lexplore ' . fnameescape($VIM_CHECK_ROOT . '/project')
+call search('data\.json$', 'w')
+call vim_config#netrw#open_without_jump(1)
+close
+
 " Workspace activation and task composition must leave ordinary Markdown alone.
 let g:noesis_all_markdown = 0
 for [s:path, s:host] in [['project/plain.md', 'markdown'], ['noesis/plain.md', 'noesis']]

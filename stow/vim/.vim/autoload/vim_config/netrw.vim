@@ -26,8 +26,8 @@ function! vim_config#netrw#open_without_jump(islocal) abort
     return
   endif
 
-  let l:path = netrw#fs#ComposePath(s:SelectedDirectory(),
-        \ netrw#Call('NetrwGetWord'))
+  let l:word = netrw#Call('NetrwGetWord')
+  let l:path = l:word =~# '^/' ? l:word : s:SelectedDirectory() . '/' . l:word
   if isdirectory(l:path)
     call netrw#LocalBrowseCheck(netrw#Call('NetrwBrowseChgDir', 1,
           \ netrw#Call('NetrwGetWord'), 1))
