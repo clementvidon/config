@@ -149,7 +149,7 @@ if !has('gui_running') && empty(&t_BE)
   let &t_PE = "\<Esc>[201~"
 endif
 if exists('$SSH_CONNECTION') || exists('$SSH_TTY') || exists('$MOSH_CONNECTION')
-  set ttimeoutlen=250
+  set ttimeoutlen=10
 else
   set ttimeoutlen=0
 endif
