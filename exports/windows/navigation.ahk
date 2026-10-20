@@ -29,3 +29,6 @@ LWin & Tab::AltTab
 <!j::Send "{Down}"
 <!k::Send "{Up}"
 <!l::Send "{Right}"
+
+; A regular hotkey accepts Ctrl produced by the Alt remap; Send releases it.
+^[::Send "{Escape}"

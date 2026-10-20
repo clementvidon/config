@@ -4,6 +4,13 @@
       "complex_modifications": {
         "rules": [
           {
+            "description": "Use Ctrl+[ as Escape, including Cmd+[ in WezTerm and VS Code",
+            "manipulators": [
+              {"type":"basic","from":{"key_code":"open_bracket","modifiers":{"mandatory":["control"]}},"to":[{"key_code":"escape"}]},
+              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"open_bracket","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"escape"}],"type":"basic"}
+            ]
+          },
+          {
             "description": "Use left Option and hjkl as arrow keys",
             "manipulators": [
               {"type":"basic","from":{"key_code":"h","modifiers":{"mandatory":["left_option"]}},"to":[{"key_code":"left_arrow"}]},
@@ -42,7 +49,6 @@
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"y","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"y","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"z","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"z","modifiers":["left_control"]}],"type":"basic"},
 
-              {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"open_bracket","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"open_bracket","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"close_bracket","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"close_bracket","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"spacebar","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"spacebar","modifiers":["left_control"]}],"type":"basic"},
               {"conditions":[{"bundle_identifiers":["^com\\.github\\.wez\\.wezterm$","^com\\.microsoft\\.VSCode$"],"type":"frontmost_application_if"}],"from":{"key_code":"non_us_backslash","modifiers":{"mandatory":["command"]}},"to":[{"key_code":"grave_accent_and_tilde","modifiers":["left_control"]}],"type":"basic"},
