@@ -7,6 +7,10 @@
 set -o vi
 
 if [[ $- == *i* ]]; then
+  # Readline has no Vim visual mode; avoid opening an external editor.
+  bind -m vi-command '"v": ""'
+  bind -m vi-command '"V": ""'
+
   # Navigate history by prefix with j/k in normal mode.
   bind -m vi-command '"k": history-search-backward'
   bind -m vi-command '"j": history-search-forward'
