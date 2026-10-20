@@ -40,9 +40,12 @@ endif
 syntax region noesisCode start="^[ \t]\{0,3}\z(`\{3,}\)[^`]*$" end="^[ \t]\{0,3}\z1`*[ \t]*$" contains=@NoSpell keepend
 syntax region noesisCode start="^[ \t]\{0,3}\z([~]\{3,}\).*$" end="^[ \t]\{0,3}\z1[~]*[ \t]*$" contains=@NoSpell keepend
 
+syntax match noesisTodo /\<TODO\>/ containedin=ALL
+
 " # HIGHLIGHTS
 
 function! s:Colors() abort
+  highlight default link noesisTodo Todo
   if &background ==# 'dark'
 
     highlight noesisH1                       ctermfg=85
