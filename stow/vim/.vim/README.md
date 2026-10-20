@@ -111,6 +111,36 @@ Primary-branch comparisons use the saved file on disk. They prefer the local
 precedence over `master`. A local branch must exist. Unsaved edits are not
 written automatically.
 
+## Spelling
+
+Vim needs compiled `.spl` word lists; Hunspell `.aff`/`.dic` pairs are compiled
+with [`:mkspell`](https://vimhelp.org/spell.txt.html#spell-mkspell). To install
+French from [Grammalecte](https://www.grammalecte.net/) and combined US/GB English
+from [ESDB/SCOWL](https://wordlist.aspell.net/dicts/),
+run from the repository root:
+
+```sh
+./scripts/install-vim-spell.sh
+```
+
+Requires Bash, Vim with spell support, `curl`, and `unzip`. Downloads are
+temporary; compiled dictionaries go to
+`${XDG_DATA_HOME:-$HOME/.local/share}/vim/spell` and take precedence over Vim's
+bundled dictionaries. Rerunning replaces the installed French and English
+dictionaries. This supplies word spelling and suggestions; grammar checking
+requires a separate tool.
+
+For a corporate proxy, configure `https_proxy`; for a corporate certificate
+authority, point `CURL_CA_BUNDLE` to the approved CA file before running the
+script.
+
+Restart Vim, enable spelling, and inspect the loaded dictionaries:
+
+```vim
+:setlocal spell
+:spellinfo
+```
+
 ## LLM text actions
 
 `gllm` opens a menu of `llm-text` actions. Option `0` accepts a free-form

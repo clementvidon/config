@@ -71,7 +71,7 @@ try
 catch /^Vim\%((\a\+)\)\=:E739/
 endtry
 if s:spell_ready
-  execute 'set runtimepath+=' . fnameescape(g:vim_data_dir)
+  execute 'set runtimepath^=' . fnameescape(g:vim_data_dir)
   let &spellfile = s:spell_dir . '/custom.utf-8.add'
   if filereadable(&spellfile)
     let s:compiled_spellfile = &spellfile . '.spl'
