@@ -154,20 +154,16 @@ PROMPT='%n@%m%{%F{102}%}${git_prompt}%{%f%}%# '
 if [[ "$OSTYPE" == darwin* ]]; then
   alias ls='ls -G'
   alias la='ls -G -la'
-  alias latr='ls -G -latr'
 
 elif [[ "$OSTYPE" == linux* ]]; then
   alias ls='ls --color=auto'
   alias la='ls --color=auto -la'
-  alias latr='ls --color=auto -latr'
 
   alias dush='du -h --max-depth=1 . | sort -rh'
   alias shred='shred -uzn9'
 fi
 
 # Search.
-alias ag='ag --hidden'
-alias agc='ag -c --hidden'
 alias grep='grep --color=auto'
 
 # Editors.
@@ -193,10 +189,10 @@ alias gco='git commit'
 alias gcv='git commit -v'
 alias gdi='git diff'
 alias gds='git diff --staged'
-alias gfe='git fetch origin'
+alias gfo='git fetch origin'
 alias gpl='git pull'
 alias gps='git push'
-alias grb='git rebase --interactive'
+alias gri='git rebase --interactive'
 alias gre='git reset'
 alias gsh='git show'
 alias gs='git status -s --show-stash --ignore-submodules=untracked'
@@ -207,13 +203,12 @@ alias gsc='git switch -c'
 # Misc.
 alias python='python3'
 alias tf='terraform'
-alias refresh='hash -r'
-alias types="find . -maxdepth 1 -type f | sed 's/.*\.//' | sort -u"
-alias magick='convert'
 alias awake='systemd-inhibit --what=idle:sleep:handle-lid-switch:sleep --mode=block --who="Clément" --why="Computer is working" sleep infinity'
 
-# Locations.
+# Photography.
 alias ricoh='cd "$HOME/Documents/Images/RicohGR" && pwd'
+alias types="find . -maxdepth 1 -type f | sed 's/.*\.//' | sort -u"
+alias magick='convert'
 
 
 # =============================================================================
