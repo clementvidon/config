@@ -228,6 +228,19 @@ execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
 if &l:swapfile || &l:undofile || &backup || &writebackup || !empty(&viminfo)
   call add(s:errors, 'vimrc reload weakened pass buffer protection')
 endif
+" Explicit temporary copies must not bypass the plaintext persistence boundary.
+let s:temporary_dir = $VIM_CHECK_ROOT . '/refused-temporary-copies'
+call mkdir(s:temporary_dir, 'p', 0700)
+let $TMPDIR = s:temporary_dir
+let s:temporary_refused = 0
+try
+  call vim_config#buffer#write_temp()
+catch
+  let s:temporary_refused = 1
+endtry
+call assert_true(s:temporary_refused)
+call assert_equal([], glob(s:temporary_dir . '/*', 0, 1))
+call extend(s:errors, v:errors)
 let s:gitgutter_dir = get(g:, 'vim_data_dir', '') . '/plugged/vim-gitgutter'
 if isdirectory(s:gitgutter_dir)
   GitGutterBufferEnable
