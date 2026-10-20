@@ -33,3 +33,6 @@ plugged/
 # Generated context
 /out
 /ignoreme
+
+# Other
+TODOS.md
