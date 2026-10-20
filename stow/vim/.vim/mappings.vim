@@ -174,6 +174,7 @@ vnoremap <silent> sg :<C-U>call vim_config#search#grep_prompt(1)<CR>
 nnoremap gl <nop>
 nnoremap <silent> glcc :set cursorcolumn!<CR>:echomsg 'cursorcolumn: ' . (&cursorcolumn ? 'enabled' : 'disabled')<CR>
 nnoremap glcd :cd %:h<CR>
+nnoremap <silent> gldm :<C-U>call vim_config#git#diff_main()<CR>
 nnoremap <silent> glco :call <SID>CycleColorscheme()<CR>
 nnoremap <silent> glcl :set cursorline!<CR>:echomsg 'cursorline: ' . (&cursorline ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glgb :<C-U>call vim_config#git#blame_line()<CR>

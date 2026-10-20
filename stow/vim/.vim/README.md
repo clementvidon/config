@@ -106,6 +106,11 @@ Use `:map <Leader>g` to discover Git shortcuts. Line blame shows the last
 commit's author, date, title, and abbreviated hash; uncommitted lines have no
 committed attribution.
 
+Primary-branch comparisons use the saved file on disk. They prefer the local
+`main` or `master` branch designated by `origin/HEAD`; otherwise `main` takes
+precedence over `master`. A local branch must exist. Unsaved edits are not
+written automatically.
+
 ## LLM text actions
 
 `gllm` opens a menu of `llm-text` actions. Option `0` accepts a free-form
