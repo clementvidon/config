@@ -98,6 +98,28 @@ function! s:OpenNote(path, pattern) abort
   let @/ = l:search
 endfunction
 
+function! s:OpenFileInVSCode() abort
+  if empty(expand('%'))
+    throw 'No filename'
+  endif
+  if !executable('code')
+    throw 'Install the VS Code command-line launcher on PATH'
+  endif
+  call job_start(['code', '-r', '-g', expand('%:p') . ':' . line('.')],
+        \ {'in_io': 'null', 'stoponexit': ''})
+endfunction
+
+function! s:OpenDirectoryInVSCode() abort
+  if empty(expand('%'))
+    throw 'No filename'
+  endif
+  if !executable('code')
+    throw 'Install the VS Code command-line launcher on PATH'
+  endif
+  call job_start(['code', '-r', expand('%:p:h')],
+        \ {'in_io': 'null', 'stoponexit': ''})
+endfunction
+
 " # FILES AND BUFFERS
 
 " ## write and quit
@@ -190,7 +212,9 @@ nnoremap <silent> glss :call vim_config#search#static_prompt()<CR>
 vnoremap <silent> glss :<C-U>call vim_config#search#static_selection()<CR>
 nnoremap <silent> glst :set startofline!<CR>:echomsg 'startofline: ' . (&startofline ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
+nnoremap <silent> glvd :<C-U>call <SID>OpenDirectoryInVSCode()<CR>
 nnoremap <silent> glve :let &l:virtualedit = &l:virtualedit ==# 'all' ? '' : 'all'<CR>:echomsg 'virtualedit: ' . (&l:virtualedit ==# 'all' ? 'enabled' : 'disabled')<CR>
+nnoremap <silent> glvf :<C-U>call <SID>OpenFileInVSCode()<CR>
 nnoremap <silent> glwr :setlocal wrap!<CR>:echomsg 'wrap: ' . (&wrap ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glwt :<C-U>call vim_config#buffer#write_temp()<CR>
 nnoremap <silent> gllm :<C-U>call vim_config#llm#menu()<CR>
