@@ -4,6 +4,8 @@
 ; Modifier keys
 ; =============================================================================
 
+SetCapsLockState "AlwaysOff"
+
 LCtrl::LAlt
 LAlt::LCtrl
 RCtrl::RAlt
