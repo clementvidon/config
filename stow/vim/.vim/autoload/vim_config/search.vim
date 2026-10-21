@@ -43,10 +43,11 @@ function! vim_config#search#grep_prompt(visual) abort
   if !executable('rg')
     throw 'Search requires ripgrep (rg) on PATH'
   endif
-  let l:command = ':grep '
+  let l:command = ':silent grep '
   if a:visual
+    let l:argument_start = strlen(l:command) - 1
     let l:command .= ' -F -- ' . shellescape(s:SelectedText(), 1)
-          \ . "\<Home>" . repeat("\<Right>", 5)
+          \ . "\<Home>" . repeat("\<Right>", l:argument_start)
   endif
   call feedkeys(l:command, 'n')
 endfunction
