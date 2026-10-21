@@ -8,24 +8,21 @@ extension. These conventions apply to notes activated through the
 
 | Level | Style | Purpose | In the index |
 | --- | --- | --- | --- |
-| H1 | `# Title` | One document title, on the first line | No |
-| H2 | Title underlined with 80 `-` characters | Main section | Yes |
+| H1 | `# Title` or title underlined with `=` | One document title, on the first line | No |
+| H2 | `## Title` or title underlined with `-` | Main section | Yes |
 | H3 | `### Title` | Subsection | Yes |
 | H4–H6 | `#### Title` through `###### Title` | Local detail | No |
 
-`## Title` is also accepted for H2. Prefer the underline for main sections.
-Place it directly below the title, with no blank line between them.
-Highlighting and indexing of underlined headings require exactly 80 `-`
-characters.
+Prefer underlines for main sections. Place them directly below the title,
+with one or more `=` characters
+for H1 or `-` characters for H2. Headings need no surrounding blank lines for
+highlighting or indexing. Hash-prefixed headings require a space before the title.
 
 For numbered H2 headings, use `1 - Title`, `2 - Title`, etc. Do not use
 `1. Title` or `1) Title`, as these can be parsed as ordered-list items rather
 than Setext headings.
 
-Use exactly one blank line before and after each heading block. The document
-starts directly with its H1. Use one blank line between paragraphs as well.
-Heading highlighting requires a blank line on each side of the block, or a
-file boundary in its place.
+The document starts directly with its H1. Use one blank line between paragraphs.
 
 ## Index
 
@@ -41,7 +38,8 @@ the index itself, and headings inside code blocks.
 ## Example
 
 ```markdown
-# Service handbook
+Service handbook
+================
 
 <!-- INDEX {{{
   1 - Applications

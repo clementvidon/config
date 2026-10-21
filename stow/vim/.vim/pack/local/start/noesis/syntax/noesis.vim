@@ -4,17 +4,13 @@
 
 syntax sync minlines=200
 
-" Check surrounding blank lines without consuming a shared separator.
-" Use \_^ and \_$ because these anchors follow or precede other atoms.
-let s:before_heading = '\%(\%^\|^[ \t]*\n\)\@<='
-let s:after_heading = '\%(\n[ \t]*$\|\%$\)\@='
 for s:level in range(1, 6)
-  execute 'syntax match noesisH' . s:level . ' /' . s:before_heading
-        \ . '\_^' . repeat('#', s:level) . '\s\+\S.*\_$' . s:after_heading . '/'
+  execute 'syntax match noesisH' . s:level
+        \ . ' /^' . repeat('#', s:level) . '\s\+\S.*$/'
 endfor
-execute 'syntax match noesisH2 /' . s:before_heading
-      \ . '\_^[^# \t].*\n-\{80}\s*\_$' . s:after_heading . '/'
-unlet s:before_heading s:after_heading s:level
+unlet s:level
+syntax match noesisH1 /^[^# \t].*\n=\+[ \t]*$/
+syntax match noesisH2 /^[^# \t].*\n-\+[ \t]*$/
 
 syntax match noesisHeader "^\s\{72}\[\d\{6}]$"
 

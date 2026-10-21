@@ -9,7 +9,7 @@ let g:loaded_noesis = 1
 
 nnoremap <silent> <Plug>(noesis-index) :<C-U>call noesis#index()<CR>
 nnoremap <silent> <Plug>(noesis-index-jump) :<C-U>call noesis#index_jump()<CR>
-nnoremap <silent> <Plug>(noesis-heading-1) :<C-U>call noesis#heading(1)<CR>
+nnoremap <silent> <Plug>(noesis-heading-1) :<C-U>call noesis#title()<CR>
 nnoremap <silent> <Plug>(noesis-heading-2) :<C-U>call noesis#underline()<CR>
 nnoremap <silent> <Plug>(noesis-heading-3) :<C-U>call noesis#heading(3)<CR>
 nnoremap <silent> <Plug>(noesis-heading-4) :<C-U>call noesis#heading(4)<CR>

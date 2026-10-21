@@ -2,6 +2,10 @@
 
 " # STYLES
 
+function! noesis#title() abort
+  call append(line('.'), repeat('=', 80))
+endfunction
+
 function! noesis#heading(level) abort
   let l:view = winsaveview()
   let l:prefix = repeat('#', a:level) . ' '
@@ -199,11 +203,19 @@ endfunction
 
 " # INDEX
 
+function! s:DocumentTitleEnd(lines) abort
+  if get(a:lines, 0, '') =~# '^#\s\+\S'
+    return 1
+  endif
+  if get(a:lines, 0, '') =~# '^[^# \t]'
+        \ && get(a:lines, 1, '') =~# '^=\+[ \t]*$'
+    return 2
+  endif
+  return 0
+endfunction
+
 function! s:IndexBlock(lines) abort
-  let l:start = 0
-  while l:start < len(a:lines) && a:lines[l:start] !~# '^\s*$'
-    let l:start += 1
-  endwhile
+  let l:start = s:DocumentTitleEnd(a:lines)
   while l:start < len(a:lines) && a:lines[l:start] =~# '^\s*$'
     let l:start += 1
   endwhile
@@ -230,7 +242,7 @@ function! s:Headings(lines, start) abort
       let l:level = len(l:heading[1])
       let l:title = trim(substitute(l:heading[2], '\s\+#\+\s*$', '', ''))
     elseif l:line =~# '^\S' && l:line !~# '^#'
-          \ && get(a:lines, l:index + 1, '') =~# '^-\{80}\s*$'
+          \ && get(a:lines, l:index + 1, '') =~# '^-\+[ \t]*$'
       let l:level = 2
       let l:title = trim(l:line)
     else
@@ -248,10 +260,7 @@ function! noesis#index() abort
   if !empty(l:block)
     call remove(l:lines, l:block.start, l:block.end)
   endif
-  let l:split = 0
-  while l:split < len(l:lines) && l:lines[l:split] !~# '^\s*$'
-    let l:split += 1
-  endwhile
+  let l:split = s:DocumentTitleEnd(l:lines)
   let l:opening = l:split ? l:lines[:l:split - 1] : []
   while l:split < len(l:lines) && l:lines[l:split] =~# '^\s*$'
     let l:split += 1
