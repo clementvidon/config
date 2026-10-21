@@ -54,7 +54,7 @@ auxiliary windows such as help and terminals.
 `:grep pattern` uses ripgrep (`rg`) and respects project ignore files. Optional
 project tags can be generated with `ctags -R .`.
 
-Opening files or directories in VS Code requires its `code` launcher on `PATH`;
+Opening a file in VS Code requires its `code` launcher on `PATH`;
 see the [command-line setup](https://code.visualstudio.com/docs/configure/command-line#launching-from-command-line).
 Use `:map glv` to discover the bindings. VS Code opens the version on disk;
 unsaved Vim edits are not written automatically.
