@@ -84,6 +84,19 @@ alias tf='terraform'
 alias awake='systemd-inhibit --what=idle:sleep:handle-lid-switch:sleep --mode=block --who="Clément" --why="Computer is working" sleep infinity'
 
 # =============================================================================
+# Command help
+# =============================================================================
+
+# Use cheat.sh for examples; builtin help still provides Bash documentation.
+help() {
+  if [[ $# != 1 ]]; then
+    printf 'Usage: help <command>\n' >&2
+    return 2
+  fi
+  curl -fsS "https://cheat.sh/$1"
+}
+
+# =============================================================================
 # Git functions
 # =============================================================================
 
