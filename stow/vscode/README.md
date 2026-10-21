@@ -12,6 +12,9 @@ Release application shortcuts there; keep any necessary explicit forwarding
 in the terminal's keybindings. Vim and shell configurations remain independent
 of VS Code.
 
+Creating a terminal from a named file starts it in that file's parent directory;
+other contexts keep VS Code's default working directory.
+
 Use **Developer: Toggle Keyboard Shortcuts Troubleshooting** to see which
 command receives a key. If VS Code never receives it, inspect the operating
 system's shortcuts and keyboard remapping tools.

@@ -1,4 +1,40 @@
+// jsonc
 [
+  // =============================================================================
+  // Editor groups
+  // =============================================================================
+
+  {
+    "key": "shift+left",
+    "command": "workbench.action.decreaseViewWidth",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "shift+right",
+    "command": "workbench.action.increaseViewWidth",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "shift+up",
+    "command": "workbench.action.increaseViewHeight",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "shift+down",
+    "command": "workbench.action.decreaseViewHeight",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+
+  // =============================================================================
+  // Terminal
+  // =============================================================================
+
+  {
+    "key": "ctrl+shift+`",
+    "command": "workbench.action.terminal.newWithCwd",
+    "args": { "cwd": "${fileDirname}" },
+    "when": "editorTextFocus && resourceScheme != untitled && resourceFilename"
+  },
   {
     "key": "ctrl+alt+up",
     "command": "workbench.action.increaseViewSize",
@@ -56,5 +92,18 @@
     "key": "ctrl+shift+v",
     "command": "workbench.action.terminal.paste",
     "when": "terminalFocus"
+  },
+
+  // =============================================================================
+  // Keep inline chat off Ctrl+i
+  // =============================================================================
+
+  {
+    "key": "ctrl+i",
+    "command": "-inlineChat.start"
+  },
+  {
+    "key": "ctrl+i",
+    "command": "-inlineChat.askInChat"
   }
 ]
