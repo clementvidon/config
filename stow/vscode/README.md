@@ -23,6 +23,7 @@ system's shortcuts and keyboard remapping tools.
 
 In a [Remote SSH terminal](https://code.visualstudio.com/docs/remote/ssh#_opening-a-terminal-on-a-remote-host),
 the `code` CLI opens remote files and folders in the connected editor.
+Vim uses the remote terminal's `BROWSER` launcher to open links on the client.
 
 Persistent tmux sessions can retain a connection to a closed VS Code window.
 Deploy the tmux package and reload configuration changes with
@@ -33,7 +34,11 @@ current shell after reattaching:
 
 ```sh
 eval "$(tmux show-environment -s VSCODE_IPC_HOOK_CLI)"
+eval "$(tmux show-environment -s BROWSER)"
 ```
+
+Restart Vim from the refreshed shell so it inherits the browser launcher and
+editor connection.
 
 ## Deployment
 

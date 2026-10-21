@@ -159,6 +159,11 @@ let g:seoul256_light_background = 256
 
 " # NETRW
 
+" Remote SSH must open links through VS Code's local browser bridge.
+if !empty($VSCODE_IPC_HOOK_CLI) && executable($BROWSER)
+  let g:netrw_browsex_viewer = $BROWSER
+endif
+
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro nornu'
 let g:netrw_dirhistmax = 0
 let g:netrw_liststyle = 3
