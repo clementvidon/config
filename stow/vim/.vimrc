@@ -267,7 +267,8 @@ endif
 augroup personal_config
   autocmd!
   autocmd ColorScheme * call <SID>Highlights()
-  autocmd QuickFixCmdPost grep,grepadd cwindow
+  " Silent external searches can leave the terminal screen cleared.
+  autocmd QuickFixCmdPost grep,grepadd cwindow | redraw!
 augroup END
 
 " # MAPPINGS
