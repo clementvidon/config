@@ -190,6 +190,7 @@ nnoremap <silent> glss :call vim_config#search#static_prompt()<CR>
 vnoremap <silent> glss :<C-U>call vim_config#search#static_selection()<CR>
 nnoremap <silent> glst :set startofline!<CR>:echomsg 'startofline: ' . (&startofline ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glsy :call <SID>ShowSyntax()<CR>
+nnoremap glts :%s/\s\+$//e<CR>
 nnoremap <silent> glve :let &l:virtualedit = &l:virtualedit ==# 'all' ? '' : 'all'<CR>:echomsg 'virtualedit: ' . (&l:virtualedit ==# 'all' ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glvo :<C-U>call job_start(['code', '-r', '-g', expand('%:p') . ':' . line('.')], {'in_io': 'null', 'stoponexit': ''})<CR>
 nnoremap <silent> glwr :setlocal wrap!<CR>:echomsg 'wrap: ' . (&wrap ? 'enabled' : 'disabled')<CR>
