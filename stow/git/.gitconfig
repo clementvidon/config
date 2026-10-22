@@ -5,7 +5,7 @@
 
 [core]
     pager = less
-    editor = vim -u NONE -N
+    editor = vim
 
 [color "status"]
     added = green bold
