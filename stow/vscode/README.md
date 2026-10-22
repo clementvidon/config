@@ -28,17 +28,10 @@ Vim uses the remote terminal's `BROWSER` launcher to open links on the client.
 Persistent tmux sessions can retain a connection to a closed VS Code window.
 Deploy the tmux package and reload configuration changes with
 `tmux source-file ~/.tmux.conf`. After reconnecting VS Code, attach to the
-session from a fresh integrated terminal. New panes inherit the refreshed
-editor connection. Existing shells retain their environment; refresh the
-current shell after reattaching:
-
-```sh
-eval "$(tmux show-environment -s VSCODE_IPC_HOOK_CLI)"
-eval "$(tmux show-environment -s BROWSER)"
-```
-
-Restart Vim from the refreshed shell so it inherits the browser launcher and
-editor connection.
+session from a fresh integrated terminal. Deploy the Bash or Zsh package so
+existing shells refresh the editor connection at each prompt. After reattaching,
+return to the shell prompt and restart Vim so it inherits the current browser
+launcher and editor connection.
 
 ## Deployment
 

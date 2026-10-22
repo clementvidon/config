@@ -8,6 +8,16 @@
 
 autoload -Uz add-zsh-hook
 
+# Existing panes keep their shell environment after tmux refreshes the session.
+_refresh_tmux_vscode_environment() {
+  [[ -n "${TMUX:-}" ]] || return 0
+  eval "$(tmux show-environment -s VSCODE_IPC_HOOK_CLI 2>/dev/null)"
+  eval "$(tmux show-environment -s BROWSER 2>/dev/null)"
+  return 0
+}
+
+add-zsh-hook precmd _refresh_tmux_vscode_environment
+
 
 # =============================================================================
 # Vi mode

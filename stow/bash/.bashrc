@@ -1,6 +1,27 @@
 # ~/.bashrc
 
 # =============================================================================
+# Environment
+# =============================================================================
+
+# Existing panes keep their shell environment after tmux refreshes the session.
+_refresh_tmux_vscode_environment() {
+  local previous_status=$?
+  if [[ -n "${TMUX:-}" ]]; then
+    eval "$(tmux show-environment -s VSCODE_IPC_HOOK_CLI 2>/dev/null)"
+    eval "$(tmux show-environment -s BROWSER 2>/dev/null)"
+  fi
+  return "$previous_status"
+}
+
+if [[ $- == *i* ]]; then
+  case ";${PROMPT_COMMAND:-};" in
+    *'_refresh_tmux_vscode_environment;'*) ;;
+    *) PROMPT_COMMAND="_refresh_tmux_vscode_environment${PROMPT_COMMAND:+; $PROMPT_COMMAND}" ;;
+  esac
+fi
+
+# =============================================================================
 # Vi mode
 # =============================================================================
 
