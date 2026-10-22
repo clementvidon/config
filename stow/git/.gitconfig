@@ -49,5 +49,8 @@
     helper =
     helper = !gh auth git-credential
 
+[credential]
+    helper = store
+
 [include]
     path = ~/.gitconfig.local
