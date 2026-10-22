@@ -105,8 +105,14 @@ alias tf='terraform'
 alias awake='systemd-inhibit --what=idle:sleep:handle-lid-switch:sleep --mode=block --who="Clément" --why="Computer is working" sleep infinity'
 
 # =============================================================================
-# Command help
+# Command helpers
 # =============================================================================
+
+retry() {
+  until "$@"; do
+    sleep 1
+  done
+}
 
 # Use cheat.sh for examples; builtin help still provides Bash documentation.
 help() {
