@@ -1,11 +1,11 @@
-" Save a private temporary copy without changing the source buffer.
+" Make a private temporary file the current buffer's save destination.
 
-function! vim_config#buffer#write_temp() abort
+function! vim_config#buffer#make_temp() abort
   if get(b:, 'vim_sensitive_buffer', 0)
-    throw 'Temporary copies are disabled for encrypted or sensitive buffers'
+    throw 'Temporary files are disabled for encrypted or sensitive buffers'
   endif
   if !executable('mktemp')
-    throw 'Temporary copies require mktemp on PATH'
+    throw 'Temporary files require mktemp on PATH'
   endif
 
   let l:paths = systemlist('mktemp')
@@ -13,17 +13,7 @@ function! vim_config#buffer#write_temp() abort
     throw 'Could not create a temporary file'
   endif
   let l:path = l:paths[0]
-  let l:cpoptions = &cpoptions
-  try
-    " Preserve unnamed buffers and their modified state; skip save hooks.
-    set cpoptions-=F cpoptions-=+
-    silent execute 'noautocmd keepalt write! ' . fnameescape(l:path)
-  catch
-    call delete(l:path)
-    throw 'Temporary copy failed: ' . v:exception
-  finally
-    let &cpoptions = l:cpoptions
-  endtry
-  echomsg 'Temporary copy: ' . l:path
+  " mktemp already created the private file, so overwriting it is intentional.
+  execute 'saveas! ' . fnameescape(l:path)
   return l:path
 endfunction

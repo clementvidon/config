@@ -194,7 +194,7 @@ nnoremap glts :%s/\s\+$//e<CR>
 nnoremap <silent> glve :let &l:virtualedit = &l:virtualedit ==# 'all' ? '' : 'all'<CR>:echomsg 'virtualedit: ' . (&l:virtualedit ==# 'all' ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glvo :<C-U>call job_start(['code', '-r', '-g', expand('%:p') . ':' . line('.')], {'in_io': 'null', 'stoponexit': ''})<CR>
 nnoremap <silent> glwr :setlocal wrap!<CR>:echomsg 'wrap: ' . (&wrap ? 'enabled' : 'disabled')<CR>
-nnoremap <silent> glwt :<C-U>call vim_config#buffer#write_temp()<CR>
+nnoremap <silent> glmk :<C-U>call vim_config#buffer#make_temp()<CR>
 nnoremap <silent> gllm :<C-U>call vim_config#llm#menu()<CR>
 
 " # INTERFACE

@@ -228,13 +228,13 @@ execute 'source ' . fnameescape($VIM_CHECK_ROOT . '/home/.vimrc')
 if &l:swapfile || &l:undofile || &backup || &writebackup || !empty(&viminfo)
   call add(s:errors, 'vimrc reload weakened pass buffer protection')
 endif
-" Explicit temporary copies must not bypass the plaintext persistence boundary.
-let s:temporary_dir = $VIM_CHECK_ROOT . '/refused-temporary-copies'
+" Explicit temporary saves must not bypass the plaintext persistence boundary.
+let s:temporary_dir = $VIM_CHECK_ROOT . '/refused-temporary-saves'
 call mkdir(s:temporary_dir, 'p', 0700)
 let $TMPDIR = s:temporary_dir
 let s:temporary_refused = 0
 try
-  call vim_config#buffer#write_temp()
+  call vim_config#buffer#make_temp()
 catch
   let s:temporary_refused = 1
 endtry

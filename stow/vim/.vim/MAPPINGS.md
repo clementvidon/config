@@ -41,6 +41,10 @@ Contextual mappings appear only where their feature is active. Achiever layers
 task behavior on the host filetype; see its [activation contract](pack/local/start/achiever/README.md).
 Use `:verbose map` with a prefix to find where bindings were defined.
 
+The temporary-file action requires `mktemp` on `PATH` and makes the new private
+file the current buffer's save destination. Subsequent `:w` commands save there;
+an existing source file stays unchanged. Sensitive buffers refuse this action.
+
 ## Public mapping API
 
 Local plugins expose three distinct interfaces:
