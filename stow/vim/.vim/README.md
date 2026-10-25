@@ -120,20 +120,18 @@ written automatically.
 
 Vim needs compiled `.spl` word lists; Hunspell `.aff`/`.dic` pairs are compiled
 with [`:mkspell`](https://vimhelp.org/spell.txt.html#spell-mkspell). To install
-French from [Grammalecte](https://www.grammalecte.net/) and combined US/GB English
-from [ESDB/SCOWL](https://wordlist.aspell.net/dicts/),
+French from [Grammalecte](https://www.grammalecte.net/),
 run from the repository root:
 
 ```sh
 ./scripts/install-vim-spell.sh
 ```
 
-Requires Bash, Vim with spell support, `curl`, and `unzip`. Downloads are
-temporary; compiled dictionaries go to
-`${XDG_DATA_HOME:-$HOME/.local/share}/vim/spell` and take precedence over Vim's
-bundled dictionaries. Rerunning replaces the installed French and English
-dictionaries. This supplies word spelling and suggestions; grammar checking
-requires a separate tool.
+Requires Bash, Vim with spell support and its bundled English dictionary,
+`curl`, and `unzip`. Downloads are temporary; the compiled French dictionary
+goes to `${XDG_DATA_HOME:-$HOME/.local/share}/vim/spell`. Rerunning replaces
+the installed French dictionary. Vim uses its bundled English dictionary for
+English spelling and suggestions. Grammar checking requires a separate tool.
 
 For a corporate proxy, configure `https_proxy`; for a corporate certificate
 authority, point `CURL_CA_BUNDLE` to the approved CA file before running the
