@@ -146,12 +146,12 @@ Restart Vim, enable spelling, and inspect the loaded dictionaries:
 
 ## LLM text actions
 
-`gllm` opens a menu of `llm-text` actions. Option `0` accepts a free-form
-prompt and opens its answer in a temporary split. Other choices prompt for
-text to process. Refinement and translation append text below the current
-line; word-list actions show a dismissible popup and accept an optional
-leading count, such as `-5 example`. Submitted text goes to the configured
-`llm` provider.
+`glen` and `glfr` translate the current line or a visual selection into
+English and French, respectively. `gllm` opens a menu of `llm-text` actions;
+option `0` accepts a free-form prompt, while the other choices prompt for
+text to process. Results appear in a dismissible popup. Word-list actions
+accept an optional leading count, such as `-5 example`. Submitted text goes
+to the configured `llm` provider.
 
 ## Clipboard
 

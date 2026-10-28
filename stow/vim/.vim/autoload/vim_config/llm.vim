@@ -22,7 +22,10 @@ function! s:Run(action, text) abort
   return l:output
 endfunction
 
-function! s:ShowWords(action, text) abort
+function! s:ShowResponse(action, text) abort
+  if empty(trim(a:text))
+    return
+  endif
   let l:lines = s:Run(a:action, a:text)
   if !empty(l:lines)
     call vim_config#popup#show(l:lines)
@@ -30,46 +33,43 @@ function! s:ShowWords(action, text) abort
 endfunction
 
 function! s:Refine(text) abort
-  call append(line('.'), s:Run('ref', a:text))
+  call s:ShowResponse('ref', a:text)
 endfunction
 
-function! s:ToEnglish(text) abort
-  call append(line('.'), s:Run('toe', a:text))
+function! vim_config#llm#to_english(text) abort
+  call s:ShowResponse('toe', a:text)
 endfunction
 
-function! s:ToFrench(text) abort
-  call append(line('.'), s:Run('tof', a:text))
+function! vim_config#llm#to_french(text) abort
+  call s:ShowResponse('tof', a:text)
 endfunction
 
 function! s:Synonyms(text) abort
-  call s:ShowWords('syn', a:text)
+  call s:ShowResponse('syn', a:text)
 endfunction
 
 function! s:Antonyms(text) abort
-  call s:ShowWords('ant', a:text)
+  call s:ShowResponse('ant', a:text)
 endfunction
 
 function! s:LexicalField(text) abort
-  call s:ShowWords('lex', a:text)
+  call s:ShowResponse('lex', a:text)
 endfunction
 
 function! s:Equivalents(text) abort
-  call s:ShowWords('equ', a:text)
+  call s:ShowResponse('equ', a:text)
 endfunction
 
 function! s:Ask(prompt) abort
-  let l:lines = s:Run('ask', a:prompt)
-  if !empty(l:lines)
-    call vim_config#scratch#show('Text response', l:lines)
-  endif
+  call s:ShowResponse('ask', a:prompt)
 endfunction
 
 function! vim_config#llm#menu() abort
   let l:actions = [
         \ ['Other', function('s:Ask')],
         \ ['Refine', function('s:Refine')],
-        \ ['To English', function('s:ToEnglish')],
-        \ ['To French', function('s:ToFrench')],
+        \ ['To English', function('vim_config#llm#to_english')],
+        \ ['To French', function('vim_config#llm#to_french')],
         \ ['Synonyms', function('s:Synonyms')],
         \ ['Antonyms', function('s:Antonyms')],
         \ ['Lexical field', function('s:LexicalField')],

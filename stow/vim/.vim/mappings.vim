@@ -98,6 +98,26 @@ function! s:OpenNote(path, pattern) abort
   let @/ = l:search
 endfunction
 
+function! s:VisualText() abort
+  " Vim 8.2 lacks getregion(); preserve registers around a temporary yank.
+  let l:view = winsaveview()
+  let l:clipboard = &clipboard
+  let l:unnamed = getreginfo('"')
+  let l:yank = getreginfo('0')
+  let l:temporary = getreginfo('z')
+  try
+    let &clipboard = ''
+    normal! gv"zy
+    return getreg('z')
+  finally
+    call setreg('z', l:temporary)
+    call setreg('0', l:yank)
+    call setreg('"', l:unnamed)
+    let &clipboard = l:clipboard
+    call winrestview(l:view)
+  endtry
+endfunction
+
 " # FILES AND BUFFERS
 
 " ## write and quit
@@ -175,6 +195,10 @@ nnoremap gl <nop>
 nnoremap <silent> glcc :set cursorcolumn!<CR>:echomsg 'cursorcolumn: ' . (&cursorcolumn ? 'enabled' : 'disabled')<CR>
 nnoremap glcd :cd %:h<CR>
 nnoremap <silent> gldm :<C-U>call vim_config#git#diff_main()<CR>
+nnoremap <silent> glen :<C-U>call vim_config#llm#to_english(getline('.'))<CR>
+xnoremap <silent> glen :<C-U>call vim_config#llm#to_english(<SID>VisualText())<CR>
+nnoremap <silent> glfr :<C-U>call vim_config#llm#to_french(getline('.'))<CR>
+xnoremap <silent> glfr :<C-U>call vim_config#llm#to_french(<SID>VisualText())<CR>
 nnoremap <silent> glco :call <SID>CycleColorscheme()<CR>
 nnoremap <silent> glcl :set cursorline!<CR>:echomsg 'cursorline: ' . (&cursorline ? 'enabled' : 'disabled')<CR>
 nnoremap <silent> glgb :<C-U>call vim_config#git#blame_line()<CR>
