@@ -1,4 +1,5 @@
 " Personal Vim configuration.
+scriptencoding utf-8
 let g:vim_config_file = expand('<sfile>:p')
 
 " # BOOTSTRAP
@@ -121,7 +122,7 @@ set nowrap
 set relativenumber
 set laststatus=2
 set ruler showcmd
-set listchars=tab:>\ ,trail:-
+set listchars=tab:>-,space:·,lead:·,trail:×,nbsp:␣,eol:↵,extends:>,precedes:<
 set mouse=
 set belloff=all
 

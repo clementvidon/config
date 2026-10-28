@@ -29,6 +29,8 @@ Set `NOESIS_ROOT` for personal vocabulary files; it defaults to `~/noesis`.
 See the [mapping guide](MAPPINGS.md) for the mapping model
 and remapping examples. Namespace help shows available actions.
 Wrapping is off by default; `glwr` toggles it in the current window.
+Use `:set list` to show spaces (including trailing and nonbreaking spaces),
+tabs, and line endings; `:set nolist` hides them again.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
 provides the note environment for Markdown beneath a directory named `noesis`
