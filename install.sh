@@ -8,7 +8,6 @@ REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly REPO_ROOT
 readonly STOW_DIR="$REPO_ROOT/stow"
 readonly FONT_SOURCE="$REPO_ROOT/assets/fonts/iosevka-semibold.ttc"
-readonly KARABINER_SOURCE="$STOW_DIR/karabiner/.config/karabiner/karabiner.json"
 
 ACTION="install"
 TARGET="$HOME"
@@ -18,9 +17,6 @@ DRY_RUN=false
 MANAGE_FONT=true
 FONT_INSTALL_ACTION="none"
 FONT_DESTINATION=""
-KARABINER_INSTALL_ACTION="none"
-KARABINER_DESTINATION=""
-KARABINER_STATE=""
 declare -a REQUESTED=()
 declare -a PACKAGES=()
 declare -a STOW_PACKAGES=()
@@ -160,7 +156,6 @@ resolve_packages() {
 
   if [[ ${#REQUESTED[@]} -eq 0 || "${REQUESTED[0]}" == "all" ]]; then
     while IFS= read -r package; do
-      [[ "$package" == "karabiner" && "$PLATFORM" != "macos" ]] && continue
       PACKAGES+=("$package")
     done < <(find "$STOW_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
     PACKAGES+=(fonts)
@@ -175,10 +170,6 @@ resolve_packages() {
 
     [[ -d "$STOW_DIR/$package" ]] || die "Unknown package: $package"
 
-    [[ "$package" != "karabiner" || "$PLATFORM" == "macos" ]] \
-      || die 'Package karabiner is only supported on macOS'
-
-    [[ "$package" == "karabiner" ]] && continue
     STOW_PACKAGES+=("$package")
   done
 }
@@ -301,155 +292,6 @@ remove_stow_packages() {
   "${command[@]}" "${STOW_PACKAGES[@]}"
 }
 
-# Karabiner needs a regular file for change detection. Track the installed copy
-# so updates and removal preserve changes made outside this installer.
-preflight_karabiner() {
-  package_selected karabiner || return 0
-
-  [[ -f "$KARABINER_SOURCE" ]] \
-    || die "Karabiner configuration not found: $KARABINER_SOURCE"
-
-  KARABINER_DESTINATION="$TARGET/.config/karabiner/karabiner.json"
-  KARABINER_STATE="$TARGET/.local/state/config-installer/karabiner.json"
-
-  if [[ -e "$KARABINER_STATE" || -L "$KARABINER_STATE" ]]; then
-    [[ -f "$KARABINER_STATE" && ! -L "$KARABINER_STATE" ]] \
-      || die "Karabiner ownership record is not a regular file: $KARABINER_STATE"
-  fi
-
-  if [[ -L "$KARABINER_DESTINATION" ]] \
-    && [[ "$KARABINER_DESTINATION" -ef "$KARABINER_SOURCE" ]]; then
-    KARABINER_INSTALL_ACTION="migrate"
-    return
-  fi
-
-  if [[ ! -e "$KARABINER_DESTINATION" && ! -L "$KARABINER_DESTINATION" ]]; then
-    KARABINER_INSTALL_ACTION="install"
-    return
-  fi
-
-  [[ -f "$KARABINER_DESTINATION" && ! -L "$KARABINER_DESTINATION" ]] \
-    || die "Unmanaged Karabiner configuration blocks installation: $KARABINER_DESTINATION"
-
-  if cmp -s "$KARABINER_SOURCE" "$KARABINER_DESTINATION"; then
-    if [[ -f "$KARABINER_STATE" ]] \
-      && cmp -s "$KARABINER_SOURCE" "$KARABINER_STATE"; then
-      info "Karabiner configuration is current: $KARABINER_DESTINATION"
-    else
-      KARABINER_INSTALL_ACTION="record"
-    fi
-    return
-  fi
-
-  if [[ -f "$KARABINER_STATE" ]] \
-    && cmp -s "$KARABINER_STATE" "$KARABINER_DESTINATION"; then
-    KARABINER_INSTALL_ACTION="update"
-    return
-  fi
-
-  die "Modified or unmanaged Karabiner configuration blocks installation: $KARABINER_DESTINATION"
-}
-
-install_karabiner() {
-  local destination_directory state_directory temporary state_temporary
-
-  [[ "$KARABINER_INSTALL_ACTION" != "none" ]] || return 0
-
-  info 'Install Karabiner configuration as an application-owned regular file'
-  if $DRY_RUN; then
-    info "Would copy $KARABINER_SOURCE to $KARABINER_DESTINATION"
-    return
-  fi
-
-  destination_directory="$(dirname "$KARABINER_DESTINATION")"
-  state_directory="$(dirname "$KARABINER_STATE")"
-  mkdir -p "$destination_directory" "$state_directory"
-
-  if [[ "$KARABINER_INSTALL_ACTION" != "record" ]]; then
-    temporary="$(mktemp "$destination_directory/.karabiner.json.XXXXXX")"
-    if ! cp "$KARABINER_SOURCE" "$temporary" || ! chmod 0600 "$temporary"; then
-      rm -f -- "$temporary"
-      die 'Could not stage the Karabiner configuration'
-    fi
-
-    case "$KARABINER_INSTALL_ACTION" in
-      install)
-        if [[ -e "$KARABINER_DESTINATION" || -L "$KARABINER_DESTINATION" ]]; then
-          rm -f -- "$temporary"
-          die 'Karabiner destination appeared during installation'
-        fi
-        if ! ln "$temporary" "$KARABINER_DESTINATION"; then
-          rm -f -- "$temporary"
-          die 'Karabiner destination appeared during installation'
-        fi
-        rm -f -- "$temporary"
-        temporary=""
-        ;;
-      migrate)
-        if [[ ! -L "$KARABINER_DESTINATION" ]] \
-          || [[ ! "$KARABINER_DESTINATION" -ef "$KARABINER_SOURCE" ]]; then
-          rm -f -- "$temporary"
-          die 'Karabiner destination changed during legacy-link migration'
-        fi
-        ;;
-      update)
-        if [[ ! -f "$KARABINER_STATE" ]] \
-          || ! cmp -s "$KARABINER_STATE" "$KARABINER_DESTINATION"; then
-          rm -f -- "$temporary"
-          die 'Karabiner destination changed during installation'
-        fi
-        ;;
-    esac
-
-    if [[ -n "$temporary" ]] \
-      && ! mv "$temporary" "$KARABINER_DESTINATION"; then
-      rm -f -- "$temporary"
-      die 'Could not publish the Karabiner configuration'
-    fi
-  else
-    cmp -s "$KARABINER_SOURCE" "$KARABINER_DESTINATION" \
-      || die 'Karabiner destination changed during installation'
-  fi
-
-  state_temporary="$(mktemp "$state_directory/.karabiner.json.XXXXXX")"
-  if ! cp "$KARABINER_SOURCE" "$state_temporary" \
-    || ! chmod 0600 "$state_temporary" \
-    || ! mv "$state_temporary" "$KARABINER_STATE"; then
-    rm -f -- "$state_temporary"
-    die 'Could not record Karabiner configuration ownership'
-  fi
-}
-
-remove_karabiner() {
-  local remove_state=false
-
-  package_selected karabiner || return 0
-  KARABINER_DESTINATION="$TARGET/.config/karabiner/karabiner.json"
-  KARABINER_STATE="$TARGET/.local/state/config-installer/karabiner.json"
-
-  if [[ -L "$KARABINER_DESTINATION" ]] \
-    && [[ "$KARABINER_DESTINATION" -ef "$KARABINER_SOURCE" ]]; then
-    info 'Remove legacy Karabiner configuration link'
-    run unlink "$KARABINER_DESTINATION"
-    remove_state=true
-  elif [[ -f "$KARABINER_DESTINATION" && ! -L "$KARABINER_DESTINATION" ]] \
-    && [[ -f "$KARABINER_STATE" && ! -L "$KARABINER_STATE" ]] \
-    && cmp -s "$KARABINER_DESTINATION" "$KARABINER_STATE"; then
-    info 'Remove managed Karabiner configuration copy'
-    run unlink "$KARABINER_DESTINATION"
-    remove_state=true
-  elif [[ -e "$KARABINER_DESTINATION" || -L "$KARABINER_DESTINATION" ]]; then
-    info "Leave modified or unmanaged Karabiner configuration unchanged: $KARABINER_DESTINATION"
-  else
-    remove_state=true
-  fi
-
-  if $remove_state && [[ -f "$KARABINER_STATE" && ! -L "$KARABINER_STATE" ]]; then
-    info 'Remove Karabiner ownership record'
-    run unlink "$KARABINER_STATE"
-  fi
-}
-
 font_target() {
   if [[ "$PLATFORM" == "macos" ]]; then
     printf '%s/Library/Fonts/iosevka-semibold.ttc\n' "$TARGET"
@@ -532,13 +374,11 @@ remind_login_shell() {
 }
 
 list_packages() {
-  local package scope
+  local package
 
   printf '%-16s %s\n' PACKAGE SCOPE
   while IFS= read -r package; do
-    scope=common
-    [[ "$package" == "karabiner" ]] && scope=macos
-    printf '%-16s %s\n' "$package" "$scope"
+    printf '%-16s %s\n' "$package" common
   done < <(find "$STOW_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
   printf '%-16s %s\n' fonts 'platform-specific destination'
 }
@@ -563,10 +403,8 @@ main() {
   case "$ACTION" in
     install)
       preflight_font
-      preflight_karabiner
       ensure_target_directory
       install_stow_packages
-      install_karabiner
       install_font
       remind_login_shell
 
@@ -578,7 +416,6 @@ main() {
       ;;
     remove)
       remove_stow_packages
-      remove_karabiner
       remove_font
 
       if $DRY_RUN; then

@@ -25,7 +25,8 @@ The installer deploys configuration; install the applications separately.
 If an existing file blocks installation, move it aside and rerun the command.
 Keep the repository in place: the installed links point into it.
 See `./install.sh --help` for options.
-On macOS, [VS Code needs a manual copy](stow/vscode/README.md#deployment).
+On macOS, [VS Code needs a manual copy](stow/vscode/README.md#deployment) and
+[Karabiner needs a manual restore](exports/macos/README.md).
 
 ### New Mac setup
 
@@ -42,8 +43,9 @@ On macOS, [VS Code needs a manual copy](stow/vscode/README.md#deployment).
 2. Clone this repository into a permanent location. Run `./install.sh --dry-run`
    and then `./install.sh`. Move aside any existing files reported as conflicts
    before retrying. Use `./install.sh list` to discover available packages.
-3. Open Karabiner-Elements and complete the macOS permission prompts shown in
-   its UI. Select the configured profile if it is not already selected.
+3. Restore the [Karabiner configuration](exports/macos/README.md), then open
+   Karabiner-Elements and complete the macOS permission prompts shown in its UI.
+   Select the configured profile if it is not already selected.
 4. Open WezTerm.
 
 If you changed your login shell, use `./scripts/set-login-shell.sh` to select

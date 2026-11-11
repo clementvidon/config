@@ -3,7 +3,8 @@
 Application settings restored manually, independently of `install.sh`.
 
 See the keyboard navigation instructions for [Ubuntu](ubuntu/README.md) and
-[Windows](windows/README.md).
+[Windows](windows/README.md), and the [Karabiner restore instructions](macos/README.md)
+for macOS.
 
 ## GNOME
 

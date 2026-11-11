@@ -147,8 +147,6 @@ assert_stow_files_installed() {
   local package source relative target
 
   while IFS= read -r -d '' package; do
-    [[ "${package##*/}" == "karabiner" ]] && continue
-
     while IFS= read -r -d '' source; do
       relative="${source#"$package"/}"
       stow_ignores_path "$package" "$relative" && continue
@@ -195,14 +193,6 @@ check_platform() {
   first_links="$(find "$home" -type l -print | sort)"
   [[ -n "$first_links" ]] || die "No links created for $platform"
   assert_stow_files_installed "$platform" "$home"
-  if [[ "$platform" == "macos" ]]; then
-    [[ -f "$home/.config/karabiner/karabiner.json" \
-      && ! -L "$home/.config/karabiner/karabiner.json" ]] \
-      || die 'Karabiner configuration was not deployed as a regular file'
-    [[ -f "$home/.local/state/config-installer/karabiner.json" ]] \
-      || die 'Karabiner ownership snapshot is missing'
-  fi
-
   "$REPO_ROOT/install.sh" install \
     --platform "$platform" \
     --target "$home" >/dev/null
@@ -218,10 +208,6 @@ check_platform() {
     find "$home" -type l -print >&2
     die "Removal left managed links in the $platform HOME"
   fi
-  [[ ! -e "$home/.config/karabiner/karabiner.json" ]] \
-    || die 'Removal left the managed Karabiner configuration in place'
-  [[ ! -e "$home/.local/state/config-installer/karabiner.json" ]] \
-    || die 'Removal left the Karabiner ownership snapshot in place'
 }
 
 check_dry_run() {
@@ -281,58 +267,6 @@ check_font_preflight() {
 
   [[ -z "$(find "$home" -mindepth 1 -print -quit)" ]] \
     || die 'Missing font failure happened after target HOME changes'
-}
-
-check_karabiner_ownership() {
-  local fixture="$TEST_ROOT/karabiner/repository"
-  local home="$TEST_ROOT/karabiner/home"
-  local legacy_home="$TEST_ROOT/karabiner/legacy-home"
-  local raw_stow_home="$TEST_ROOT/karabiner/raw-stow-home"
-  local source target state
-
-  info 'Karabiner copy ownership, updates, conflicts, and legacy migration'
-  mkdir -p "$fixture/stow" "$home" "$legacy_home/.config/karabiner" \
-    "$raw_stow_home"
-  cp "$REPO_ROOT/install.sh" "$fixture/install.sh"
-  cp -R "$REPO_ROOT/stow/karabiner" "$fixture/stow/karabiner"
-  source="$fixture/stow/karabiner/.config/karabiner/karabiner.json"
-  target="$home/.config/karabiner/karabiner.json"
-  state="$home/.local/state/config-installer/karabiner.json"
-
-  stow --dir "$fixture/stow" --target "$raw_stow_home" \
-    --no-folding --restow karabiner
-  [[ ! -e "$raw_stow_home/.config/karabiner/karabiner.json" \
-    && ! -L "$raw_stow_home/.config/karabiner/karabiner.json" ]] \
-    || die 'Raw Stow deployed the Karabiner application file'
-
-  "$fixture/install.sh" install --platform macos --target "$home" karabiner >/dev/null
-  [[ -f "$target" && ! -L "$target" ]] \
-    || die 'Karabiner initial deployment did not create a regular file'
-  cmp -s "$source" "$target" || die 'Karabiner initial copy differs from its source'
-  cmp -s "$source" "$state" || die 'Karabiner ownership snapshot differs from its source'
-
-  printf '\n' >>"$source"
-  "$fixture/install.sh" install --platform macos --target "$home" karabiner >/dev/null
-  cmp -s "$source" "$target" || die 'Karabiner source update was not deployed'
-  cmp -s "$source" "$state" || die 'Karabiner ownership snapshot was not updated'
-
-  printf 'user modification\n' >>"$target"
-  if "$fixture/install.sh" install \
-    --platform macos --target "$home" karabiner >/dev/null 2>&1; then
-    die 'Karabiner installation overwrote an externally modified configuration'
-  fi
-  [[ "$(tail -n 1 "$target")" == 'user modification' ]] \
-    || die 'Karabiner conflict handling changed the user configuration'
-  "$fixture/install.sh" remove --platform macos --target "$home" karabiner >/dev/null
-  [[ -f "$target" ]] || die 'Karabiner removal deleted an externally modified configuration'
-
-  target="$legacy_home/.config/karabiner/karabiner.json"
-  ln -s "$source" "$target"
-  "$fixture/install.sh" install \
-    --platform macos --target "$legacy_home" karabiner >/dev/null
-  [[ -f "$target" && ! -L "$target" ]] \
-    || die 'Karabiner legacy Stow link was not migrated to a regular file'
-  cmp -s "$source" "$target" || die 'Karabiner legacy migration changed the configuration'
 }
 
 check_gpg_plugin() {
@@ -412,7 +346,6 @@ main() {
   check_dry_run
   check_font_preflight
   check_font_ownership
-  check_karabiner_ownership
   check_platform_guard
   check_platform macos
   check_platform ubuntu
