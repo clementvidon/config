@@ -205,26 +205,7 @@ ensure_target_directory() {
   run mkdir -p "$TARGET"
 }
 
-report_stow_conflicts() {
-  local plan="$1"
-  local conflicts
-
-  conflicts="$(printf '%s\n' "$plan" | sed -n -E \
-    's/.*over existing target ([^ ]+) since neither a link nor a directory.*/  ~\/\1/p' \
-    | awk '!seen[$0]++')"
-
-  [[ -n "$conflicts" ]] || return 1
-
-  warn 'Existing unmanaged files block installation; no files were changed:'
-  printf '%s\n' "$conflicts" >&2
-  warn 'Move or back up those files, then rerun ./install.sh.'
-  warn 'Stow never overwrites unmanaged files automatically.'
-
-  return 0
-}
-
 install_stow_packages() {
-  local plan
   local -a command=(
     stow
     --dir "$STOW_DIR"
@@ -238,14 +219,8 @@ install_stow_packages() {
   info 'Preview Stow installation'
   print_command "${command[@]}" --simulate "${STOW_PACKAGES[@]}"
 
-  if ! plan="$("${command[@]}" --simulate "${STOW_PACKAGES[@]}" 2>&1)"; then
-    if report_stow_conflicts "$plan"; then
-      die 'Installation preview failed; existing files were left untouched'
-    fi
-
-    printf '%s\n' "$plan" >&2
-    die 'Stow installation preview failed'
-  fi
+  "${command[@]}" --simulate "${STOW_PACKAGES[@]}" \
+    || die 'Stow installation preview failed; no files were changed'
 
   info 'Stow installation preview passed'
   $DRY_RUN && return 0
@@ -256,8 +231,6 @@ install_stow_packages() {
 }
 
 remove_stow_packages() {
-  local plan
-  local links
   local -a command=(
     stow
     --dir "$STOW_DIR"
@@ -265,25 +238,11 @@ remove_stow_packages() {
     --no-folding
     --delete
   )
-  local -a preview=("${command[@]}" --simulate --verbose=2)
-
   [[ ${#STOW_PACKAGES[@]} -gt 0 ]] || return 0
 
   info 'Preview Stow removal'
-  print_command "${preview[@]}" "${STOW_PACKAGES[@]}"
-
-  plan="$("${preview[@]}" "${STOW_PACKAGES[@]}" 2>&1)"
-
-  links="$(printf '%s\n' "$plan" | sed -n -E \
-    -e 's/^UNLINK: (.*)$/  would remove ~\/\1/p' \
-    -e 's/^--- removing link owned by [^:]+: (.*) => .*$/  would remove ~\/\1/p' \
-    | awk '!seen[$0]++')"
-
-  if [[ -n "$links" ]]; then
-    printf '%s\n' "$links"
-  else
-    info 'No managed links need removal'
-  fi
+  print_command "${command[@]}" --simulate --verbose=1 "${STOW_PACKAGES[@]}"
+  "${command[@]}" --simulate --verbose=1 "${STOW_PACKAGES[@]}"
 
   $DRY_RUN && return 0
 
