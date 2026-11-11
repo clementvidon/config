@@ -26,6 +26,29 @@ If an existing file blocks installation, move it aside and rerun the command.
 Keep the repository in place: the installed links point into it.
 See `./install.sh --help` for options.
 
+### New Mac setup
+
+1. Install [Homebrew](https://brew.sh/) if needed, then install the tools used
+   to deploy and open the terminal configuration:
+
+   ```sh
+   brew install stow tmux
+   brew install --cask wezterm karabiner-elements
+   ```
+
+   macOS includes Zsh. Install [Codex CLI](https://learn.chatgpt.com/docs/codex/cli)
+   separately if you use it; it is not required to deploy the configuration.
+2. Clone this repository into a permanent location. Run `./install.sh --dry-run`
+   and then `./install.sh`. Move aside any existing files reported as conflicts
+   before retrying. Use `./install.sh list` to discover available packages.
+3. Open Karabiner-Elements and complete the macOS permission prompts shown in
+   its UI. Select the configured profile if it is not already selected.
+4. Open WezTerm.
+
+If you changed your login shell, use `./scripts/set-login-shell.sh` to select
+the Zsh executable in `PATH`. The script requires that executable to be listed
+in `/etc/shells`.
+
 ## Local shell settings
 
 Bash and interactive Zsh load `~/.shellrc.private` for secrets, followed by
