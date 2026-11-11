@@ -148,7 +148,6 @@ assert_stow_files_installed() {
 
   while IFS= read -r -d '' package; do
     [[ "${package##*/}" == "karabiner" ]] && continue
-    [[ "$platform" == "macos" && "${package##*/}" == "vscode" ]] && continue
 
     while IFS= read -r -d '' source; do
       relative="${source#"$package"/}"
@@ -197,15 +196,6 @@ check_platform() {
   [[ -n "$first_links" ]] || die "No links created for $platform"
   assert_stow_files_installed "$platform" "$home"
   if [[ "$platform" == "macos" ]]; then
-    local name destination source
-    for name in settings.json keybindings.json; do
-      destination="$home/Library/Application Support/Code/User/$name"
-      source="$REPO_ROOT/stow/vscode/.config/Code/User/$name"
-      [[ -L "$destination" && "$(readlink "$destination")" == "$source" ]] \
-        || die 'VS Code configuration was not linked directly into its macOS user directory'
-    done
-    [[ ! -e "$home/.config/Code/User" ]] \
-      || die 'VS Code configuration was also installed at the Ubuntu path on macOS'
     [[ -f "$home/.config/karabiner/karabiner.json" \
       && ! -L "$home/.config/karabiner/karabiner.json" ]] \
       || die 'Karabiner configuration was not deployed as a regular file'
@@ -400,24 +390,6 @@ check_conflict_protection() {
   [[ "$(<"$target")" == "$marker" ]] || die "Conflict check changed: $relative"
 }
 
-check_vscode_conflict() {
-  local home="$TEST_ROOT/vscode-conflict/home"
-  local destination="$home/Library/Application Support/Code/User/settings.json"
-
-  info 'VS Code macOS user files are not overwritten'
-  mkdir -p "${destination%/*}"
-  printf 'user-owned settings\n' >"$destination"
-
-  if "$REPO_ROOT/install.sh" install --platform macos \
-    --target "$home" vscode >/dev/null 2>&1; then
-    die 'VS Code installation accepted an unmanaged user file'
-  fi
-  [[ "$(<"$destination")" == 'user-owned settings' ]] \
-    || die 'VS Code installation changed an unmanaged user file'
-  [[ ! -e "$home/.config/Code/User/settings.json" ]] \
-    || die 'VS Code conflict was detected after Stow changes'
-}
-
 main() {
   parse_args "$@"
 
@@ -445,7 +417,6 @@ main() {
   check_platform macos
   check_platform ubuntu
   check_conflict_protection
-  check_vscode_conflict
 
   info 'All structural checks passed'
 }

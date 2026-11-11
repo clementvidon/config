@@ -35,8 +35,19 @@ launcher and editor connection.
 
 ## Deployment
 
-Run `./install.sh vscode` from the repository root. On Ubuntu, Stow installs
-the configuration under `~/.config/Code/User/`. On macOS, the installer links
-the repository files directly into `~/Library/Application Support/Code/User/`.
-Existing unmanaged files there block installation; move them aside before
-rerunning the command.
+On Ubuntu, run `./install.sh vscode` from the repository root. Stow installs
+the configuration under `~/.config/Code/User/`.
+
+On macOS, VS Code reads `~/Library/Application Support/Code/User/`. The
+installer places the files under `~/.config/Code/User/`, so copy them into
+VS Code's user directory after installation. Move any existing settings files
+or links there aside first; `cp` follows links and may overwrite their targets.
+
+```sh
+mkdir -p "$HOME/Library/Application Support/Code/User"
+cp "$HOME/.config/Code/User/settings.json" \
+  "$HOME/.config/Code/User/keybindings.json" \
+  "$HOME/Library/Application Support/Code/User/"
+```
+
+Repeat the copy after changing the repository files.

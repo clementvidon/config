@@ -25,6 +25,7 @@ The installer deploys configuration; install the applications separately.
 If an existing file blocks installation, move it aside and rerun the command.
 Keep the repository in place: the installed links point into it.
 See `./install.sh --help` for options.
+On macOS, [VS Code needs a manual copy](stow/vscode/README.md#deployment).
 
 ### New Mac setup
 

@@ -179,7 +179,6 @@ resolve_packages() {
       || die 'Package karabiner is only supported on macOS'
 
     [[ "$package" == "karabiner" ]] && continue
-    [[ "$package" == "vscode" && "$PLATFORM" == "macos" ]] && continue
     STOW_PACKAGES+=("$package")
   done
 }
@@ -300,38 +299,6 @@ remove_stow_packages() {
   info 'Remove Stow packages'
   print_command "${command[@]}" "${STOW_PACKAGES[@]}"
   "${command[@]}" "${STOW_PACKAGES[@]}"
-}
-
-# VS Code uses Library/Application Support on macOS instead of ~/.config.
-vscode_links() {
-  local action="$1" name source destination
-  [[ "$PLATFORM" == "macos" ]] || return 0
-  package_selected vscode || return 0
-
-  for name in settings.json keybindings.json; do
-    source="$STOW_DIR/vscode/.config/Code/User/$name"
-    destination="$TARGET/Library/Application Support/Code/User/$name"
-    case "$action" in
-      preflight)
-        if [[ -e "$destination" || -L "$destination" ]] \
-          && { [[ ! -L "$destination" ]] \
-            || [[ "$(readlink "$destination")" != "$source" ]]; }; then
-          die "Unmanaged VS Code configuration blocks installation: $destination"
-        fi
-        ;;
-      install)
-        if [[ ! -L "$destination" ]]; then
-          run mkdir -p "${destination%/*}"
-          run ln -s "$source" "$destination"
-        fi
-        ;;
-      remove)
-        if [[ -L "$destination" && "$(readlink "$destination")" == "$source" ]]; then
-          run unlink "$destination"
-        fi
-        ;;
-    esac
-  done
 }
 
 # Karabiner needs a regular file for change detection. Track the installed copy
@@ -597,10 +564,8 @@ main() {
     install)
       preflight_font
       preflight_karabiner
-      vscode_links preflight
       ensure_target_directory
       install_stow_packages
-      vscode_links install
       install_karabiner
       install_font
       remind_login_shell
@@ -612,7 +577,6 @@ main() {
       fi
       ;;
     remove)
-      vscode_links remove
       remove_stow_packages
       remove_karabiner
       remove_font
