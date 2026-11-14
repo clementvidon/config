@@ -13,6 +13,11 @@ have direct Space shortcuts: `w` opens the native `<C-W>` window namespace,
 General buffer, location-list, and quickfix navigation stays in the native-style
 `[` / `]` family. Plugin navigation stays within its plugin namespace.
 
+`i*` selects text between paired, unescaped `*` characters on one line;
+`a*` includes the stars. Pairs are matched from left to right. These text
+objects work with Vim operators and vim-surround's `ys` command. For example,
+place the cursor inside `*hello*` and use `ysi*"` to get `*"hello"*`.
+
 Markdown is the file format. Noesis is the note environment activated for `.md`
 files beneath a directory named `noesis` (case-insensitive), or every `.md`
 when `g:noesis_all_markdown` is enabled. Other Markdown files remain `markdown`.

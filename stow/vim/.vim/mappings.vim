@@ -118,6 +118,48 @@ function! s:VisualText() abort
   endtry
 endfunction
 
+" # TEXT OBJECTS
+
+function! s:SelectStar(around) abort
+  " Pair unescaped stars from left to right on the current line.
+  let l:text = getline('.')
+  let l:stars = []
+  let l:index = 0
+  while l:index < strlen(l:text)
+    if l:text[l:index] ==# '*'
+      let l:slashes = 0
+      let l:previous = l:index - 1
+      while l:previous >= 0 && l:text[l:previous] ==# '\'
+        let l:slashes += 1
+        let l:previous -= 1
+      endwhile
+      if l:slashes % 2 == 0
+        call add(l:stars, l:index + 1)
+      endif
+    endif
+    let l:index += 1
+  endwhile
+
+  for l:index in range(0, len(l:stars) / 2 - 1)
+    let l:open = l:stars[2 * l:index]
+    let l:close = l:stars[2 * l:index + 1]
+    if col('.') >= l:open && col('.') <= l:close
+      if !a:around && l:close - l:open < 2
+        return
+      endif
+      call cursor(line('.'), l:open + !a:around)
+      normal! v
+      call cursor(line('.'), l:close - !a:around)
+      return
+    endif
+  endfor
+endfunction
+
+onoremap <silent> i* :<C-U>call <SID>SelectStar(0)<CR>
+onoremap <silent> a* :<C-U>call <SID>SelectStar(1)<CR>
+xnoremap <silent> i* :<C-U>call <SID>SelectStar(0)<CR>
+xnoremap <silent> a* :<C-U>call <SID>SelectStar(1)<CR>
+
 " # FILES AND BUFFERS
 
 " ## write and quit
