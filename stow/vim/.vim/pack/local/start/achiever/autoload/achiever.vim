@@ -5,7 +5,7 @@
 function! achiever#open_tasks(path) abort
   let l:search = @/
   try
-    execute 'edit ' . fnameescape(a:path)
+    execute 'hide edit ' . fnameescape(a:path)
     normal! gg0
     call search('\s\d\{6}\s', 'w')
     normal! 0zz

@@ -35,7 +35,8 @@ onto indented `-- ` lines, or joins those lines back into the task record.
 ## Usage and customization
 
 `:AchieverOpen {path}` opens a task file, activates Achiever, and positions the
-cursor at its first dated entry.
+cursor at its first dated entry. Unsaved changes in the current buffer remain
+available when you return to it.
 
 Space `h?` lists active bindings. Duration display does not alter the running
 total, which is buffer-local and lasts until reset, disable, a filetype change,
