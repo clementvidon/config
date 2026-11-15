@@ -5,7 +5,14 @@
 function! achiever#open_tasks(path) abort
   let l:search = @/
   try
-    execute 'hide edit ' . fnameescape(a:path)
+    try
+      execute 'edit ' . fnameescape(a:path)
+    catch /^Vim\%((\a\+)\)\=:E37:/
+      echohl ErrorMsg
+      echomsg matchstr(v:exception, 'E37:.*')
+      echohl None
+      return
+    endtry
     normal! gg0
     call search('\s\d\{6}\s', 'w')
     normal! 0zz
