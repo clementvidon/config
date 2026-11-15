@@ -265,9 +265,22 @@ endif
 
 " # AUTOCOMMANDS
 
+function! s:TrimTrailingWhitespace() abort
+  if &l:buftype !=# '' || &l:binary || get(b:, 'vim_sensitive_buffer', 0)
+    return
+  endif
+  let l:view = winsaveview()
+  try
+    silent keepjumps keeppatterns %s/\s\+$//e
+  finally
+    call winrestview(l:view)
+  endtry
+endfunction
+
 augroup personal_config
   autocmd!
   autocmd ColorScheme * call <SID>Highlights()
+  autocmd BufWritePre * call <SID>TrimTrailingWhitespace()
   " Silent external searches can leave the terminal screen cleared.
   autocmd QuickFixCmdPost grep,grepadd cwindow | redraw!
 augroup END

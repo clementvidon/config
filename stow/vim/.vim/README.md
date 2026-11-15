@@ -31,6 +31,8 @@ and remapping examples. Namespace help shows available actions.
 Wrapping is off by default; `glwr` toggles it in the current window.
 Use `:set list` to show spaces (including trailing and nonbreaking spaces),
 tabs, and line endings; `:set nolist` hides them again.
+Saving a regular text buffer removes trailing spaces and tabs. Sensitive buffers
+are excluded from automatic cleanup.
 
 Markdown remains the file format. [Noesis](pack/local/start/noesis/README.md)
 provides the note environment for Markdown beneath a directory named `noesis`
