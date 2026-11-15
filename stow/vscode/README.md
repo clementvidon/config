@@ -24,6 +24,9 @@ system's shortcuts and keyboard remapping tools.
 In a [Remote SSH terminal](https://code.visualstudio.com/docs/remote/ssh#_opening-a-terminal-on-a-remote-host),
 the `code` CLI opens remote files and folders in the connected editor.
 Vim uses the remote terminal's `BROWSER` launcher to open links on the client.
+The integrated terminal's mouse settings belong to the local VS Code client.
+On Windows, open **Preferences: Open User Settings (JSON)** in the local VS Code
+window and apply the terminal settings from this package there.
 
 Persistent tmux sessions can retain a connection to a closed VS Code window.
 Deploy the tmux package and reload configuration changes with

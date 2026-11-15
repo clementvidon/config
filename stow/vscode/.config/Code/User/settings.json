@@ -83,6 +83,9 @@
   ],
   "terminal.integrated.fontSize": 13,
   "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.rightClickBehavior": "nothing",
+  "terminal.integrated.copyOnSelection": false,
+  "terminal.integrated.altClickMovesCursor": false,
 
   // =============================================================================
   // ESLint (dbaeumer.vscode-eslint)
