@@ -26,6 +26,7 @@ layout. Use `gh?` to discover note-editing bindings. Vim's native `gw` operator
 reflows text while preserving list indentation. Formatting actions add markup
 rather than toggling it; inline formatting applies within one paragraph and
 does not support rectangular selections.
+Inline code is italicized; fenced code blocks use upright text.
 
 In Noesis, Insert-mode Enter keeps the current indentation. Normal-mode `O`
 starts a new line above at the left margin.

@@ -33,8 +33,8 @@ else
   syntax region noesisBoldItalic             matchgroup=noesisDelim start="\S\@<=\*\*\*\|\*\*\*\S\@=" end="\S\@<=\*\*\*\|\*\*\*\S\@=" skip="\\\*"
 endif
 
-syntax region noesisCode start="^[ \t]\{0,3}\z(`\{3,}\)[^`]*$" end="^[ \t]\{0,3}\z1`*[ \t]*$" contains=@NoSpell keepend
-syntax region noesisCode start="^[ \t]\{0,3}\z([~]\{3,}\).*$" end="^[ \t]\{0,3}\z1[~]*[ \t]*$" contains=@NoSpell keepend
+syntax region noesisCodeBlock start="^[ \t]\{0,3}\z(`\{3,}\)[^`]*$" end="^[ \t]\{0,3}\z1`*[ \t]*$" contains=@NoSpell keepend
+syntax region noesisCodeBlock start="^[ \t]\{0,3}\z([~]\{3,}\).*$" end="^[ \t]\{0,3}\z1[~]*[ \t]*$" contains=@NoSpell keepend
 
 syntax match noesisTodo /\<TODO\>/ containedin=ALL
 
@@ -59,6 +59,7 @@ function! s:Colors() abort
     highlight noesisBlockquote               ctermfg=103
 
     highlight noesisCode                     ctermfg=146 cterm=italic
+    highlight noesisCodeBlock                ctermfg=146 cterm=NONE
     highlight noesisItalic                   ctermfg=145 cterm=italic
     highlight noesisBold                     ctermfg=219 cterm=bold
     highlight noesisBoldItalic               ctermfg=205
@@ -79,6 +80,7 @@ function! s:Colors() abort
     highlight noesisBlockquote               ctermfg=171
 
     highlight noesisCode                     ctermfg=65  cterm=italic
+    highlight noesisCodeBlock                ctermfg=65  cterm=NONE
     highlight noesisItalic                   ctermfg=88  cterm=italic
     highlight noesisBold                     ctermfg=160 cterm=bold
     highlight noesisBoldItalic               ctermfg=196
