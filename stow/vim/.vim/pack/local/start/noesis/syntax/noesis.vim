@@ -10,7 +10,7 @@ for s:level in range(1, 6)
 endfor
 unlet s:level
 syntax match noesisH1 /^[^# \t].*\n=\+[ \t]*$/
-syntax match noesisH2 /^[^# \t].*\n-\+[ \t]*$/
+syntax match noesisH2 /^[^# \t].*\n-\{5,}[ \t]*$/
 
 syntax match noesisHeader "^\s\{72}\[\d\{6}]$"
 

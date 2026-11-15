@@ -242,7 +242,7 @@ function! s:Headings(lines, start) abort
       let l:level = len(l:heading[1])
       let l:title = trim(substitute(l:heading[2], '\s\+#\+\s*$', '', ''))
     elseif l:line =~# '^\S' && l:line !~# '^#'
-          \ && get(a:lines, l:index + 1, '') =~# '^-\+[ \t]*$'
+          \ && get(a:lines, l:index + 1, '') =~# '^-\{5,}[ \t]*$'
       let l:level = 2
       let l:title = trim(l:line)
     else

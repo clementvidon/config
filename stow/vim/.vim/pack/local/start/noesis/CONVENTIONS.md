@@ -15,8 +15,9 @@ extension. These conventions apply to notes activated through the
 
 Prefer underlines for main sections. Place them directly below the title,
 with one or more `=` characters
-for H1 or `-` characters for H2. Headings need no surrounding blank lines for
-highlighting or indexing. Hash-prefixed headings require a space before the title.
+for H1 or at least five `-` characters for H2. Headings need no surrounding
+blank lines for highlighting or indexing. Hash-prefixed headings require a
+space before the title.
 
 For numbered H2 headings, use `1 - Title`, `2 - Title`, etc. Do not use
 `1. Title` or `1) Title`, as these can be parsed as ordered-list items rather
