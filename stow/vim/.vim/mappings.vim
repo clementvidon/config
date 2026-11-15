@@ -98,6 +98,37 @@ function! s:OpenNote(path, pattern) abort
   let @/ = l:search
 endfunction
 
+function! s:BrowseOldfiles() abort
+  if empty(v:oldfiles)
+    echomsg 'No recent files'
+    return
+  endif
+  " :browse oldfiles cannot limit its list; keep this menu within the screen.
+  let l:count = min([len(v:oldfiles), 20, max([1, &lines - 4])])
+  let l:choices = ['Recent files:']
+  for l:index in range(l:count - 1)
+    let l:label = v:oldfiles[l:index]
+    let l:shortened = 0
+    while strdisplaywidth(l:label) > &columns - 6
+      let l:label = strcharpart(l:label, 1)
+      let l:shortened = 1
+    endwhile
+    call add(l:choices, printf('%2d %s%s', l:index + 1,
+          \ l:shortened ? '…' : '', l:label))
+  endfor
+  let l:selection = inputlist(l:choices)
+  if l:selection < 1 || l:selection > l:count
+    return
+  endif
+  try
+    execute 'edit ' . fnameescape(expand(v:oldfiles[l:selection - 1]))
+  catch /^Vim\%((\a\+)\)\=:E37:/
+    echohl ErrorMsg
+    echomsg matchstr(v:exception, 'E37:.*')
+    echohl None
+  endtry
+endfunction
+
 function! s:VisualText() abort
   " Vim 8.2 lacks getregion(); preserve registers around a temporary yank.
   let l:view = winsaveview()
@@ -234,6 +265,7 @@ vnoremap <silent> sg :<C-U>call vim_config#search#grep_prompt(1)<CR>
 " # OPTIONS AND COMMANDS
 
 nnoremap gl <nop>
+nnoremap glbo :call <SID>BrowseOldfiles()<CR>
 nnoremap <silent> glcc :set cursorcolumn!<CR>:echomsg 'cursorcolumn: ' . (&cursorcolumn ? 'enabled' : 'disabled')<CR>
 nnoremap glcd :cd %:h<CR>
 nnoremap <silent> gldm :<C-U>call vim_config#git#diff_main()<CR>
