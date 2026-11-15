@@ -47,11 +47,13 @@ File searches use Vim's working directory. `sf` opens native `:find` with an
 empty query. Type a filename prefix or a pattern such as `*.md`, then use Tab
 to select a match before pressing Enter. `ssf`, `shf`, and `svf` use the same
 search with forced editing or a split. Use `:lcd %:p:h` to search from the
-current file's directory. `sr` starts fzf and `sR` opens its command line for
-options. Install `fzf` 0.53.0 or newer on
-`PATH` for interactive file search; see the
+current file's directory. `sF` starts fzf for file names, `sR` opens its
+command line for options, and `sG` searches file contents with live ripgrep
+results. `:RG` offers the same content search. Install `fzf` 0.54.0 or newer
+on `PATH`, and `rg` for content search. See the
 [fzf Vim documentation](https://github.com/junegunn/fzf/blob/master/README-VIM.md)
-for available options. Press `?` in netrw for
+and [fzf.vim commands](https://github.com/junegunn/fzf.vim#commands) for
+available options. Press `?` in netrw for
 [usage notes](usage/netrw.txt). Previews reuse an editing split and preserve
 auxiliary windows such as help and terminals.
 

@@ -176,8 +176,9 @@ let g:Netrw_UserMaps = [
 " # FZF
 
 let g:fzf_layout = { 'down': '30%' }
-nnoremap <silent> sr :<C-U>FZF<CR>
+nnoremap <silent> sF :<C-U>FZF<CR>
 nnoremap sR :<C-U>FZF<Space>
+nnoremap <silent> sG :<C-U>RG<CR>
 
 " # PLUGIN DECLARATIONS
 
@@ -190,7 +191,8 @@ Plug 'tpope/vim-commentary', { 'commit': '64a654ef4a20db1727938338310209b6a63f60
 Plug 'hashivim/vim-terraform', { 'commit': '520498fab16a3a11f2ae1b8cb65e0a1684bc317a' }
 Plug 'arcticicestudio/nord-vim', { 'commit': 'f13f5dfbb784deddbc1d8195f34dfd9ec73e2295' }
 Plug 'junegunn/seoul256.vim', { 'commit': '0357ff3e44faab66c98bc98dfc89c834e37012da' }
-Plug 'junegunn/fzf', { 'commit': 'a140afeb4d733cad3c96a56bf6db7e26853b6757', 'on': 'FZF' }
+Plug 'junegunn/fzf', { 'commit': 'a140afeb4d733cad3c96a56bf6db7e26853b6757', 'on': ['FZF', 'RG'] }
+Plug 'junegunn/fzf.vim', { 'commit': 'fe5f1fd45418c1a4d905f44a59357008058cc789', 'on': 'RG' }
 Plug 'dense-analysis/ale', {
       \ 'commit': 'e1789bc54483d76ac9ddb40b633d1645c8281914',
       \ 'for': keys(g:ale_linters),
